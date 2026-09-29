@@ -10,7 +10,7 @@ Court Value rates every NBA (1952–present) and ABA (1968–76) regular season 
 
 Each league-season is measured against itself: there are no era bonuses, no ABA penalty, and no awards or reputation in the formula.
 
-- **Website:** https://mariotavoiii.github.io/court-value/
+- **Website:** https://mariotavoiii.github.io/Court-Value/
 - **Scores:** [`data/PUBLIC_cv_scores.csv`](data/PUBLIC_cv_scores.csv), 26,208 player-seasons with full CV, CV_BASE, defensive credit, ranks and coverage flags.
 - **How it works:** [plain-English overview](methodology/OVERVIEW.md) · [technical specification](methodology/TECHNICAL_SPECIFICATION.md) · [worked examples](methodology/WORKED_EXAMPLES.md)
 - **Evidence:** [validation](methodology/VALIDATION.md) · [limitations](methodology/LIMITATIONS.md) · [anomaly log](anomaly_log.csv) · [release decisions](methodology/RELEASE_DECISIONS.md)
@@ -55,4 +55,4 @@ Please cite as described in [`CITATION.cff`](CITATION.cff):
 
 ## Feedback
 
-Found a season that looks wrong? [Open an issue](https://github.com/mariotavoiii/court-value/issues) with the player, season and what you expected.
+Found a season that looks wrong? [Open an issue](https://github.com/mariotavoiii/Court-Value/issues) with the player, season and what you expected.
