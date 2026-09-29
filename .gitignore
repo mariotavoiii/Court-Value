@@ -1,0 +1,7 @@
+__pycache__/
+*.pyc
+.venv*/
+private_inputs/
+reproduction_runs/
+releases/
+.DS_Store
