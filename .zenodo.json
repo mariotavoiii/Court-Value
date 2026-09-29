@@ -1,12 +1,27 @@
 {
   "title": "Court Value (CV): a historically portable NBA/ABA player-season value metric",
   "upload_type": "dataset",
-  "creators": [{"name": "Tavolieri, Mario, III"}],
+  "creators": [
+    {
+      "name": "Tavolieri, Mario, III"
+    }
+  ],
   "description": "<p>Court Value (CV) rates every NBA (1951–52 to present) and ABA (1967–68 to 1975–76) regular season on one historically portable scale, using only information recorded since 1952. The inputs are box-score production, responsibility within the team, the team's margin of victory in the games the player actually played, and a bounded team-defense credit, all standardized within each league-season.</p><p>This archive contains the public score file (PUBLIC_cv_scores.csv), the calculator code, the technical specification, worked examples, validation and limitations. Raw Basketball-Reference-derived inputs are not redistributed.</p><p>Licences: scores and documentation CC BY 4.0; code MIT.</p><p>Website: https://mariotavoiii.github.io/Court-Value/</p>",
   "license": "cc-by-4.0",
-  "keywords": ["basketball", "NBA", "ABA", "Court Value", "player evaluation", "sports analytics"],
-  "related_identifiers": [
-    {"identifier": "https://mariotavoiii.github.io/Court-Value/", "relation": "isDocumentedBy", "resource_type": "other"}
+  "keywords": [
+    "basketball",
+    "NBA",
+    "ABA",
+    "Court Value",
+    "player evaluation",
+    "sports analytics"
   ],
-  "notes": "Source code is licensed MIT (LICENSE-CODE). Underlying statistics come from Basketball-Reference via the Kaggle dataset 'NBA Stats (1947-present)' by Sumitro Datta."
+  "related_identifiers": [
+    {
+      "identifier": "https://mariotavoiii.github.io/Court-Value/",
+      "relation": "isDocumentedBy"
+    }
+  ],
+  "notes": "Source code is licensed MIT (LICENSE-CODE). Underlying statistics come from Basketball-Reference via the Kaggle dataset 'NBA Stats (1947-present)' by Sumitro Datta.",
+  "version": "1.0.1"
 }

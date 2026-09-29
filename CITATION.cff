@@ -3,7 +3,7 @@ cff-version: 1.2.0
 message: "If you use Court Value scores or methodology, please cite it as below."
 title: "Court Value (CV): a historically portable NBA/ABA player-season value metric"
 type: dataset
-version: 1.0.0
+version: 1.0.1
 authors:
   - given-names: Mario
     family-names: Tavolieri
@@ -21,10 +21,8 @@ keywords:
   - Court Value
   - player evaluation
   - sports analytics
-license:
-  - CC-BY-4.0
-  - MIT
-# CC-BY-4.0 applies to the CV scores and documentation; MIT applies to the source code.
+license: CC-BY-4.0
+# CC-BY-4.0 covers the CV scores and documentation. The source code is MIT (see LICENSE-CODE).
 date-released: "2026-09-29"
 url: "https://mariotavoiii.github.io/Court-Value/"
 repository-code: "https://github.com/mariotavoiii/Court-Value"

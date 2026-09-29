@@ -2,6 +2,12 @@
 
 All published outputs are immutable. Methodological changes receive a new model version; new or corrected data receive a new data revision.
 
+## 1.0.1 (2026-09-29): archive metadata only
+
+- **Scores and code:** identical to 1.0.0.
+- **CITATION.cff:** now uses a single licence field, which Zenodo's reader requires.
+- **Added `.zenodo.json`** so the release can be archived with a DOI.
+
 ## 1.0.0 (2026-09-29, data revision 2026-09-29): first public release
 
 - **Scores:** identical to 1.0.0-rc.3; only the version label differs.
