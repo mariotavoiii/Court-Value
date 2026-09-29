@@ -79,6 +79,14 @@ main section{padding-block:36px 72px}
 .chart .axis text{font:500 11px var(--mono);fill:var(--soft)}
 .chart .gridline{stroke:var(--grid);stroke-width:1}
 .chart .baseline{stroke:var(--ink);stroke-width:1.5}
+.chart .band{fill:var(--hi);opacity:.85}
+.chart .bandlabel{font:600 10.5px var(--mono);fill:var(--soft);letter-spacing:.06em}
+th.sort{cursor:pointer;user-select:none}
+th.sort:hover{color:var(--ink)}
+th.sort button{all:inherit;cursor:pointer;display:inline-flex;gap:4px;align-items:center}
+th[aria-sort="ascending"] button::after{content:"▲";font-size:9px}
+th[aria-sort="descending"] button::after{content:"▼";font-size:9px}
+th[aria-sort]{color:var(--ink)}
 .chart .ref{stroke:var(--red);stroke-width:1;stroke-dasharray:3 4}
 .chart .reflabel{font:600 10.5px var(--mono);fill:var(--red);letter-spacing:.06em}
 .chart .line{fill:none;stroke:var(--blue);stroke-width:2;stroke-linejoin:round}
@@ -175,7 +183,7 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-betw
     <div class="card scale" aria-label="How to read a CV score">
       <h3>Reading the number</h3>
       <div class="tick"><b>12+</b><span>All-time territory. 37 qualified seasons have reached it.</span></div>
-      <div class="tick"><b>11</b><span>A typical MVP season.</span></div>
+      <div class="tick"><b>10–12</b><span>Where most MVP seasons land. The middle half runs 9.7 to 12.1.</span></div>
       <div class="tick"><b>7.5</b><span>A typical All-NBA season.</span></div>
       <div class="tick"><b>6</b><span>A typical All-Star season.</span></div>
       <div class="tick"><b>0</b><span>That season's average player-game.</span></div>
@@ -185,7 +193,7 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-betw
   <div class="block">
     <div class="head-row"><div><span class="eyebrow">The chart</span><h2>The best season of every year</h2></div></div>
     <div class="chart card" id="best-chart" style="padding:18px 18px 10px"><div class="status">Loading scores…</div></div>
-    <p class="caption">Highest qualified full CV in each NBA season, 1951–52 to 2025–26. Red dots mark years whose best season reached 12 or more. Hover or tap a dot for the player; click to open his career.</p>
+    <p class="caption">Highest qualified full CV in each NBA season, 1951–52 to 2025–26. The shaded band is where the middle half of MVP seasons fall (9.7 to 12.1); red dots mark years whose best season reached 12 or more. Hover or tap a dot for the player; click to open his career.</p>
   </div>
 
   <div class="block">
@@ -245,8 +253,11 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-betw
         <button type="button" id="basis-base" aria-pressed="false">CV_BASE</button>
       </div>
     </div>
-    <div class="field"><label for="f-season">Season</label><select id="f-season"><option value="all">All seasons</option></select></div>
+    <div class="field"><label for="f-from">From</label><select id="f-from"></select></div>
+    <div class="field"><label for="f-to">To</label><select id="f-to"></select></div>
     <div class="field"><label for="f-league">League</label><select id="f-league"><option value="all">NBA and ABA</option><option value="0">NBA</option><option value="1">ABA</option></select></div>
+    <div class="field"><label for="f-pos">Position</label><select id="f-pos"><option value="all">All</option><option>PG</option><option>SG</option><option>SF</option><option>PF</option><option>C</option></select></div>
+    <div class="field"><label for="f-team">Team</label><select id="f-team"><option value="all">All teams</option></select></div>
     <div class="field"><label for="f-search">Player</label><input type="search" id="f-search" placeholder="Search a name" autocomplete="off"></div>
     <label class="check" for="f-qual"><input type="checkbox" id="f-qual" checked> Qualified only</label>
   </div>
@@ -258,7 +269,7 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-betw
     <tbody id="rank-body"><tr><td class="status">Loading scores…</td></tr></tbody>
   </table></div>
   <button type="button" class="btn secondary more" id="more" hidden>Show 50 more</button>
-  <p class="note">Click a player's name to see his career.</p>
+  <p class="note">Click a column heading to sort; click again to reverse. Click a player's name to see his career. Positions are each season's listed position from Basketball-Reference; they are shown for filtering only and play no part in the score.</p>
 </section>
 
 <section id="methodology" data-page hidden>
@@ -387,23 +398,31 @@ EffAdj    = 0.30 × (PTS − 0.92 × LgPtsPerAtt × Attempts)</pre></div>
     try { navigator.clipboard.writeText(el.textContent).then(done, sel); } catch(e){ sel(); }
   });
 
+  // Middle half (25th-75th percentile) of qualified MVP-winning seasons, NBA and ABA, CV 1.1.
+  var MVP_BAND = {lo: 9.73, hi: 12.05, label: "MVP RANGE · MIDDLE HALF OF MVP SEASONS"};
   function seasonLabel(y){ return (y - 1) + "–" + String(y).slice(-2); }
   function fmt(x){ return x === null ? "—" : x.toFixed(2); }
   function esc(s){ return String(s).replace(/[&<>"]/g, function(c){ return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]; }); }
   function svg(tag, attrs, parent){ var e = document.createElementNS(NS, tag); for (var k in attrs) e.setAttribute(k, attrs[k]); if (parent) parent.appendChild(e); return e; }
 
-  // Row fields: 0 id, 1 player, 2 season, 3 lg(0 NBA/1 ABA), 4 teams, 5 g, 6 mp, 7 q, 8 cov, 9 cv, 10 base, 11 def, 12 rs, 13 ra, 14 brs, 15 bra
-  var ROWS = [], BYID = {}, state = { basis: "full", season: "all", league: "all", q: true, text: "", shown: 50 };
+  // Row fields: 0 id, 1 player, 2 season, 3 lg(0 NBA/1 ABA), 4 teams, 5 g, 6 mp, 7 q, 8 cov, 9 cv, 10 base, 11 def, 12 rs, 13 ra, 14 brs, 15 bra, 16 pos
+  var ROWS = [], BYID = {}, state = { basis: "full", from: 0, to: 9999, league: "all", pos: "all", team: "all", q: true, text: "", shown: 50, sort: null, dir: -1 };
 
   fetch("data/scores.json").then(function(r){ if (!r.ok) throw new Error(r.status); return r.json(); }).then(function(d){
     ROWS = d.rows;
     ROWS.forEach(function(r){ (BYID[r[0]] = BYID[r[0]] || []).push(r); });
     document.getElementById("rev").textContent = d.meta.data_revision;
     var seasons = {}; ROWS.forEach(function(r){ seasons[r[2]] = 1; });
-    var sel = document.getElementById("f-season");
-    Object.keys(seasons).map(Number).sort(function(a,b){ return b-a; }).forEach(function(y){
-      var o = document.createElement("option"); o.value = y; o.textContent = seasonLabel(y); sel.appendChild(o);
+    var ys = Object.keys(seasons).map(Number).sort(function(a,b){ return a-b; });
+    var fFrom = document.getElementById("f-from"), fTo = document.getElementById("f-to");
+    ys.forEach(function(y){
+      var o = document.createElement("option"); o.value = y; o.textContent = seasonLabel(y); fFrom.appendChild(o);
+      var o2 = o.cloneNode(true); fTo.appendChild(o2);
     });
+    state.from = ys[0]; state.to = ys[ys.length-1]; fFrom.value = state.from; fTo.value = state.to;
+    var teams = {}; ROWS.forEach(function(r){ String(r[4]).split(/[^A-Z0-9]+/).forEach(function(t){ if (t) teams[t] = 1; }); });
+    var fTeam = document.getElementById("f-team");
+    Object.keys(teams).sort().forEach(function(t){ var o = document.createElement("option"); o.value = t; o.textContent = t; fTeam.appendChild(o); });
     renderTop10(); renderBest(); render();
   }).catch(function(){
     var msg = '<tr><td colspan="7" class="status">The score file could not be loaded. Download the CSV from the Data page instead.</td></tr>';
@@ -446,6 +465,13 @@ EffAdj    = 0.30 × (PTS − 0.92 × LgPtsPerAtt × Attempts)</pre></div>
     for (var yx = Math.ceil(x0 / xstep) * xstep; yx <= x1; yx += xstep){
       var tx = svg("text", {x: X(yx), y: H - 8, "text-anchor": "middle"}, ax); tx.textContent = opts.xfmt ? opts.xfmt(yx) : yx;
     }
+    if (opts.band){
+      var bl = Math.max(opts.band.lo, yMin), bh = Math.min(opts.band.hi, yMax);
+      if (bh > bl){
+        svg("rect", {x: m.l, width: W - m.l - m.r, y: Y(bh), height: Y(bl) - Y(bh), "class": "band"}, s);
+        var btx = svg("text", {x: m.l + 8, y: Y(bh) + 13, "class": "bandlabel"}, s); btx.textContent = opts.band.label;
+      }
+    }
     if (opts.ref !== undefined && opts.ref <= yMax){
       svg("line", {x1: m.l, x2: W - m.r, y1: Y(opts.ref), y2: Y(opts.ref), "class": "ref"}, s);
       var rl = svg("text", {x: W - m.r, y: Y(opts.ref) - 6, "text-anchor": "end", "class": "reflabel"}, s); rl.textContent = opts.refLabel;
@@ -486,7 +512,7 @@ EffAdj    = 0.30 × (PTS − 0.92 × LgPtsPerAtt × Attempts)</pre></div>
     ROWS.forEach(function(r){ if (r[3] === 0 && r[13] !== null && r[12] === 1) best[r[2]] = r; });
     var pts = Object.keys(best).map(Number).sort(function(a,b){ return a-b; }).map(function(y){ var r = best[y]; return {x: y, y: r[9], r: r}; });
     drawChart(document.getElementById("best-chart"), pts, {
-      label: "Highest full CV in each NBA season", yMin: 0, yMax: 16, line: true, r: 5,
+      label: "Highest full CV in each NBA season", yMin: 0, yMax: 16, line: true, r: 5, band: MVP_BAND,
       xfmt: function(y){ return seasonLabel(y); }, ref: 12, refLabel: "12: ALL-TIME TERRITORY",
       hot: function(p){ return p.y >= 12; },
       tip: function(p){ return "<b>" + esc(p.r[1]) + "</b> · " + seasonLabel(p.x) + "<br>CV " + p.y.toFixed(2) + " · " + esc(p.r[4]); },
@@ -514,8 +540,8 @@ EffAdj    = 0.30 × (PTS − 0.92 × LgPtsPerAtt × Attempts)</pre></div>
       (pts.length ? "<p class='caption'>" + (full ? "Full CV includes the defensive credit." : "CV_BASE has no defensive component.") + " Breaks in the line are seasons without this score. Unqualified seasons are included.</p>" : "<p class='note'>No " + (full ? "full CV" : "CV_BASE") + " seasons for this player. Try the other score.</p>");
     document.getElementById("pp-close").onclick = function(){ panel.hidden = true; };
     if (pts.length) drawChart(document.getElementById("pp-chart"), pts, {
-      label: "Career CV for " + rows[0][1], yMin: -2, yMax: 8, line: true, width: 1000, height: 260,
-      xfmt: function(y){ return seasonLabel(y); }, ref: 11, refLabel: "11: TYPICAL MVP",
+      label: "Career CV for " + rows[0][1], yMin: -2, yMax: 13, line: true, width: 1000, height: 260,
+      xfmt: function(y){ return seasonLabel(y); }, band: MVP_BAND,
       hot: function(p){ return p.y >= 12; },
       tip: function(p){ return "<b>" + seasonLabel(p.x) + "</b> · " + esc(p.r[4]) + "<br>" + (full ? "CV " : "CV_BASE ") + p.y.toFixed(2) + " · " + p.r[5] + " G" + (p.r[7] ? "" : " · not qualified"); }
     });
@@ -528,13 +554,20 @@ EffAdj    = 0.30 × (PTS − 0.92 × LgPtsPerAtt × Attempts)</pre></div>
     var out = ROWS.filter(function(r){
       if (full ? r[9] === null : r[10] === null) return false;
       if (state.q && !r[7]) return false;
-      if (state.season !== "all" && r[2] !== +state.season) return false;
+      if (r[2] < state.from || r[2] > state.to) return false;
+      if (state.pos !== "all" && r[16] !== state.pos) return false;
+      if (state.team !== "all" && String(r[4]).split(/[^A-Z0-9]+/).indexOf(state.team) === -1) return false;
       if (state.league !== "all" && r[3] !== +state.league) return false;
       if (t && r[1].toLowerCase().indexOf(t) === -1) return false;
       return true;
     });
-    var k = full ? 9 : 10;
-    out.sort(function(a,b){ return b[k]-a[k] || a[2]-b[2] || a[0].localeCompare(b[0]); });
+    var k = full ? 9 : 10, sk = state.sort === null ? k : state.sort, dir = state.sort === null ? -1 : state.dir;
+    out.sort(function(a,b){
+      var x = a[sk], y = b[sk], c;
+      if (x === null && y === null) c = 0; else if (x === null) return 1; else if (y === null) return -1;
+      else c = typeof x === "string" ? x.localeCompare(y) : x - y;
+      return dir * c || b[k]-a[k] || a[2]-b[2] || a[0].localeCompare(b[0]);
+    });
     return out;
   }
   function render(){
@@ -542,24 +575,42 @@ EffAdj    = 0.30 × (PTS − 0.92 × LgPtsPerAtt × Attempts)</pre></div>
     document.getElementById("basis-note").innerHTML = full
       ? "Full CV includes the defensive credit. It covers every NBA and ABA season."
       : "<mark>CV_BASE has no defensive component.</mark> Don't compare it directly with full CV.";
-    head.innerHTML = "<th class='num'>Rank</th><th>Player</th><th>Season</th><th>Lg</th><th>Team</th><th class='num'>G</th><th class='num'>MP</th><th class='num'>" + (full ? "CV" : "CV_BASE") + "</th>" + (full ? "<th class='num'>Base</th><th class='num'>Def</th>" : "") + "<th>Status</th>";
+    var cols = [["Rank", null, "num"], ["Player", 1, ""], ["Season", 2, ""], ["Lg", 3, ""], ["Pos", 16, ""], ["Team", 4, ""], ["G", 5, "num"], ["MP", 6, "num"],
+                [full ? "CV" : "CV_BASE", full ? 9 : 10, "num"]].concat(full ? [["Base", 10, "num"], ["Def", 11, "num"]] : []).concat([["Status", null, ""]]);
+    var scoreKey = full ? 9 : 10;
+    head.innerHTML = cols.map(function(c){
+      if (c[1] === null) return "<th class='" + c[2] + "'>" + c[0] + "</th>";
+      var active = state.sort === null ? c[1] === scoreKey : state.sort === c[1];
+      var dir = state.sort === null ? -1 : state.dir;
+      return "<th class='sort " + c[2] + "'" + (active ? " aria-sort='" + (dir > 0 ? "ascending" : "descending") + "'" : "") + "><button type='button' data-sort='" + c[1] + "'>" + c[0] + "</button></th>";
+    }).join("");
     var rows = filtered(), shown = rows.slice(0, state.shown);
-    var ri = state.season === "all" ? (full ? 13 : 15) : (full ? 12 : 14);
+    var ri = state.from === state.to ? (full ? 12 : 14) : (full ? 13 : 15);
     document.getElementById("count").textContent = rows.length.toLocaleString() + " seasons" + (rows.length > shown.length ? " · showing " + shown.length : "");
     body.innerHTML = shown.length ? shown.map(function(r){
       var rank = r[ri] !== null && r[7] ? r[ri] : "—";
       var status = r[7] ? "" : "<span class='pill'>Not qualified</span>";
       if (!full && r[9] === null) status += (status ? " " : "") + "<span class='pill base'>Base only</span>";
-      return "<tr><td class='rk'>" + rank + "</td><td class='player'>" + plink(r) + "</td><td>" + seasonLabel(r[2]) + "</td><td><span class='pill" + (r[3] ? " aba" : "") + "'>" + (r[3] ? "ABA" : "NBA") + "</span></td><td class='num'>" + esc(r[4]) + "</td><td class='num'>" + r[5] + "</td><td class='num'>" + r[6].toLocaleString() + "</td><td class='cv'>" + fmt(full ? r[9] : r[10]) + "</td>" + (full ? "<td class='num'>" + fmt(r[10]) + "</td><td class='num'>" + fmt(r[11]) + "</td>" : "") + "<td>" + status + "</td></tr>";
-    }).join("") : "<tr><td colspan='11' class='status'>No seasons match these filters.</td></tr>";
+      return "<tr><td class='rk'>" + rank + "</td><td class='player'>" + plink(r) + "</td><td>" + seasonLabel(r[2]) + "</td><td><span class='pill" + (r[3] ? " aba" : "") + "'>" + (r[3] ? "ABA" : "NBA") + "</span></td><td class='mono' style='font-size:13px'>" + (r[16] || "—") + "</td><td class='mono' style='font-size:13px'>" + esc(r[4]) + "</td><td class='num'>" + r[5] + "</td><td class='num'>" + r[6].toLocaleString() + "</td><td class='cv'>" + fmt(full ? r[9] : r[10]) + "</td>" + (full ? "<td class='num'>" + fmt(r[10]) + "</td><td class='num'>" + fmt(r[11]) + "</td>" : "") + "<td>" + status + "</td></tr>";
+    }).join("") : "<tr><td colspan='12' class='status'>No seasons match these filters.</td></tr>";
     document.getElementById("more").hidden = rows.length <= shown.length;
   }
-  function set(k, v){ state[k] = v; state.shown = 50; render(); }
+  function set(k, v){ state[k] = v; state.shown = 50; if (k === "basis" && (state.sort === 9 || state.sort === 10)) state.sort = null; render(); }
   var bf = document.getElementById("basis-full"), bb = document.getElementById("basis-base");
   bf.onclick = function(){ bf.setAttribute("aria-pressed","true"); bb.setAttribute("aria-pressed","false"); set("basis","full"); refreshPanel(); };
   bb.onclick = function(){ bb.setAttribute("aria-pressed","true"); bf.setAttribute("aria-pressed","false"); set("basis","base"); refreshPanel(); };
   function refreshPanel(){ var p = document.getElementById("player-panel"); if (!p.hidden && currentPid) showPlayer(currentPid); }
-  document.getElementById("f-season").onchange = function(){ set("season", this.value); };
+  document.getElementById("f-from").onchange = function(){ var v = +this.value; if (v > state.to){ state.to = v; document.getElementById("f-to").value = v; } set("from", v); };
+  document.getElementById("f-to").onchange = function(){ var v = +this.value; if (v < state.from){ state.from = v; document.getElementById("f-from").value = v; } set("to", v); };
+  document.getElementById("f-pos").onchange = function(){ set("pos", this.value); };
+  document.getElementById("f-team").onchange = function(){ set("team", this.value); };
+  head.addEventListener("click", function(e){
+    var b = e.target.closest("button[data-sort]"); if (!b) return;
+    var key = +b.getAttribute("data-sort"), cur = state.sort === null ? (state.basis === "full" ? 9 : 10) : state.sort;
+    var textCol = key === 1 || key === 4 || key === 16;
+    if (key === cur) state.dir = (state.sort === null ? -1 : state.dir) * -1; else state.dir = textCol || key === 2 ? 1 : -1;
+    state.sort = key; state.shown = 50; render();
+  });
   document.getElementById("f-league").onchange = function(){ set("league", this.value); };
   document.getElementById("f-qual").onchange = function(){ set("q", this.checked); };
   var tmr; document.getElementById("f-search").oninput = function(){ var v = this.value; clearTimeout(tmr); tmr = setTimeout(function(){ set("text", v.trim()); }, 150); };
