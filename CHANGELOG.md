@@ -2,6 +2,14 @@
 
 All published outputs are immutable. Methodological changes receive a new model version; new or corrected data receive a new data revision.
 
+## 1.0.0 (2026-09-29, data revision 2026-09-29): first public release
+
+- **Scores:** identical to 1.0.0-rc.3; only the version label differs.
+- **Reproduction:** verified cross-platform. macOS with Python 3.14.7 and Linux with Python 3.11.15, both on pandas 3.0.2 and numpy 2.4.4, produce all outputs with maximum difference 0.0.
+- **`requirements.lock`** now pins the actual build environment. The previous pandas 2.2.3 pin is kept as `requirements.lock.pandas2_legacy`.
+- **Public outputs:** `PUBLIC_cv_scores.csv`, the website and the methodology.
+- **Licences:** scores and documentation under CC BY 4.0, code under MIT. Author: Mario Tavolieri III.
+
 ## 1.0.0-rc.3 (2026-09-29, data revision 2026-09-29): packaging candidate
 
 - **Added:** `PUBLIC_cv_scores.csv`, the public score sheet. No raw box-score totals are included.

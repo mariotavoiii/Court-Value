@@ -27,7 +27,7 @@ from cv1 import engine  # noqa: E402
 from cv1.mov import compute_mov  # noqa: E402
 from cv1 import control_v2026_5 as control_engine  # noqa: E402
 
-MODEL_VERSION = "1.0.0-rc.3"
+MODEL_VERSION = "1.0.0"
 DATA_REVISION = "2026-09-29"
 KEY = ["player_id", "season", "lg"]
 STINT_KEY = KEY + ["team"]

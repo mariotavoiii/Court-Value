@@ -2,115 +2,162 @@
 <title>Court Value</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;800;900&family=Public+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;1,6..72,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
 <style>
-/* Layout: a league record book. Narrow reading column for prose, full-width ruled tables for data,
-   condensed display numerals for scores. Blue/red from the ABA ball, used sparingly. */
+/* Layout: a 1970s classroom explainer crossed with a data desk. Slab headlines and hard-shadow
+   "filmstrip" cards (Schoolhouse Rock), a literate serif column (Grantland), mono data labels and
+   quiet grey-grid charts (538), a yellow highlighter on the key lines (Vox). */
 :root{
-  --paper:#f5f6f4; --panel:#ffffff; --ink:#14171c; --muted:#59616c; --rule:#d8dce0; --rule-strong:#1c2027;
-  --accent:#1c4db8; --accent-ink:#ffffff; --red:#c3323b; --chip:#e9edf5; --hover:#eef1f6;
-  --display:"Big Shoulders Display","Arial Narrow","Helvetica Neue Condensed",Impact,sans-serif;
-  --body:"Public Sans",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
-  --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  --paper:#fbfbf8; --card:#ffffff; --ink:#15130f; --soft:#57534a; --rule:#dedbd2; --grid:#e8e6df;
+  --red:#d63a2f; --blue:#2458c7; --yellow:#ffd83d; --hi:#fff09a; --green:#2f8f5b; --hover:#f3f1ea;
+  --shadow:#15130f;
+  --display:"Alfa Slab One","Rockwell","Roboto Slab",Georgia,serif;
+  --serif:"Newsreader",Georgia,"Times New Roman",serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
 }
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
-  --paper:#0f1216; --panel:#161a20; --ink:#e7eaef; --muted:#9aa3ae; --rule:#2a3039; --rule-strong:#c9ced6;
-  --accent:#7196ff; --accent-ink:#0b1020; --red:#ff6e75; --chip:#1f2632; --hover:#1b212a; color-scheme:dark}}
+  --paper:#131210; --card:#1b1a17; --ink:#f1efe8; --soft:#aaa597; --rule:#34312b; --grid:#2a2824;
+  --red:#ff6a5c; --blue:#7aa2ff; --yellow:#ffd83d; --hi:#5b4c00; --green:#5ccf8e; --hover:#221f1b;
+  --shadow:#000000; color-scheme:dark}}
 :root[data-theme="dark"]{
-  --paper:#0f1216; --panel:#161a20; --ink:#e7eaef; --muted:#9aa3ae; --rule:#2a3039; --rule-strong:#c9ced6;
-  --accent:#7196ff; --accent-ink:#0b1020; --red:#ff6e75; --chip:#1f2632; --hover:#1b212a; color-scheme:dark}
+  --paper:#131210; --card:#1b1a17; --ink:#f1efe8; --soft:#aaa597; --rule:#34312b; --grid:#2a2824;
+  --red:#ff6a5c; --blue:#7aa2ff; --yellow:#ffd83d; --hi:#5b4c00; --green:#5ccf8e; --hover:#221f1b;
+  --shadow:#000000; color-scheme:dark}
 *{box-sizing:border-box}
-html{scroll-behavior:smooth}
-@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
-body{margin:0;background:var(--paper);color:var(--ink);font:400 16px/1.6 var(--body);-webkit-font-smoothing:antialiased}
-a{color:var(--accent);text-underline-offset:3px}
-a:focus-visible,button:focus-visible,select:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+body{margin:0;background:var(--paper);color:var(--ink);font:400 18px/1.6 var(--serif);-webkit-font-smoothing:antialiased}
+a{color:var(--blue);text-underline-offset:3px}
+:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
 .wrap{max-width:1120px;margin:0 auto;padding-inline:clamp(16px,4vw,40px)}
-header.site{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--paper);border-bottom:2px solid var(--rule-strong)}
-.bar{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;padding-block:12px}
+.mono,.eyebrow,nav a,th,.lbl,label,select,input,button,.btn,.pill,.status,.note-mono{font-family:var(--mono)}
+.eyebrow{font-size:12px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--red)}
+h1,h2,h3{margin:0;text-wrap:balance;font-weight:400}
+h1{font:400 clamp(40px,7.4vw,84px)/.98 var(--display);letter-spacing:-.005em}
+h2{font:400 clamp(28px,4vw,42px)/1.05 var(--display)}
+h3{font:600 22px/1.25 var(--serif)}
+mark{background:linear-gradient(transparent 12%,var(--hi) 12%,var(--hi) 88%,transparent 88%);color:inherit;padding:0 .12em}
+p{margin:0 0 14px}
+.prose{max-width:64ch}
+.soft{color:var(--soft)}
+/* header */
+header.site{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--paper);border-bottom:3px solid var(--ink)}
+.bar{display:flex;align-items:center;justify-content:space-between;gap:12px 20px;flex-wrap:wrap;padding-block:12px}
 .brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--ink)}
-.brand svg{flex:none}
-.brand b{font:900 26px/1 var(--display);letter-spacing:.02em;text-transform:uppercase}
-nav{display:flex;gap:4px;flex-wrap:wrap}
-nav a{font:600 13px/1 var(--body);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);text-decoration:none;padding:9px 10px;border-radius:4px}
+.brand b{font:400 24px/1 var(--display)}
+nav{display:flex;gap:2px;flex-wrap:wrap}
+nav a{font-size:12.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--soft);text-decoration:none;padding:9px 10px;border-radius:3px}
 nav a:hover{color:var(--ink);background:var(--hover)}
-nav a[aria-current="page"]{color:var(--ink);box-shadow:inset 0 -3px 0 var(--red)}
-main section{padding-block:40px 64px}
-main section[hidden]{display:none}
-h1,h2,h3{text-wrap:balance;margin:0}
-h1{font:900 clamp(44px,8vw,92px)/.92 var(--display);text-transform:uppercase;letter-spacing:.005em}
-h2{font:800 clamp(30px,4.4vw,44px)/1 var(--display);text-transform:uppercase;letter-spacing:.01em}
-h3{font:700 17px/1.3 var(--body)}
-.eyebrow{font:600 12px/1 var(--body);letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
-.lede{font-size:clamp(17px,2vw,20px);max-width:62ch;color:var(--ink)}
-.prose{max-width:66ch}
-.prose p{margin:0 0 14px}
-.muted{color:var(--muted)}
-.stack{display:flex;flex-direction:column;gap:18px}
-.hero{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:40px;align-items:end;padding-block:24px 36px;border-bottom:1px solid var(--rule)}
-@media (max-width:860px){.hero{grid-template-columns:1fr;gap:24px}}
-.scale{display:flex;flex-direction:column;gap:8px;font-size:14px}
-.scale .tick{display:grid;grid-template-columns:64px 1fr;gap:12px;align-items:baseline;border-top:1px solid var(--rule);padding-top:8px}
-.scale .tick b{font:800 28px/1 var(--display);font-variant-numeric:tabular-nums}
-.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:40px}
-@media (max-width:760px){.grid2{grid-template-columns:1fr;gap:28px}}
-.block{padding-top:36px}
-.list{margin:0;padding-left:18px}
+nav a[aria-current="page"]{color:var(--ink);background:var(--yellow);color:#15130f}
+@media (max-width:640px){
+  header.site{position:static}
+  .bar{flex-wrap:nowrap;flex-direction:column;align-items:flex-start;gap:8px}
+  nav{flex-wrap:nowrap;overflow-x:auto;max-width:100%;-webkit-overflow-scrolling:touch}
+  nav a{white-space:nowrap;padding:8px 9px}
+}
+main section{padding-block:36px 72px}
+/* hero */
+.hero{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);gap:40px;align-items:start;padding-block:12px 36px}
+@media (max-width:880px){.hero{grid-template-columns:1fr;gap:28px}}
+.hero .stack{display:flex;flex-direction:column;gap:18px}
+.lede{font-size:clamp(19px,2.1vw,22px);line-height:1.5;max-width:58ch}
+.card{background:var(--card);border:3px solid var(--ink);border-radius:10px;box-shadow:6px 6px 0 var(--shadow);padding:20px 22px}
+.scale{display:flex;flex-direction:column;gap:0}
+.scale h3{font:400 22px/1.1 var(--display);margin-bottom:6px}
+.tick{display:grid;grid-template-columns:62px minmax(0,1fr);gap:12px;align-items:baseline;border-top:2px dotted var(--rule);padding-block:8px}
+.tick b{font:400 26px/1 var(--display);font-variant-numeric:tabular-nums}
+.tick span{font-size:16px;line-height:1.35}
+.tick:nth-of-type(1) b{color:var(--red)} .tick:nth-of-type(2) b{color:var(--blue)} .tick:nth-of-type(3) b{color:var(--green)}
+.block{padding-top:44px}
+.head-row{display:flex;justify-content:space-between;align-items:end;gap:12px;flex-wrap:wrap;margin-bottom:12px}
+.head-row a{font:600 13px/1 var(--mono);letter-spacing:.04em}
+.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px}
+@media (max-width:780px){.grid2{grid-template-columns:1fr}}
+.list{margin:0;padding-left:20px}
 .list li{margin-bottom:6px}
+/* charts */
+.chart{position:relative}
+.chart svg{display:block;width:100%;height:auto;overflow:visible}
+.chart .axis text{font:500 11px var(--mono);fill:var(--soft)}
+.chart .gridline{stroke:var(--grid);stroke-width:1}
+.chart .baseline{stroke:var(--ink);stroke-width:1.5}
+.chart .ref{stroke:var(--red);stroke-width:1;stroke-dasharray:3 4}
+.chart .reflabel{font:600 10.5px var(--mono);fill:var(--red);letter-spacing:.06em}
+.chart .line{fill:none;stroke:var(--blue);stroke-width:2;stroke-linejoin:round}
+.chart .dot{fill:var(--blue);stroke:var(--card);stroke-width:2}
+.chart .dot.hot{fill:var(--red)}
+.chart .hit{fill:transparent;cursor:pointer}
+.tip{position:absolute;pointer-events:none;background:var(--ink);color:var(--paper);font:500 12.5px/1.4 var(--mono);padding:8px 10px;border-radius:6px;white-space:nowrap;transform:translate(-50%,calc(-100% - 12px));z-index:3}
+.tip b{font-weight:600}
+.caption{font:500 12.5px/1.5 var(--mono);color:var(--soft);margin-top:10px}
 /* tables */
-.tablewrap{overflow-x:auto;border-top:2px solid var(--rule-strong);border-bottom:1px solid var(--rule)}
-table{border-collapse:collapse;width:100%;font-size:14px;font-variant-numeric:tabular-nums}
-th{font:600 11px/1.2 var(--body);letter-spacing:.1em;text-transform:uppercase;color:var(--muted);text-align:left;padding:10px 10px;border-bottom:1px solid var(--rule);white-space:nowrap;background:var(--paper)}
+.tablewrap{overflow-x:auto;border-top:3px solid var(--ink);border-bottom:1px solid var(--rule)}
+table{border-collapse:collapse;width:100%;font:400 15px/1.35 var(--serif);font-variant-numeric:tabular-nums}
+th{font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--soft);text-align:left;padding:10px;border-bottom:1px solid var(--rule);white-space:nowrap;background:var(--paper)}
 td{padding:8px 10px;border-bottom:1px solid var(--rule);white-space:nowrap}
-tbody tr:hover{background:var(--hover)}
 td.num,th.num{text-align:right}
-td.cv{font:800 20px/1 var(--display);text-align:right;letter-spacing:.01em}
-td.rk{color:var(--muted);width:1%}
+td.num{font-family:var(--mono);font-size:13.5px}
+td.cv{font:400 21px/1 var(--display);text-align:right}
+td.rk{font-family:var(--mono);font-size:13px;color:var(--soft);width:1%;text-align:right}
 td.player{font-weight:600;white-space:normal;min-width:150px}
-.pill{display:inline-block;font:600 10.5px/1 var(--body);letter-spacing:.08em;text-transform:uppercase;padding:4px 6px;border-radius:3px;background:var(--chip);color:var(--muted)}
-.pill.aba{color:var(--red)}
-.pill.base{color:var(--accent)}
+tbody tr:hover{background:var(--hover)}
+.plink{background:none;border:0;padding:0;font:inherit;color:inherit;cursor:pointer;text-align:left;text-decoration:underline;text-decoration-color:var(--rule);text-underline-offset:4px}
+.plink:hover{text-decoration-color:var(--blue);color:var(--blue)}
+.pill{display:inline-block;font-size:10.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;padding:3px 6px;border-radius:3px;border:1.5px solid currentColor;color:var(--soft)}
+.pill.aba{color:var(--red)} .pill.base{color:var(--blue)}
 /* controls */
-.controls{display:flex;flex-wrap:wrap;gap:12px 16px;align-items:end;padding-block:20px 16px}
+.controls{display:flex;flex-wrap:wrap;gap:12px 16px;align-items:end;padding-block:18px 10px}
 .field{display:flex;flex-direction:column;gap:6px}
-.field label,.field .lbl{font:600 11px/1 var(--body);letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
-select,input[type="search"]{font:500 15px/1.2 var(--body);color:var(--ink);background:var(--panel);border:1px solid var(--rule);border-radius:4px;padding:9px 10px;min-width:0}
-input[type="search"]{width:min(260px,100%)}
-.seg{display:inline-flex;border:1px solid var(--rule-strong);border-radius:4px;overflow:hidden}
-.seg button{font:600 13px/1 var(--body);letter-spacing:.04em;padding:10px 14px;border:0;background:var(--panel);color:var(--ink);cursor:pointer}
+.lbl,.field label{font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--soft)}
+select,input[type="search"]{font-size:14px;color:var(--ink);background:var(--card);border:2px solid var(--ink);border-radius:6px;padding:8px 10px;min-width:0}
+input[type="search"]{width:min(240px,100%)}
+.seg{display:inline-flex;border:2px solid var(--ink);border-radius:6px;overflow:hidden}
+.seg button{font-size:13px;font-weight:600;padding:9px 13px;border:0;background:var(--card);color:var(--ink);cursor:pointer}
 .seg button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
-.check{display:flex;gap:8px;align-items:center;font-size:14px;padding-bottom:9px}
-.note{font-size:14px;color:var(--muted);max-width:80ch;margin:10px 0 0}
-.more{margin-top:16px;font:600 14px/1 var(--body);padding:12px 16px;border:1px solid var(--rule-strong);background:var(--panel);color:var(--ink);border-radius:4px;cursor:pointer}
-.status{font-size:14px;color:var(--muted);padding-block:6px}
-/* method */
-.steps{counter-reset:s;list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:22px}
-.steps>li{display:grid;grid-template-columns:48px minmax(0,1fr);gap:16px;counter-increment:s}
-.steps>li::before{content:counter(s);font:900 40px/1 var(--display);color:var(--red)}
-pre{font:13px/1.55 var(--mono);background:var(--panel);border:1px solid var(--rule);border-radius:4px;padding:12px 14px;overflow-x:auto;margin:8px 0 0}
-code{font:0.9em var(--mono)}
-.defs{display:grid;grid-template-columns:max-content minmax(0,1fr);gap:8px 20px;margin:0}
-.defs dt{font-weight:700}
-.defs dd{margin:0;color:var(--muted)}
-.dl-row{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:16px;align-items:center;padding-block:16px;border-bottom:1px solid var(--rule)}
-.btn{display:inline-block;font:600 14px/1 var(--body);padding:11px 16px;border-radius:4px;background:var(--ink);color:var(--paper);text-decoration:none;border:0;cursor:pointer}
-.btn.secondary{background:transparent;color:var(--ink);border:1px solid var(--rule-strong)}
-footer{border-top:2px solid var(--rule-strong);padding-block:24px 40px;font-size:13px;color:var(--muted)}
+.check{display:flex;gap:8px;align-items:center;font-size:13px;padding-bottom:9px;text-transform:none;letter-spacing:0;color:var(--ink)}
+.note{font-size:15.5px;color:var(--soft);max-width:78ch;margin:10px 0 0}
+.status{font-size:13px;color:var(--soft);padding-block:6px}
+.btn{display:inline-block;font-size:13.5px;font-weight:600;padding:11px 16px;border-radius:6px;background:var(--ink);color:var(--paper);text-decoration:none;border:2px solid var(--ink);cursor:pointer;box-shadow:3px 3px 0 var(--red)}
+.btn.secondary{background:var(--card);color:var(--ink);box-shadow:3px 3px 0 var(--blue)}
+.more{margin-top:16px}
+/* player panel */
+#player-panel{margin-top:18px}
+.pp-head{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:start}
+.pp-head h3{font:400 30px/1.05 var(--display)}
+.pp-close{font-size:13px;font-weight:600;background:none;border:2px solid var(--ink);border-radius:6px;padding:7px 10px;cursor:pointer;color:var(--ink)}
+.pp-stats{display:flex;gap:10px 28px;flex-wrap:wrap;font:500 13px/1.4 var(--mono);color:var(--soft);margin:6px 0 10px}
+.pp-stats b{color:var(--ink);font-weight:600}
+/* explainer strip */
+.strip{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:26px;margin-top:28px}
+.frame{background:var(--card);border:3px solid var(--ink);border-radius:12px;box-shadow:6px 6px 0 var(--shadow);padding:18px 20px 16px;display:flex;flex-direction:column;gap:8px}
+.frame .n{font:400 40px/1 var(--display);color:var(--paper);-webkit-text-stroke:2px var(--ink);paint-order:stroke fill}
+.frame:nth-child(4n+1) .n{color:var(--yellow)} .frame:nth-child(4n+2) .n{color:var(--red)} .frame:nth-child(4n+3) .n{color:var(--blue)} .frame:nth-child(4n+4) .n{color:var(--green)}
+.frame h3{font:400 22px/1.1 var(--display)}
+.frame p{font-size:16.5px;line-height:1.5;margin:0}
+pre{font:13px/1.55 var(--mono);background:var(--paper);border:1.5px solid var(--rule);border-radius:6px;padding:10px 12px;overflow-x:auto;margin:6px 0 0;white-space:pre}
+.magic{display:grid;grid-template-columns:auto minmax(0,1fr);gap:24px;align-items:center;margin-top:44px}
+@media (max-width:640px){.magic{grid-template-columns:1fr}}
+.magic .big{font:400 clamp(110px,18vw,180px)/.8 var(--display);color:var(--yellow);-webkit-text-stroke:4px var(--ink);paint-order:stroke fill;text-shadow:7px 7px 0 var(--shadow)}
+.defs{display:grid;grid-template-columns:max-content minmax(0,1fr);gap:8px 18px;margin:10px 0 0;font-size:16.5px}
+.defs dt{font:600 13px/1.6 var(--mono)}
+.defs dd{margin:0;color:var(--soft)}
+.dl-row{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:16px;align-items:center;padding-block:18px;border-bottom:1px solid var(--rule)}
+@media (max-width:560px){.dl-row{grid-template-columns:1fr}}
+footer{border-top:3px solid var(--ink);padding-block:22px 40px;font:500 12.5px/1.6 var(--mono);color:var(--soft)}
 footer .wrap{display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-between}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 </style>
 </head><body>
 
 <header class="site">
   <div class="wrap bar">
     <a class="brand" href="#home" aria-label="Court Value home">
-      <svg width="30" height="30" viewBox="0 0 30 30" aria-hidden="true"><circle cx="15" cy="15" r="13.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M3 11h24" stroke="var(--red)" stroke-width="3"/><path d="M2.4 18h25.2" stroke="var(--accent)" stroke-width="3"/></svg>
+      <svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="13.5" fill="var(--yellow)" stroke="var(--ink)" stroke-width="3"/><path d="M4 12.5h24" stroke="var(--red)" stroke-width="3.2"/><path d="M3.4 19.5h25.2" stroke="var(--blue)" stroke-width="3.2"/></svg>
       <b>Court Value</b>
     </a>
     <nav aria-label="Sections">
       <a href="#home" data-nav="home">Home</a>
       <a href="#rankings" data-nav="rankings">Rankings</a>
-      <a href="#methodology" data-nav="methodology">Methodology</a>
-      <a href="#downloads" data-nav="downloads">Downloads</a>
+      <a href="#methodology" data-nav="methodology">How it works</a>
+      <a href="#downloads" data-nav="downloads">Data</a>
       <a href="#contact" data-nav="contact">Contact</a>
     </nav>
   </div>
@@ -123,56 +170,58 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-betw
     <div class="stack">
       <span class="eyebrow">NBA 1952–present · ABA 1968–76</span>
       <h1>One number for a player's season, measured the same way since 1952.</h1>
-      <p class="lede">Court Value (CV) rates every NBA and ABA regular season on one scale. It uses only the box-score information that exists for every year: points, assists, rebounds and shot attempts, plus how the team did in the games the player played and how well that team defended.</p>
+      <p class="lede">Court Value rates every NBA and ABA regular season on one scale. It uses only what the box score has recorded every year since 1952: points, assists, rebounds and shots. To that it adds <mark>how the team did in the games the player actually played</mark>, and how well that team defended.</p>
     </div>
-    <div class="scale" aria-label="How to read a CV score">
-      <span class="eyebrow">Reading the scale</span>
+    <div class="card scale" aria-label="How to read a CV score">
+      <h3>Reading the number</h3>
       <div class="tick"><b>12+</b><span>All-time territory. 32 qualified seasons have reached it.</span></div>
-      <div class="tick"><b>11</b><span>A typical MVP season (median of MVP winners).</span></div>
+      <div class="tick"><b>11</b><span>A typical MVP season.</span></div>
       <div class="tick"><b>7.5</b><span>A typical All-NBA season.</span></div>
       <div class="tick"><b>6</b><span>A typical All-Star season.</span></div>
-      <div class="tick"><b>0</b><span>The season's average player-game, roughly the median qualified player.</span></div>
-      <div class="tick"><b>3</b><span>points of CV equal one standard deviation within the season.</span></div>
+      <div class="tick"><b>0</b><span>That season's average player-game.</span></div>
     </div>
   </div>
 
   <div class="block">
-    <div class="bar" style="padding-block:0 12px">
-      <h2>The top ten seasons</h2>
-      <a href="#rankings">Full rankings →</a>
-    </div>
+    <div class="head-row"><div><span class="eyebrow">The chart</span><h2>The best season of every year</h2></div></div>
+    <div class="chart card" id="best-chart" style="padding:18px 18px 10px"><div class="status">Loading scores…</div></div>
+    <p class="caption">Highest qualified full CV in each NBA season, 1957–58 to 2023–24. Red dots mark years whose best season reached 12 or more. Hover or tap a dot for the player; click to open his career.</p>
+  </div>
+
+  <div class="block">
+    <div class="head-row"><div><span class="eyebrow">Leaderboard</span><h2>The ten best seasons</h2></div><a href="#rankings">All rankings →</a></div>
     <div class="tablewrap"><table aria-label="Top ten seasons by full CV">
       <thead><tr><th class="num">#</th><th>Player</th><th>Season</th><th>Team</th><th class="num">CV</th><th class="num">Base</th><th class="num">Defense</th></tr></thead>
       <tbody id="top10"><tr><td colspan="7" class="status">Loading scores…</td></tr></tbody>
     </table></div>
-    <p class="note">Full CV covers NBA seasons 1958–2024, where the historical defensive reconstruction is complete. Qualified seasons only (at least 70% of team games).</p>
+    <p class="note">Qualified seasons only: at least 70% of team games. Full CV covers NBA 1957–58 through 2023–24, the seasons where the historical defensive reconstruction is complete.</p>
   </div>
 
   <div class="grid2 block">
-    <div class="prose">
-      <h3>What CV measures</h3>
-      <p>Realized value in a real season. It asks how much a player produced while he played, how much of his team's load he carried, whether his team won when he was on the floor that night, and how good that team's defense was.</p>
-      <p>Responsibility counts. A player carrying a large share of the offense gets credit for that burden even when his efficiency is imperfect.</p>
+    <div class="card prose">
+      <h3 style="margin-bottom:8px">What it measures</h3>
+      <p>Value in a real season. How much a player produced while he played, how much of the load he carried, whether his team won on the nights he played, and how well that team defended.</p>
+      <p style="margin:0"><mark>Carrying a team counts.</mark> A player who shoulders a big share of the offense earns credit for that burden, even when his shooting is imperfect.</p>
     </div>
-    <div class="prose">
-      <h3>What CV does not claim</h3>
-      <ul class="list">
-        <li>It is not a plus-minus or causal impact estimate.</li>
-        <li>It is not wins above replacement.</li>
-        <li>It does not rate talent, health-adjusted ability or future value.</li>
-        <li>It does not settle career greatness. Peak, prime and longevity are separate questions.</li>
-        <li>Its defense is team defense shared by minutes, not individual defensive skill.</li>
+    <div class="card prose">
+      <h3 style="margin-bottom:8px">What it doesn't claim</h3>
+      <ul class="list" style="margin:0">
+        <li>It isn't plus-minus or a causal impact estimate.</li>
+        <li>It isn't wins above replacement.</li>
+        <li>It doesn't rate talent, or who would have been best if healthy.</li>
+        <li>It doesn't settle career greatness.</li>
+        <li>Its defense is team defense shared by minutes, not a grade for each defender.</li>
       </ul>
     </div>
   </div>
 
   <div class="block">
-    <h2 style="margin-bottom:6px">How it compares</h2>
-    <p class="note" style="margin:0 0 14px">Qualified NBA seasons 1977–2024 (11,543), where every metric below exists. "Overlap" is the share of actual selections that each metric ranks in its season's top N. These are checks, never inputs.</p>
+    <div class="head-row"><div><span class="eyebrow">Report card</span><h2>How it compares</h2></div></div>
+    <p class="note" style="margin:0 0 14px">Qualified NBA seasons from 1976–77 to 2023–24 (11,543 seasons). "Overlap" is the share of actual selections each metric ranks in its season's top N. Awards are a check, never an input.</p>
     <div class="tablewrap"><table aria-label="Agreement with awards">
-      <thead><tr><th>Metric</th><th class="num">All-Star overlap</th><th class="num">All-NBA overlap</th><th class="num">MVP in top 3</th><th class="num">MVP vote ρ</th><th class="num">Year to year r</th></tr></thead>
+      <thead><tr><th>Metric</th><th class="num">All-Star</th><th class="num">All-NBA</th><th class="num">MVP in top 3</th><th class="num">MVP vote ρ</th><th class="num">Year to year r</th></tr></thead>
       <tbody>
-        <tr><td class="player">Court Value</td><td class="num"><b>0.754</b></td><td class="num"><b>0.781</b></td><td class="num"><b>0.94</b></td><td class="num"><b>0.744</b></td><td class="num">0.80</td></tr>
+        <tr style="background:var(--hover)"><td class="player">Court Value</td><td class="num"><b>0.754</b></td><td class="num"><b>0.781</b></td><td class="num"><b>0.94</b></td><td class="num"><b>0.744</b></td><td class="num">0.80</td></tr>
         <tr><td class="player">PER, 1952 rules</td><td class="num">0.640</td><td class="num">0.677</td><td class="num">0.77</td><td class="num">0.645</td><td class="num"><b>0.83</b></td></tr>
         <tr><td class="player">Win Shares, 1952 rules</td><td class="num">0.556</td><td class="num">0.531</td><td class="num">0.65</td><td class="num">0.507</td><td class="num">0.73</td></tr>
         <tr><td class="player">PER</td><td class="num">0.643</td><td class="num">0.708</td><td class="num">0.83</td><td class="num">0.675</td><td class="num">0.78</td></tr>
@@ -182,13 +231,13 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-betw
         <tr><td class="player">LAKER WAR</td><td class="num">0.660</td><td class="num">0.676</td><td class="num">0.73</td><td class="num">0.627</td><td class="num">0.71</td></tr>
       </tbody>
     </table></div>
-    <p class="note">Voters have always rewarded volume and responsibility, which CV rewards by design. Closer agreement with awards shows CV captures what voters valued. It does not prove CV is closer to true impact.</p>
+    <p class="note">Voters have always rewarded volume and responsibility, and so does CV, by design. Closer agreement shows CV captures what voters valued. It doesn't prove CV is closer to true impact.</p>
   </div>
 </section>
 
 <section id="rankings" data-page hidden>
   <span class="eyebrow">Rankings</span>
-  <h2 style="margin-top:8px">Every season, ranked</h2>
+  <h2 style="margin-top:6px">Every season, ranked</h2>
   <div class="controls" role="group" aria-label="Filter rankings">
     <div class="field"><span class="lbl" id="basis-lbl">Score</span>
       <div class="seg" role="group" aria-labelledby="basis-lbl">
@@ -202,49 +251,59 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-betw
     <label class="check" for="f-qual"><input type="checkbox" id="f-qual" checked> Qualified only</label>
   </div>
   <p class="note" id="basis-note"></p>
-  <div class="status" id="count" aria-live="polite"></div>
+  <div id="player-panel" class="card" hidden></div>
+  <div class="status" id="count" aria-live="polite" style="margin-top:12px"></div>
   <div class="tablewrap"><table aria-label="Rankings">
     <thead><tr id="rank-head"></tr></thead>
     <tbody id="rank-body"><tr><td class="status">Loading scores…</td></tr></tbody>
   </table></div>
-  <button type="button" class="more" id="more" hidden>Show 50 more</button>
+  <button type="button" class="btn secondary more" id="more" hidden>Show 50 more</button>
+  <p class="note">Click a player's name to see his career.</p>
 </section>
 
 <section id="methodology" data-page hidden>
-  <span class="eyebrow">Methodology · version 1.0</span>
-  <h2 style="margin:8px 0 12px">How a season becomes a number</h2>
-  <p class="lede" style="margin-bottom:28px">Every step uses information available since 1952, and every league-season is measured against itself. There are no era bonuses, no ABA penalty, and no awards or reputation in the formula.</p>
-  <ol class="steps">
-    <li><div class="prose"><h3>Production</h3><p>Points, assists and rebounds, with assists and rebounds at 0.65 of a point. Scoring is compared with what the league scored on the same number of shot attempts, and a mild efficiency term (0.30) rewards or penalizes the difference.</p>
+  <span class="eyebrow">How it works · version <span class="ver">1.0</span></span>
+  <h2 style="margin:6px 0 12px">How a season becomes a number</h2>
+  <p class="lede prose">Every step uses information recorded since 1952, and every season is measured against the other players in that same season. <mark>No era bonuses, no ABA penalty, and no awards or reputation go into the formula.</mark></p>
+  <div class="strip">
+    <div class="frame"><span class="n">1</span><h3>Count the production</h3><p>Points, plus assists and rebounds at 0.65 of a point each. Scoring is compared with what the league scored on the same number of shots, and a mild efficiency term rewards or docks the difference.</p>
       <pre>BoxImpact = PTS + 0.65·AST + 0.65·TRB
 Attempts  = FGA + 0.44·FTA
-EffAdj    = 0.30 × (PTS − 0.92 × LeaguePtsPerAttempt × Attempts)</pre></div></li>
-    <li><div class="prose"><h3>Responsibility</h3><p>Players on each team are ranked by visible offensive load and share of games, then grouped into four tiers. Stars carry full weight for team context; deep reserves carry little. Tiers are responsibility, not skill.</p></div></li>
-    <li><div class="prose"><h3>Team context</h3><p>The team's average final margin <em>in the games the player actually played</em>, compared with the league. Better teams earn a small, bounded boost, at most about ±12.5% for a top-tier player. Where game-by-game results can't be verified, the full-season margin is used and flagged.</p>
-      <pre>Context = 1 + 0.125 × RoleWeight × tanh(0.75 × Z_margin)</pre></div></li>
-    <li><div class="prose"><h3>Per game, within the season</h3><p>A player's season total is divided by games played, then compared with everyone in that league-season, weighted by games. Three CV points equal one standard deviation. Playing fewer games does not directly lower the score. It affects role, and a player needs 70% of team games to appear on the leaderboards.</p>
-      <pre>CV_BASE = 3 × (Rate − games-weighted season mean) / games-weighted season SD</pre></div></li>
-    <li><div class="prose"><h3>Defense</h3><p>Each team's defense is rebuilt from opponent scoring per attempt and per game. It is shared with players by minutes tier, then compressed into a bounded credit between −0.75 and +1.5. It is available for NBA 1958–2024. Other seasons are published as CV_BASE only.</p>
-      <pre>CV = CV_BASE + DefensiveCredit</pre></div></li>
-  </ol>
+EffAdj    = 0.30 × (PTS − 0.92 × LgPtsPerAtt × Attempts)</pre></div>
+    <div class="frame"><span class="n">2</span><h3>Weigh the load</h3><p>Each roster is ranked by visible offensive load and share of games, then split into four tiers. Stars carry full weight for team context and deep reserves carry little. Tiers measure responsibility, not skill.</p></div>
+    <div class="frame"><span class="n">3</span><h3>Check the scoreboard</h3><p>The team's average final margin <em>in the games he actually played</em>, compared with the league. A better team earns a small, capped boost, at most about ±12.5% for a top-tier player.</p>
+      <pre>Context = 1 + 0.125 × RoleWeight × tanh(0.75 × Z_margin)</pre></div>
+    <div class="frame"><span class="n">4</span><h3>Compare with his season</h3><p>Divide by games played, then compare with everyone in that league-season, weighted by games. Fewer games doesn't lower the score directly. It affects his role, and he needs 70% of team games to make the leaderboards.</p>
+      <pre>CV_BASE = 3 × (Rate − season mean) / season SD</pre></div>
+    <div class="frame"><span class="n">5</span><h3>Add the defense</h3><p>Each team's defense is rebuilt from opponent scoring per shot and per game, shared with players by minutes, and capped between −0.75 and +1.5. Complete for NBA 1957–58 to 2023–24.</p>
+      <pre>CV = CV_BASE + DefensiveCredit</pre></div>
+  </div>
+
+  <div class="magic">
+    <div class="big" aria-hidden="true">3</div>
+    <div class="prose">
+      <h3 style="font:400 28px/1.1 var(--display);margin-bottom:8px">Three is the magic number</h3>
+      <p>Three CV points equal one standard deviation within the season. A score of 9 sits about three standard deviations above that season's average player-game. In most years that's among the league's two or three best, whether the year is 1965 or 2015.</p>
+    </div>
+  </div>
 
   <div class="grid2 block">
-    <div class="prose">
-      <h3>Coverage</h3>
-      <dl class="defs" style="margin-top:10px">
-        <dt>Full CV</dt><dd>NBA 1958–2024</dd>
-        <dt>CV_BASE only</dt><dd>NBA 1952–57, NBA 2025–26, ABA 1968–76</dd>
-        <dt>Seasons</dt><dd>26,208 player-season-league rows</dd>
-        <dt>Leaderboard rule</dt><dd>At least 70% of team games</dd>
+    <div class="card prose">
+      <h3>What's covered</h3>
+      <dl class="defs">
+        <dt>Full CV</dt><dd>NBA 1957–58 to 2023–24</dd>
+        <dt>CV_BASE only</dt><dd>NBA 1951–52 to 1956–57 and 2024–25 onward; ABA 1967–68 to 1975–76</dd>
+        <dt>Rows</dt><dd>26,208 player-seasons</dd>
+        <dt>Leaderboards</dt><dd>At least 70% of team games</dd>
       </dl>
     </div>
-    <div class="prose">
+    <div class="card prose">
       <h3>Known limits</h3>
-      <ul class="list">
-        <li>The box score before 1974 has no steals, blocks or turnovers, so CV uses none for any era.</li>
-        <li>Relative standing in a season does not prove equal absolute strength across eras or leagues.</li>
-        <li>Recent decades still hold slightly more of the all-time top 100 than their share of seasons.</li>
-        <li>A brief appearance receives the whole game's margin.</li>
+      <ul class="list" style="margin:8px 0 0">
+        <li>Box scores before 1973–74 have no steals, blocks or turnovers, so CV uses none in any era.</li>
+        <li>Standing within a season doesn't prove equal strength across eras or leagues.</li>
+        <li>Recent decades still hold a few more of the all-time top 100 than their share of seasons.</li>
+        <li>A one-minute appearance gets the whole game's margin.</li>
       </ul>
     </div>
   </div>
@@ -252,29 +311,28 @@ EffAdj    = 0.30 × (PTS − 0.92 × LeaguePtsPerAttempt × Attempts)</pre></div
 </section>
 
 <section id="downloads" data-page hidden>
-  <span class="eyebrow">Downloads and changelog</span>
-  <h2 style="margin:8px 0 18px">Get the data</h2>
+  <span class="eyebrow">Data and changelog</span>
+  <h2 style="margin:6px 0 16px">Take the numbers with you</h2>
   <div class="dl-row">
-    <div><h3>CV scores, version <span class="ver">1.0</span></h3><p class="muted" style="margin:4px 0 0">Every scored player-season: player, season, league, teams, games, minutes, qualification, score basis, full CV, CV_BASE, defensive credit and ranks. CSV, about 4 MB.</p></div>
+    <div><h3>CV scores, version <span class="ver">1.0</span></h3><p class="soft" style="margin:4px 0 0">Every scored player-season: player, season, league, teams, games, minutes, qualification, score basis, full CV, CV_BASE, defensive credit and ranks. CSV, about 4 MB.</p></div>
     <a class="btn" href="data/PUBLIC_cv_scores.csv" download>Download CSV</a>
   </div>
   <div class="dl-row">
-    <div><h3>Code, specification and validation</h3><p class="muted" style="margin:4px 0 0">The calculator, technical specification, worked examples, audit and anomaly log.</p></div>
+    <div><h3>Code, specification and validation</h3><p class="soft" style="margin:4px 0 0">The calculator, technical specification, worked examples, audit summary and anomaly log.</p></div>
     <a class="btn secondary" id="repo-link" href="#contact">View on GitHub</a>
   </div>
-
   <div class="grid2 block">
-    <div class="prose">
+    <div class="card prose">
       <h3>Cite Court Value</h3>
-      <pre id="citation">Tavolieri, Mario, III. Court Value (CV): a historically portable NBA/ABA player-season value metric. Version 1.0. 2026.</pre>
-      <button type="button" class="btn secondary" id="copy-cite" style="margin-top:10px">Copy citation</button>
+      <pre id="citation" style="white-space:pre-wrap">Tavolieri, Mario, III. Court Value (CV): a historically portable NBA/ABA player-season value metric. Version 1.0. 2026.</pre>
+      <button type="button" class="btn secondary" id="copy-cite" style="margin-top:12px">Copy citation</button>
       <p class="note">Scores and documentation: CC BY 4.0. Code: MIT. Underlying statistics come from Basketball-Reference, via the Kaggle dataset "NBA Stats (1947–present)" by Sumitro Datta. Raw statistics are not redistributed.</p>
     </div>
-    <div class="prose">
+    <div class="card prose">
       <h3>Changelog</h3>
-      <dl class="defs" style="margin-top:10px">
-        <dt>1.0</dt><dd>First public release. Team context uses games-played margin of victory; league-season scores are weighted by games played.</dd>
-        <dt>Before 1.0</dt><dd>Research versions CELTIC (2025) and ARC (2026). Not public releases.</dd>
+      <dl class="defs">
+        <dt>1.0</dt><dd>First public release. Team context uses the margin in games actually played; season scores are weighted by games played.</dd>
+        <dt>Pre-1.0</dt><dd>Research versions CELTIC (2025) and ARC (2026). Never published as releases.</dd>
       </dl>
       <p class="note">Published scores never change silently. Corrections and new seasons get a new version or data revision, and older files stay available.</p>
     </div>
@@ -283,11 +341,11 @@ EffAdj    = 0.30 × (PTS − 0.92 × LeaguePtsPerAttempt × Attempts)</pre></div
 
 <section id="contact" data-page hidden>
   <span class="eyebrow">Contact</span>
-  <h2 style="margin:8px 0 12px">Questions, corrections, arguments</h2>
+  <h2 style="margin:6px 0 12px">Questions, corrections, arguments</h2>
   <div class="prose">
-    <p>Found a season that looks wrong, or a data error? Disagreement is useful: persistent gaps between CV and other measures are exactly what the audit investigates.</p>
-    <p id="contact-issues">Open an issue on the project's GitHub page and include the player, season and what you expected.</p>
-    <p class="muted">Court Value is built and maintained by Mario Tavolieri III.</p>
+    <p>Found a season that looks wrong, or a data error? Good. When CV and another measure keep disagreeing, that gap is exactly what the audit sets out to explain.</p>
+    <p id="contact-issues">Open an issue on the project's GitHub page with the player, the season and what you expected.</p>
+    <p class="soft">Court Value is built and maintained by Mario Tavolieri III.</p>
   </div>
 </section>
 
@@ -300,14 +358,14 @@ EffAdj    = 0.30 × (PTS − 0.92 × LeaguePtsPerAttempt × Attempts)</pre></div
 
 <script>
 (function(){
-  // Site configuration: set once the repository exists.
   var CONFIG = { repo: "https://github.com/mariotavoiii/court-value", version: "1.0" };
+  var NS = "http://www.w3.org/2000/svg";
 
-  var pages = Array.prototype.slice.call(document.querySelectorAll("[data-page]"));
-  var navs = Array.prototype.slice.call(document.querySelectorAll("[data-nav]"));
+  var pages = [].slice.call(document.querySelectorAll("[data-page]"));
+  var navs = [].slice.call(document.querySelectorAll("[data-nav]"));
   function route(){
-    var id = (location.hash || "#home").slice(1);
-    if (!document.getElementById(id) || !document.getElementById(id).hasAttribute("data-page")) id = "home";
+    var id = (location.hash || "#home").slice(1), el = document.getElementById(id);
+    if (!el || !el.hasAttribute("data-page")) id = "home";
     pages.forEach(function(p){ p.hidden = p.id !== id; });
     navs.forEach(function(a){ if (a.dataset.nav === id) a.setAttribute("aria-current","page"); else a.removeAttribute("aria-current"); });
     window.scrollTo(0,0);
@@ -316,43 +374,150 @@ EffAdj    = 0.30 × (PTS − 0.92 × LeaguePtsPerAttempt × Attempts)</pre></div
 
   document.querySelectorAll(".ver").forEach(function(el){ el.textContent = CONFIG.version; });
   if (CONFIG.repo){
-    var rl = document.getElementById("repo-link"); rl.href = CONFIG.repo;
+    document.getElementById("repo-link").href = CONFIG.repo;
     document.getElementById("spec-link").innerHTML = 'The exact specification, worked examples, validation and limitations are published with the code on <a href="' + CONFIG.repo + '">GitHub</a>.';
-    document.getElementById("contact-issues").innerHTML = 'Open an issue at <a href="' + CONFIG.repo + '/issues">' + CONFIG.repo.replace("https://","") + '/issues</a> with the player, season and what you expected.';
+    document.getElementById("contact-issues").innerHTML = 'Open an issue at <a href="' + CONFIG.repo + '/issues">' + CONFIG.repo.replace("https://","") + '/issues</a> with the player, the season and what you expected.';
   }
   document.getElementById("copy-cite").addEventListener("click", function(){
-    var t = document.getElementById("citation").textContent, btn = this;
+    var btn = this, el = document.getElementById("citation");
     function done(){ btn.textContent = "Copied"; setTimeout(function(){ btn.textContent = "Copy citation"; }, 1600); }
-    try { navigator.clipboard.writeText(t).then(done, select); } catch(e){ select(); }
-    function select(){ var r = document.createRange(); r.selectNodeContents(document.getElementById("citation")); var s = getSelection(); s.removeAllRanges(); s.addRange(r); btn.textContent = "Selected. Press Copy."; }
+    function sel(){ var r = document.createRange(); r.selectNodeContents(el); var s = getSelection(); s.removeAllRanges(); s.addRange(r); btn.textContent = "Selected. Press Copy."; }
+    try { navigator.clipboard.writeText(el.textContent).then(done, sel); } catch(e){ sel(); }
   });
 
-  function seasonLabel(y){ var p = y - 1; return p + "–" + String(y).slice(-2); }
+  function seasonLabel(y){ return (y - 1) + "–" + String(y).slice(-2); }
   function fmt(x){ return x === null ? "—" : x.toFixed(2); }
   function esc(s){ return String(s).replace(/[&<>"]/g, function(c){ return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]; }); }
+  function svg(tag, attrs, parent){ var e = document.createElementNS(NS, tag); for (var k in attrs) e.setAttribute(k, attrs[k]); if (parent) parent.appendChild(e); return e; }
 
-  // Row fields: id, player, season, lg(0 NBA/1 ABA), teams, g, mp, q, cov, cv, base, def, rs, ra, brs, bra
-  var ROWS = [], state = { basis: "full", season: "all", league: "all", q: true, text: "", shown: 50 };
+  // Row fields: 0 id, 1 player, 2 season, 3 lg(0 NBA/1 ABA), 4 teams, 5 g, 6 mp, 7 q, 8 cov, 9 cv, 10 base, 11 def, 12 rs, 13 ra, 14 brs, 15 bra
+  var ROWS = [], BYID = {}, state = { basis: "full", season: "all", league: "all", q: true, text: "", shown: 50 };
 
-  fetch("data/scores.json").then(function(r){ if(!r.ok) throw new Error(r.status); return r.json(); }).then(function(d){
+  fetch("data/scores.json").then(function(r){ if (!r.ok) throw new Error(r.status); return r.json(); }).then(function(d){
     ROWS = d.rows;
+    ROWS.forEach(function(r){ (BYID[r[0]] = BYID[r[0]] || []).push(r); });
     document.getElementById("rev").textContent = d.meta.data_revision;
-    var seasons = {}; ROWS.forEach(function(r){ seasons[r[2]] = true; });
+    var seasons = {}; ROWS.forEach(function(r){ seasons[r[2]] = 1; });
     var sel = document.getElementById("f-season");
-    Object.keys(seasons).map(Number).sort(function(a,b){return b-a;}).forEach(function(y){
+    Object.keys(seasons).map(Number).sort(function(a,b){ return b-a; }).forEach(function(y){
       var o = document.createElement("option"); o.value = y; o.textContent = seasonLabel(y); sel.appendChild(o);
     });
-    renderTop10(); render();
+    renderTop10(); renderBest(); render();
   }).catch(function(){
-    var msg = '<tr><td colspan="7" class="status">The score file could not be loaded. Download the CSV from the Downloads page instead.</td></tr>';
+    var msg = '<tr><td colspan="7" class="status">The score file could not be loaded. Download the CSV from the Data page instead.</td></tr>';
     document.getElementById("top10").innerHTML = msg; document.getElementById("rank-body").innerHTML = msg;
+    document.getElementById("best-chart").innerHTML = '<div class="status">The chart could not be loaded.</div>';
+  });
+
+  function plink(r){ return "<button type='button' class='plink' data-pid='" + esc(r[0]) + "'>" + esc(r[1]) + "</button>"; }
+  document.addEventListener("click", function(e){
+    var b = e.target.closest && e.target.closest(".plink"); if (!b) return;
+    if (location.hash !== "#rankings") location.hash = "#rankings";
+    showPlayer(b.getAttribute("data-pid"));
   });
 
   function renderTop10(){
     var top = ROWS.filter(function(r){ return r[13] !== null && r[13] <= 10; }).sort(function(a,b){ return a[13]-b[13]; });
     document.getElementById("top10").innerHTML = top.map(function(r){
-      return "<tr><td class='rk num'>"+r[13]+"</td><td class='player'>"+esc(r[1])+"</td><td>"+seasonLabel(r[2])+"</td><td>"+esc(r[4])+"</td><td class='cv'>"+fmt(r[9])+"</td><td class='num'>"+fmt(r[10])+"</td><td class='num'>"+fmt(r[11])+"</td></tr>";
+      return "<tr><td class='rk'>" + r[13] + "</td><td class='player'>" + plink(r) + "</td><td>" + seasonLabel(r[2]) + "</td><td class='num'>" + esc(r[4]) + "</td><td class='cv'>" + fmt(r[9]) + "</td><td class='num'>" + fmt(r[10]) + "</td><td class='num'>" + fmt(r[11]) + "</td></tr>";
     }).join("");
+  }
+
+  // Generic single-series dot/line chart with a crosshair tooltip.
+  function drawChart(host, pts, opts){
+    host.innerHTML = "";
+    var W = opts.width || 1040, H = opts.height || 320, m = {t:16, r:16, b:30, l:38};
+    var xs = pts.map(function(p){ return p.x; }), x0 = Math.min.apply(null, xs), x1 = Math.max.apply(null, xs);
+    if (x0 === x1){ x0 -= 1; x1 += 1; }
+    var ys = pts.map(function(p){ return p.y; });
+    var yMin = Math.min(opts.yMin, Math.floor(Math.min.apply(null, ys) / 2) * 2), yMax = Math.max(opts.yMax, Math.ceil(Math.max.apply(null, ys) / 2) * 2);
+    var X = function(v){ return m.l + (v - x0) / (x1 - x0) * (W - m.l - m.r); };
+    var Y = function(v){ return m.t + (yMax - v) / (yMax - yMin) * (H - m.t - m.b); };
+    var s = svg("svg", {viewBox: "0 0 " + W + " " + H, role: "img", "aria-label": opts.label}, host);
+    var ax = svg("g", {"class": "axis"}, s);
+    var step = (yMax - yMin) > 12 ? 4 : 2;
+    for (var v = Math.ceil(yMin / step) * step; v <= yMax; v += step){
+      svg("line", {x1: m.l, x2: W - m.r, y1: Y(v), y2: Y(v), "class": v === 0 ? "baseline" : "gridline"}, ax);
+      var t = svg("text", {x: m.l - 8, y: Y(v) + 4, "text-anchor": "end"}, ax); t.textContent = v;
+    }
+    var span = x1 - x0, xstep = span > 40 ? 10 : span > 16 ? 4 : span > 6 ? 2 : 1;
+    for (var yx = Math.ceil(x0 / xstep) * xstep; yx <= x1; yx += xstep){
+      var tx = svg("text", {x: X(yx), y: H - 8, "text-anchor": "middle"}, ax); tx.textContent = opts.xfmt ? opts.xfmt(yx) : yx;
+    }
+    if (opts.ref !== undefined && opts.ref <= yMax){
+      svg("line", {x1: m.l, x2: W - m.r, y1: Y(opts.ref), y2: Y(opts.ref), "class": "ref"}, s);
+      var rl = svg("text", {x: W - m.r, y: Y(opts.ref) - 6, "text-anchor": "end", "class": "reflabel"}, s); rl.textContent = opts.refLabel;
+    }
+    if (opts.line){
+      // break the line where seasons are missing
+      var d = "", prev = null;
+      pts.forEach(function(p){ d += (prev !== null && p.x - prev === 1 ? "L" : "M") + X(p.x).toFixed(1) + "," + Y(p.y).toFixed(1); prev = p.x; });
+      svg("path", {d: d, "class": "line"}, s);
+    }
+    var dots = pts.map(function(p){ return svg("circle", {cx: X(p.x), cy: Y(p.y), r: opts.r || 4.5, "class": "dot" + (opts.hot && opts.hot(p) ? " hot" : "")}, s); });
+    var tip = document.createElement("div"); tip.className = "tip"; tip.hidden = true; host.appendChild(tip);
+    var hit = svg("rect", {x: m.l, y: m.t, width: W - m.l - m.r, height: H - m.t - m.b, "class": "hit"}, s);
+    function nearest(clientX){
+      var box = s.getBoundingClientRect(), vx = (clientX - box.left) / box.width * W, best = 0, bd = Infinity;
+      pts.forEach(function(p, i){ var dd = Math.abs(X(p.x) - vx); if (dd < bd){ bd = dd; best = i; } });
+      return best;
+    }
+    var last = -1;
+    function show(i){
+      if (last >= 0) dots[last].setAttribute("r", opts.r || 4.5);
+      dots[i].setAttribute("r", (opts.r || 4.5) + 2.5); last = i;
+      var box = s.getBoundingClientRect(), hb = host.getBoundingClientRect(), p = pts[i];
+      tip.innerHTML = opts.tip(p); tip.hidden = false;
+      var left = box.left - hb.left + X(p.x) / W * box.width, top = box.top - hb.top + Y(p.y) / H * box.height;
+      left = Math.max(90, Math.min(hb.width - 90, left));
+      tip.style.left = left + "px"; tip.style.top = top + "px";
+    }
+    function hide(){ tip.hidden = true; if (last >= 0) dots[last].setAttribute("r", opts.r || 4.5); last = -1; }
+    hit.addEventListener("pointermove", function(e){ show(nearest(e.clientX)); });
+    hit.addEventListener("pointerdown", function(e){ show(nearest(e.clientX)); });
+    hit.addEventListener("pointerleave", hide);
+    if (opts.onClick) hit.addEventListener("click", function(e){ opts.onClick(pts[nearest(e.clientX)]); });
+  }
+
+  function renderBest(){
+    var best = {};
+    ROWS.forEach(function(r){ if (r[13] !== null && r[12] === 1) best[r[2]] = r; });
+    var pts = Object.keys(best).map(Number).sort(function(a,b){ return a-b; }).map(function(y){ var r = best[y]; return {x: y, y: r[9], r: r}; });
+    drawChart(document.getElementById("best-chart"), pts, {
+      label: "Highest full CV in each NBA season", yMin: 0, yMax: 16, line: true, r: 5,
+      xfmt: function(y){ return seasonLabel(y); }, ref: 12, refLabel: "12: ALL-TIME TERRITORY",
+      hot: function(p){ return p.y >= 12; },
+      tip: function(p){ return "<b>" + esc(p.r[1]) + "</b> · " + seasonLabel(p.x) + "<br>CV " + p.y.toFixed(2) + " · " + esc(p.r[4]); },
+      onClick: function(p){ location.hash = "#rankings"; showPlayer(p.r[0]); }
+    });
+  }
+
+  var currentPid = null;
+  function showPlayer(pid){
+    currentPid = pid;
+    var rows = (BYID[pid] || []).slice().sort(function(a,b){ return a[2]-b[2] || a[3]-b[3]; });
+    var panel = document.getElementById("player-panel");
+    if (!rows.length){ panel.hidden = true; return; }
+    var full = state.basis === "full", k = full ? 9 : 10;
+    var pts = rows.filter(function(r){ return r[k] !== null; }).map(function(r){ return {x: r[2], y: r[k], r: r}; });
+    // one value per season: prefer NBA row when a player has two leagues in one season
+    var seen = {}; pts = pts.filter(function(p){ if (seen[p.x]) return false; seen[p.x] = 1; return true; });
+    var q = rows.filter(function(r){ return r[7] && r[k] !== null; });
+    var peak = q.slice().sort(function(a,b){ return b[k]-a[k]; })[0];
+    panel.hidden = false;
+    panel.innerHTML = "<div class='pp-head'><div><span class='eyebrow'>Career · " + (full ? "Full CV" : "CV_BASE") + "</span><h3>" + esc(rows[0][1]) + "</h3></div><button type='button' class='pp-close' id='pp-close'>Close</button></div>" +
+      "<div class='pp-stats'><span>Seasons <b>" + seasonLabel(rows[0][2]) + " to " + seasonLabel(rows[rows.length-1][2]) + "</b></span>" +
+      (peak ? "<span>Best qualified <b>" + peak[k].toFixed(2) + " in " + seasonLabel(peak[2]) + "</b></span>" : "") +
+      "<span>Qualified seasons shown <b>" + q.length + "</b></span></div><div class='chart' id='pp-chart'></div>" +
+      (pts.length ? "<p class='caption'>" + (full ? "Full CV exists only for NBA 1957–58 to 2023–24. Switch to CV_BASE to see other seasons." : "CV_BASE has no defensive component.") + " Breaks in the line are seasons without this score. Unqualified seasons are included.</p>" : "<p class='note'>No " + (full ? "full CV" : "CV_BASE") + " seasons for this player. Try the other score.</p>");
+    document.getElementById("pp-close").onclick = function(){ panel.hidden = true; };
+    if (pts.length) drawChart(document.getElementById("pp-chart"), pts, {
+      label: "Career CV for " + rows[0][1], yMin: -2, yMax: 8, line: true, width: 1000, height: 260,
+      xfmt: function(y){ return seasonLabel(y); }, ref: 11, refLabel: "11: TYPICAL MVP",
+      hot: function(p){ return p.y >= 12; },
+      tip: function(p){ return "<b>" + seasonLabel(p.x) + "</b> · " + esc(p.r[4]) + "<br>" + (full ? "CV " : "CV_BASE ") + p.y.toFixed(2) + " · " + p.r[5] + " G" + (p.r[7] ? "" : " · not qualified"); }
+    });
+    panel.scrollIntoView({block: "nearest"});
   }
 
   var head = document.getElementById("rank-head"), body = document.getElementById("rank-body");
@@ -373,8 +538,8 @@ EffAdj    = 0.30 × (PTS − 0.92 × LeaguePtsPerAttempt × Attempts)</pre></div
   function render(){
     var full = state.basis === "full";
     document.getElementById("basis-note").innerHTML = full
-      ? "Full CV includes the defensive credit. It exists for NBA 1958–2024 only."
-      : "<b>CV_BASE</b> has no defensive component. It covers every season, including ABA, NBA 1952–57 and the newest seasons. Don't compare it directly with full CV.";
+      ? "Full CV includes the defensive credit. It exists for NBA 1957–58 to 2023–24 only."
+      : "<mark>CV_BASE has no defensive component.</mark> It covers every season, including the ABA, the early 1950s and the newest seasons. Don't compare it directly with full CV.";
     head.innerHTML = "<th class='num'>Rank</th><th>Player</th><th>Season</th><th>Lg</th><th>Team</th><th class='num'>G</th><th class='num'>MP</th><th class='num'>" + (full ? "CV" : "CV_BASE") + "</th>" + (full ? "<th class='num'>Base</th><th class='num'>Def</th>" : "") + "<th>Status</th>";
     var rows = filtered(), shown = rows.slice(0, state.shown);
     var ri = state.season === "all" ? (full ? 13 : 15) : (full ? 12 : 14);
@@ -383,14 +548,15 @@ EffAdj    = 0.30 × (PTS − 0.92 × LeaguePtsPerAttempt × Attempts)</pre></div
       var rank = r[ri] !== null && r[7] ? r[ri] : "—";
       var status = r[7] ? "" : "<span class='pill'>Not qualified</span>";
       if (!full && r[9] === null) status += (status ? " " : "") + "<span class='pill base'>Base only</span>";
-      return "<tr><td class='rk num'>"+rank+"</td><td class='player'>"+esc(r[1])+"</td><td>"+seasonLabel(r[2])+"</td><td><span class='pill"+(r[3]?" aba":"")+"'>"+(r[3]?"ABA":"NBA")+"</span></td><td>"+esc(r[4])+"</td><td class='num'>"+r[5]+"</td><td class='num'>"+r[6].toLocaleString()+"</td><td class='cv'>"+fmt(full?r[9]:r[10])+"</td>"+(full?"<td class='num'>"+fmt(r[10])+"</td><td class='num'>"+fmt(r[11])+"</td>":"")+"<td>"+status+"</td></tr>";
+      return "<tr><td class='rk'>" + rank + "</td><td class='player'>" + plink(r) + "</td><td>" + seasonLabel(r[2]) + "</td><td><span class='pill" + (r[3] ? " aba" : "") + "'>" + (r[3] ? "ABA" : "NBA") + "</span></td><td class='num'>" + esc(r[4]) + "</td><td class='num'>" + r[5] + "</td><td class='num'>" + r[6].toLocaleString() + "</td><td class='cv'>" + fmt(full ? r[9] : r[10]) + "</td>" + (full ? "<td class='num'>" + fmt(r[10]) + "</td><td class='num'>" + fmt(r[11]) + "</td>" : "") + "<td>" + status + "</td></tr>";
     }).join("") : "<tr><td colspan='11' class='status'>No seasons match these filters.</td></tr>";
     document.getElementById("more").hidden = rows.length <= shown.length;
   }
   function set(k, v){ state[k] = v; state.shown = 50; render(); }
   var bf = document.getElementById("basis-full"), bb = document.getElementById("basis-base");
-  bf.onclick = function(){ bf.setAttribute("aria-pressed","true"); bb.setAttribute("aria-pressed","false"); set("basis","full"); };
-  bb.onclick = function(){ bb.setAttribute("aria-pressed","true"); bf.setAttribute("aria-pressed","false"); set("basis","base"); };
+  bf.onclick = function(){ bf.setAttribute("aria-pressed","true"); bb.setAttribute("aria-pressed","false"); set("basis","full"); refreshPanel(); };
+  bb.onclick = function(){ bb.setAttribute("aria-pressed","true"); bf.setAttribute("aria-pressed","false"); set("basis","base"); refreshPanel(); };
+  function refreshPanel(){ var p = document.getElementById("player-panel"); if (!p.hidden && currentPid) showPlayer(currentPid); }
   document.getElementById("f-season").onchange = function(){ set("season", this.value); };
   document.getElementById("f-league").onchange = function(){ set("league", this.value); };
   document.getElementById("f-qual").onchange = function(){ set("q", this.checked); };
@@ -398,4 +564,5 @@ EffAdj    = 0.30 × (PTS − 0.92 × LeaguePtsPerAttempt × Attempts)</pre></div
   document.getElementById("more").onclick = function(){ state.shown += 50; render(); };
 })();
 </script>
+
 </body></html>

@@ -4,7 +4,7 @@
 # Needs Python 3.11+ and internet access to PyPI. Writes only to reproduction_runs/.
 set -euo pipefail
 cd "$(dirname "$0")"
-REF="${1:-releases/1.0.0-rc.3/outputs}"
+REF="${1:-releases/1.0.0/outputs}"
 PY=""
 for c in python3.13 python3.12 python3.11 python3; do
   if command -v "$c" >/dev/null && "$c" -c 'import sys; sys.exit(0 if sys.version_info >= (3,11) else 1)'; then PY="$c"; break; fi

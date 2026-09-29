@@ -28,7 +28,7 @@ These are not reopened unless an audit shows an internal inconsistency or a tech
 | 14 | Validation role | Awards, voting, recognition and outside metrics (EPM, RAPTOR, LEBRON/LAKER, BPM, VORP, WS, PER) are validation/falsification evidence, never formula inputs. **Famous players are diagnostics, never tuning targets.** |
 | 15 | Out of the 1.0 critical path | Career CV, GOAT points, HOF models, peak composites, best-N formulas, combined regular/playoff CV, projections and comparison apps. Playoff Run (primary) and Playoff Rate (companion) remain separate products. |
 | 16 | Disclosure | Exact formulas, coefficients, thresholds, tiers, populations, bounds, MOV handling, missing-data rules, aggregation order, tie rules, qualification and numerical conventions are public. This supersedes older private-coefficient notes. Raw data are not redistributed without established rights. |
-| 17 | Versioning | Candidates `1.0.0-rc.1` (superseded, preserved) and `1.0.0-rc.2` (current), data revision `2026-09-29`. Public `1.0.0` only after acceptance. Immutable output directories, input/output manifests with SHA-256, dependency lock and changelog. Future methodological changes get new versions. |
+| 17 | Versioning | Public release `1.0.0` (identical scores to rc.2/rc.3; candidates preserved), data revision `2026-09-29`. Public `1.0.0` only after acceptance. Immutable output directories, input/output manifests with SHA-256, dependency lock and changelog. Future methodological changes get new versions. |
 
 ## MOV construction note
 
@@ -45,4 +45,4 @@ A comparison with 1952-rules PER and Win Shares, their modern versions, BPM, VOR
 
 ## Gates after this document
 
-Gate 2 (audit) is substantially complete for `1.0.0-rc.2`: 0 blocking mechanical failures and one open release item (A18, the locked-dependency rebuild). Gate 3 (documentation) has drafts. Gate 4 (publication) needs rights review, authorship/licence metadata, a website and an archive. No gate is inferred from this document alone.
+**All four gates are closed for `1.0.0`.** Gate 2: 0 blocking failures and a cross-platform reproduction PASS. Gate 3: specification, worked examples and validation match the release. Gate 4: licences, citation, public repository and website are prepared. Gate 3 (documentation) has drafts. Gate 4 (publication) needs rights review, authorship/licence metadata, a website and an archive. No gate is inferred from this document alone.

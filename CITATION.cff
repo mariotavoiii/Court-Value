@@ -1,9 +1,9 @@
-# Citation metadata for Court Value. Fields marked TODO are filled at the public 1.0.0 release.
+# Citation metadata for Court Value.
 cff-version: 1.2.0
 message: "If you use Court Value scores or methodology, please cite it as below."
 title: "Court Value (CV): a historically portable NBA/ABA player-season value metric"
 type: dataset
-version: 1.0.0-rc.3
+version: 1.0.0
 authors:
   - given-names: Mario
     family-names: Tavolieri
@@ -25,7 +25,7 @@ license:
   - CC-BY-4.0
   - MIT
 # CC-BY-4.0 applies to the CV scores and documentation; MIT applies to the source code.
-# date-released: TODO (set at 1.0.0 release)
-# url: TODO (canonical website)
-# repository-code: TODO (public repository)
+date-released: "2026-09-29"
+url: "https://mariotavoiii.github.io/court-value/"
+repository-code: "https://github.com/mariotavoiii/court-value"
 # doi: TODO (Zenodo DOI, if archived)

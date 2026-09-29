@@ -1,6 +1,6 @@
-# Court Value 1.0.0-rc.2: validation summary
+# Court Value 1.0.0: validation summary
 
-Candidate: model `1.0.0-rc.2`, data revision `2026-09-29`, built by `build_release.py` from `private_inputs/2026-09-29` (hash-verified against `input_manifest.json`). Audit: `audit_candidate.py` on the candidate outputs. Evidence tables are in `releases/1.0.0-rc.2/audit/`. The rc.1 evidence is preserved in `releases/1.0.0-rc.1/`. Every issue raised is recorded in `anomaly_log.csv` as a **bug**, an **accepted consequence** or **unresolved**.
+Release: model `1.0.0`. Scores are identical to candidates rc.2 and rc.3. Audited candidate: model `1.0.0-rc.2`, data revision `2026-09-29`, built by `build_release.py` from `private_inputs/2026-09-29` (hash-verified against `input_manifest.json`). Audit: `audit_candidate.py` on the candidate outputs. Evidence tables are in `releases/1.0.0-rc.2/audit/`. The rc.1 evidence is preserved in `releases/1.0.0-rc.1/`. Every issue raised is recorded in `anomaly_log.csv` as a **bug**, an **accepted consequence** or **unresolved**.
 
 These checks are descriptive. No coefficient was fitted or changed in response to any result.
 
@@ -12,7 +12,7 @@ These checks are descriptive. No coefficient was fitted or changed in response t
 | Clean-room rebuild (fresh directory, copied code and inputs, empty environment) | **Byte-identical** on all 6 output files and the build summary |
 | Frozen control (`cv1/control_v2026_5.py`, full-season MOV) vs saved frozen reconstruction (`frozen_defense_player_seasons.csv`, built on pandas 2.2.3) | 26,219/26,219 keys; max difference **0.0** for base, defensive credit and full CV; no missingness or qualification changes |
 | Worked examples recomputed from raw totals, independently of the engine | max difference 1.1e-13 |
-| Locked-dependency rebuild (pandas 2.2.3 / numpy 2.3.5) | **Not yet run** (A18). The candidate was built on pandas 3.0.2 / numpy 2.4.4. |
+| Cross-platform rebuild under `requirements.lock` (macOS, Python 3.14.7 vs Linux, Python 3.11.15; pandas 3.0.2, numpy 2.4.4) | **PASS**: all 7 outputs, max difference 0.0 (`releases/1.0.0/reproduction/`) |
 
 "Independently reproducible" may not be claimed until an outside-style rebuild from obtainable inputs succeeds under the locked environment.
 
@@ -111,7 +111,6 @@ Mean within-season Spearman correlation with modern metrics, same panel:
 - PER_1952 is slightly more stable year to year than CV.
 - These results were not used to fit anything.
 
-## 8. Open items before 1.0.0
+## 8. Status
 
-1. A18: locked-dependency rebuild and comparison, tolerance 1e-12.
-2. Gate 4 items: rights review of each source, authorship and licence metadata, website, archive/DOI.
+All release gates are closed. Publication items (repository, website, archive DOI) are tracked in the changelog.
