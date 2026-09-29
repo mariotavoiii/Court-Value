@@ -1,6 +1,6 @@
 # Court Value (CV)
 
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23040991.svg)](https://doi.org/10.5281/zenodo.23040991)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23045497.svg)](https://doi.org/10.5281/zenodo.23045497)
 
 **One number for a player's season, measured the same way since 1952.**
 
@@ -47,14 +47,14 @@ Audit evidence tables and research experiments are kept with the private inputs;
 
 ## Versions
 
-- **1.1.0:** one defensive rule for every season. Opponent shot attempts, unrecorded before 1970–71, are estimated the same way for all of history, so full CV now covers NBA 1952–2026 and the ABA. Base scores are unchanged. See the [changelog](CHANGELOG.md).
+- **1.1.0:** one defensive rule for every season. Opponent shot attempts, unrecorded before 1970–71, are estimated the same way for all of history, so full CV now covers NBA 1952–2026 and the ABA. Base scores are unchanged. See the [changelog](CHANGELOG.md). [Zenodo](https://doi.org/10.5281/zenodo.23045497).
 - **1.0.1 / 1.0.0:** first public release ([Zenodo](https://doi.org/10.5281/zenodo.23040991)).
 
 ## Citation and licences
 
 Please cite as described in [`CITATION.cff`](CITATION.cff):
 
-> Tavolieri, Mario, III. *Court Value (CV): a historically portable NBA/ABA player-season value metric.* Version 1.1.0. Zenodo, 2026. https://doi.org/10.5281/zenodo.23040991
+> Tavolieri, Mario, III. *Court Value (CV): a historically portable NBA/ABA player-season value metric.* Version 1.1.0. Zenodo, 2026. https://doi.org/10.5281/zenodo.23045497
 
 - **Scores and documentation:** [CC BY 4.0](LICENSE-DATA).
 - **Code:** [MIT](LICENSE-CODE).
