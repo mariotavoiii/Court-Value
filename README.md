@@ -1,5 +1,7 @@
 # Court Value (CV)
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23040991.svg)](https://doi.org/10.5281/zenodo.23040991)
+
 **One number for a player's season, measured the same way since 1952.**
 
 Court Value rates every NBA (1952–present) and ABA (1968–76) regular season on one historically portable scale. It uses only information that exists for every season:
@@ -47,7 +49,7 @@ Audit evidence tables and research experiments are kept with the private inputs;
 
 Please cite as described in [`CITATION.cff`](CITATION.cff):
 
-> Tavolieri, Mario, III. *Court Value (CV): a historically portable NBA/ABA player-season value metric.* Version 1.0. 2026.
+> Tavolieri, Mario, III. *Court Value (CV): a historically portable NBA/ABA player-season value metric.* Version 1.0.1. Zenodo, 2026. https://doi.org/10.5281/zenodo.23040991
 
 - **Scores and documentation:** [CC BY 4.0](LICENSE-DATA).
 - **Code:** [MIT](LICENSE-CODE).

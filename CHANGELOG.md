@@ -7,6 +7,7 @@ All published outputs are immutable. Methodological changes receive a new model 
 - **Scores and code:** identical to 1.0.0.
 - **CITATION.cff:** now uses a single licence field, which Zenodo's reader requires.
 - **Added `.zenodo.json`** so the release can be archived with a DOI.
+- **Archived on Zenodo:** DOI [10.5281/zenodo.23040991](https://doi.org/10.5281/zenodo.23040991).
 
 ## 1.0.0 (2026-09-29, data revision 2026-09-29): first public release
 
