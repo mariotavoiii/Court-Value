@@ -1,6 +1,6 @@
-# Court Value 1.0: technical specification
+# Court Value 1.1: technical specification
 
-This specification defines the selected CV 1.0 regular-season methodology. Release status, the exact executable snapshot and audit outcome are established by the release manifest and decisions document, not by this document's title. The base architecture is the documented **v2026.5-derived reconstruction**. The missing original v2026.5 executable has not been recovered, and exact historical equivalence is not claimed.
+This specification defines the CV 1.1 regular-season methodology. It is identical to CV 1.0 except for team defense (section 7). Release status, the exact executable snapshot and audit outcome are established by the release manifest and decisions document, not by this document's title. The base architecture is the documented **v2026.5-derived reconstruction**. The missing original v2026.5 executable has not been recovered, and exact historical equivalence is not claimed.
 
 ## 1. Unit, notation and statistical conventions
 
@@ -26,7 +26,7 @@ The 70% qualification threshold is applied to recognized rankings, not to these 
 
 ## 2. Required inputs and validation
 
-The base uses player `G, MP, PTS, AST, TRB, FGA, FTA`; team `G, PTS, FGA, FTA`; opponent `PTS`; player/team/league/season identities; and a verified appearance/result table for appearance MOV. Defense additionally uses the declared game-team scoring archive for universal-attempt allocation. The [source register](SOURCES.md) identifies local schemas, snapshots and acquisition gaps.
+The base uses player `G, MP, PTS, AST, TRB, FGA, FTA`; team `G, PTS, FGA, FTA`; opponent `PTS`; player/team/league/season identities; and a verified appearance/result table for appearance MOV. Defense (1.1) additionally uses team `TRB` and nothing else; the declared game-team scoring archive is read only by the frozen 1.0 control. The [source register](SOURCES.md) identifies local schemas, snapshots and acquisition gaps.
 
 Aggregate `TOT`/multi-team rows must not be added to their component stints. Scoring keys must be unique. Positive game denominators, finite required statistics and unambiguous team joins are necessary. Missing required team context in **any** stint invalidates the player's entire base result; a traded player's valid stint must not be silently scored as the whole season. In the inherited data, the affected cases touch 1955 Baltimore. Incomplete research rows remain visible with unavailable status.
 
@@ -125,30 +125,45 @@ Qualification is evaluated in exact integer arithmetic as `10 × Games_p ≥ 7 �
 
 At fixed per-game production, role weights, context, defense and reference distributions, fewer appearances do not independently lower CV_BASE. Changes in total production, games or minutes can move offensive or defensive tiers; normalization pools may also change. Qualification changes at the threshold. The rejected `sqrt(Availability)` experiment remains excluded.
 
-## 7. Universal-attempt team defense
+## 7. Team defense (CV 1.1: season-totals possession estimate)
 
-Defense uses the inherited archived game-team player-point sums; adopting independently verified MOV results does not silently replace that separate reconstruction. Extracted archive rows are mapped to exactly two distinct teams per game. Player points are numeric, missing points are zero-filled, chunks are summed and resulting team-game points are rounded to integers before the inherited allocation. This is a disclosed data reconstruction assumption.
-
-For each team-game:
+Team defense measures how well a team held opponents below the league's scoring per attempt, with a small weight on points allowed per game. The NBA did not record opponent field-goal and free-throw attempts before 1970-71, so CV 1.1 **estimates opponent attempts for every NBA and ABA season with one frozen rule**. The rule uses only team statistics recorded since 1951-52: `G, PTS, FGA, FTA, TRB` and opponent `PTS`. Recorded opponent attempts, where they exist, are used only to fit the three coefficients once and as a diagnostic; they never score a season. Implementation: `cv1/defense_estimator.py`.
 
 ```text
-ReconciledPTS_tg = ArchivePTS_tg × OfficialSeasonPTS_t / Σ_g ArchivePTS_tg
-CombinedPTS_tg = ReconciledPTS_tg + ReconciledPTS_opponent,g
-AllocatedAttempts_tg = TeamAttempts_t × CombinedPTS_tg / Σ_g CombinedPTS_tg
-UniversalOppAttempts_t = Σ_g AllocatedAttempts_opponent,g
-OppPSA_t = OfficialOppPTS_t / UniversalOppAttempts_t
-TeamOppPPG_t = OfficialOppPTS_t / OfficialTeamGames_t
-LeagueOppPPG_L = unweighted mean_t(TeamOppPPG_t)
-PSASuppression_t = LeaguePSA_L − OppPSA_t
-PPGSuppression_t = LeagueOppPPG_L − TeamOppPPG_t
-TeamDef_t = 0.80 × Z_teams(PSASuppression_t) + 0.20 × Z_teams(PPGSuppression_t)
+OwnAtt_t          = FGA_t + 0.44 × FTA_t
+d(x)_t            = ln(x_t) − mean over the league-season's teams of ln(x)
+ln(OppAttHat_t / OwnAtt_t) = 0.6020313823981741 × d(OppPTS_t / PTS_t)
+                           + 0.8571267229514948 × d(PTS_t / OwnAtt_t)
+                           + 0.32977975821588174 × d(TRB_t / OwnAtt_t)
+                           (+ a league-season level, which cancels in the within-season Z and is not estimated)
+LeaguePSA_L       = Σ_t PTS_t / Σ_t OwnAtt_t
+OppPSA_t          = OppPTS_t / OppAttHat_t
+TeamOppPPG_t      = OppPTS_t / G_t
+LeagueOppPPG_L    = unweighted mean_t(TeamOppPPG_t)
+PSASuppression_t  = LeaguePSA_L − OppPSA_t
+PPGSuppression_t  = LeagueOppPPG_L − TeamOppPPG_t
+TeamDef_t         = 0.80 × Z_teams(PSASuppression_t) + 0.20 × Z_teams(PPGSuppression_t)
 ```
 
-There is no square root in attempt allocation. Official opponent points remain the numerator. Allocated team attempts must sum back to the corresponding known season attempts within numerical tolerance.
+Z uses the population SD across the league-season's teams. NBA and ABA are separate populations.
 
-A team is schedule-complete when its mapped game count equals official games and opponent attempts are available for all required games. The NBA season is complete only when every team is complete and there is no unresolved game-team mapping. Otherwise TeamDef is unavailable throughout that season. High-confidence defense additionally requires each team's absolute archive-versus-official scoring discrepancy divided by official points to be at most 0.01. That flag does not alter the formula or silently exclude a complete season from full CV.
+**Coefficient fit.** The fit is ordinary least squares without an intercept. Both sides are centered within each league-season. It uses the 1,484 NBA team-seasons of 1971–2026 whose opponent `FGA` and `FTA` are recorded in the declared snapshot. `defense_estimator.fit_coefficients` reproduces the frozen values exactly, and the audit checks this. The coefficients are part of the 1.1.0 model; refitting on a later data revision would be a new model version.
 
-The preserved reconstruction's extraction window is NBA 1952–2025, with complete defense actually available in 1958–2024. It does not create ABA or 2026 defense.
+**Interpretation.**
+- *Opponent scoring relative to own scoring:* a team outscored by its opponents faced more opponent attempts than its own count suggests.
+- *Own points per attempt:* efficient teams use fewer attempts per possession, so their own attempt count understates the possessions both teams shared.
+- *Rebounds per attempt:* defensive rebounds come from opponent misses, so a team with more rebounds relative to its own shots saw more opponent shots.
+
+**Accuracy against recorded attempts.** The comparison is TeamDef from estimated attempts against TeamDef from recorded attempts:
+- NBA 1971–2026: r = 0.884.
+- ABA 1968–76, not used in fitting: r = 0.838.
+- Split-sample transfer: fitted on 1971–95 and tested on 1996–2026, r = 0.90; in the reverse direction, 0.85.
+- The 1.0 universal-attempt method scored r = 0.78 on the same test.
+- The residual error is disclosed in LIMITATIONS; about one team in nine is noticeably misrated.
+
+**Coverage.** TeamDef exists for every league-season team with an official payload. The only team without one is 1955 NBA Baltimore, whose players are unscored by the base model. There is no game-level input and no reconciliation criterion. `season_complete` is true for every covered league-season, and `season_high_confidence` equals it.
+
+**1.0 method (control only).** CV 1.0 allocated each team's season attempts across games by game scoring shares from a player-box game archive (the "universal-attempt" reconstruction). That covered NBA 1958–2024 only. The method is preserved unchanged in the frozen control engine (`cv1/control_v2026_5.py`), whose `control_cv_full` column is emitted with every build. Internal column names ending in `_universal` are retained for continuity; in 1.1 they hold the season-totals estimate.
 
 ## 8. Player-season defense and full CV
 
@@ -171,7 +186,7 @@ Defensive credit approaches bounds −0.75 and +1.50. Zero raw responsibility ne
 
 ## 9. Export and ranking contract
 
-Row status fields: `score_basis` ∈ {CV_FULL, CV_BASE_ONLY, UNSCORED}; `score_status` ∈ {FULL_QUALIFIED, FULL_UNQUALIFIED, BASE_ONLY_QUALIFIED, BASE_ONLY_UNQUALIFIED, UNSCORED_MISSING_TEAM_CONTEXT}; `defense_coverage` ∈ {COMPLETE_HIGH_CONFIDENCE, COMPLETE_LOWER_CONFIDENCE, UNAVAILABLE_SEASON_NOT_COVERED, UNAVAILABLE_ABA_NOT_RECONSTRUCTED, UNAVAILABLE_ZERO_MINUTES, NOT_APPLICABLE_UNSCORED}; `mov_basis` ∈ {ALL_APPEARANCE, MIXED, ALL_FALLBACK}. Stint rows carry `mov_method` and `fallback_reason`. Exports write floats with 17 significant digits.
+Row status fields: `score_basis` ∈ {CV_FULL, CV_BASE_ONLY, UNSCORED}; `score_status` ∈ {FULL_QUALIFIED, FULL_UNQUALIFIED, BASE_ONLY_QUALIFIED, BASE_ONLY_UNQUALIFIED, UNSCORED_MISSING_TEAM_CONTEXT}; `defense_coverage` ∈ {COMPLETE_SEASON_TOTALS_ESTIMATE, UNAVAILABLE_ZERO_MINUTES, NOT_APPLICABLE_UNSCORED} (1.1; `UNAVAILABLE_SEASON_NOT_COVERED` is reserved and currently unused; the 1.0 values COMPLETE_HIGH_CONFIDENCE, COMPLETE_LOWER_CONFIDENCE and UNAVAILABLE_ABA_NOT_RECONSTRUCTED no longer occur); `mov_basis` ∈ {ALL_APPEARANCE, MIXED, ALL_FALLBACK}. Stint rows carry `mov_method` and `fallback_reason`. Exports write floats with 17 significant digits.
 
 Every research row preserves player ID, name, season, league, teams, games, minutes, availability, qualification, separate base/full/defense values, coverage and score-status flags, MOV basis and fallback information, model version and data revision. The source/input and output manifests identify the exact build.
 
@@ -183,10 +198,11 @@ CSV blanks are unavailable values, not zero. Presentation rounding does not feed
 
 | Status | Components |
 | --- | --- |
-| Selected for CV 1.0 | Reconstructed base architecture; literal verified appearance MOV with flagged fallback; all coefficients above; deterministic role/defense ties; player-season defense aggregation before Z/compression; 70% qualification |
-| Inherited/reconstructed | v2026.5-derived box, efficiency, role and context architecture; scoring-ratio factor; universal-attempt defense; documented historical coverage |
+| Selected for CV 1.0 and kept in 1.1 | Reconstructed base architecture; literal verified appearance MOV with flagged fallback; all coefficients above; deterministic role/defense ties; player-season defense aggregation before Z/compression; 70% qualification |
+| Inherited/reconstructed | v2026.5-derived box, efficiency, role and context architecture; scoring-ratio factor; defensive tiers and compression; 1.0 universal-attempt defense (control only) |
+| Changed in CV 1.1 | Team defense from the frozen season-totals possession estimate for every NBA and ABA season (section 7) |
 | Historical controls | Saved v2026.5 documentary results; full-season-MOV reconstructed control; prior anchored appearance-MOV trial |
 | Rejected or experimental | Direct square-root availability multiplier; alternative coefficient, tier, Z-population and defensive-order variants |
-| Deferred | Career/GOAT/HOF scores; peak composites; predictive talent; combined regular/playoff scoring; expanded defensive coverage |
+| Deferred | Career/GOAT/HOF scores; peak composites; predictive talent; combined regular/playoff scoring |
 
-Worked numerical examples are recorded in [WORKED_EXAMPLES.md](WORKED_EXAMPLES.md), generated from the final candidate's actual intermediates. They must cover an ordinary season, a traded season, a shortened season, an ABA season and unavailable defense. Candidate-specific validation and the anomaly register are separate release artifacts. Reproduction claims require the completed clean-build evidence; specification alone is not that evidence.
+Worked numerical examples are recorded in [WORKED_EXAMPLES.md](WORKED_EXAMPLES.md), generated from the final candidate's actual intermediates. They must cover the team-defense estimate, an ordinary season, a traded season, a shortened season, an ABA season, a pre-1958 season and the latest completed season. Candidate-specific validation and the anomaly register are separate release artifacts. Reproduction claims require the completed clean-build evidence; specification alone is not that evidence.

@@ -1,88 +1,78 @@
-# Court Value 1.0.0: validation summary
+# Court Value 1.1: validation summary
 
-Release: model `1.0.0`. Scores are identical to candidates rc.2 and rc.3. Audited candidate: model `1.0.0-rc.2`, data revision `2026-09-29`, built by `build_release.py` from `private_inputs/2026-09-29` (hash-verified against `input_manifest.json`). Audit: `audit_candidate.py` on the candidate outputs. Evidence tables are in `releases/1.0.0-rc.2/audit/`. The rc.1 evidence is preserved in `releases/1.0.0-rc.1/`. Every issue raised is recorded in `anomaly_log.csv` as a **bug**, an **accepted consequence** or **unresolved**.
+**Release:** model `1.1.0`, data revision `2026-09-29`, with the same declared input snapshot as 1.0.
+- 1.1 changes only team defense (TECHNICAL_SPECIFICATION §7). CV_BASE is identical to 1.0.0; the maximum difference is 0.
+- **Final release:** `1.1.0` scores are identical to `1.1.0-rc.1` (max difference 0); only the version label differs. Its audit is repeated in `releases/1.1.0/audit/`.
+- **Audited candidate:** `1.1.0-rc.1`, built by `build_release.py` from `private_inputs/2026-09-29`, which was hash-verified against `input_manifest.json`.
+- **Audit:** `audit_candidate.py` with `--input-dir` and `--reference-dir releases/1.0.0/outputs`. Evidence is in `releases/1.1.0-rc.1/audit/`.
+- **Earlier evidence:** the 1.0 evidence is preserved in `releases/1.0.0-rc.2/audit/` and `releases/1.0.0/`.
+- **Issues:** every one is logged in `anomaly_log.csv` (A01–A24).
 
-These checks are descriptive. No coefficient was fitted or changed in response to any result.
+The three defense coefficients are the only fitted numbers in CV. They were fitted once to **recorded opponent shot attempts**, not to awards, outside metrics or named players, and then frozen. All other checks below are descriptive.
 
 ## 1. Reproduction
 
 | Check | Result |
 | --- | --- |
-| Declared inputs | 7 files; SHA-256 verified against the input manifest before every build |
-| Clean-room rebuild (fresh directory, copied code and inputs, empty environment) | **Byte-identical** on all 6 output files and the build summary |
-| Frozen control (`cv1/control_v2026_5.py`, full-season MOV) vs saved frozen reconstruction (`frozen_defense_player_seasons.csv`, built on pandas 2.2.3) | 26,219/26,219 keys; max difference **0.0** for base, defensive credit and full CV; no missingness or qualification changes |
-| Worked examples recomputed from raw totals, independently of the engine | max difference 1.1e-13 |
-| Cross-platform rebuild under `requirements.lock` (macOS, Python 3.14.7 vs Linux, Python 3.11.15; pandas 3.0.2, numpy 2.4.4) | **PASS**: all 7 outputs, max difference 0.0 (`releases/1.0.0/reproduction/`) |
+| Declared inputs | 7 files; SHA-256 verified before every build (unchanged from 1.0) |
+| Clean-room rebuild (fresh directory, copied code and inputs) | **Byte-identical** on all 7 outputs and the build summary |
+| Defense coefficients refitted from the inputs | Exact (max difference 0) |
+| Team defense recomputed independently of the engine | 1,758 team-seasons; max difference 0 |
+| CV_BASE vs 1.0.0 release | Identical on all 26,219 rows (max difference 0) |
+| Frozen control columns vs 1.0.0 | Identical (max difference 0) |
+| Worked examples recomputed from raw totals, including one team's defense | Max difference 1.1e-13 |
 
-"Independently reproducible" may not be claimed until an outside-style rebuild from obtainable inputs succeeds under the locked environment.
+The 1.0 cross-platform result (macOS, Python 3.14.7, against Linux, Python 3.11.15; max difference 0.0) used the same locked environment. 1.1 adds only numpy/pandas arithmetic of the same kind.
 
-## 2. Mechanical checks (19 of 19 pass)
+## 2. Mechanical checks (22 of 22 pass)
 
-These checks cover: unique player-season-league and stint keys; declared leagues only; finite scores; CV = CV_BASE + DefCredit (max error 5e-15); DefCredit within [−0.75, +1.5]; the exact integer qualification rule; stint games and minutes summing to player-season totals; schedule-aware availability; no availability multiplier (rate = raw/G, max error 2e-14); games-weighted CV_BASE mean 0 and weighted population SD 3 in every league-season; eligible stints with exactly the official appearance count and verified margins; eligible MOV equal to the literal appearance mean; fallback MOV equal to full-season MOV; and the defensive layer identical between candidate and control.
+These are the 19 checks from 1.0 plus three for 1.1:
+- Full CV exists on every scored positive-minute row.
+- The defense coefficients reproduce from the inputs.
+- Team defense recomputes exactly.
 
-## 3. MOV adoption
+The 1.0 check "defensive layer unchanged vs control" is retired, because 1.1 changes the defensive layer on purpose. It is replaced by "CV_BASE unchanged vs reference release", which passes.
 
-| Quantity | Value |
-| --- | --- |
-| Stints using verified appearance MOV | 26,129 of 29,342 |
-| Explicit fallbacks | ABA unavailable 1,461; appearance count mismatch 1,050; unverified margin 453; appearances unavailable 238; team context missing 11 |
-| Player-season MOV basis | all-appearance 23,279; mixed 148; all-fallback 2,792 |
-| Newly admitted vs earlier trial | 323 stints; **323/323 independently re-derived**; max MOV error 0 |
-| MOV effect alone (rc.1 vs control), qualified full CV (13,597) | Spearman 0.99991; mean abs change 0.027; max 0.745 (Lillard 2023) |
-| rc.2 vs control (MOV + games-weighting) | Spearman 0.9990; mean change −0.75 (a level shift from the new zero point) |
-| vs prior anchored trial, previously eligible rows | max change 0.018 (the anchoring term) |
+## 3. Defense: one rule for every season
 
-The largest movements match known team-with/without patterns. Examples: Embiid 2024 (+0.82), Lillard 2023 (+0.75), Morant 2022 (−0.71; Memphis was better in the games he missed) and Jefferson 2005 (−0.76). Recognition (All-Star overlap 0.749 → 0.750, All-NBA 0.771 → 0.772, mean MVP-vote Spearman 0.701 → 0.703) and external correlations (changes ≤ 0.0012) move negligibly. These metrics were **not** adoption criteria.
+| | CV 1.0 | CV 1.1 |
+|---|---|---|
+| Seasons with full CV | NBA 1958–2024 | NBA 1952–2026, ABA 1968–76 |
+| Qualified full-CV rows | 13,597 | **15,301** (every qualified scored row) |
+| All full-CV rows | 23,161 | 26,204 (all rows except 11 unscored and 4 zero-minute) |
+| TeamDef vs TeamDef from recorded opponent attempts, NBA 1971–2026 | r = 0.777 | **r = 0.884** |
+| Same, ABA 1968–76 (not used in fitting) | n/a | **r = 0.838** |
 
-## 4. Case review
+Transfer tests use split samples and are scored against TeamDef built from recorded attempts:
 
-This review was performed on rc.1. rc.2 shifts values by about −0.75 (rank Spearman 0.999), and the dispositions are unchanged. Score values quoted below are on the rc.1 scale; current values are in `releases/1.0.0-rc.2/audit/`.
+| Fitted on → tested on | Estimate | Own attempts only (baseline) |
+|---|---:|---:|
+| NBA 1971–95 → NBA 1996–2026 | 0.902 | 0.808 |
+| NBA 1996–2026 → NBA 1971–95 | 0.851 | 0.694 |
+| NBA 1996–2026 → NBA 1971–80 | 0.843 | 0.697 |
+| NBA 1971–2026 → ABA | 0.838 | 0.693 |
 
-| Panel | Finding | Disposition |
-| --- | --- | --- |
-| Top 100 qualified full CV | All tier-1 high-usage stars; led by O'Neal 2000 (15.21), Harden 2019, Curry 2016, Chamberlain 1962, Abdul-Jabbar 1972 | No errors found |
-| Bottom 100 | Low-minute rotation players (median ≈10.6 MPG), 1959–2019 | A07, accepted: per-game value, not per-minute quality |
-| Low-games extremes | e.g. World Peace 2005 (7 G) CV_BASE 7.56 | A06, accepted: all unqualified, excluded from leaderboards |
-| Largest defensive credits | Whole tier-1 cores of elite defensive teams (1976 GSW, 1970 NYK, 2016–17 SAS/GSW) share near-maximum credit | A08, accepted: team-responsibility allocation |
-| Largest negative credits | Tier-1 players on the worst defenses (1993 DAL, 2023 SAS, 2012 CHA) | A09, accepted |
-| Traded seasons | Chamberlain 1965, Anthony 2011, McAdoo 1977, Harden 2022; stint context computed per team | Checked by the worked example (McCollum 2022) |
-| Shortened seasons | 1999 (50 G), 2012 (66), 2020 (64–75, unequal), 2021 (72); qualification uses actual team schedules | Correct. Duncan 1999 worked example. |
-| Folded franchises | ABA 1976 Utah (16 G) / San Diego (11 G) players qualify on their own team's schedule | **A04 unresolved** (leaderboard membership only) |
-| ABA | CV_BASE only; Haywood 1970 (11.30), Erving 1974 (10.65) lead; fallback MOV | Correct. Erving 1976 worked example. |
-| League crossovers | 84 player-season-league rows remain separate per league | Correct |
-| Zero-minute seasons | 4 rows; defense unavailable; unqualified | A12, accepted |
-| Archetypes | 22 named diagnostics in `representative_archetypes.csv` (Russell, Rodman, Green, Poole, DPOY disagreements, Leonard 2019, Embiid 2024, Jokić 2025) | Diagnostics only; no tuning |
+The estimate holds up in the earliest recorded decade and in a league it never saw, which is the best available evidence that it can be applied before 1971. Scripts: `experiments/2026-09-29_defense_coverage/`.
 
-## 5. Stability and eras
+**Change from 1.0** (13,597 qualified rows scored in both):
+- Spearman 0.995, mean absolute change 0.196, maximum 1.79.
+- The largest moves are whole teams re-rated:
+  - 1976 Chicago rises; the estimate overshoots.
+  - 1970 San Francisco rises.
+  - 2014 Miami falls. The recorded attempts agree with 1.1 there: −0.22 recorded, −0.40 in 1.1, +1.21 in 1.0.
+- `largest_changes_vs_reference.csv` lists the top 100.
 
-Adjacent-season correlation among qualified returning players: NBA full CV r = 0.856 (Spearman 0.813, 9,601 pairs, 1958–2023); NBA CV_BASE r = 0.866 (10,215 pairs); ABA CV_BASE r = 0.776. Median absolute year-to-year change is about 1.06 CV.
+## 4. Awards, stability and outside metrics
 
-**Era distribution (A05, resolved in rc.2 with a residual).** Games-weighted standardization reduced the drift in the qualified mean. The mean qualified full CV by decade is now 0.42 (1950s), 0.47 (1960s), 0.53 (1970s), 0.55 (1980s), 0.68 (1990s), 0.74 (2000s), 0.82 (2010s) and 1.02 (2020s). The 1960s-to-2020s gap is 0.55, down from 0.83 in rc.1.
+Qualified NBA seasons, 1977–2024 (n = 11,543), the panel where every metric exists:
 
-The all-time top 100 still over-represents the 2010s–2020s (42 against about 28 expected) and under-represents the 1970s–80s (13 against about 28). The remaining tail is accepted and disclosed; no era coefficient is used.
-
-## 6. External metrics and disagreements
-
-On 13,597 qualified full-CV seasons, Spearman correlation with WS is 0.86, VORP 0.79, PER 0.78, LAKER WAR 0.83 and BPM 0.72. These are unchanged from rc.1 to within 0.006. These metrics share box-score inputs, so they are one correlated evidence family rather than independent confirmations.
-
-The largest disagreements fall into two coherent groups:
-
-- **CV above consensus (A10):** high-minute, high-volume, below-average-efficiency starters, e.g. RJ Barrett 2023, Dillon Brooks 2021/2023, Andrew Wiggins 2018–19, Monta Ellis 2010, Reggie Jackson 2022. CV credits per-game volume and top-tier responsibility, and its efficiency term is mild (0.30 × points above 92% of league scoring per attempt). Per-possession metrics penalize the same seasons heavily. This is the intended difference between a value/responsibility score and an efficiency-rate score.
-- **CV below consensus (A11):** efficient low-minute bigs and specialists, e.g. Mitchell Robinson 2019–20, Ekpe Udoh 2018, Luke Kornet 2023, JaVale McGee 2018, Jakob Poeltl 2019–20. CV is per game, not per minute, and these players carry little box-score volume or role.
-
-Neither group reveals a data or arithmetic error.
-
-## 7. CV versus 1952-rules PER and Win Shares, modern metrics and awards
-
-The original goal was to do better than Win Shares and PER as they can be computed from 1952-available data. PER_1952 and WS_1952 were computed for every NBA and ABA season from 1952–2025 using Basketball-Reference's historical formulas: no 3P, TOV, STL, BLK or ORB; VOP = 1; DRB% = .7; estimated pace. For NBA 1952–73, where Basketball-Reference itself uses these formulas, the recomputation matches its published PER and WS at r = 0.999/1.000 with mean absolute error 0.03. Full tables are in `experiments/2026-09-29_1952_metrics_comparison/`.
-
-Qualified NBA seasons from 1977–2024, the panel where every metric exists (n = 11,543):
-
-| Metric | All-Star overlap | All-NBA overlap | MVP winner #1 | MVP winner top 3 | MVP-vote ρ | Year-to-year r |
+| Metric | All-Star | All-NBA | MVP #1 | MVP top 3 | MVP-vote ρ | Year-to-year r |
 |---|---:|---:|---:|---:|---:|---:|
-| **CV** | **0.754** | **0.781** | 0.48 | **0.94** | **0.744** | 0.80 |
+| **CV 1.1** | 0.750 | 0.777 | **0.52** | **0.96** | 0.734 | 0.80 |
+| CV 1.0 | **0.754** | **0.781** | 0.48 | 0.94 | **0.744** | 0.80 |
 | CV_BASE | 0.750 | 0.780 | 0.48 | 0.85 | 0.729 | 0.81 |
-| PER_1952 | 0.640 | 0.677 | 0.46 | 0.77 | 0.645 | **0.83** |
+| CV with recorded-attempt defense (reference only) | 0.750 | 0.775 | 0.48 | 0.92 | 0.719 | 0.80 |
+| PER_1952 | 0.640 | 0.677 | 0.46 | 0.77 | 0.645 | 0.83 |
 | WS_1952 | 0.556 | 0.531 | 0.48 | 0.65 | 0.507 | 0.73 |
 | PER (modern) | 0.643 | 0.708 | 0.56 | 0.83 | 0.675 | 0.78 |
 | WS (modern) | 0.663 | 0.694 | 0.56 | 0.83 | 0.633 | 0.69 |
@@ -90,27 +80,46 @@ Qualified NBA seasons from 1977–2024, the panel where every metric exists (n =
 | VORP | 0.678 | 0.714 | 0.54 | 0.85 | 0.654 | 0.74 |
 | LAKER WAR | 0.660 | 0.676 | 0.54 | 0.73 | 0.627 | 0.71 |
 
-Mean within-season Spearman correlation with modern metrics, same panel:
-
-| | PER | WS | WS/48 | BPM | VORP | LAKER | LAKER WAR |
-|---|---:|---:|---:|---:|---:|---:|---:|
-| CV | 0.787 | **0.859** | 0.632 | **0.724** | **0.793** | **0.742** | **0.827** |
-| PER_1952 | **0.927** | 0.705 | 0.632 | 0.653 | 0.676 | 0.618 | 0.649 |
-| WS_1952 | 0.746 | 0.832 | **0.808** | 0.640 | 0.666 | 0.689 | 0.708 |
+**Other checks:**
+- **All-Defensive teams, 1971–2024** (overlap between defensive credit and selections): 1.1 scores 0.284, against 0.265 for 1.0 and 0.271 for recorded attempts.
+- **New coverage, NBA 1952–57 and 2025–26** (932 qualified rows): All-Star 0.770 (CV_BASE 0.793), All-NBA 0.789 (0.763), MVP-vote ρ 0.818 (0.798).
+- **ABA:** All-Star 0.770, All-ABA 0.693. CV_BASE scores 0.781 and 0.784, so team-based defense lowers All-ABA agreement (A24).
+- **Stability:** year-to-year correlation for qualified full CV is r = 0.855 in the NBA (10,215 pairs, 1952–2026) and 0.785 in the ABA.
+- **Outside metrics** (mean within-season Spearman, 1977–2024): WS 0.856, LAKER WAR 0.824, VORP 0.790, PER 0.785, LAKER 0.738, BPM 0.720. Each is within 0.004 of 1.0.
 
 **Reading.**
+- 1.1 gives up 0.004 in All-Star/All-NBA agreement and 0.010 in MVP-vote ρ.
+- In exchange it gains better agreement with recorded defense, All-Defensive selections and MVP winners, and it covers every season with one rule.
+- The comparisons from 1.0 still hold: CV agrees with awards more than the 1952-rules PER/WS and every modern metric tested, except at naming the MVP exactly #1: 25 of 48 seasons, against 26–28 for the modern metrics.
+- The 1.0 caveats also still hold. Voters reward volume, which CV also rewards by design, and these metrics share box-score inputs.
 
-- CV beats both 1952-rules metrics on every awards measure and on agreement with the modern total-value metrics (WS, VORP, BPM, LAKER).
-- The 1952-rules metrics agree more only with their own modern descendants, and WS_1952 more with the per-minute WS/48.
-- Using only 1952-available box scores, CV's agreement with awards is also higher than every modern metric tested, including those built on play-by-play and tracking-era data. The exception is naming the MVP winner exactly #1: 23 of 48 seasons for CV versus 26–27 for the modern metrics. Each season is worth about 0.02, so that gap is roughly three seasons.
+## 5. Eras
 
-**Caveats.**
+| NBA decade | 1950s | 1960s | 1970s | 1980s | 1990s | 2000s | 2010s | 2020s |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|
+| Mean qualified full CV | 0.35 | 0.45 | 0.53 | 0.56 | 0.67 | 0.73 | 0.82 | 1.00 |
 
-- Voters historically reward volume and responsibility, which CV also rewards by design. Higher awards agreement shows that CV captures what voters valued. It does not prove CV is closer to true impact.
-- The metrics compared share box-score inputs, so they are not independent confirmations.
-- PER_1952 is slightly more stable year to year than CV.
-- These results were not used to fit anything.
+ABA means are 0.67 (1968–69) and 0.57 (1970s). The all-time top 100 contains:
+- 2010s–20s: 43 seasons, against about 28 expected.
+- NBA 1970s–80s: 13, against about 25.
+- NBA 1950s: 2, against about 4.
+- ABA: 2, against about 5.
 
-## 8. Status
+The residual era tail is disclosed (A05); no era coefficient is used.
 
-All release gates are closed. Publication items (repository, website, archive DOI) are tracked in the changelog.
+## 6. Case review
+
+- **All-time top 10 qualified full CV:** O'Neal 2000 (14.49), Curry 2016, Chamberlain 1966, Abdul-Jabbar 1972, Durant 2014, Antetokounmpo 2020, Chamberlain 1964, James 2010, Chamberlain 1962, Durant 2013.
+- **Newly covered leaders:**
+  - Mikan 1952: 11.31.
+  - Johnston 1956: 9.85.
+  - Haywood 1970 ABA: 12.23, the ABA's best.
+  - Erving 1974 ABA: 11.20.
+  - Gilgeous-Alexander 2025: 12.48, the best season since 2020.
+  - Jokić 2025: 12.09, and 12.02 in 2026.
+
+No arithmetic or data errors were found. Team-level estimation error (A23) is the main new accepted consequence.
+
+## 7. Status
+
+All gates for `1.1.0` are closed: 0 blocking failures, byte-identical rebuild, documentation regenerated from the release, and the model owner's approval of the defense rule (2026-09-29).

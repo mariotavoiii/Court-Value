@@ -174,7 +174,7 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-betw
     </div>
     <div class="card scale" aria-label="How to read a CV score">
       <h3>Reading the number</h3>
-      <div class="tick"><b>12+</b><span>All-time territory. 32 qualified seasons have reached it.</span></div>
+      <div class="tick"><b>12+</b><span>All-time territory. 37 qualified seasons have reached it.</span></div>
       <div class="tick"><b>11</b><span>A typical MVP season.</span></div>
       <div class="tick"><b>7.5</b><span>A typical All-NBA season.</span></div>
       <div class="tick"><b>6</b><span>A typical All-Star season.</span></div>
@@ -185,7 +185,7 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-betw
   <div class="block">
     <div class="head-row"><div><span class="eyebrow">The chart</span><h2>The best season of every year</h2></div></div>
     <div class="chart card" id="best-chart" style="padding:18px 18px 10px"><div class="status">Loading scores…</div></div>
-    <p class="caption">Highest qualified full CV in each NBA season, 1957–58 to 2023–24. Red dots mark years whose best season reached 12 or more. Hover or tap a dot for the player; click to open his career.</p>
+    <p class="caption">Highest qualified full CV in each NBA season, 1951–52 to 2025–26. Red dots mark years whose best season reached 12 or more. Hover or tap a dot for the player; click to open his career.</p>
   </div>
 
   <div class="block">
@@ -194,7 +194,7 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-betw
       <thead><tr><th class="num">#</th><th>Player</th><th>Season</th><th>Team</th><th class="num">CV</th><th class="num">Base</th><th class="num">Defense</th></tr></thead>
       <tbody id="top10"><tr><td colspan="7" class="status">Loading scores…</td></tr></tbody>
     </table></div>
-    <p class="note">Qualified seasons only: at least 70% of team games. Full CV covers NBA 1957–58 through 2023–24, the seasons where the historical defensive reconstruction is complete.</p>
+    <p class="note">Qualified seasons only: at least 70% of team games. Full CV covers every NBA season since 1951–52 and every ABA season, all under one defensive rule.</p>
   </div>
 
   <div class="grid2 block">
@@ -221,7 +221,7 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-betw
     <div class="tablewrap"><table aria-label="Agreement with awards">
       <thead><tr><th>Metric</th><th class="num">All-Star</th><th class="num">All-NBA</th><th class="num">MVP in top 3</th><th class="num">MVP vote ρ</th><th class="num">Year to year r</th></tr></thead>
       <tbody>
-        <tr style="background:var(--hover)"><td class="player">Court Value</td><td class="num"><b>0.754</b></td><td class="num"><b>0.781</b></td><td class="num"><b>0.94</b></td><td class="num"><b>0.744</b></td><td class="num">0.80</td></tr>
+        <tr style="background:var(--hover)"><td class="player">Court Value</td><td class="num"><b>0.750</b></td><td class="num"><b>0.777</b></td><td class="num"><b>0.96</b></td><td class="num"><b>0.734</b></td><td class="num">0.80</td></tr>
         <tr><td class="player">PER, 1952 rules</td><td class="num">0.640</td><td class="num">0.677</td><td class="num">0.77</td><td class="num">0.645</td><td class="num"><b>0.83</b></td></tr>
         <tr><td class="player">Win Shares, 1952 rules</td><td class="num">0.556</td><td class="num">0.531</td><td class="num">0.65</td><td class="num">0.507</td><td class="num">0.73</td></tr>
         <tr><td class="player">PER</td><td class="num">0.643</td><td class="num">0.708</td><td class="num">0.83</td><td class="num">0.675</td><td class="num">0.78</td></tr>
@@ -262,7 +262,7 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-betw
 </section>
 
 <section id="methodology" data-page hidden>
-  <span class="eyebrow">How it works · version <span class="ver">1.0</span></span>
+  <span class="eyebrow">How it works · version <span class="ver">1.1</span></span>
   <h2 style="margin:6px 0 12px">How a season becomes a number</h2>
   <p class="lede prose">Every step uses information recorded since 1952, and every season is measured against the other players in that same season. <mark>No era bonuses, no ABA penalty, and no awards or reputation go into the formula.</mark></p>
   <div class="strip">
@@ -275,7 +275,7 @@ EffAdj    = 0.30 × (PTS − 0.92 × LgPtsPerAtt × Attempts)</pre></div>
       <pre>Context = 1 + 0.125 × RoleWeight × tanh(0.75 × Z_margin)</pre></div>
     <div class="frame"><span class="n">4</span><h3>Compare with his season</h3><p>Divide by games played, then compare with everyone in that league-season, weighted by games. Fewer games doesn't lower the score directly. It affects his role, and he needs 70% of team games to make the leaderboards.</p>
       <pre>CV_BASE = 3 × (Rate − season mean) / season SD</pre></div>
-    <div class="frame"><span class="n">5</span><h3>Add the defense</h3><p>Each team's defense is rebuilt from opponent scoring per shot and per game, shared with players by minutes, and capped between −0.75 and +1.5. Complete for NBA 1957–58 to 2023–24.</p>
+    <div class="frame"><span class="n">5</span><h3>Add the defense</h3><p>Each team's defense is rated by opponent scoring per shot and per game. Opponent shots weren't recorded before 1970–71, so CV estimates them the same way for every season from team totals kept since 1952. The credit is shared with players by minutes and capped between −0.75 and +1.5.</p>
       <pre>CV = CV_BASE + DefensiveCredit</pre></div>
   </div>
 
@@ -291,8 +291,8 @@ EffAdj    = 0.30 × (PTS − 0.92 × LgPtsPerAtt × Attempts)</pre></div>
     <div class="card prose">
       <h3>What's covered</h3>
       <dl class="defs">
-        <dt>Full CV</dt><dd>NBA 1957–58 to 2023–24</dd>
-        <dt>CV_BASE only</dt><dd>NBA 1951–52 to 1956–57 and 2024–25 onward; ABA 1967–68 to 1975–76</dd>
+        <dt>Full CV</dt><dd>NBA 1951–52 to 2025–26; ABA 1967–68 to 1975–76</dd>
+        <dt>CV_BASE</dt><dd>The same seasons, without defense</dd>
         <dt>Rows</dt><dd>26,208 player-seasons</dd>
         <dt>Leaderboards</dt><dd>At least 70% of team games</dd>
       </dl>
@@ -304,6 +304,7 @@ EffAdj    = 0.30 × (PTS − 0.92 × LgPtsPerAtt × Attempts)</pre></div>
         <li>Standing within a season doesn't prove equal strength across eras or leagues.</li>
         <li>Recent decades still hold a few more of the all-time top 100 than their share of seasons.</li>
         <li>A one-minute appearance gets the whole game's margin.</li>
+        <li>Estimated opponent shots miss for about one team in nine, so its defensive credit can be off.</li>
       </ul>
     </div>
   </div>
@@ -314,7 +315,7 @@ EffAdj    = 0.30 × (PTS − 0.92 × LgPtsPerAtt × Attempts)</pre></div>
   <span class="eyebrow">Data and changelog</span>
   <h2 style="margin:6px 0 16px">Take the numbers with you</h2>
   <div class="dl-row">
-    <div><h3>CV scores, version <span class="ver">1.0</span></h3><p class="soft" style="margin:4px 0 0">Every scored player-season: player, season, league, teams, games, minutes, qualification, score basis, full CV, CV_BASE, defensive credit and ranks. CSV, about 4 MB.</p></div>
+    <div><h3>CV scores, version <span class="ver">1.1</span></h3><p class="soft" style="margin:4px 0 0">Every scored player-season: player, season, league, teams, games, minutes, qualification, score basis, full CV, CV_BASE, defensive credit and ranks. CSV, about 4 MB.</p></div>
     <a class="btn" href="data/PUBLIC_cv_scores.csv" download>Download CSV</a>
   </div>
   <div class="dl-row">
@@ -324,13 +325,14 @@ EffAdj    = 0.30 × (PTS − 0.92 × LgPtsPerAtt × Attempts)</pre></div>
   <div class="grid2 block">
     <div class="card prose">
       <h3>Cite Court Value</h3>
-      <pre id="citation" style="white-space:pre-wrap">Tavolieri, Mario, III. Court Value (CV): a historically portable NBA/ABA player-season value metric. Version 1.0.1. Zenodo, 2026. https://doi.org/10.5281/zenodo.23040991</pre>
+      <pre id="citation" style="white-space:pre-wrap">Tavolieri, Mario, III. Court Value (CV): a historically portable NBA/ABA player-season value metric. Version 1.1.0. Zenodo, 2026. https://doi.org/10.5281/zenodo.23040991</pre>
       <button type="button" class="btn secondary" id="copy-cite" style="margin-top:12px">Copy citation</button>
       <p class="note">Scores and documentation: CC BY 4.0. Code: MIT. Underlying statistics come from Basketball-Reference, via the Kaggle dataset "NBA Stats (1947–present)" by Sumitro Datta. Raw statistics are not redistributed.</p>
     </div>
     <div class="card prose">
       <h3>Changelog</h3>
       <dl class="defs">
+        <dt>1.1</dt><dd>One defensive rule for every season. Full CV now covers NBA 1951–52 to 2025–26 and the ABA. Base scores are unchanged.</dd>
         <dt>1.0</dt><dd>First public release. Team context uses the margin in games actually played; season scores are weighted by games played.</dd>
         <dt>Pre-1.0</dt><dd>Research versions CELTIC (2025) and ARC (2026). Never published as releases.</dd>
       </dl>
@@ -352,13 +354,13 @@ EffAdj    = 0.30 × (PTS − 0.92 × LgPtsPerAtt × Attempts)</pre></div>
 </main>
 
 <footer><div class="wrap">
-  <span>Court Value <span class="ver">1.0</span> · data revision <span id="rev">2026-09-29</span></span>
+  <span>Court Value <span class="ver">1.1</span> · data revision <span id="rev">2026-09-29</span></span>
   <span>DOI <a href="https://doi.org/10.5281/zenodo.23040991">10.5281/zenodo.23040991</a> · Scores CC BY 4.0 · Code MIT · Statistics from Basketball-Reference</span>
 </div></footer>
 
 <script>
 (function(){
-  var CONFIG = { repo: "https://github.com/mariotavoiii/Court-Value", version: "1.0" };
+  var CONFIG = { repo: "https://github.com/mariotavoiii/Court-Value", version: "1.1" };
   var NS = "http://www.w3.org/2000/svg";
 
   var pages = [].slice.call(document.querySelectorAll("[data-page]"));
@@ -481,7 +483,7 @@ EffAdj    = 0.30 × (PTS − 0.92 × LgPtsPerAtt × Attempts)</pre></div>
 
   function renderBest(){
     var best = {};
-    ROWS.forEach(function(r){ if (r[13] !== null && r[12] === 1) best[r[2]] = r; });
+    ROWS.forEach(function(r){ if (r[3] === 0 && r[13] !== null && r[12] === 1) best[r[2]] = r; });
     var pts = Object.keys(best).map(Number).sort(function(a,b){ return a-b; }).map(function(y){ var r = best[y]; return {x: y, y: r[9], r: r}; });
     drawChart(document.getElementById("best-chart"), pts, {
       label: "Highest full CV in each NBA season", yMin: 0, yMax: 16, line: true, r: 5,
@@ -509,7 +511,7 @@ EffAdj    = 0.30 × (PTS − 0.92 × LgPtsPerAtt × Attempts)</pre></div>
       "<div class='pp-stats'><span>Seasons <b>" + seasonLabel(rows[0][2]) + " to " + seasonLabel(rows[rows.length-1][2]) + "</b></span>" +
       (peak ? "<span>Best qualified <b>" + peak[k].toFixed(2) + " in " + seasonLabel(peak[2]) + "</b></span>" : "") +
       "<span>Qualified seasons shown <b>" + q.length + "</b></span></div><div class='chart' id='pp-chart'></div>" +
-      (pts.length ? "<p class='caption'>" + (full ? "Full CV exists only for NBA 1957–58 to 2023–24. Switch to CV_BASE to see other seasons." : "CV_BASE has no defensive component.") + " Breaks in the line are seasons without this score. Unqualified seasons are included.</p>" : "<p class='note'>No " + (full ? "full CV" : "CV_BASE") + " seasons for this player. Try the other score.</p>");
+      (pts.length ? "<p class='caption'>" + (full ? "Full CV includes the defensive credit." : "CV_BASE has no defensive component.") + " Breaks in the line are seasons without this score. Unqualified seasons are included.</p>" : "<p class='note'>No " + (full ? "full CV" : "CV_BASE") + " seasons for this player. Try the other score.</p>");
     document.getElementById("pp-close").onclick = function(){ panel.hidden = true; };
     if (pts.length) drawChart(document.getElementById("pp-chart"), pts, {
       label: "Career CV for " + rows[0][1], yMin: -2, yMax: 8, line: true, width: 1000, height: 260,
@@ -538,8 +540,8 @@ EffAdj    = 0.30 × (PTS − 0.92 × LgPtsPerAtt × Attempts)</pre></div>
   function render(){
     var full = state.basis === "full";
     document.getElementById("basis-note").innerHTML = full
-      ? "Full CV includes the defensive credit. It exists for NBA 1957–58 to 2023–24 only."
-      : "<mark>CV_BASE has no defensive component.</mark> It covers every season, including the ABA, the early 1950s and the newest seasons. Don't compare it directly with full CV.";
+      ? "Full CV includes the defensive credit. It covers every NBA and ABA season."
+      : "<mark>CV_BASE has no defensive component.</mark> Don't compare it directly with full CV.";
     head.innerHTML = "<th class='num'>Rank</th><th>Player</th><th>Season</th><th>Lg</th><th>Team</th><th class='num'>G</th><th class='num'>MP</th><th class='num'>" + (full ? "CV" : "CV_BASE") + "</th>" + (full ? "<th class='num'>Base</th><th class='num'>Def</th>" : "") + "<th>Status</th>";
     var rows = filtered(), shown = rows.slice(0, state.shown);
     var ri = state.season === "all" ? (full ? 13 : 15) : (full ? 12 : 14);

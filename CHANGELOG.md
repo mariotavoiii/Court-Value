@@ -2,12 +2,19 @@
 
 All published outputs are immutable. Methodological changes receive a new model version; new or corrected data receive a new data revision.
 
-## 1.0.1 (2026-09-29): archive metadata only
+## 1.1.0 (2026-09-29, data revision 2026-09-29): one defensive rule for all of history
 
-- **Scores and code:** identical to 1.0.0.
-- **CITATION.cff:** now uses a single licence field, which Zenodo's reader requires.
-- **Added `.zenodo.json`** so the release can be archived with a DOI.
-- **Archived on Zenodo:** DOI [10.5281/zenodo.23040991](https://doi.org/10.5281/zenodo.23040991).
+- **Changed: team defense.** Opponent shot attempts are estimated from season team totals recorded since 1951-52, with three frozen coefficients. The same rule applies to every NBA and ABA season (TECHNICAL_SPECIFICATION §7). Recorded opponent attempts (1971+) are used only to fit the coefficients and for diagnostics.
+- **Coverage:** full CV now covers NBA 1952–2026 and ABA 1968–76: 15,301 qualified seasons, up from 13,597 (NBA 1958–2024). There is no longer a CV_BASE-only tier for qualified seasons.
+- **Accuracy:** team defense agrees with recorded-attempt defense at r = 0.884 (NBA 1971–2026), up from 0.777, and at 0.838 for the ABA, which was not used in fitting.
+- **Scores:** CV_BASE is identical to 1.0.0. Full CV against 1.0.0 on the overlapping seasons: Spearman 0.995, mean absolute change 0.196, maximum 1.79.
+- **Validation (1977–2024):**
+  - All-Star 0.750 (1.0: 0.754), All-NBA 0.777 (0.781).
+  - MVP winner #1 0.52 (0.48), MVP top 3 0.96 (0.94), MVP-vote ρ 0.734 (0.744).
+  - All-Defensive 0.284 (0.265).
+- **Status fields:** `defense_coverage` is now `COMPLETE_SEASON_TOTALS_ESTIMATE` for every covered row. The 1.0 high/lower-confidence labels (archive reconciliation) no longer apply (A17 superseded).
+- **Audit:** 22 of 22 mechanical checks pass, including the coefficient refit, the team-defense recompute and CV_BASE invariance against 1.0. The clean rebuild is byte-identical. Anomalies A21–A24 are added.
+- **Unchanged:** inputs, base model, MOV, qualification and licences. The frozen control keeps the 1.0 defense.
 
 ## 1.0.0 (2026-09-29, data revision 2026-09-29): first public release
 

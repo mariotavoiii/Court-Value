@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-"""Build a Court Value 1.0 release-candidate output set from a declared input snapshot.
+"""Build a Court Value release-candidate output set from a declared input snapshot.
 
 Usage:
-    python build_release.py --input-dir private_inputs/2026-09-29 --output-dir releases/1.0.0-rc.1
+    python build_release.py --input-dir private_inputs/2026-09-29 --output-dir releases/1.1.0-rc.1
 
 The build computes (1) CV 1.0 with verified literal appearance-game MOV and
 explicit full-season fallback, and (2) the full-season-MOV control, using the
@@ -27,7 +27,7 @@ from cv1 import engine  # noqa: E402
 from cv1.mov import compute_mov  # noqa: E402
 from cv1 import control_v2026_5 as control_engine  # noqa: E402
 
-MODEL_VERSION = "1.0.0"
+MODEL_VERSION = "1.1.0"
 DATA_REVISION = "2026-09-29"
 KEY = ["player_id", "season", "lg"]
 STINT_KEY = KEY + ["team"]
@@ -71,9 +71,9 @@ def status_columns(p: pd.DataFrame) -> pd.DataFrame:
     complete = p["season_complete"].fillna(False).astype(bool)
     high = p["season_high_confidence"].fillna(False).astype(bool)
     p["defense_coverage"] = np.select(
-        [~has_base, p.lg.eq("ABA"), ~complete, has_full & high, has_full, p.MP.eq(0)],
-        ["NOT_APPLICABLE_UNSCORED", "UNAVAILABLE_ABA_NOT_RECONSTRUCTED", "UNAVAILABLE_SEASON_NOT_COVERED",
-         "COMPLETE_HIGH_CONFIDENCE", "COMPLETE_LOWER_CONFIDENCE", "UNAVAILABLE_ZERO_MINUTES"],
+        [~has_base, ~complete, has_full, p.MP.eq(0)],
+        ["NOT_APPLICABLE_UNSCORED", "UNAVAILABLE_SEASON_NOT_COVERED", "COMPLETE_SEASON_TOTALS_ESTIMATE",
+         "UNAVAILABLE_ZERO_MINUTES"],
         default="UNAVAILABLE_OTHER")
     p["full_rank_alltime"] = p["cv_full"].where(p.qualified).rank(ascending=False, method="min")
     p["full_rank_season"] = p["cv_full"].where(p.qualified).groupby([p.season, p.lg]).rank(ascending=False, method="min")
@@ -108,13 +108,11 @@ def build(input_dir: Path, out: Path) -> dict:
     player, stints, team_def, qc = engine.compute(input_dir, mov[mov_cols])
     c_player, c_stints, _, c_qc = control_engine.compute(input_dir, None)
 
-    # Invariance: MOV may change only the base via context; defense layer is identical.
+    # The control is the frozen v2026.5-derived reconstruction (full-season MOV, 1.0 universal-attempt
+    # defense). It is emitted for comparison; CV 1.1 deliberately changes the defensive layer.
     ctl = c_player[KEY + ["base_score", "frozen_score", "def_credit_universal"]].rename(columns={
         "base_score": "control_cv_base", "frozen_score": "control_cv_full", "def_credit_universal": "control_def_credit"})
     player = player.merge(ctl, on=KEY, how="left", validate="one_to_one")
-    d = (player.def_credit_universal - player.control_def_credit).abs()
-    if not (d.max(skipna=True) <= 1e-12 or d.isna().all()) or player.def_credit_universal.isna().ne(player.control_def_credit.isna()).any():
-        raise ValueError("Defense changed between control and candidate")
 
     extra = ["appearance_games", "appearance_rows", "margin_games", "played_mov", "eligible", "prior_trial_eligible",
              "fallback_reason", "name_fallback_games", "verified_full_schedule_mov", "prior_team_eligible"]
@@ -190,7 +188,7 @@ def build(input_dir: Path, out: Path) -> dict:
         "defense_coverage_counts": player.defense_coverage.value_counts().sort_index().to_dict(),
         "mov_basis_counts": player.mov_basis.value_counts().sort_index().to_dict(),
         "stint_mov_method_counts": stints.mov_method.value_counts().sort_index().to_dict(),
-        "full_cv_seasons": sorted(int(x) for x in player.loc[player.cv_full.notna(), "season"].unique()),
+        "full_cv_league_seasons": sorted(f"{int(a)} {b}" for a, b in player.loc[player.cv_full.notna(), ["season", "lg"]].drop_duplicates().itertuples(index=False)),
         "mov_qc": mov_qc,
         "engine_qc": {k: v for k, v in qc.items() if k != "season_coverage"},
         "control_engine_qc": {k: v for k, v in c_qc.items() if k not in ("season_coverage",)},
@@ -203,7 +201,8 @@ def build(input_dir: Path, out: Path) -> dict:
                         "platform": platform.platform()},
         "code": {str(p.relative_to(Path(__file__).resolve().parent)): sha(p) for p in
                  [Path(__file__).resolve(), Path(engine.__file__).resolve(), Path(control_engine.__file__).resolve(),
-                  Path(sys.modules["cv1.mov"].__file__).resolve()]},
+                  Path(sys.modules["cv1.mov"].__file__).resolve(),
+                  Path(sys.modules["cv1.defense_estimator"].__file__).resolve()]},
         "input_snapshot_id": declared.get("snapshot_id"),
         "input_manifest_sha256": sha(input_dir / "input_manifest.json"),
         "inputs": {p.name: sha(p) for p in sorted(input_dir.glob("*.csv"))},

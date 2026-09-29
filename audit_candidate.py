@@ -88,9 +88,9 @@ def checks_and_panels(p, s, out):
     check("stint minutes aggregate", (joined.MP.sub(joined.stint_MP).abs() > TOL).sum(), "Player-season minutes are the sum across own league stints")
     av_error = joined.availability - (joined.G / joined.schedule_denominator).clip(upper=1)
     check("schedule-aware availability", (av_error.abs() > TOL).sum(), f"G / max team schedule, capped at 1; max error {av_error.abs().max():.3g}")
-    if "control_cv" in p and "control_base" in p:
-        error = (p.frozen_score - p.control_cv) - (p.base_score - p.control_base)
-        check("defensive layer unchanged vs control", (error.abs() > TOL).sum(), f"Defensive credit unchanged; max movement difference {error.abs().max():.3g}")
+    covered = p.base_score.notna() & p.MP.gt(0)
+    check("full CV on every scored positive-minute row", (covered & p.frozen_score.isna()).sum(),
+          "CV 1.1: one defensive rule covers NBA 1952-2026 and ABA 1968-76")
     for col in ["raw", "standardize_value"]:
         if col in p and col == "raw" and "standardize_value" in p:
             error = p.standardize_value - p.raw / p.G.replace(0, np.nan)
@@ -251,7 +251,7 @@ def recognition(p, source, out):
     outcomes = {"all_star": allstar[allstar.lg.eq("NBA")], "all_nba": allnba[allnba.lg.eq("NBA") & allnba.type.eq("All-NBA")]}
     q = p[p.qualified & p.lg.eq("NBA")].dropna(subset=["frozen_score", "control_cv"])
     rows, ballots = [], []
-    for score, label in [("control_cv", "full-season MOV control"), ("frozen_score", "CV 1.0 candidate")]:
+    for score, label in [("control_cv", "full-season MOV control"), ("frozen_score", "CV candidate")]:
         b = q.copy()
         b["rank"] = b.groupby("season")[score].rank(ascending=False, method="min")
         result = dict(metric=label, n=len(b), season_min=int(b.season.min()), season_max=int(b.season.max()))
@@ -394,11 +394,58 @@ def named_cases(p, out):
     save(q.merge(p,on=["player_id","season"],how="left",validate="one_to_many"),out,"representative_archetypes")
 
 
+def defense_rule_checks(p, input_dir, reference_dir, candidate_dir, out):
+    """CV 1.1 checks: frozen estimator reproduces, team defense recomputes, base unchanged vs reference."""
+    import sys
+    sys.path.insert(0, str(Path(__file__).resolve().parent))
+    from cv1 import defense_estimator as de
+    rows, result = [], {}
+    def add(name, violations, evidence):
+        rows.append(dict(check=name, violations=int(violations), passed=int(violations) == 0, blocking=True, evidence=evidence))
+    if input_dir is not None:
+        tt = pd.read_csv(input_dir / "Team Totals.csv", float_precision="round_trip", low_memory=False)
+        ot = pd.read_csv(input_dir / "Opponent Totals.csv", float_precision="round_trip", low_memory=False)
+        beta = de.fit_coefficients(de.team_frame(tt, ot))
+        err = float(np.max(np.abs(beta - np.asarray(de.COEFFICIENTS))))
+        add("defense coefficients reproduce from inputs", err > 1e-12, f"refit {beta.tolist()}; max difference {err:.3g}")
+        td = de.team_defense(tt, ot)
+        cand = pd.read_csv(candidate_dir / "team_defense.csv", float_precision="round_trip")
+        m = cand.merge(td, on=["season", "lg", "team"], suffixes=("", "_re"), validate="one_to_one")
+        d = (m.team_def_z_universal - m.team_def_z_universal_re).abs()
+        add("team defense recomputes", int((d > TOL).sum()) + abs(len(m) - len(cand)), f"{len(m)} team-seasons; max difference {d.max():.3g}")
+        # Diagnostic only: agreement with TeamDef built on recorded opponent attempts where recorded.
+        rec = td.dropna(subset=["recorded_opp_attempts"]).copy()
+        rec["psa_rec"] = rec.league_psa - rec.opp_pts / rec.recorded_opp_attempts
+        rec["z_rec"] = rec.groupby(["season", "lg"]).psa_rec.transform(lambda x: (x - x.mean()) / x.std(ddof=0))
+        rec["team_def_recorded_attempts"] = 0.8 * rec.z_rec + 0.2 * rec.ppg_suppression_z
+        diag = [dict(league=lg, seasons=f"{int(g.season.min())}-{int(g.season.max())}", team_seasons=len(g),
+                     pearson_vs_recorded=float(g.team_def_z_universal.corr(g.team_def_recorded_attempts))) for lg, g in rec.groupby("lg")]
+        save(pd.DataFrame(diag), out, "defense_estimate_vs_recorded_attempts")
+        result["defense_estimate_vs_recorded"] = diag
+    if reference_dir is not None:
+        ref = pd.read_csv(reference_dir / "cv_player_seasons.csv", float_precision="round_trip", low_memory=False)
+        m = p.merge(ref[KEY + ["cv_base", "cv_full", "def_credit"]], on=KEY, how="outer", validate="one_to_one", indicator=True)
+        d = (m.base_score - m.cv_base).abs()
+        add("CV_BASE unchanged vs reference release", int(m._merge.ne("both").sum() + (d > 0).sum() + m.base_score.isna().ne(m.cv_base.isna()).sum()),
+            f"reference {reference_dir}; max difference {d.max():.3g}")
+        q = m[bools(m.qualified) & m.frozen_score.notna() & m.cv_full.notna()]
+        result["vs_reference_qualified_full"] = dict(rows=len(q), spearman=corr(q.cv_full, q.frozen_score, True),
+            mean_abs_change=float((q.frozen_score - q.cv_full).abs().mean()), max_abs_change=float((q.frozen_score - q.cv_full).abs().max()),
+            newly_full_qualified=int((bools(m.qualified) & m.frozen_score.notna() & m.cv_full.isna()).sum()))
+        ch = q.assign(change=q.frozen_score - q.cv_full, abs_change=(q.frozen_score - q.cv_full).abs()).nlargest(100, "abs_change")
+        save(ch[KEY + ["player", "cv_full", "frozen_score", "def_credit", "def_credit_universal", "change"]].rename(
+            columns={"cv_full": "reference_cv_full", "frozen_score": "cv_full", "def_credit": "reference_def_credit", "def_credit_universal": "def_credit"}),
+            out, "largest_changes_vs_reference")
+    return pd.DataFrame(rows), result
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--candidate-dir",type=Path,required=True)
     ap.add_argument("--source-dir",type=Path,required=True)
     ap.add_argument("--output-dir",type=Path,required=True)
+    ap.add_argument("--input-dir",type=Path,default=None,help="declared input snapshot (defense-rule checks)")
+    ap.add_argument("--reference-dir",type=Path,default=None,help="previous release outputs (CV_BASE invariance)")
     args = ap.parse_args()
     out = args.output_dir
     out.mkdir(parents=True,exist_ok=True)
@@ -413,6 +460,10 @@ def main():
     s = s.rename(columns={"mov_full_season": "mov"})
     p["qualified"] = bools(p.qualified)
     p, checks = checks_and_panels(p,s,out)
+    rule_checks, rule_result = defense_rule_checks(p, args.input_dir, args.reference_dir, args.candidate_dir, out)
+    if len(rule_checks):
+        checks = pd.concat([checks, rule_checks], ignore_index=True)
+        save(checks, out, "mechanical_checks")
     year = adjacent(p,out)
     eras = distribution(p,out)
     metrics, external = external_metrics(p,args.source_dir,out)
@@ -430,7 +481,7 @@ def main():
                    control_candidate_qualified_full_spearman=corr(common.control_cv,common.frozen_score,True),
                    mean_absolute_qualified_full_change=float((common.frozen_score-common.control_cv).abs().mean()),
                    maximum_absolute_qualified_full_change=float((common.frozen_score-common.control_cv).abs().max()),
-                   additional_mov_audit=extra_mov,
+                   additional_mov_audit=extra_mov, defense_rule=rule_result,
                    adjacent_season=year, external_metrics=external, recognition=awards,
                    scope="Descriptive validation, exact mechanical checks, and audit selections; no coefficients fitted",
                    qualitative_review="See docs/VALIDATION.md and anomaly_log.csv. CSV selection alone is not certification.")

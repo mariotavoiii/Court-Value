@@ -3,7 +3,7 @@ cff-version: 1.2.0
 message: "If you use Court Value scores or methodology, please cite it as below."
 title: "Court Value (CV): a historically portable NBA/ABA player-season value metric"
 type: dataset
-version: 1.0.1
+version: 1.1.0
 authors:
   - given-names: Mario
     family-names: Tavolieri
@@ -13,7 +13,8 @@ abstract: >-
   (1952–present) and ABA (1968–1976). It measures realized season value and
   responsibility from 1952-available box-score production, games-played team margin
   of victory and a bounded team-defense responsibility credit, standardized within each
-  league-season. It is not a causal impact or wins-above-replacement estimate.
+  league-season. Since version 1.1 one defensive rule covers every NBA and ABA season.
+  It is not a causal impact or wins-above-replacement estimate.
 keywords:
   - basketball
   - NBA
@@ -26,8 +27,8 @@ license: CC-BY-4.0
 date-released: "2026-09-29"
 url: "https://mariotavoiii.github.io/Court-Value/"
 repository-code: "https://github.com/mariotavoiii/Court-Value"
-doi: "10.5281/zenodo.23040991"
+# The DOI below is the Zenodo record of release 1.0.1; release 1.1.0 receives its own version DOI on archiving.
 identifiers:
   - type: doi
     value: "10.5281/zenodo.23040991"
-    description: "Zenodo archive of release 1.0.1"
+    description: "Zenodo archive of release 1.0.1 (previous version)"

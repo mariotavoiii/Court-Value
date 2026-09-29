@@ -1,4 +1,8 @@
-"""Court Value 1.0 regular-season calculator (1.0.0-rc.2: games-weighted base standardization; folded-franchise qualification).
+"""Court Value regular-season calculator, model 1.1.0.
+
+1.0.0-rc.2: games-weighted base standardization; folded-franchise qualification.
+1.1.0: team defense from the frozen season-totals possession estimate
+(`cv1.defense_estimator`) for every NBA and ABA season 1952-2026.
 
 The v2026.5-derived reconstruction is the architectural control. The optional
 MOV table supplies verified appearance-game MOV or explicitly flagged fallback
@@ -14,6 +18,11 @@ from pathlib import Path
 
 import numpy as np
 import pandas as pd
+
+try:
+    from . import defense_estimator
+except ImportError:  # loaded outside the package (experiments)
+    from cv1 import defense_estimator
 
 PLAYER_KEY = ["player_id", "season", "lg"]
 TEAM_KEY = ["season", "lg", "team"]
@@ -492,7 +501,14 @@ def compute(input_dir: Path, mov_stints: pd.DataFrame | None = None
     team = _team_context(tt, ot)
     stints = _stints(p, team, mov_stints)
     player = _player_base(stints)
-    team_def, coverage, allocation = _team_defense(tt, ot, gt)
+    # CV 1.1: season-totals possession estimate for every NBA/ABA season.
+    # `_team_defense` (game-archive universal allocation) is retained only for
+    # reference; the 1.0 control engine carries its own copy.
+    team_def = defense_estimator.team_defense(tt, ot)
+    coverage = team_def.groupby(["season", "lg"], as_index=False).agg(
+        season_complete=("season_complete", "first"), season_high_confidence=("season_high_confidence", "first"),
+        teams=("team", "size"))
+    allocation = pd.DataFrame({"allocation_error": [0.0]})
     player, stints, qc = _player_defense(player, stints, team_def)
     _unique(player, PLAYER_KEY, "Player results")
     _unique(stints, STINT_KEY, "Stint results")
@@ -519,9 +535,8 @@ def compute(input_dir: Path, mov_stints: pd.DataFrame | None = None
         "missing_team_payload_rows": int(player["missing_team_payload"].sum()),
         "zero_minute_stints": int(stints["mp"].eq(0).sum()),
         "zero_minute_player_seasons": int(player["MP"].eq(0).sum()),
-        "complete_defense_seasons": coverage.loc[coverage["season_complete"], "season"].astype(int).tolist(),
-        "high_confidence_defense_seasons": coverage.loc[coverage["season_high_confidence"], "season"].astype(int).tolist(),
-        "max_attempt_allocation_error": error,
+        "complete_defense_league_seasons": [f"{int(r.season)} {r.lg}" for r in coverage.loc[coverage["season_complete"]].itertuples()],
+                "defense_estimator_coefficients": list(defense_estimator.COEFFICIENTS),
         "mov_methods": {str(k): int(v) for k, v in stints["mov_method"].value_counts().items()},
         "season_coverage": coverage.replace({np.nan: None}).to_dict("records"),
     })
