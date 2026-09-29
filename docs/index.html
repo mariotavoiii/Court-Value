@@ -11,6 +11,7 @@
   --paper:#fbfbf8; --card:#ffffff; --ink:#15130f; --soft:#57534a; --rule:#dedbd2; --grid:#e8e6df;
   --red:#d63a2f; --blue:#2458c7; --yellow:#ffd83d; --hi:#fff09a; --green:#2f8f5b; --hover:#f3f1ea;
   --shadow:#15130f;
+  --s1:#2458c7; --s2:#d63a2f; --s3:#7b4bc4; --s4:#2f8f5b; --s5:#b86e00;
   --display:"Alfa Slab One","Rockwell","Roboto Slab",Georgia,serif;
   --serif:"Newsreader",Georgia,"Times New Roman",serif;
   --mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
@@ -18,11 +19,11 @@
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
   --paper:#131210; --card:#1b1a17; --ink:#f1efe8; --soft:#aaa597; --rule:#34312b; --grid:#2a2824;
   --red:#ff6a5c; --blue:#7aa2ff; --yellow:#ffd83d; --hi:#5b4c00; --green:#5ccf8e; --hover:#221f1b;
-  --shadow:#000000; color-scheme:dark}}
+  --shadow:#000000; --s1:#6690ee; --s2:#ee5547; --s3:#a078ee; --s4:#33a666; --s5:#c27f18; color-scheme:dark}}
 :root[data-theme="dark"]{
   --paper:#131210; --card:#1b1a17; --ink:#f1efe8; --soft:#aaa597; --rule:#34312b; --grid:#2a2824;
   --red:#ff6a5c; --blue:#7aa2ff; --yellow:#ffd83d; --hi:#5b4c00; --green:#5ccf8e; --hover:#221f1b;
-  --shadow:#000000; color-scheme:dark}
+  --shadow:#000000; --s1:#6690ee; --s2:#ee5547; --s3:#a078ee; --s4:#33a666; --s5:#c27f18; color-scheme:dark}
 *{box-sizing:border-box}
 body{margin:0;background:var(--paper);color:var(--ink);font:400 18px/1.6 var(--serif);-webkit-font-smoothing:antialiased}
 a{color:var(--blue);text-underline-offset:3px}
@@ -128,6 +129,23 @@ input[type="search"]{width:min(240px,100%)}
 .more{margin-top:16px}
 /* player panel */
 #player-panel{margin-top:18px}
+.cmp-tools{display:flex;flex-wrap:wrap;gap:10px 14px;align-items:end;margin:10px 0 6px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0 4px}
+.chip{display:inline-flex;align-items:center;gap:8px;font:600 13px/1 var(--mono);border:2px solid var(--ink);border-radius:999px;padding:6px 6px 6px 10px;background:var(--card);color:var(--ink)}
+.chip i{width:14px;height:4px;border-radius:2px;display:inline-block}
+.chip button{border:0;background:var(--hover);color:var(--ink);border-radius:999px;width:22px;height:22px;cursor:pointer;font:600 13px/1 var(--mono)}
+.s1{--c:var(--s1)} .s2{--c:var(--s2)} .s3{--c:var(--s3)} .s4{--c:var(--s4)} .s5{--c:var(--s5)}
+.chip i,.key i{background:var(--c)}
+.chart .sline{fill:none;stroke:var(--c);stroke-width:2;stroke-linejoin:round}
+.chart .sdot{fill:var(--c);stroke:var(--card);stroke-width:2}
+.chart .sdot.unq{fill:var(--card);stroke:var(--c);stroke-width:2}
+.chart .slabel{font:600 11px var(--mono);fill:var(--ink)}
+.chart .xhair{stroke:var(--soft);stroke-width:1;stroke-dasharray:2 3}
+.tip .key{display:flex;gap:6px;align-items:center}
+.tip .key i{width:10px;height:3px;border-radius:2px;display:inline-block}
+.cmp-table td,.cmp-table th{white-space:nowrap}
+.cmp-table .key{display:inline-flex;gap:8px;align-items:center}
+.cmp-table .key i{width:14px;height:4px;border-radius:2px;display:inline-block}
 .pp-head{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:start}
 .pp-head h3{font:400 30px/1.05 var(--display)}
 .pp-close{font-size:13px;font-weight:600;background:none;border:2px solid var(--ink);border-radius:6px;padding:7px 10px;cursor:pointer;color:var(--ink)}
@@ -269,7 +287,7 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-betw
     <tbody id="rank-body"><tr><td class="status">Loading scores…</td></tr></tbody>
   </table></div>
   <button type="button" class="btn secondary more" id="more" hidden>Show 50 more</button>
-  <p class="note">Click a column heading to sort; click again to reverse. Click a player's name to see his career. Positions are each season's listed position from Basketball-Reference; they are shown for filtering only and play no part in the score.</p>
+  <p class="note">Click a column heading to sort; click again to reverse. Click a player's name to add his career to the comparison chart (up to five). Positions are each season's listed position from Basketball-Reference; they are shown for filtering only and play no part in the score.</p>
 </section>
 
 <section id="methodology" data-page hidden>
@@ -406,7 +424,7 @@ EffAdj    = 0.30 × (PTS − 0.92 × LgPtsPerAtt × Attempts)</pre></div>
   function svg(tag, attrs, parent){ var e = document.createElementNS(NS, tag); for (var k in attrs) e.setAttribute(k, attrs[k]); if (parent) parent.appendChild(e); return e; }
 
   // Row fields: 0 id, 1 player, 2 season, 3 lg(0 NBA/1 ABA), 4 teams, 5 g, 6 mp, 7 q, 8 cov, 9 cv, 10 base, 11 def, 12 rs, 13 ra, 14 brs, 15 bra, 16 pos
-  var ROWS = [], BYID = {}, state = { basis: "full", from: 0, to: 9999, league: "all", pos: "all", team: "all", q: true, text: "", shown: 50, sort: null, dir: -1 };
+  var ROWS = [], BYID = {}, NAMEIDX = {}, state = { basis: "full", from: 0, to: 9999, league: "all", pos: "all", team: "all", q: true, text: "", shown: 50, sort: null, dir: -1 };
 
   fetch("data/scores.json").then(function(r){ if (!r.ok) throw new Error(r.status); return r.json(); }).then(function(d){
     ROWS = d.rows;
@@ -423,6 +441,13 @@ EffAdj    = 0.30 × (PTS − 0.92 × LgPtsPerAtt × Attempts)</pre></div>
     var teams = {}; ROWS.forEach(function(r){ String(r[4]).split(/[^A-Z0-9]+/).forEach(function(t){ if (t) teams[t] = 1; }); });
     var fTeam = document.getElementById("f-team");
     Object.keys(teams).sort().forEach(function(t){ var o = document.createElement("option"); o.value = t; o.textContent = t; fTeam.appendChild(o); });
+    var counts = {}; Object.keys(BYID).forEach(function(pid){ var n = BYID[pid][0][1]; counts[n] = (counts[n] || 0) + 1; });
+    var dl = document.createElement("datalist"); dl.id = "cmp-names";
+    Object.keys(BYID).map(function(pid){
+      var rs = BYID[pid], n = rs[0][1], lab = counts[n] > 1 ? n + " (" + seasonLabel(Math.min.apply(null, rs.map(function(r){ return r[2]; }))) + ")" : n;
+      NAMEIDX[lab] = pid; return lab;
+    }).sort().forEach(function(lab){ var o = document.createElement("option"); o.value = lab; dl.appendChild(o); });
+    document.body.appendChild(dl);
     renderTop10(); renderBest(); render();
   }).catch(function(){
     var msg = '<tr><td colspan="7" class="status">The score file could not be loaded. Download the CSV from the Data page instead.</td></tr>';
@@ -520,32 +545,119 @@ EffAdj    = 0.30 × (PTS − 0.92 × LgPtsPerAtt × Attempts)</pre></div>
     });
   }
 
-  var currentPid = null;
+  // ---- Career comparison: up to five players against the MVP range ----
+  var CMP = [], cmpX = "season", MAXCMP = 5;
   function showPlayer(pid){
-    currentPid = pid;
+    if (!BYID[pid]) return;
+    var i = CMP.indexOf(pid);
+    if (i === -1){ CMP.push(pid); if (CMP.length > MAXCMP) CMP.shift(); }
+    renderCompare();
+    document.getElementById("player-panel").scrollIntoView({block: "nearest"});
+  }
+  function slotOf(pid){ return "s" + (CMP.indexOf(pid) + 1); }
+  function careerRows(pid, k){
     var rows = (BYID[pid] || []).slice().sort(function(a,b){ return a[2]-b[2] || a[3]-b[3]; });
+    var seen = {}, out = [];
+    rows.forEach(function(r){ if (r[k] === null || seen[r[2]]) return; seen[r[2]] = 1; out.push(r); });
+    return out;
+  }
+  function renderCompare(){
     var panel = document.getElementById("player-panel");
-    if (!rows.length){ panel.hidden = true; return; }
+    if (!CMP.length){ panel.hidden = true; return; }
     var full = state.basis === "full", k = full ? 9 : 10;
-    var pts = rows.filter(function(r){ return r[k] !== null; }).map(function(r){ return {x: r[2], y: r[k], r: r}; });
-    // one value per season: prefer NBA row when a player has two leagues in one season
-    var seen = {}; pts = pts.filter(function(p){ if (seen[p.x]) return false; seen[p.x] = 1; return true; });
-    var q = rows.filter(function(r){ return r[7] && r[k] !== null; });
-    var peak = q.slice().sort(function(a,b){ return b[k]-a[k]; })[0];
     panel.hidden = false;
-    panel.innerHTML = "<div class='pp-head'><div><span class='eyebrow'>Career · " + (full ? "Full CV" : "CV_BASE") + "</span><h3>" + esc(rows[0][1]) + "</h3></div><button type='button' class='pp-close' id='pp-close'>Close</button></div>" +
-      "<div class='pp-stats'><span>Seasons <b>" + seasonLabel(rows[0][2]) + " to " + seasonLabel(rows[rows.length-1][2]) + "</b></span>" +
-      (peak ? "<span>Best qualified <b>" + peak[k].toFixed(2) + " in " + seasonLabel(peak[2]) + "</b></span>" : "") +
-      "<span>Qualified seasons shown <b>" + q.length + "</b></span></div><div class='chart' id='pp-chart'></div>" +
-      (pts.length ? "<p class='caption'>" + (full ? "Full CV includes the defensive credit." : "CV_BASE has no defensive component.") + " Breaks in the line are seasons without this score. Unqualified seasons are included.</p>" : "<p class='note'>No " + (full ? "full CV" : "CV_BASE") + " seasons for this player. Try the other score.</p>");
-    document.getElementById("pp-close").onclick = function(){ panel.hidden = true; };
-    if (pts.length) drawChart(document.getElementById("pp-chart"), pts, {
-      label: "Career CV for " + rows[0][1], yMin: -2, yMax: 13, line: true, width: 1000, height: 260,
-      xfmt: function(y){ return seasonLabel(y); }, band: MVP_BAND,
-      hot: function(p){ return p.y >= 12; },
-      tip: function(p){ return "<b>" + seasonLabel(p.x) + "</b> · " + esc(p.r[4]) + "<br>" + (full ? "CV " : "CV_BASE ") + p.y.toFixed(2) + " · " + p.r[5] + " G" + (p.r[7] ? "" : " · not qualified"); }
+    var series = CMP.map(function(pid){
+      var rows = careerRows(pid, k);
+      return {pid: pid, name: BYID[pid][0][1], cls: slotOf(pid), pts: rows.map(function(r, j){ return {x: cmpX === "season" ? r[2] : j + 1, y: r[k], r: r}; })};
     });
-    panel.scrollIntoView({block: "nearest"});
+    var names = {}; ROWS.forEach(function(r){ names[r[1]] = (names[r[1]] || 0); });
+    panel.innerHTML = "<div class='pp-head'><div><span class='eyebrow'>Compare careers · " + (full ? "Full CV" : "CV_BASE") + "</span><h3>" +
+        (CMP.length === 1 ? esc(series[0].name) : CMP.length + " players") + "</h3></div><button type='button' class='pp-close' id='pp-close'>Close</button></div>" +
+      "<div class='chips'>" + series.map(function(sr){ return "<span class='chip " + sr.cls + "'><i></i>" + esc(sr.name) + "<button type='button' aria-label='Remove " + esc(sr.name) + "' data-rm='" + esc(sr.pid) + "'>×</button></span>"; }).join("") + "</div>" +
+      "<div class='cmp-tools'><div class='field'><label for='cmp-add'>Add a player</label><input type='search' id='cmp-add' list='cmp-names' placeholder='Type a name' autocomplete='off'" + (CMP.length >= MAXCMP ? " disabled" : "") + "></div>" +
+      "<div class='field'><span class='lbl' id='cmp-x-lbl'>Line up by</span><div class='seg' role='group' aria-labelledby='cmp-x-lbl'><button type='button' data-x='season' aria-pressed='" + (cmpX === "season") + "'>Season</button><button type='button' data-x='year' aria-pressed='" + (cmpX === "year") + "'>Career year</button></div></div>" +
+      "<span class='status'>" + (CMP.length >= MAXCMP ? "Five players is the limit; remove one to add another." : "Click any player's name in the table, or type one here. Up to five.") + "</span></div>" +
+      "<div class='chart' id='pp-chart'></div>" +
+      "<p class='caption'>Shaded band: the middle half of MVP seasons (9.7 to 12.1). Filled dots are qualified seasons; hollow dots played under 70% of team games. " + (full ? "Full CV includes the defensive credit." : "CV_BASE has no defensive component.") + "</p>" +
+      "<div class='tablewrap'><table class='cmp-table'><thead><tr><th>Player</th><th class='num'>Qualified seasons</th><th class='num'>In MVP range</th><th class='num'>Above it (12.1+)</th><th>Best qualified season</th></tr></thead><tbody>" +
+      series.map(function(sr){
+        var q = sr.pts.filter(function(p){ return p.r[7]; });
+        var inR = q.filter(function(p){ return p.y >= MVP_BAND.lo && p.y <= MVP_BAND.hi; }).length, above = q.filter(function(p){ return p.y > MVP_BAND.hi; }).length;
+        var best = q.slice().sort(function(a,b){ return b.y-a.y; })[0];
+        return "<tr><td class='player'><span class='key " + sr.cls + "'><i></i>" + esc(sr.name) + "</span></td><td class='num'>" + q.length + "</td><td class='num'><b>" + inR + "</b></td><td class='num'>" + above + "</td><td>" + (best ? best.y.toFixed(2) + " in " + seasonLabel(best.r[2]) : "—") + "</td></tr>";
+      }).join("") + "</tbody></table></div>";
+    document.getElementById("pp-close").onclick = function(){ CMP = []; panel.hidden = true; };
+    panel.querySelectorAll("[data-rm]").forEach(function(b){ b.onclick = function(){ CMP.splice(CMP.indexOf(b.getAttribute("data-rm")), 1); renderCompare(); }; });
+    panel.querySelectorAll("[data-x]").forEach(function(b){ b.onclick = function(){ cmpX = b.getAttribute("data-x"); renderCompare(); }; });
+    var add = document.getElementById("cmp-add");
+    add.addEventListener("change", function(){ var pid = NAMEIDX[add.value]; if (pid){ add.value = ""; showPlayer(pid); } });
+    drawMulti(document.getElementById("pp-chart"), series, full);
+  }
+  function drawMulti(host, series, full){
+    host.innerHTML = "";
+    var all = []; series.forEach(function(sr){ all = all.concat(sr.pts); });
+    if (!all.length){ host.innerHTML = "<p class='note'>No seasons with this score.</p>"; return; }
+    var narrow = host.getBoundingClientRect().width < 600;
+    var W = narrow ? 560 : 1000, H = narrow ? 420 : 300, m = {t:16, r: narrow ? 118 : 132, b:30, l:38};
+    var xs = all.map(function(p){ return p.x; }), x0 = Math.min.apply(null, xs), x1 = Math.max.apply(null, xs);
+    if (x0 === x1){ x0 -= 1; x1 += 1; }
+    var ys = all.map(function(p){ return p.y; });
+    var yMin = Math.min(-2, Math.floor(Math.min.apply(null, ys) / 2) * 2), yMax = Math.max(13, Math.ceil(Math.max.apply(null, ys) / 2) * 2);
+    var X = function(v){ return m.l + (v - x0) / (x1 - x0) * (W - m.l - m.r); };
+    var Y = function(v){ return m.t + (yMax - v) / (yMax - yMin) * (H - m.t - m.b); };
+    var s = svg("svg", {viewBox: "0 0 " + W + " " + H, role: "img", "aria-label": "Career CV for " + series.map(function(x){ return x.name; }).join(", ")}, host);
+    var ax = svg("g", {"class": "axis"}, s), step = (yMax - yMin) > 12 ? 4 : 2;
+    for (var v = Math.ceil(yMin / step) * step; v <= yMax; v += step){
+      svg("line", {x1: m.l, x2: W - m.r, y1: Y(v), y2: Y(v), "class": v === 0 ? "baseline" : "gridline"}, ax);
+      var t = svg("text", {x: m.l - 8, y: Y(v) + 4, "text-anchor": "end"}, ax); t.textContent = v;
+    }
+    var span = x1 - x0, xstep = span > 40 ? (narrow ? 20 : 10) : span > 16 ? (narrow ? 8 : 4) : span > 6 ? (narrow ? 4 : 2) : 1;
+    for (var yx = Math.ceil(x0 / xstep) * xstep; yx <= x1; yx += xstep){
+      var tx = svg("text", {x: X(yx), y: H - 8, "text-anchor": "middle"}, ax); tx.textContent = cmpX === "season" ? seasonLabel(yx) : "Year " + yx;
+    }
+    var bl = Math.max(MVP_BAND.lo, yMin), bh = Math.min(MVP_BAND.hi, yMax);
+    svg("rect", {x: m.l, width: W - m.l - m.r, y: Y(bh), height: Y(bl) - Y(bh), "class": "band"}, s);
+    var btx = svg("text", {x: m.l + 8, y: Y(bh) + 13, "class": "bandlabel"}, s); btx.textContent = MVP_BAND.label;
+    var xh = svg("line", {y1: m.t, y2: H - m.b, "class": "xhair", visibility: "hidden"}, s);
+    var labels = [];
+    series.forEach(function(sr){
+      var g = svg("g", {"class": sr.cls}, s), d = "", prev = null;
+      sr.pts.forEach(function(p){ d += (prev !== null && p.x - prev === 1 ? "L" : "M") + X(p.x).toFixed(1) + "," + Y(p.y).toFixed(1); prev = p.x; });
+      svg("path", {d: d, "class": "sline"}, g);
+      sr.pts.forEach(function(p){ svg("circle", {cx: X(p.x), cy: Y(p.y), r: 4, "class": "sdot" + (p.r[7] ? "" : " unq")}, g); });
+      var last = sr.pts[sr.pts.length - 1];
+      if (last) labels.push({cls: sr.cls, name: sr.name, x: X(last.x), y: Y(last.y)});
+    });
+    // direct end labels in the right margin, nudged apart
+    labels.sort(function(a,b){ return a.y - b.y; });
+    for (var i = 1; i < labels.length; i++) if (labels[i].y - labels[i-1].y < 14) labels[i].y = labels[i-1].y + 14;
+    labels.forEach(function(L){
+      var g = svg("g", {"class": L.cls}, s);
+      svg("line", {x1: L.x + 6, x2: W - m.r + 8, y1: L.y, y2: L.y, style: "stroke:var(--c);stroke-width:1;stroke-dasharray:1 3"}, g);
+      var lt = svg("text", {x: W - m.r + 12, y: L.y + 4, "class": "slabel"}, g); lt.textContent = L.name.length > 17 ? L.name.slice(0, 16) + "…" : L.name;
+    });
+    var tip = document.createElement("div"); tip.className = "tip"; tip.hidden = true; host.appendChild(tip);
+    var hit = svg("rect", {x: m.l, y: m.t, width: W - m.l - m.r, height: H - m.t - m.b, "class": "hit"}, s);
+    var xsU = Array.from(new Set(xs)).sort(function(a,b){ return a-b; });
+    function show(clientX){
+      var box = s.getBoundingClientRect(), vx = (clientX - box.left) / box.width * W, xv = xsU[0], bd = Infinity;
+      xsU.forEach(function(x){ var dd = Math.abs(X(x) - vx); if (dd < bd){ bd = dd; xv = x; } });
+      xh.setAttribute("x1", X(xv)); xh.setAttribute("x2", X(xv)); xh.setAttribute("visibility", "visible");
+      var lines = series.map(function(sr){
+        var p = sr.pts.filter(function(q){ return q.x === xv; })[0]; if (!p) return "";
+        return "<span class='key " + sr.cls + "'><i></i>" + esc(sr.name) + " <b>" + p.y.toFixed(2) + "</b>" + (cmpX === "year" ? " · " + seasonLabel(p.r[2]) : "") + (p.r[7] ? "" : " · not qualified") + "</span>";
+      }).filter(Boolean);
+      tip.innerHTML = "<b>" + (cmpX === "season" ? seasonLabel(xv) : "Career year " + xv) + "</b>" + lines.join("");
+      var hb = host.getBoundingClientRect(), left = box.left - hb.left + X(xv) / W * box.width;
+      if (narrow){ tip.style.whiteSpace = "normal"; tip.style.maxWidth = (hb.width - 8) + "px"; }
+      tip.hidden = false;
+      var tw = tip.offsetWidth / 2 + 4;
+      tip.style.left = Math.max(tw, Math.min(hb.width - tw, left)) + "px"; tip.style.top = (box.top - hb.top + m.t / H * box.height + 4) + "px";
+      tip.style.transform = "translate(-50%, 0)";
+    }
+    hit.addEventListener("pointermove", function(e){ show(e.clientX); });
+    hit.addEventListener("pointerdown", function(e){ show(e.clientX); });
+    hit.addEventListener("pointerleave", function(){ tip.hidden = true; xh.setAttribute("visibility", "hidden"); });
   }
 
   var head = document.getElementById("rank-head"), body = document.getElementById("rank-body");
@@ -599,7 +711,7 @@ EffAdj    = 0.30 × (PTS − 0.92 × LgPtsPerAtt × Attempts)</pre></div>
   var bf = document.getElementById("basis-full"), bb = document.getElementById("basis-base");
   bf.onclick = function(){ bf.setAttribute("aria-pressed","true"); bb.setAttribute("aria-pressed","false"); set("basis","full"); refreshPanel(); };
   bb.onclick = function(){ bb.setAttribute("aria-pressed","true"); bf.setAttribute("aria-pressed","false"); set("basis","base"); refreshPanel(); };
-  function refreshPanel(){ var p = document.getElementById("player-panel"); if (!p.hidden && currentPid) showPlayer(currentPid); }
+  function refreshPanel(){ if (CMP.length) renderCompare(); }
   document.getElementById("f-from").onchange = function(){ var v = +this.value; if (v > state.to){ state.to = v; document.getElementById("f-to").value = v; } set("from", v); };
   document.getElementById("f-to").onchange = function(){ var v = +this.value; if (v < state.from){ state.from = v; document.getElementById("f-from").value = v; } set("to", v); };
   document.getElementById("f-pos").onchange = function(){ set("pos", this.value); };
