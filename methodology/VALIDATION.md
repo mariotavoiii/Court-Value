@@ -21,8 +21,7 @@ The three defense coefficients are the only fitted numbers in CV. They were fitt
 | CV_BASE vs 1.0.0 release | Identical on all 26,219 rows (max difference 0) |
 | Frozen control columns vs 1.0.0 | Identical (max difference 0) |
 | Worked examples recomputed from raw totals, including one team's defense | Max difference 1.1e-13 |
-
-The 1.0 cross-platform result (macOS, Python 3.14.7, against Linux, Python 3.11.15; max difference 0.0) used the same locked environment. 1.1 adds only numpy/pandas arithmetic of the same kind.
+| Cross-platform rebuild (macOS 15.8, Python 3.14.7, against Linux, Python 3.11.15; pandas 3.0.2, numpy 2.4.4), run after release | **PASS** on all 7 outputs. Public file identical; scores within 8e-14 (relative 1.5e-12); ranks and qualification identical. The 1.1 estimate uses exp/log, whose last binary digit can differ between platforms, so the verifier uses `|a − b| ≤ 1e-12 + 1e-12·|a|` (A25). |
 
 ## 2. Mechanical checks (22 of 22 pass)
 

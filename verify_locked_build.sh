@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Rebuild CV under the locked dependencies (requirements.lock) and compare with the
-# reference candidate. Run from this folder:  bash verify_locked_build.sh
+# reference candidate (tolerance |a-b| <= 1e-12 + 1e-12*|a|; public file 1e-4). Run from this folder:  bash verify_locked_build.sh
 # Needs Python 3.11+ and internet access to PyPI. Writes only to reproduction_runs/.
 set -euo pipefail
 cd "$(dirname "$0")"
@@ -30,18 +30,26 @@ for name in ["cv_player_seasons.csv", "cv_player_stints.csv", "leaderboard_cv_fu
     r = {"rows_match": a.shape == b.shape and list(a.columns) == list(b.columns)}
     if r["rows_match"]:
         num = a.select_dtypes("number").columns
-        diff = (a[num] - b[num]).abs().max().max() if len(num) else 0.0
+        absdiff = (a[num] - b[num]).abs()
+        diff = absdiff.max().max() if len(num) else 0.0
+        # Mixed tolerance: |a - b| <= atol + rtol*|a|. Different platforms' math libraries
+        # (exp/log) may differ in the last binary digit, i.e. about 4e-16 relative; for a
+        # value near 9,000 that is about 4e-12 absolute, so a pure absolute test is too strict.
+        atol = 1e-4 if name.startswith("PUBLIC") else 1e-12   # public file is rounded to 4 decimals
+        rtol = 0.0 if name.startswith("PUBLIC") else 1e-12
+        excess = int((absdiff > atol + rtol * a[num].abs()).sum().sum()) if len(num) else 0
+        rel = (absdiff / a[num].abs().where(a[num].abs() > 0)).max().max() if len(num) else 0.0
         nan_mismatch = int((a[num].isna() != b[num].isna()).sum().sum())
         text = [c for c in a.columns if c not in num]
         text_mismatch = int((a[text].astype(object).fillna("").astype(str).values != b[text].astype(object).fillna("").astype(str).values).sum())
-        tol = 1e-4 if name.startswith("PUBLIC") else 1e-12   # public file is rounded to 4 decimals
-        r.update(max_abs_numeric_difference=float(diff), missingness_mismatches=nan_mismatch,
-                 text_mismatches=text_mismatch, tolerance=tol,
-                 passed=bool(diff <= tol and nan_mismatch == 0 and text_mismatch == 0))
+        r.update(max_abs_numeric_difference=float(diff), max_rel_numeric_difference=float(0.0 if pd.isna(rel) else rel),
+                 values_outside_tolerance=excess, missingness_mismatches=nan_mismatch,
+                 text_mismatches=text_mismatch, atol=atol, rtol=rtol,
+                 passed=bool(excess == 0 and nan_mismatch == 0 and text_mismatch == 0))
     else:
         r["passed"] = False
     ok &= r["passed"]; report["files"][name] = r
-    print(f"{'PASS' if r['passed'] else 'FAIL'}  {name}  max diff {r.get('max_abs_numeric_difference')}")
+    print(f"{'PASS' if r['passed'] else 'FAIL'}  {name}  max abs diff {r.get('max_abs_numeric_difference')}  max rel diff {r.get('max_rel_numeric_difference')}")
 report["passed"] = ok
 open(f"{run}/LOCKED_REPRODUCTION_REPORT.json", "w").write(json.dumps(report, indent=2) + "\n")
 print("OVERALL:", "PASS" if ok else "FAIL", f"(report: {run}/LOCKED_REPRODUCTION_REPORT.json)")

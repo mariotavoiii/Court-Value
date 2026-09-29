@@ -2,6 +2,12 @@
 
 All published outputs are immutable. Methodological changes receive a new model version; new or corrected data receive a new data revision.
 
+## Post-1.1.0 tooling (2026-09-29): no score changes
+
+- **Cross-platform reproduction of 1.1.0: PASS.** macOS 15.8 with Python 3.14.7, pandas 3.0.2 and numpy 2.4.4 reproduces all 7 outputs. The public score file is byte-identical in value. Full-precision scores differ by at most 8e-14 (relative 1.5e-12), and ranks and qualification are identical.
+- **Fixed: `verify_locked_build.sh` tolerance.** The pure absolute test (1e-12) failed on `team_defense.csv`. There, a ~9,000 estimated-attempt value differed in its last binary digit between platform math libraries, a difference of 3.6e-12 absolute and 4e-16 relative. The test is now `|a − b| ≤ 1e-12 + 1e-12·|a|` (public file: 1e-4) and reports both absolute and relative differences (A25).
+- The copy of the verifier inside the archived 1.1.0 release keeps the old, stricter test; use the current one.
+
 ## 1.1.0 (2026-09-29, data revision 2026-09-29): one defensive rule for all of history
 
 - **Changed: team defense.** Opponent shot attempts are estimated from season team totals recorded since 1951-52, with three frozen coefficients. The same rule applies to every NBA and ABA season (TECHNICAL_SPECIFICATION §7). Recorded opponent attempts (1971+) are used only to fit the coefficients and for diagnostics.
