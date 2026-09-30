@@ -49,7 +49,7 @@ Audit evidence tables and research experiments are kept with the private inputs;
 
 ## Versions
 
-- **1.2.0:** adds Playoff CV and Full-season CV.
+- **1.2.0 (preview, not yet archived):** adds Playoff CV and Full-season CV.
   - **Run**, the headline postseason résumé, counts each round once and adds capped, responsibility-weighted title credit.
   - **Rate** measures quality while active.
   - **Full-season CV** counts every playoff game as one more game, plus a title bonus.
@@ -61,7 +61,7 @@ Audit evidence tables and research experiments are kept with the private inputs;
 
 Please cite as described in [`CITATION.cff`](CITATION.cff):
 
-> Tavolieri, Mario, III. *Court Value (CV): a historically portable NBA/ABA player-season value metric.* Version 1.2.0. Zenodo, 2026. https://doi.org/10.5281/zenodo.23045497
+> Tavolieri, Mario, III. *Court Value (CV): a historically portable NBA/ABA player-season value metric.* Version 1.1.0. Zenodo, 2026. https://doi.org/10.5281/zenodo.23045497
 
 - **Scores and documentation:** [CC BY 4.0](LICENSE-DATA).
 - **Code:** [MIT](LICENSE-CODE).

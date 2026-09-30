@@ -23,5 +23,5 @@
     }
   ],
   "notes": "Source code is licensed MIT (LICENSE-CODE). Underlying statistics come from Basketball-Reference via the Kaggle dataset 'NBA Stats (1947-present)' by Sumitro Datta.",
-  "version": "1.2.0"
+  "version": "1.1.0"
 }

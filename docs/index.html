@@ -303,23 +303,16 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-betw
 </section>
 
 <section id="methodology" data-page hidden>
-  <span class="eyebrow">How it works · version <span class="ver">1.2</span></span>
+  <span class="eyebrow">How it works · version <span class="ver">1.1</span></span>
   <h2 style="margin:6px 0 12px">How a season becomes a number</h2>
   <p class="lede prose">Every step uses information recorded since 1952, and every season is measured against the other players in that same season. <mark>No era bonuses, no ABA penalty, and no awards or reputation go into the formula.</mark></p>
   <div class="strip">
-    <div class="frame"><span class="n">1</span><h3>Count the production</h3><p>Points, plus assists and rebounds at 0.65 of a point each. Scoring is compared with what the league scored on the same number of shots, and a mild efficiency term rewards or docks the difference.</p>
-      <pre>BoxImpact = PTS + 0.65·AST + 0.65·TRB
-Attempts  = FGA + 0.44·FTA
-EffAdj    = 0.30 × (PTS − 0.92 × LgPtsPerAtt × Attempts)</pre></div>
-    <div class="frame"><span class="n">2</span><h3>Weigh the load</h3><p>Each roster is ranked by visible offensive load and share of games, then split into four tiers. Stars carry full weight for team context and deep reserves carry little. Tiers measure responsibility, not skill.</p></div>
-    <div class="frame"><span class="n">3</span><h3>Check the scoreboard</h3><p>The team's average final margin <em>in the games he actually played</em>, compared with the league. A better team earns a small, capped boost, at most about ±12.5% for a top-tier player.</p>
-      <pre>Context = 1 + 0.125 × RoleWeight × tanh(0.75 × Z_margin)</pre></div>
-    <div class="frame"><span class="n">4</span><h3>Compare with his season</h3><p>Divide by games played, then compare with everyone in that league-season, weighted by games. Fewer games doesn't lower the score directly. It affects his role, and he needs 70% of team games to make the leaderboards.</p>
-      <pre>CV_BASE = 3 × (Rate − season mean) / season SD</pre></div>
-    <div class="frame"><span class="n">5</span><h3>Add the defense</h3><p>Each team's defense is rated by opponent scoring per shot and per game. Opponent shots weren't recorded before 1970–71, so CV estimates them the same way for every season from team totals kept since 1952. The credit is shared with players by minutes and capped between −0.75 and +1.5.</p>
-      <pre>CV = CV_BASE + DefensiveCredit</pre></div>
-    <div class="frame"><span class="n">6</span><h3>Then the playoffs</h3><p>Playoff CV is its own score, never added to the regular season. <b>Run</b>, the headline, counts each round once however long the series, so a sweep is worth as much as a seven-game win. Champions earn up to 3 points of title credit, shared by how much of the load each player carried. <b>Rate</b> measures quality while active. Both use the regular season's ruler. <b>Full-season CV</b> counts every playoff game as one more game of the season, plus a champion's title credit scaled by the playoffs' share of his games. Minutes played are never used, because early playoff records don't have them.</p>
-      <pre>Full season = games-weighted (RS, PO) + title × PO share</pre></div>
+    <div class="frame"><span class="n">1</span><h3>Count the production</h3><p>Points, assists and rebounds, the box-score numbers recorded every season since 1952. Scoring is compared with what the league scored on the same number of shots, so efficient scoring counts for more than empty volume.</p></div>
+    <div class="frame"><span class="n">2</span><h3>Weigh the load</h3><p>Each roster is ranked by who carried the offense and who was available, then split into tiers. The players carrying the biggest load get the most credit for how the team did. Tiers measure responsibility, not skill.</p></div>
+    <div class="frame"><span class="n">3</span><h3>Check the scoreboard</h3><p>How the team did <em>in the games he actually played</em>, compared with the league. A winning team earns a small, capped boost, larger for the players carrying the load.</p></div>
+    <div class="frame"><span class="n">4</span><h3>Compare with his season</h3><p>Everything is measured per game against everyone in that league-season. Fewer games doesn't lower the score directly, but a player needs 70% of his team's games to make the leaderboards.</p></div>
+    <div class="frame"><span class="n">5</span><h3>Add the defense</h3><p>Each team's defense is rated the same way in every season since 1952, then shared with its players by how much they played. The credit is capped, so defense adjusts a score but never dominates it.</p></div>
+    <div class="frame"><span class="n">6</span><h3>Then the playoffs</h3><p><b>Playoff Run</b> is a postseason résumé: each round counts once however long the series, and champions earn capped title credit shared by how much of the load each player carried. <b>Playoff Rate</b> is quality while active. <b>Full-season CV</b> adds the playoffs to the regular season on the same scale.</p></div>
   </div>
 
   <div class="magic">
@@ -351,14 +344,14 @@ EffAdj    = 0.30 × (PTS − 0.92 × LgPtsPerAtt × Attempts)</pre></div>
       </ul>
     </div>
   </div>
-  <p class="note" id="spec-link">The exact specification, worked examples, validation and limitations are published with the code.</p>
+  <p class="note">Court Value's exact formula is proprietary. The scores are free to use under CC BY 4.0.</p>
 </section>
 
 <section id="downloads" data-page hidden>
   <span class="eyebrow">Data and changelog</span>
   <h2 style="margin:6px 0 16px">Take the numbers with you</h2>
   <div class="dl-row">
-    <div><h3>CV scores, version <span class="ver">1.2</span></h3><p class="soft" style="margin:4px 0 0">Every scored player-season: player, season, league, teams, games, minutes, qualification, score basis, full CV, CV_BASE, defensive credit and ranks. CSV, about 4 MB.</p></div>
+    <div><h3>CV scores, version <span class="ver">1.1</span></h3><p class="soft" style="margin:4px 0 0">Every scored player-season: player, season, league, teams, games, minutes, qualification, score basis, full CV, CV_BASE, defensive credit and ranks. CSV, about 4 MB.</p></div>
     <a class="btn" href="data/PUBLIC_cv_scores.csv" download>Download CSV</a>
   </div>
   <div class="dl-row">
@@ -369,21 +362,17 @@ EffAdj    = 0.30 × (PTS − 0.92 × LgPtsPerAtt × Attempts)</pre></div>
     <div><h3>Full-season CV scores</h3><p class="soft" style="margin:4px 0 0">Every scored season, regular season plus playoffs: regular-season CV, playoff Rate, games of each, title bonus, full-season CV and ranks. CSV, about 2.8 MB.</p></div>
     <a class="btn" href="data/PUBLIC_full_season_cv_scores.csv" download>Download CSV</a>
   </div>
-  <div class="dl-row">
-    <div><h3>Code, specification and validation</h3><p class="soft" style="margin:4px 0 0">The calculator, technical specification, worked examples, audit summary and anomaly log.</p></div>
-    <a class="btn secondary" id="repo-link" href="#contact">View on GitHub</a>
-  </div>
   <div class="grid2 block">
     <div class="card prose">
       <h3>Cite Court Value</h3>
       <pre id="citation" style="white-space:pre-wrap">Tavolieri, Mario, III. Court Value (CV): a historically portable NBA/ABA player-season value metric. Version 1.1.0. Zenodo, 2026. https://doi.org/10.5281/zenodo.23045497</pre>
       <button type="button" class="btn secondary" id="copy-cite" style="margin-top:12px">Copy citation</button>
-      <p class="note">Scores and documentation: CC BY 4.0. Code: MIT. Underlying statistics come from Basketball-Reference, via the Kaggle dataset "NBA Stats (1947–present)" by Sumitro Datta. Raw statistics are not redistributed.</p>
+      <p class="note">Scores: CC BY 4.0. The formula is proprietary. Underlying statistics come from Basketball-Reference, via the Kaggle dataset "NBA Stats (1947–present)" by Sumitro Datta. Raw statistics are not redistributed.</p>
     </div>
     <div class="card prose">
       <h3>Changelog</h3>
       <dl class="defs">
-        <dt>1.2</dt><dd>Adds Playoff CV (Run and Rate) for every NBA postseason since 1951–52, on the regular season's ruler, and Full-season CV (regular season plus playoffs). Regular-season scores unchanged.</dd>
+        <dt>1.2 preview</dt><dd>Not yet archived. Adds Playoff CV (Run and Rate) for every NBA postseason since 1951–52, on the regular season's ruler, and Full-season CV (regular season plus playoffs). Regular-season scores unchanged.</dd>
         <dt>1.1</dt><dd>One defensive rule for every season. Full CV now covers NBA 1951–52 to 2025–26 and the ABA. Base scores are unchanged. <a href="https://doi.org/10.5281/zenodo.23045497">DOI 10.5281/zenodo.23045497</a></dd>
         <dt>1.0</dt><dd>First public release (<a href="https://doi.org/10.5281/zenodo.23040991">DOI 10.5281/zenodo.23040991</a>). Team context uses the margin in games actually played; season scores are weighted by games played.</dd>
         <dt>Pre-1.0</dt><dd>Research versions CELTIC (2025) and ARC (2026). Never published as releases.</dd>
@@ -406,13 +395,13 @@ EffAdj    = 0.30 × (PTS − 0.92 × LgPtsPerAtt × Attempts)</pre></div>
 </main>
 
 <footer><div class="wrap">
-  <span>Court Value <span class="ver">1.2</span> · data revision <span id="rev">2026-09-29</span></span>
-  <span>DOI <a href="https://doi.org/10.5281/zenodo.23045497">10.5281/zenodo.23045497</a> · Scores CC BY 4.0 · Code MIT · Statistics from Basketball-Reference</span>
+  <span>Court Value <span class="ver">1.1</span> · data revision <span id="rev">2026-09-29</span></span>
+  <span>DOI <a href="https://doi.org/10.5281/zenodo.23045497">10.5281/zenodo.23045497</a> · Scores CC BY 4.0 · Statistics from Basketball-Reference</span>
 </div></footer>
 
 <script>
 (function(){
-  var CONFIG = { repo: "https://github.com/mariotavoiii/Court-Value", version: "1.2" };
+  var CONFIG = { repo: "https://github.com/mariotavoiii/Court-Value", version: "1.1" };
   var NS = "http://www.w3.org/2000/svg";
 
   var pages = [].slice.call(document.querySelectorAll("[data-page]"));
@@ -428,8 +417,6 @@ EffAdj    = 0.30 × (PTS − 0.92 × LgPtsPerAtt × Attempts)</pre></div>
 
   document.querySelectorAll(".ver").forEach(function(el){ el.textContent = CONFIG.version; });
   if (CONFIG.repo){
-    document.getElementById("repo-link").href = CONFIG.repo;
-    document.getElementById("spec-link").innerHTML = 'The exact specification, worked examples, validation and limitations are published with the code on <a href="' + CONFIG.repo + '">GitHub</a>.';
     document.getElementById("contact-issues").innerHTML = 'Open an issue at <a href="' + CONFIG.repo + '/issues">' + CONFIG.repo.replace("https://","") + '/issues</a> with the player, the season and what you expected.';
   }
   document.getElementById("copy-cite").addEventListener("click", function(){
