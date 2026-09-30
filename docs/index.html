@@ -71,7 +71,7 @@ main section{padding-block:36px 72px}
 .head-row{display:flex;justify-content:space-between;align-items:end;gap:12px;flex-wrap:wrap;margin-bottom:12px}
 .head-row a{font:600 13px/1 var(--mono);letter-spacing:.04em}
 .grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px}
-@media (max-width:780px){.grid2{grid-template-columns:1fr}}
+@media (max-width:780px){.grid2{grid-template-columns:minmax(0,1fr)}}
 .list{margin:0;padding-left:20px}
 .list li{margin-bottom:6px}
 /* charts */
@@ -169,6 +169,71 @@ pre{font:13px/1.55 var(--mono);background:var(--paper);border:1.5px solid var(--
 @media (max-width:560px){.dl-row{grid-template-columns:1fr}}
 footer{border-top:3px solid var(--ink);padding-block:22px 40px;font:500 12.5px/1.6 var(--mono);color:var(--soft)}
 footer .wrap{display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-between}
+/* teams, big 3, decades */
+.pick2{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);gap:18px;align-items:stretch;margin-top:22px}
+@media (max-width:860px){.pick2{grid-template-columns:1fr}}
+.vs{font:400 34px/1 var(--display);align-self:center;justify-self:center;color:var(--red)}
+.tcard{display:flex;flex-direction:column;gap:12px;min-width:0}
+.tcard .sel{display:flex;gap:8px;flex-wrap:wrap}
+.tcard .sel select{flex:1 1 140px}
+.tcard.a{border-top:10px solid var(--blue)} .tcard.b{border-top:10px solid var(--red)}
+.tname{font:400 clamp(24px,3vw,30px)/1.05 var(--display)}
+.tsub{font:500 13px/1.4 var(--mono);color:var(--soft);display:flex;gap:6px 14px;flex-wrap:wrap;align-items:center}
+.tsub b{color:var(--ink);font-weight:600}
+.rating{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.rating .big{font:400 46px/1 var(--display);font-variant-numeric:tabular-nums}
+.tcard.a .rating .big{color:var(--blue)} .tcard.b .rating .big{color:var(--red)}
+.rating span{font:500 12.5px/1.35 var(--mono);color:var(--soft);max-width:22ch}
+.mini{width:100%;border-collapse:collapse;font:400 15px/1.3 var(--serif);font-variant-numeric:tabular-nums}
+.mini td,.mini th{padding:5px 6px;border-bottom:1px dotted var(--rule);white-space:nowrap}
+.mini th{font:600 10.5px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--soft);background:none;border-bottom:1px solid var(--rule)}
+.mini td.nm{white-space:normal;font-weight:600;width:100%}
+.mini td.n,.mini th.n{text-align:right;font-family:var(--mono);font-size:13px}
+.odds{margin-top:26px}
+.oddbar{display:flex;height:46px;border:3px solid var(--ink);border-radius:8px;overflow:hidden;margin:12px 0}
+.oddbar div{display:flex;align-items:center;padding-inline:10px;font:600 14px/1 var(--mono);white-space:nowrap;overflow:hidden;transition:flex-basis .5s;min-width:0}
+.oddbar .a{background:var(--blue);color:#fff} .oddbar .b{background:var(--red);color:#fff;justify-content:flex-end}
+.outcomes{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:5px;font:500 11.5px/1.25 var(--mono);text-align:center}
+@media (max-width:600px){.outcomes{grid-template-columns:repeat(4,minmax(0,1fr))}}
+.outcomes div{border:2px solid var(--rule);border-radius:6px;padding:7px 2px}
+.outcomes div.a{border-color:var(--blue)} .outcomes div.b{border-color:var(--red)}
+.outcomes b{display:block;font:400 18px/1.15 var(--display)}
+.games{list-style:none;margin:14px 0 0;padding:0}
+.games li{display:grid;grid-template-columns:74px minmax(0,1fr) auto;gap:10px;align-items:center;padding:9px 0;border-top:1px solid var(--rule);animation:pop .35s ease-out}
+.games .gn{font:600 12px/1 var(--mono);color:var(--soft)}
+.games .sc{font:500 14.5px/1.35 var(--mono)}
+.games .ser{font:400 20px/1 var(--display)}
+@keyframes pop{from{opacity:.2;transform:translateY(4px)}to{opacity:1;transform:none}}
+.verdict{font:400 clamp(24px,3.4vw,34px)/1.1 var(--display);margin-top:14px}
+.row{display:flex;flex-wrap:wrap;gap:10px 12px;align-items:center}
+.b3list{display:flex;flex-direction:column;gap:10px}
+.b3p{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:4px 10px;align-items:baseline}
+.b3p .nm{font-weight:600;font-size:17px;overflow-wrap:anywhere}
+.b3p .nm small{font:500 11.5px var(--mono);color:var(--soft);margin-left:6px}
+.b3p .v{font:400 22px/1 var(--display);font-variant-numeric:tabular-nums}
+.b3p .track{grid-column:1/-1;height:10px;background:var(--grid);border-radius:5px;overflow:hidden}
+.b3p .track i{display:block;height:100%;border-radius:5px}
+.tcard.a .track i{background:var(--blue)} .tcard.b .track i{background:var(--red)}
+.slots3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:12px}
+@media (max-width:600px){.slots3{grid-template-columns:1fr}}
+.slot3{border:2px solid var(--rule);border-radius:8px;padding:10px 12px}
+.slot3 .lbl{display:block;margin-bottom:4px}
+.slot3 .who{font:500 13px/1.4 var(--mono)}
+.slot3 .who b{font-weight:600}
+.edge-a{color:var(--blue)} .edge-b{color:var(--red)}
+td.tm{font-weight:600;white-space:normal;min-width:170px}
+td.b3{white-space:normal;min-width:220px;font-size:14.5px}
+.decgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,250px),1fr));gap:18px;margin-top:20px}
+.dcard{background:var(--card);border:3px solid var(--ink);border-radius:10px;box-shadow:5px 5px 0 var(--shadow);padding:14px 16px;display:flex;flex-direction:column;gap:8px;text-align:left;color:var(--ink);font:inherit;cursor:pointer}
+.dcard:hover{background:var(--hover)}
+.dcard[aria-pressed="true"]{background:var(--hi)}
+.dcard .dh{font:400 30px/1 var(--display)}
+.dcard .dl{display:grid;grid-template-columns:62px minmax(0,1fr);gap:8px;font-size:15px;line-height:1.3;border-top:1px dotted var(--rule);padding-top:6px}
+.dcard .dl span:first-child{font:600 10.5px/1.5 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--soft)}
+.dcard .dl b{font-weight:600}
+.decdetail h3.dt{font:400 clamp(28px,4vw,40px)/1.05 var(--display);margin:6px 0 4px}
+.decdetail .grid2{margin-top:18px}
+.decdetail h4{font:400 20px/1.1 var(--display);margin:0 0 8px}
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 </style>
 </head><body>
@@ -182,6 +247,9 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-betw
     <nav aria-label="Sections">
       <a href="#home" data-nav="home">Home</a>
       <a href="#rankings" data-nav="rankings">Rankings</a>
+      <a href="#teams" data-nav="teams">Teams</a>
+      <a href="#big3" data-nav="big3">Big 3</a>
+      <a href="#decades" data-nav="decades">Decades</a>
       <a href="#methodology" data-nav="methodology">How it works</a>
       <a href="#downloads" data-nav="downloads">Data</a>
       <a href="#contact" data-nav="contact">Contact</a>
@@ -289,6 +357,68 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-betw
   </table></div>
   <button type="button" class="btn secondary more" id="more" hidden>Show 50 more</button>
   <p class="note">Click a column heading to sort; click again to reverse. Click a player's name to add his career to the comparison chart (up to five). Positions are each season's listed position from Basketball-Reference, shown for filtering.</p>
+</section>
+
+<section id="teams" data-page hidden>
+  <span class="eyebrow">Teams · Time Machine</span>
+  <h2 style="margin-top:6px">Any two teams, any two eras</h2>
+  <p class="lede prose" style="margin-top:12px">Pick two team-seasons and play them in a best-of-seven. Each team's rating comes from its players' regular-season Court Value, weighted by how much each one played, and reads as <mark>points per game better than an average team of its own season</mark>.</p>
+  <div class="pick2">
+    <div class="card tcard a" id="tm-a"></div>
+    <div class="vs" aria-hidden="true">vs</div>
+    <div class="card tcard b" id="tm-b"></div>
+  </div>
+  <div class="odds card">
+    <div class="row" style="justify-content:space-between">
+      <span class="lbl">Series odds · best of seven</span>
+      <div class="row"><button id="tm-rand" class="btn secondary" type="button">Random matchup</button><button id="tm-play" class="btn" type="button">Play the series</button></div>
+    </div>
+    <div class="oddbar" id="tm-bar"></div>
+    <div class="outcomes" id="tm-out"></div>
+    <p class="caption" id="tm-cap"></p>
+    <ul class="games" id="tm-games" aria-live="polite"></ul>
+    <div class="verdict" id="tm-verdict"></div>
+  </div>
+  <div class="block">
+    <div class="head-row"><div><span class="eyebrow">All time</span><h2>The best teams</h2></div>
+      <div class="field"><label for="tm-lg">League</label><select id="tm-lg"><option value="all">NBA and ABA</option><option value="0">NBA</option><option value="1">ABA</option></select></div></div>
+    <div class="tablewrap"><table aria-label="Best team-seasons by team rating">
+      <thead><tr><th class="num">#</th><th>Team</th><th>Season</th><th class="num">W–L</th><th class="num">Rating</th><th class="num">Actual margin</th><th>Result</th><th></th></tr></thead>
+      <tbody id="tm-list"><tr><td colspan="8" class="status">Loading teams…</td></tr></tbody>
+    </table></div>
+    <button type="button" class="btn secondary more" id="tm-more">Show 25 more</button>
+    <p class="note">Rating is how many points per game better than an average team of the same season the roster's Court Value projects. Across 1,758 team-seasons it tracks the actual scoring margin closely (r = 0.95); the gap between the two columns is where a team won more or less than its players' value suggests. Every team is measured against its own league, so a 1967 team and a 2017 team meet as two equally dominant clubs, not as two rosters of equal size or skill. Use a row's buttons to send it to either side of the Time Machine.</p>
+  </div>
+</section>
+
+<section id="big3" data-page hidden>
+  <span class="eyebrow">Teams · Big 3</span>
+  <h2 style="margin-top:6px">Every team's Big 3, head to head</h2>
+  <p class="lede prose" style="margin-top:12px">A team's Big 3 is its three best qualified seasons by Court Value, counting players who spent at least 30% of that team's games there. <mark>Add them up and every trio in history is on one scale.</mark></p>
+  <div class="pick2">
+    <div class="card tcard a" id="b3-a"></div>
+    <div class="vs" aria-hidden="true">vs</div>
+    <div class="card tcard b" id="b3-b"></div>
+  </div>
+  <div class="card odds" id="b3-cmp"></div>
+  <div class="block">
+    <div class="head-row"><div><span class="eyebrow">All time</span><h2>The best Big 3s</h2></div>
+      <div class="field"><label for="b3-lg">League</label><select id="b3-lg"><option value="all">NBA and ABA</option><option value="0">NBA</option><option value="1">ABA</option></select></div></div>
+    <div class="tablewrap"><table aria-label="Best Big 3s by combined season CV">
+      <thead><tr><th class="num">#</th><th>Team</th><th>Season</th><th>The three</th><th class="num">Big 3 CV</th><th>Result</th><th></th></tr></thead>
+      <tbody id="b3-list"><tr><td colspan="7" class="status">Loading teams…</td></tr></tbody>
+    </table></div>
+    <button type="button" class="btn secondary more" id="b3-more">Show 25 more</button>
+    <p class="note">Big 3 CV is the sum of the three season CVs, regular season and playoffs together. A player traded mid-season carries his whole-season score to each team where he played at least 30% of the games.</p>
+  </div>
+</section>
+
+<section id="decades" data-page hidden>
+  <span class="eyebrow">Decades</span>
+  <h2 style="margin-top:6px">The best of every decade</h2>
+  <p class="lede prose" style="margin-top:12px">Each decade's best players, seasons, teams and Big 3s. A decade runs by the season's final year, so 1989–90 opens the 1990s. <mark>Pick a decade for the full lists.</mark></p>
+  <div class="decgrid" id="dec-grid"><div class="status">Loading decades…</div></div>
+  <div class="block decdetail" id="dec-detail"></div>
 </section>
 
 <section id="methodology" data-page hidden>
@@ -812,4 +942,195 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-betw
 })();
 </script>
 
+<script>
+(function(){
+  // Team rows: 0 season, 1 lg, 2 team, 3 name, 4 W, 5 L, 6 rating, 7 mov, 8 champion, 9 rank, 10 big3, 11 big3_rank, 12 big3 players [[name,pos,cv]], 13 roster [[name,pos,g,min%,rs,cv]]
+  var T = null, BYK = {}, BYSEASON = {}, META = null, DEC = null, loading = false;
+  var SEL = { tm: ["1996|0|CHI", "1986|0|BOS"], b3: ["2017|0|GSW", "1992|0|CHI"] };
+  var LIST = { tm: 25, b3: 25 }, LG = { tm: "all", b3: "all" };
+  function $(id){ return document.getElementById(id); }
+  function esc(s){ return String(s).replace(/[&<>"]/g, function(c){ return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]; }); }
+  function sl(y){ return (y - 1) + "–" + String(y).slice(-2); }
+  function key(r){ return r[0] + "|" + r[1] + "|" + r[2]; }
+  function sgn(x){ return (x > 0 ? "+" : x < 0 ? "−" : "") + Math.abs(x).toFixed(1); }
+  function f2(x){ return x === null || x === undefined ? "—" : x.toFixed(2); }
+  function wl(r){ return r[4] === null ? "—" : r[4] + "–" + r[5]; }
+  function tag(r){ return r[2] + " ’" + String(r[0]).slice(-2); }
+  function lgPill(r){ return r[1] ? " <span class='pill aba'>ABA</span>" : ""; }
+  function result(r){ return r[8] ? "<span class='pill champ'>Champion</span>" : ""; }
+  // normal CDF (Abramowitz-Stegun 7.1.26)
+  function phi(x){ var t = 1 / (1 + 0.3275911 * Math.abs(x) / Math.SQRT2), y = 1 - (((((1.061405429 * t - 1.453152027) * t) + 1.421413741) * t - 0.284496736) * t + 0.254829592) * t * Math.exp(-x * x / 2); return x >= 0 ? (1 + y) / 2 : (1 - y) / 2; }
+  function gauss(){ var u = 0, v = 0; while (!u) u = Math.random(); while (!v) v = Math.random(); return Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v); }
+
+  function load(){
+    if (T || loading) return; loading = true;
+    Promise.all([fetch("data/teams.json").then(function(r){ return r.json(); }), fetch("data/decades.json").then(function(r){ return r.json(); })]).then(function(d){
+      META = d[0].meta; T = d[0].rows; DEC = d[1].decades;
+      T.forEach(function(r){ BYK[key(r)] = r; (BYSEASON[r[0]] = BYSEASON[r[0]] || []).push(r); });
+      Object.keys(BYSEASON).forEach(function(s){ BYSEASON[s].sort(function(a, b){ return a[1] - b[1] || a[3].localeCompare(b[3]); }); });
+      ["tm", "b3"].forEach(function(m){ picker(m, 0); picker(m, 1); });
+      renderTM(); renderB3(); listTM(); listB3(); renderDecades();
+    }).catch(function(){ ["tm-list", "b3-list"].forEach(function(id){ $(id).innerHTML = "<tr><td class='status'>The team file could not be loaded.</td></tr>"; }); $("dec-grid").innerHTML = "<div class='status'>The decade file could not be loaded.</div>"; });
+  }
+
+  // ---- pickers
+  var SEASONS = [];
+  function picker(m, i){
+    var host = $(m + "-" + (i ? "b" : "a"));
+    if (!SEASONS.length) SEASONS = Object.keys(BYSEASON).map(Number).sort(function(a, b){ return b - a; });
+    var r = BYK[SEL[m][i]];
+    var sOpts = SEASONS.map(function(s){ return "<option value='" + s + "'" + (s === r[0] ? " selected" : "") + ">" + sl(s) + "</option>"; }).join("");
+    var tOpts = BYSEASON[r[0]].filter(function(t){ return m === "tm" || t[12]; }).map(function(t){ return "<option value='" + key(t) + "'" + (key(t) === key(r) ? " selected" : "") + ">" + esc(t[3]) + (t[1] ? " (ABA)" : "") + "</option>"; }).join("");
+    host.innerHTML = "<div class='sel'><select aria-label='Season' data-s>" + sOpts + "</select><select aria-label='Team' data-t>" + tOpts + "</select></div><div data-body></div>";
+    host.querySelector("[data-s]").addEventListener("change", function(){
+      var s = +this.value, list = BYSEASON[s].filter(function(t){ return m === "tm" || t[12]; });
+      var same = list.filter(function(t){ return t[2] === r[2]; })[0];
+      var pick = same || list.slice().sort(function(a, b){ return m === "tm" ? b[6] - a[6] : (b[10] || 0) - (a[10] || 0); })[0];
+      SEL[m][i] = key(pick); picker(m, i); (m === "tm" ? renderTM : renderB3)();
+    });
+    host.querySelector("[data-t]").addEventListener("change", function(){ SEL[m][i] = this.value; picker(m, i); (m === "tm" ? renderTM : renderB3)(); });
+  }
+  function setSide(m, i, k){ SEL[m][i] = k; picker(m, i); (m === "tm" ? renderTM : renderB3)(); var el = $(m === "tm" ? "tm-a" : "b3-a"); if (el.scrollIntoView) el.scrollIntoView({behavior: "smooth", block: "start"}); }
+
+  // ---- Time Machine
+  function teamBody(r){
+    var ro = r[13].map(function(p){ return "<tr><td class='nm'>" + esc(p[0]) + "</td><td class='n'>" + esc(p[1] || "") + "</td><td class='n'>" + p[3].toFixed(0) + "%</td><td class='n'>" + f2(p[4]) + "</td><td class='n'>" + f2(p[5]) + "</td></tr>"; }).join("");
+    return "<div class='tname'>" + sl(r[0]) + " " + esc(r[3]) + "</div>" +
+      "<div class='tsub'><span>W–L <b>" + wl(r) + "</b></span><span>Actual margin <b>" + (r[7] === null ? "—" : sgn(r[7])) + "</b></span><span>#" + r[9] + " all time</span>" + lgPill(r) + result(r) + "</div>" +
+      "<div class='rating'><span class='big'>" + sgn(r[6]) + "</span><span>Team rating: points per game above an average team of " + sl(r[0]) + "</span></div>" +
+      "<div class='tablewrap' style='border-top:0'><table class='mini'><thead><tr><th>Top minutes</th><th class='n'>Pos</th><th class='n'>Min</th><th class='n'>RS</th><th class='n'>CV</th></tr></thead><tbody>" + ro + "</tbody></table></div>";
+  }
+  function winP(ra, rb, homeA){ var h = META.home * (homeA ? 1 : -1); return phi((ra - rb + h) / META.game_sd); }
+  var HOME = [1, 1, 0, 0, 1, 0, 1]; // 2-2-1-1-1 for the higher seed
+  function series(a, b){
+    var aHigh = a[6] >= b[6], p = HOME.map(function(h){ return winP(a[6], b[6], aHigh ? !!h : !h); });
+    var st = {"0,0": 1}, out = {};
+    for (var g = 0; g < 7; g++){
+      var nx = {};
+      Object.keys(st).forEach(function(k){
+        var w = k.split(",").map(Number), pr = st[k];
+        [[w[0] + 1, w[1], p[g]], [w[0], w[1] + 1, 1 - p[g]]].forEach(function(o){
+          var kk = o[0] + "," + o[1], v = pr * o[2];
+          if (o[0] === 4 || o[1] === 4) out[kk] = (out[kk] || 0) + v; else nx[kk] = (nx[kk] || 0) + v;
+        });
+      });
+      st = nx;
+    }
+    return {out: out, p: p, aHigh: aHigh};
+  }
+  function renderTM(){
+    var a = BYK[SEL.tm[0]], b = BYK[SEL.tm[1]];
+    $("tm-a").querySelector("[data-body]").innerHTML = teamBody(a);
+    $("tm-b").querySelector("[data-body]").innerHTML = teamBody(b);
+    var s = series(a, b), pa = 0, cells = [];
+    [4, 5, 6, 7].forEach(function(n){ var v = s.out["4," + (n - 4)] || 0; pa += v; cells.push("<div class='a'><b>" + (v * 100).toFixed(1) + "%</b>" + esc(tag(a)) + " in " + n + "</div>"); });
+    [4, 5, 6, 7].forEach(function(n){ var v = s.out[(n - 4) + ",4"] || 0; cells.push("<div class='b'><b>" + (v * 100).toFixed(1) + "%</b>" + esc(tag(b)) + " in " + n + "</div>"); });
+    var pb = 1 - pa, pct = function(x){ return (x * 100).toFixed(1) + "%"; };
+    $("tm-bar").innerHTML = "<div class='a' style='flex-basis:" + (pa * 100) + "%'>" + esc(tag(a)) + " " + pct(pa) + "</div><div class='b' style='flex-basis:" + (pb * 100) + "%'>" + pct(pb) + " " + esc(tag(b)) + "</div>";
+    $("tm-out").innerHTML = cells.join("");
+    var hi = s.aHigh ? a : b;
+    $("tm-cap").textContent = "Home court goes to the higher-rated team (" + sl(hi[0]) + " " + hi[3] + "), in a 2-2-1-1-1 format. Single-game chances: " + s.p.map(function(x){ return Math.round(x * 100) + "%"; }).join(", ") + " for " + sl(a[0]) + " " + a[3] + " in games 1–7.";
+    $("tm-games").innerHTML = ""; $("tm-verdict").textContent = "";
+  }
+  var playing = null;
+  function play(){
+    if (playing) clearTimeout(playing);
+    var a = BYK[SEL.tm[0]], b = BYK[SEL.tm[1]], s = series(a, b), wa = 0, wb = 0, g = 0, ul = $("tm-games");
+    ul.innerHTML = ""; $("tm-verdict").textContent = "";
+    var reduce = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
+    (function next(){
+      if (wa === 4 || wb === 4){ var w = wa === 4 ? a : b; $("tm-verdict").innerHTML = "<span class='" + (wa === 4 ? "edge-a" : "edge-b") + "'>" + esc(sl(w[0]) + " " + w[3]) + "</span> win the series " + Math.max(wa, wb) + "–" + Math.min(wa, wb) + "."; playing = null; return; }
+      var h = META.home * ((s.aHigh ? HOME[g] : !HOME[g]) ? 1 : -1), m = a[6] - b[6] + h + META.game_sd * gauss(), ot = Math.abs(m) < 0.5;
+      if (ot) m = (Math.random() < s.p[g] ? 1 : -1) * (1 + Math.floor(Math.random() * 5));
+      var aw = m > 0, margin = Math.max(1, Math.round(Math.abs(m)));
+      if (aw) wa++; else wb++;
+      var w = aw ? a : b, homeT = (s.aHigh ? HOME[g] : !HOME[g]) ? a : b;
+      var li = document.createElement("li");
+      li.innerHTML = "<span class='gn'>Game " + (g + 1) + "</span><span class='sc'><b class='" + (aw ? "edge-a" : "edge-b") + "'>" + esc(tag(w)) + "</b> by " + margin + (ot ? " in OT" : "") + " <span class='soft'>· at " + esc(homeT[2]) + "</span></span><span class='ser'>" + wa + "–" + wb + "</span>";
+      ul.appendChild(li); g++;
+      playing = setTimeout(next, reduce ? 0 : 450);
+    })();
+  }
+  function listTM(){
+    var rows = T.filter(function(r){ return LG.tm === "all" || r[1] === +LG.tm; }).sort(function(x, y){ return y[6] - x[6]; });
+    $("tm-list").innerHTML = rows.slice(0, LIST.tm).map(function(r, i){
+      return "<tr><td class='rk'>" + (i + 1) + "</td><td class='tm'>" + esc(r[3]) + lgPill(r) + "</td><td>" + sl(r[0]) + "</td><td class='num'>" + wl(r) + "</td><td class='cv'>" + sgn(r[6]) + "</td><td class='num'>" + (r[7] === null ? "—" : sgn(r[7])) + "</td><td>" + result(r) + "</td><td><div class='row' style='gap:6px;flex-wrap:nowrap'><button type='button' class='pp-close' data-side='0' data-k='" + key(r) + "'>Left</button><button type='button' class='pp-close' data-side='1' data-k='" + key(r) + "'>Right</button></div></td></tr>";
+    }).join("");
+    $("tm-more").hidden = LIST.tm >= rows.length;
+  }
+
+  // ---- Big 3
+  function b3Body(r){
+    var mx = 16;
+    var ps = r[12].map(function(p){ return "<div class='b3p'><span class='nm'>" + esc(p[0]) + "<small>" + esc(p[1] || "") + "</small></span><span class='v'>" + p[2].toFixed(2) + "</span><span class='track'><i style='width:" + Math.max(0, Math.min(100, p[2] / mx * 100)) + "%'></i></span></div>"; }).join("");
+    return "<div class='tname'>" + sl(r[0]) + " " + esc(r[3]) + "</div>" +
+      "<div class='tsub'><span>W–L <b>" + wl(r) + "</b></span><span>#" + r[11] + " Big 3 all time</span>" + lgPill(r) + result(r) + "</div>" +
+      "<div class='rating'><span class='big'>" + r[10].toFixed(1) + "</span><span>Big 3 CV: the three season scores added up</span></div><div class='b3list'>" + ps + "</div>";
+  }
+  function renderB3(){
+    var a = BYK[SEL.b3[0]], b = BYK[SEL.b3[1]];
+    $("b3-a").querySelector("[data-body]").innerHTML = b3Body(a);
+    $("b3-b").querySelector("[data-body]").innerHTML = b3Body(b);
+    var d = a[10] - b[10], lead = d >= 0 ? a : b;
+    var slots = ["Best player", "Second", "Third"].map(function(lab, i){
+      var x = a[12][i], y = b[12][i], e = x[2] - y[2];
+      return "<div class='slot3'><span class='lbl'>" + lab + "</span><div class='who'><b class='edge-a'>" + esc(x[0]) + "</b> " + x[2].toFixed(2) + "<br><b class='edge-b'>" + esc(y[0]) + "</b> " + y[2].toFixed(2) + "</div><div class='lbl' style='margin-top:6px'>Edge: <span class='" + (e >= 0 ? "edge-a" : "edge-b") + "'>" + esc(tag(e >= 0 ? a : b)) + " by " + Math.abs(e).toFixed(2) + "</span></div></div>";
+    }).join("");
+    var tot = a[10] + b[10];
+    $("b3-cmp").innerHTML = "<span class='lbl'>Head to head · spot by spot</span><div class='oddbar'><div class='a' style='flex-basis:" + (a[10] / tot * 100) + "%'>" + esc(tag(a)) + " " + a[10].toFixed(1) + "</div><div class='b' style='flex-basis:" + (b[10] / tot * 100) + "%'>" + b[10].toFixed(1) + " " + esc(tag(b)) + "</div></div>" +
+      "<div class='verdict' style='margin:0 0 4px'>" + (Math.abs(d) < 0.05 ? "Dead even." : "<span class='" + (d >= 0 ? "edge-a" : "edge-b") + "'>" + esc(sl(lead[0]) + " " + lead[3]) + "</span> by " + Math.abs(d).toFixed(1) + " CV.") + "</div><div class='slots3'>" + slots + "</div>";
+  }
+  function listB3(){
+    var rows = T.filter(function(r){ return r[10] !== null && (LG.b3 === "all" || r[1] === +LG.b3); }).sort(function(x, y){ return y[10] - x[10]; });
+    $("b3-list").innerHTML = rows.slice(0, LIST.b3).map(function(r, i){
+      return "<tr><td class='rk'>" + (i + 1) + "</td><td class='tm'>" + esc(r[3]) + lgPill(r) + "</td><td>" + sl(r[0]) + "</td><td class='b3'>" + r[12].map(function(p){ return esc(p[0]) + " <span class='soft mono' style='font-size:12px'>" + p[2].toFixed(1) + "</span>"; }).join(" · ") + "</td><td class='cv'>" + r[10].toFixed(1) + "</td><td>" + result(r) + "</td><td><div class='row' style='gap:6px;flex-wrap:nowrap'><button type='button' class='pp-close' data-side='0' data-k='" + key(r) + "'>Left</button><button type='button' class='pp-close' data-side='1' data-k='" + key(r) + "'>Right</button></div></td></tr>";
+    }).join("");
+    $("b3-more").hidden = LIST.b3 >= rows.length;
+  }
+
+  // ---- Decades
+  var DSEL = null;
+  function dlabel(d){ return d + "s"; }
+  function renderDecades(){
+    var ks = Object.keys(DEC).sort();
+    if (!DSEL) DSEL = ks[ks.length - 1];
+    $("dec-grid").innerHTML = ks.map(function(k){
+      var D = DEC[k], p = D.players[0], s = D.seasons[0], t = D.teams[0], b = D.big3[0];
+      return "<button type='button' class='dcard' data-dec='" + k + "' aria-pressed='" + (k === DSEL) + "'><span class='dh'>" + dlabel(k) + "</span>" +
+        "<span class='dl'><span>Player</span><span><b>" + esc(p[0]) + "</b></span></span>" +
+        "<span class='dl'><span>Season</span><span><b>" + esc(s[0]) + "</b> " + sl(s[1]) + " · " + s[3].toFixed(2) + "</span></span>" +
+        "<span class='dl'><span>Team</span><span><b>" + sl(t[0]) + " " + esc(t[2]) + "</b></span></span>" +
+        "<span class='dl'><span>Big 3</span><span><b>" + sl(b[0]) + " " + esc(b[2]) + "</b></span></span></button>";
+    }).join("");
+    var D = DEC[DSEL], first = +DSEL, last = first + 9;
+    var span = sl(Math.max(first, 1952)) + " to " + sl(Math.min(last, 2026));
+    var pl = D.players.map(function(p, i){ return "<tr><td class='rk'>" + (i + 1) + "</td><td class='player'>" + esc(p[0]) + (p[3].indexOf("ABA") > -1 ? " <span class='pill aba'>" + esc(p[3]) + "</span>" : "") + "</td><td class='num'>" + p[2] + "</td><td class='cv'>" + p[1].toFixed(1) + "</td></tr>"; }).join("");
+    var se = D.seasons.map(function(s, i){ return "<tr><td class='rk'>" + (i + 1) + "</td><td class='player'>" + esc(s[0]) + (s[2] === "ABA" ? " <span class='pill aba'>ABA</span>" : "") + "</td><td>" + sl(s[1]) + "</td><td class='cv'>" + s[3].toFixed(2) + "</td><td class='num'>" + s[4].toFixed(2) + "</td><td class='num'>" + f2(s[5]) + "</td></tr>"; }).join("");
+    var te = D.teams.map(function(t, i){ return "<tr><td class='rk'>" + (i + 1) + "</td><td class='tm'>" + esc(t[2]) + (t[1] === "ABA" ? " <span class='pill aba'>ABA</span>" : "") + "</td><td>" + sl(t[0]) + "</td><td class='num'>" + (t[4] || "—") + "</td><td class='cv'>" + sgn(t[3]) + "</td><td>" + (t[5] ? "<span class='pill champ'>Champion</span>" : "") + "</td></tr>"; }).join("");
+    var bb = D.big3.map(function(t, i){ return "<tr><td class='rk'>" + (i + 1) + "</td><td class='tm'>" + sl(t[0]) + " " + esc(t[2]) + (t[1] === "ABA" ? " <span class='pill aba'>ABA</span>" : "") + "</td><td class='b3'>" + t[4].map(esc).join(" · ") + "</td><td class='cv'>" + t[3].toFixed(1) + "</td></tr>"; }).join("");
+    $("dec-detail").innerHTML = "<span class='eyebrow'>" + span + "</span><h3 class='dt'>The " + dlabel(DSEL) + "</h3>" +
+      "<div class='grid2'><div><h4>Best players</h4><div class='tablewrap'><table><thead><tr><th class='num'>#</th><th>Player</th><th class='num'>Seasons</th><th class='num'>Decade CV</th></tr></thead><tbody>" + pl + "</tbody></table></div><p class='note' style='font-size:14.5px'>Decade CV applies the Career CV rule to the seasons inside the decade only.</p></div>" +
+      "<div><h4>Best seasons</h4><div class='tablewrap'><table><thead><tr><th class='num'>#</th><th>Player</th><th>Season</th><th class='num'>CV</th><th class='num'>RS</th><th class='num'>PO</th></tr></thead><tbody>" + se + "</tbody></table></div></div>" +
+      "<div><h4>Best teams</h4><div class='tablewrap'><table><thead><tr><th class='num'>#</th><th>Team</th><th>Season</th><th class='num'>W–L</th><th class='num'>Rating</th><th>Result</th></tr></thead><tbody>" + te + "</tbody></table></div></div>" +
+      "<div><h4>Best Big 3s</h4><div class='tablewrap'><table><thead><tr><th class='num'>#</th><th>Team</th><th>The three</th><th class='num'>Big 3 CV</th></tr></thead><tbody>" + bb + "</tbody></table></div></div></div>";
+  }
+
+  // ---- events
+  $("tm-play").addEventListener("click", function(){ if (T) play(); });
+  $("tm-rand").addEventListener("click", function(){
+    if (!T) return; var pool = T.slice().sort(function(x, y){ return y[6] - x[6]; }).slice(0, 150);
+    var i = Math.floor(Math.random() * pool.length), j; do { j = Math.floor(Math.random() * pool.length); } while (j === i);
+    SEL.tm = [key(pool[i]), key(pool[j])]; picker("tm", 0); picker("tm", 1); renderTM();
+  });
+  $("tm-more").addEventListener("click", function(){ LIST.tm += 25; listTM(); });
+  $("b3-more").addEventListener("click", function(){ LIST.b3 += 25; listB3(); });
+  $("tm-lg").addEventListener("change", function(){ LG.tm = this.value; LIST.tm = 25; listTM(); });
+  $("b3-lg").addEventListener("change", function(){ LG.b3 = this.value; LIST.b3 = 25; listB3(); });
+  $("tm-list").addEventListener("click", function(e){ var b = e.target.closest("button[data-k]"); if (b) setSide("tm", +b.dataset.side, b.dataset.k); });
+  $("b3-list").addEventListener("click", function(e){ var b = e.target.closest("button[data-k]"); if (b) setSide("b3", +b.dataset.side, b.dataset.k); });
+  $("dec-grid").addEventListener("click", function(e){ var b = e.target.closest("[data-dec]"); if (!b) return; DSEL = b.dataset.dec; renderDecades(); var el = $("dec-detail"); if (el.scrollIntoView) el.scrollIntoView({behavior: "smooth", block: "start"}); });
+  function maybe(){ var id = (location.hash || "").slice(1); if (id === "teams" || id === "big3" || id === "decades") load(); }
+  window.addEventListener("hashchange", maybe); maybe();
+})();
+</script>
 </body></html>
