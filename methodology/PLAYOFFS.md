@@ -114,7 +114,7 @@ The audit is `audit_playoffs.py`, with evidence in `releases/playoffs-1.0.0/audi
 - the qualification rule;
 - the no-minutes invariance test.
 
-**Reproduction:** a clean-room rebuild is byte-identical.
+**Reproduction:** a clean-room rebuild is byte-identical. A rebuild on the owner's computer workspace (Linux, pandas 2.3.3, from an independently re-extracted input snapshot whose SHA-256 matches) agrees on all 11,299 rows to a relative 9e-15.
 
 **Coverage against Neil Paine's postseason player file (1977–2026):**
 - 9,434 of 9,435 player-postseasons match.
