@@ -16,14 +16,15 @@
 
 Exact bytes and SHA-256 values are in `private_inputs/2026-09-29/input_manifest.json`.
 
-## Playoff CV input snapshot `cv-playoff-inputs-2026-09-29` (release 1.2.0)
+## Playoff CV input snapshot `cv-playoff-inputs-2026-09-29b` (release 1.2.0)
 
 | Prepared file | Origin | Used for | Notes |
 | --- | --- | --- | --- |
 | `playoff_player_games.csv` | Playoff rows (`gameType == "Playoffs"`) of `PlayerStatistics.csv`, the Eoin Moore historical NBA player box-score archive on Kaggle already used for regular-season appearances. It has 30 projected columns and 102,249 rows. | Playoff appearances, points, assists, rebounds, FGA, FTA, rounds, team and opponent | 2022 team IDs are repaired from team names (A28). 1952–64 box scores are partly incomplete (A26). Minutes are used only as appearance evidence (A27). |
 | `identity_map.csv`, `Player Totals.csv`, `Team Totals.csv` | Identical copies from `private_inputs/2026-09-29` | Player IDs and names; team abbreviations | — |
+| `regular_season_cv.csv` | 12 columns of release 1.1.0 `outputs/cv_player_seasons.csv`, written with 17 significant digits (source SHA-256 in the manifest notes) | The regular-season ruler for playoff scores, and the regular-season half of Full-Season CV | Derived Court Value output, not raw data |
 
-Neil Paine's postseason player file (`paine.csv`) is a validation source only. It supplies games played and LAKER for 1977–2026 and is never a formula input. SHA-256 values are in `private_inputs/playoffs-2026-09-29/input_manifest.json`. `prepare_inputs.py` regenerates the snapshot from the research workspace.
+Neil Paine's postseason player file (`paine.csv`) is a validation source only. It supplies games played and LAKER for 1977–2026 and is never a formula input. SHA-256 values are in `private_inputs/playoffs-2026-09-29b/input_manifest.json`. The first snapshot (`playoffs-2026-09-29`, without the regular-season file) built the superseded candidate `playoffs-1.0.0-rc.1`. `prepare_inputs.py` regenerates the snapshot from the research workspace.
 
 ## Validation-only sources (never formula inputs)
 

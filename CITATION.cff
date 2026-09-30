@@ -14,7 +14,7 @@ abstract: >-
   responsibility from 1952-available box-score production, games-played team margin
   of victory and a bounded team-defense responsibility credit, standardized within each
   league-season. Since version 1.1 one defensive rule covers every NBA and ABA season; version 1.2 adds
-  Playoff CV (Run and Rate) for every NBA postseason.
+  Playoff CV (Run and Rate) and Full-Season CV.
   It is not a causal impact or wins-above-replacement estimate.
 keywords:
   - basketball

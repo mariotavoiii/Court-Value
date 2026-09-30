@@ -1,20 +1,25 @@
-# Playoff CV 1.0: specification, validation and limitations
+# Playoff CV 1.0 and Full-Season CV: specification, validation and limitations
 
 Playoff CV scores one NBA postseason per player, 1951–52 through 2025–26. It is published with Court Value release 1.2.0. The regular-season scores in that release are unchanged (model 1.1.0).
 
-There are two scores. Neither is added to the other or to regular-season CV.
+There are three scores.
 
 | Score | Question it answers | Role |
 |---|---|---|
-| **Playoff CV Run** | How valuable was the player's postseason, including his share of completing a championship? | Headline résumé score |
-| **Playoff CV Rate** | How good was he while he played? | Companion quality score |
+| **Playoff CV Run** | How valuable was the player's postseason, including his share of completing a championship? | Headline playoff résumé score |
+| **Playoff CV Rate** | How good was he while he played in the playoffs? | Companion playoff quality score |
+| **Full-Season CV** | How good was his whole season, regular season and playoffs together? | Combined score |
+
+**One ruler.** Every playoff score is measured on the regular season's ruler: the same season's regular-season mean and spread of per-game value, and the same season's regular-season defensive reference. A playoff score of 10 therefore means what a regular-season 10 means.
+
+An earlier candidate (`releases/playoffs-1.0.0-rc.1`, briefly shown on the website) standardized each postseason against only its own players. Most playoff players contribute little, so the stars sat six or seven standard deviations above that group. Runs of 20–23 resulted, next to regular-season peaks of about 14. The model owner judged that inflated, and the ruler was changed before release.
 
 The design follows the model owner's earlier playoff research (Run as headline, round-normalized, responsibility-weighted championship credit). It is rebuilt on CV 1.1 conventions, and minutes played are removed from every calculation.
 
 ## 1. Sources and appearances
 
 - **Source:** the NBA player-game archive (`PlayerStatistics.csv`, Eoin Moore, Kaggle), playoff rows only.
-  - The declared snapshot is `cv-playoff-inputs-2026-09-29`.
+  - The declared snapshot is `cv-playoff-inputs-2026-09-29b`. It adds `regular_season_cv.csv`, 12 columns of the release 1.1.0 regular-season outputs, as the ruler and the regular-season half of Full-Season CV.
   - It has 102,249 rows and 30 projected columns; SHA-256 values are in its `input_manifest.json`.
   - Player IDs come from the same identity bridge as the regular season, with no unmatched rows. Team abbreviations come from `Team Totals.csv`.
 - **Appearances:** the rule is identical to the regular season.
@@ -74,10 +79,14 @@ Raw           = (BoxImpact + EffAdj) · PaceAdj · Context
 ## 5. Playoff CV Rate
 
 ```text
-RateBase   = 3 × Z_games-weighted(Raw / G) within the postseason     (CV 1.1 convention)
-RateDef    = bounded(3 × Z(TeamDef × DefWeight))                       (bounded: 1.5·tanh(x/6), negative halved)
+RS ruler for season s: μ_s, σ_s = games-weighted mean and population SD of regular-season Raw/G (NBA);
+                       δ_s, τ_s = mean and population SD of regular-season DefRaw
+RateBase   = 3 × (Raw/G − μ_s) / σ_s
+RateDef    = bounded(3 × (TeamDef × DefWeight − δ_s) / τ_s)            (bounded: 1.5·tanh(x/6), negative halved)
 PlayoffCVRate = RateBase + RateDef
 ```
+
+Applied to regular-season rows, this ruler reproduces every published regular-season CV_BASE and defensive credit exactly (audit check).
 
 Rate leaderboards require `10·G ≥ 7·TeamPlayoffGames` (the regular-season 70% rule, in exact integers). The rule qualifies 8,409 of 11,082 scored player-postseasons.
 
@@ -86,9 +95,9 @@ Rate leaderboards require `10·G ≥ 7·TeamPlayoffGames` (the regular-season 70
 ```text
 RoundContribution_r = (BoxImpact_r + EffAdj_r) · PaceAdj · Context / TeamGamesInRound_r
 RunRaw              = Σ_r RoundContribution_r / PossiblePathRounds
-RunBase             = 3 × Z(RunRaw) within the postseason
+RunBase             = 3 × (RunRaw − μ_s) / σ_s          (regular-season ruler)
 PathAvailability    = Σ_r (PlayerGames_r / TeamGames_r) / PossiblePathRounds
-RunDef              = bounded(3 × Z(TeamDef × DefWeight × PathAvailability))
+RunDef              = bounded(3 × (TeamDef × DefWeight × PathAvailability − δ_s) / τ_s)
 Performance         = RunBase + RunDef
 Share               = max(RunRaw, 0) / Σ_team max(RunRaw, 0)
 ChampionshipCredit  = champion ? min(3, 12 × Share) : 0
@@ -98,18 +107,33 @@ PlayoffCVRun        = Performance + ChampionshipCredit
 - **Series-length neutral:** each round is one opportunity unit, so a seven-game series does not count more than a sweep.
 - **Missed games and rounds:** unplayed future rounds and missed games contribute zero.
 - **Championship credit:** capped at 3, one CV standard deviation, which is reached at a 25% share of the champion's positive contribution. Fringe players get little or none. There is no flat ring bonus.
-- **Reference weighting:** the reference population for Run is every scored player in the postseason, unweighted. Weighting by games would reintroduce the series-length effect that Run is built to remove.
+- **What a Run means:** RunRaw is the player's average per-game contribution over his team's whole possible path, with unplayed rounds counted as zero. A star who plays every game of a title run therefore scores about his playoff Rate plus title credit. A first-round exit scores well below his Rate. The median Run is about −4, because most playoff teams go out early.
+
+## 6b. Full-Season CV (regular season + playoffs)
+
+```text
+PlayoffShare   = G_po / (G_rs + G_po)
+FullSeasonCV   = (G_rs × RegularSeasonCV + G_po × PlayoffCVRate) / (G_rs + G_po)  +  ChampionshipCredit × PlayoffShare
+```
+
+- **Every playoff game counts as one more game of the season** on the same ruler. The playoffs lift or lower the season through how well the player played in them.
+- **Title bonus:** a champion adds his championship credit (0–3) scaled by the playoffs' share of his games. The bonus is about +0.6 for a title-run leader who played 20 of about 100 games.
+- **No playoff games counted** (no playoffs, or unscored early playoffs): Full-Season CV equals regular-season full CV.
+- **Qualification:** the regular season's 70% rule. There are 26,204 rows, NBA and ABA. ABA seasons have no playoff component.
+- **Size of the effect:** for the 11,064 seasons that include playoffs, the average change is −0.08 (SD 0.22). The range runs from −1.2 (Rick Mahorn 1988) to +1.6 (Jamal Murray 2023; Kawhi Leonard 2019, from 8.9 to 10.4).
+- **Highest Full-Season CV:** O'Neal 2000 (14.75), LeBron James 2012 (13.86), then Chamberlain 1966 and 1964 and Abdul-Jabbar 1972 (13.3–13.4).
 
 ## 7. Validation
 
 The audit is `audit_playoffs.py`, with evidence in `releases/playoffs-1.0.0/audit/`.
 
-**All 16 mechanical checks pass.** They confirm:
+**All 19 mechanical checks pass.** They confirm:
 - the arithmetic identities;
 - one champion per postseason;
 - champion responsibility shares summing to 1;
 - credit bounds and defense bounds;
-- base moments in every postseason: Rate games-weighted mean 0 and SD 3, Run mean 0 and SD 3;
+- the regular-season ruler reproducing regular-season CV exactly, and every playoff base using its season's ruler;
+- the Full-Season identity, including that it equals regular-season CV when no playoff games count, and title-bonus bounds;
 - box completeness from 1965;
 - the qualification rule;
 - the no-minutes invariance test.
@@ -123,21 +147,22 @@ The audit is `audit_playoffs.py`, with evidence in `releases/playoffs-1.0.0/audi
 **Descriptive validation** (never used to fit anything):
 - Mean within-postseason Spearman correlation of Run with LAKER postseason WAR is 0.64.
 - Rate against LAKER per-possession impact, qualified rows, is 0.65.
+- Ranks within a postseason barely change from the candidate: mean within-postseason Spearman is 0.999 for Run and 0.9995 for Rate. The ruler moves scale, not order.
 - These metrics share box inputs and LAKER counts games, so this is a representation check, not truth.
 
-**Postseason leaders:** the Run leader played for the champion in 70 of 75 postseasons. The five exceptions:
+**Postseason leaders:** the Run leader played for the champion in 71 of 75 postseasons. The four exceptions:
 
 | Postseason | Run leader | Team | Result |
 |---|---|---|---|
 | 1963–64 | Wilt Chamberlain | San Francisco | lost the Finals |
 | 1969–70 | Jerry West | Los Angeles Lakers | lost the Finals |
 | 1973–74 | Kareem Abdul-Jabbar | Milwaukee | lost the Finals |
-| 1988–89 | Michael Jordan | Chicago | lost the conference finals |
 | 2013–14 | LeBron James | Miami | lost the Finals |
 
 **Named cases (diagnostics, not targets):**
-- The 1980s: Bird led the 1984 and 1986 postseasons (19.63, 18.66). Magic led 1985, 1987 and 1988 (15.82, 17.18, 15.67).
-- Highest Runs overall: Jordan 1993 (22.92), Jokić 2023, LeBron 2012, Jordan 1998, Shaq 2000 and 2001.
+- **The 1980s:** Bird led the 1984 and 1986 postseasons (13.9, 14.5); Magic led 1985, 1987 and 1988 (10.5, 11.8, 10.1).
+- **Highest Runs:** O'Neal 2001 (17.7), LeBron 2012 (17.2), Jordan 1992 (16.9), Jokić 2023 (16.4), Curry 2015 (16.2). Each includes the full 3-point title credit.
+- **Highest qualified Rates:** LeBron 2009 (16.0), O'Neal 2001 (14.9), LeBron 2015 (14.7), LeBron 2012 (14.3), Abdul-Jabbar 1977 (14.2).
 
 ## 8. Limitations
 
@@ -145,10 +170,12 @@ The audit is `audit_playoffs.py`, with evidence in `releases/playoffs-1.0.0/audi
 - **Small reference populations.** Early postseasons had 6–8 teams, which limits how far any player can stand above his postseason. As in the regular season, nothing adjusts for era.
 - **Championship credit is a résumé choice.** It rewards completing the title path; it is not an estimate of causal impact. Performance without the credit is published as `run_performance`.
 - **Team defense is team defense.** It is shared by a visible-load ranking, not measured for each defender, and it inherits the estimate's error (about one team in nine noticeably misrated).
-- **No ABA postseasons**, and no career or combined regular-plus-playoff score.
+- **No ABA postseasons**, and no career score. Full-Season CV averages games; it is not a career or cumulative total.
 
 ## 9. Files
 
-- **Public:** `PUBLIC_playoff_cv_scores.csv`, containing identity, team, games, rounds appeared, champion, box evidence, qualification, status, Run, Run performance, championship credit, Rate and ranks.
-- **Private research files:** `playoff_player_postseasons.csv`, `playoff_team_postseasons.csv` and `playoff_player_rounds.csv`. They include box-score inputs, which are not redistributed.
+- **Public:**
+  - `PUBLIC_playoff_cv_scores.csv`: identity, team, games, rounds appeared, champion, box evidence, qualification, status, Run, Run performance, championship credit, Rate and ranks.
+  - `PUBLIC_full_season_cv_scores.csv`: regular-season CV, playoff Rate, games of each, title bonus, Full-Season CV and ranks.
+- **Private research files:** `playoff_player_postseasons.csv`, `playoff_team_postseasons.csv`, `playoff_player_rounds.csv` and `full_season_cv.csv`. The playoff files include box-score inputs, which are not redistributed.
 - **Code:** `cv1/playoffs.py`, `build_playoffs.py` and `audit_playoffs.py`.

@@ -229,7 +229,7 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-betw
       <thead><tr><th class="num">#</th><th>Player</th><th>Postseason</th><th>Team</th><th class="num">Run</th><th class="num">Title credit</th><th class="num">Rate</th></tr></thead>
       <tbody id="topruns"><tr><td colspan="7" class="status">Loading scores…</td></tr></tbody>
     </table></div>
-    <p class="note">Playoff CV Run is a postseason résumé on its own scale: each round counts once however long the series, and a champion's leaders earn up to 3 points of title credit by their share of the load. Playoff CV Rate is quality while active.</p>
+    <p class="note">Playoff CV Run is a postseason résumé, measured on the same season's regular-season ruler so a playoff 10 means a regular-season 10. Each round counts once however long the series, and a champion's leaders earn up to 3 points of title credit by their share of the load. Playoff CV Rate is quality while active.</p>
   </div>
 
   <div class="grid2 block">
@@ -278,6 +278,7 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-betw
       <div class="seg" role="group" aria-labelledby="basis-lbl">
         <button type="button" data-basis="full" aria-pressed="true">Full CV</button>
         <button type="button" data-basis="base" aria-pressed="false">CV_BASE</button>
+        <button type="button" data-basis="season" aria-pressed="false">Full season</button>
         <button type="button" data-basis="run" aria-pressed="false">Playoff Run</button>
         <button type="button" data-basis="rate" aria-pressed="false">Playoff Rate</button>
       </div>
@@ -317,8 +318,8 @@ EffAdj    = 0.30 × (PTS − 0.92 × LgPtsPerAtt × Attempts)</pre></div>
       <pre>CV_BASE = 3 × (Rate − season mean) / season SD</pre></div>
     <div class="frame"><span class="n">5</span><h3>Add the defense</h3><p>Each team's defense is rated by opponent scoring per shot and per game. Opponent shots weren't recorded before 1970–71, so CV estimates them the same way for every season from team totals kept since 1952. The credit is shared with players by minutes and capped between −0.75 and +1.5.</p>
       <pre>CV = CV_BASE + DefensiveCredit</pre></div>
-    <div class="frame"><span class="n">6</span><h3>Then the playoffs</h3><p>Playoff CV is its own score, never added to the regular season. <b>Run</b>, the headline, counts each round once however long the series, so a sweep is worth as much as a seven-game win. Champions earn up to 3 points of title credit, shared by how much of the load each player carried. <b>Rate</b> measures quality while active. Minutes played are never used, because early playoff records don't have them.</p>
-      <pre>Run = RunBase + Defense + TitleCredit</pre></div>
+    <div class="frame"><span class="n">6</span><h3>Then the playoffs</h3><p>Playoff CV is its own score, never added to the regular season. <b>Run</b>, the headline, counts each round once however long the series, so a sweep is worth as much as a seven-game win. Champions earn up to 3 points of title credit, shared by how much of the load each player carried. <b>Rate</b> measures quality while active. Both use the regular season's ruler. <b>Full-season CV</b> counts every playoff game as one more game of the season, plus a champion's title credit scaled by the playoffs' share of his games. Minutes played are never used, because early playoff records don't have them.</p>
+      <pre>Full season = games-weighted (RS, PO) + title × PO share</pre></div>
   </div>
 
   <div class="magic">
@@ -365,6 +366,10 @@ EffAdj    = 0.30 × (PTS − 0.92 × LgPtsPerAtt × Attempts)</pre></div>
     <a class="btn" href="data/PUBLIC_playoff_cv_scores.csv" download>Download CSV</a>
   </div>
   <div class="dl-row">
+    <div><h3>Full-season CV scores</h3><p class="soft" style="margin:4px 0 0">Every scored season, regular season plus playoffs: regular-season CV, playoff Rate, games of each, title bonus, full-season CV and ranks. CSV, about 2.8 MB.</p></div>
+    <a class="btn" href="data/PUBLIC_full_season_cv_scores.csv" download>Download CSV</a>
+  </div>
+  <div class="dl-row">
     <div><h3>Code, specification and validation</h3><p class="soft" style="margin:4px 0 0">The calculator, technical specification, worked examples, audit summary and anomaly log.</p></div>
     <a class="btn secondary" id="repo-link" href="#contact">View on GitHub</a>
   </div>
@@ -378,7 +383,7 @@ EffAdj    = 0.30 × (PTS − 0.92 × LgPtsPerAtt × Attempts)</pre></div>
     <div class="card prose">
       <h3>Changelog</h3>
       <dl class="defs">
-        <dt>1.2</dt><dd>Adds Playoff CV (Run and Rate) for every NBA postseason since 1951–52. Regular-season scores unchanged.</dd>
+        <dt>1.2</dt><dd>Adds Playoff CV (Run and Rate) for every NBA postseason since 1951–52, on the regular season's ruler, and Full-season CV (regular season plus playoffs). Regular-season scores unchanged.</dd>
         <dt>1.1</dt><dd>One defensive rule for every season. Full CV now covers NBA 1951–52 to 2025–26 and the ABA. Base scores are unchanged. <a href="https://doi.org/10.5281/zenodo.23045497">DOI 10.5281/zenodo.23045497</a></dd>
         <dt>1.0</dt><dd>First public release (<a href="https://doi.org/10.5281/zenodo.23040991">DOI 10.5281/zenodo.23040991</a>). Team context uses the margin in games actually played; season scores are weighted by games played.</dd>
         <dt>Pre-1.0</dt><dd>Research versions CELTIC (2025) and ARC (2026). Never published as releases.</dd>
@@ -442,15 +447,22 @@ EffAdj    = 0.30 × (PTS − 0.92 × LgPtsPerAtt × Attempts)</pre></div>
   function svg(tag, attrs, parent){ var e = document.createElementNS(NS, tag); for (var k in attrs) e.setAttribute(k, attrs[k]); if (parent) parent.appendChild(e); return e; }
 
   // Row fields: 0 id, 1 player, 2 season, 3 lg(0 NBA/1 ABA), 4 teams, 5 g, 6 mp, 7 q, 8 cov, 9 cv, 10 base, 11 def, 12 rs, 13 ra, 14 brs, 15 bra, 16 pos
-  var ROWS = [], BYID = {}, PROWS = [], PBYID = {}, NAMEIDX = {}, state = { basis: "full", from: 0, to: 9999, league: "all", pos: "all", team: "all", q: true, text: "", shown: 50, sort: null, dir: -1 };
+  var ROWS = [], BYID = {}, PROWS = [], PBYID = {}, FROWS = [], FBYID = {}, NAMEIDX = {}, state = { basis: "full", from: 0, to: 9999, league: "all", pos: "all", team: "all", q: true, text: "", shown: 50, sort: null, dir: -1 };
 
   // Playoff rows: 0 id, 1 player, 2 season, 3 lg, 4 team, 5 g, 6 team_games, 7 rate_q, 8 box evidence, 9 run, 10 rate, 11 credit,
   // 12 run_rs, 13 run_ra, 14 rate_rs, 15 rate_ra, 16 pos, 17 champion, 18 rounds
   function isPO(){ return state.basis === "run" || state.basis === "rate"; }
-  function SK(){ return state.basis === "full" || state.basis === "run" ? 9 : 10; }
-  function SRC(){ return isPO() ? PROWS : ROWS; }
-  function SRCBY(){ return isPO() ? PBYID : BYID; }
-  var BASIS_LABEL = {full: "Full CV", base: "CV_BASE", run: "Playoff CV Run", rate: "Playoff CV Rate"};
+  // Full-season rows: 0 id, 1 player, 2 season, 3 lg, 4 teams, 5 rs_g, 6 po_g, 7 q, 8 playoff status (I/N/U), 9 full season,
+  // 10 regular-season CV, 11 title bonus, 12 rank season, 13 rank all-time, 14 playoff rate, 16 pos, 17 champion
+  function isFS(){ return state.basis === "season"; }
+  function SK(){ return state.basis === "base" || state.basis === "rate" ? 10 : 9; }
+  function SRC(){ return isPO() ? PROWS : isFS() ? FROWS : ROWS; }
+  function SRCBY(){ return isPO() ? PBYID : isFS() ? FBYID : BYID; }
+  var BASIS_LABEL = {full: "Full CV", base: "CV_BASE", season: "Full-season CV", run: "Playoff CV Run", rate: "Playoff CV Rate"};
+  fetch("data/fullseason.json").then(function(r){ return r.json(); }).then(function(d){
+    FROWS = d.rows; FROWS.forEach(function(r){ (FBYID[r[0]] = FBYID[r[0]] || []).push(r); });
+    if (state.basis === "season") render();
+  }).catch(function(){});
   fetch("data/playoffs.json").then(function(r){ return r.json(); }).then(function(d){
     PROWS = d.rows; PROWS.forEach(function(r){ (PBYID[r[0]] = PBYID[r[0]] || []).push(r); });
     if (ROWS.length) renderTopRuns();
@@ -584,7 +596,7 @@ EffAdj    = 0.30 × (PTS − 0.92 × LgPtsPerAtt × Attempts)</pre></div>
   // ---- Career comparison: up to five players against the MVP range ----
   var CMP = [], cmpX = "season", MAXCMP = 5;
   function showPlayer(pid){
-    if (!BYID[pid] && !PBYID[pid]) return;
+    if (!BYID[pid] && !PBYID[pid] && !FBYID[pid]) return;
     var i = CMP.indexOf(pid);
     if (i === -1){ CMP.push(pid); if (CMP.length > MAXCMP) CMP.shift(); }
     renderCompare();
@@ -600,11 +612,11 @@ EffAdj    = 0.30 × (PTS − 0.92 × LgPtsPerAtt × Attempts)</pre></div>
   function renderCompare(){
     var panel = document.getElementById("player-panel");
     if (!CMP.length){ panel.hidden = true; return; }
-    var full = state.basis === "full", po = isPO(), k = SK();
+    var full = state.basis === "full" || isFS(), po = isPO(), k = SK();
     panel.hidden = false;
     var series = CMP.map(function(pid){
       var rows = careerRows(pid, k);
-      return {pid: pid, name: (BYID[pid] || PBYID[pid])[0][1], cls: slotOf(pid), pts: rows.map(function(r, j){ return {x: cmpX === "season" ? r[2] : j + 1, y: r[k], r: r}; })};
+      return {pid: pid, name: (BYID[pid] || PBYID[pid] || FBYID[pid])[0][1], cls: slotOf(pid), pts: rows.map(function(r, j){ return {x: cmpX === "season" ? r[2] : j + 1, y: r[k], r: r}; })};
     });
     var names = {}; ROWS.forEach(function(r){ names[r[1]] = (names[r[1]] || 0); });
     panel.innerHTML = "<div class='pp-head'><div><span class='eyebrow'>Compare careers · " + BASIS_LABEL[state.basis] + "</span><h3>" +
@@ -615,7 +627,7 @@ EffAdj    = 0.30 × (PTS − 0.92 × LgPtsPerAtt × Attempts)</pre></div>
       "<span class='status'>" + (CMP.length >= MAXCMP ? "Five players is the limit; remove one to add another." : "Click any player's name in the table, or type one here. Up to five.") + "</span></div>" +
       "<div class='chart' id='pp-chart'></div>" +
       "<p class='caption'>" + (po ? (state.basis === "run" ? "Playoff CV Run: the postseason résumé, including championship credit. Hollow dots rest partly on estimated early box scores." : "Playoff CV Rate: quality while active. Hollow dots played under 70% of the team's playoff games.") + " Playoff and regular-season scores are separate scales."
-          : "Shaded band: the middle half of MVP seasons (9.7 to 12.1). Filled dots are qualified seasons; hollow dots played under 70% of team games. " + (full ? "Full CV includes the defensive credit." : "CV_BASE has no defensive component.")) + "</p>" +
+          : "Shaded band: the middle half of MVP seasons (9.7 to 12.1). Filled dots are qualified seasons; hollow dots played under 70% of team games. " + (isFS() ? "Full-season CV counts every playoff game as one more game on the same ruler, plus a champion's title bonus." : full ? "Full CV includes the defensive credit." : "CV_BASE has no defensive component.")) + "</p>" +
       (po ? "<div class='tablewrap'><table class='cmp-table'><thead><tr><th>Player</th><th class='num'>Postseasons</th><th class='num'>Titles</th><th>Best " + (state.basis === "run" ? "Run" : "Rate") + "</th></tr></thead><tbody>" +
         series.map(function(sr){
           var best = sr.pts.slice().sort(function(a,b){ return b.y-a.y; })[0], titles = sr.pts.filter(function(p){ return p.r[17]; }).length;
@@ -730,10 +742,15 @@ EffAdj    = 0.30 × (PTS − 0.92 × LgPtsPerAtt × Attempts)</pre></div>
     var full = state.basis === "full", po = isPO(), run = state.basis === "run";
     var notes = {full: "Full CV includes the defensive credit. It covers every NBA and ABA season.",
       base: "<mark>CV_BASE has no defensive component.</mark> Don't compare it directly with full CV.",
-      run: "<mark>Playoff CV Run</mark> is the postseason résumé: each round counts once, plus capped, responsibility-weighted championship credit. NBA postseasons from 1951–52; a separate scale from regular-season CV.",
+      season: "<mark>Full-season CV</mark> is the regular season plus the playoffs: every playoff game counts as one more game on the same ruler, and a champion adds his title credit scaled by the playoffs' share of his games. Same scale as regular-season CV.",
+      run: "<mark>Playoff CV Run</mark> is the postseason résumé: each round counts once, plus capped, responsibility-weighted championship credit. Measured on the regular season's ruler; NBA postseasons from 1951–52.",
       rate: "<mark>Playoff CV Rate</mark> is quality while active. “Qualified only” keeps players who appeared in at least 70% of their team's playoff games."};
     document.getElementById("basis-note").innerHTML = notes[state.basis];
-    var cols = po
+    var fs = isFS();
+    var cols = fs
+      ? [["Rank", null, "num"], ["Player", 1, ""], ["Season", 2, ""], ["Lg", 3, ""], ["Pos", 16, ""], ["Team", 4, ""], ["RS G", 5, "num"], ["PO G", 6, "num"],
+         ["Full season", 9, "num"], ["Reg. season", 10, "num"], ["PO Rate", 14, "num"], ["Title", 11, "num"], ["Status", null, ""]]
+      : po
       ? [["Rank", null, "num"], ["Player", 1, ""], ["Season", 2, ""], ["Pos", 16, ""], ["Team", 4, ""], ["G", 5, "num"], ["Team G", 6, "num"], ["Rounds", 18, "num"],
          [run ? "Run" : "Rate", run ? 9 : 10, "num"], [run ? "Title credit" : "Run", run ? 11 : 9, "num"], ["Status", null, ""]]
       : [["Rank", null, "num"], ["Player", 1, ""], ["Season", 2, ""], ["Lg", 3, ""], ["Pos", 16, ""], ["Team", 4, ""], ["G", 5, "num"], ["MP", 6, "num"],
@@ -747,10 +764,14 @@ EffAdj    = 0.30 × (PTS − 0.92 × LgPtsPerAtt × Attempts)</pre></div>
     }).join("");
     var rows = filtered(), shown = rows.slice(0, state.shown);
     var single = state.from === state.to;
-    var ri = po ? (run ? (single ? 12 : 13) : (single ? 14 : 15)) : (single ? (full ? 12 : 14) : (full ? 13 : 15));
+    var ri = fs ? (single ? 12 : 13) : po ? (run ? (single ? 12 : 13) : (single ? 14 : 15)) : (single ? (full ? 12 : 14) : (full ? 13 : 15));
     document.getElementById("count").textContent = rows.length.toLocaleString() + (po ? " postseasons" : " seasons") + (rows.length > shown.length ? " · showing " + shown.length : "");
     body.innerHTML = shown.length ? shown.map(function(r){
       var rank = r[ri] !== null && (run || r[7]) ? r[ri] : "—";
+      if (fs){
+        var fst = (r[7] ? "" : "<span class='pill'>Not qualified</span> ") + (r[17] ? "<span class='pill champ'>Champion</span> " : "") + (r[8] === "U" ? "<span class='pill'>Playoffs unscored</span>" : "");
+        return "<tr><td class='rk'>" + rank + "</td><td class='player'>" + plink(r) + "</td><td>" + seasonLabel(r[2]) + "</td><td><span class='pill" + (r[3] ? " aba" : "") + "'>" + (r[3] ? "ABA" : "NBA") + "</span></td><td class='mono' style='font-size:13px'>" + (r[16] || "—") + "</td><td class='mono' style='font-size:13px'>" + esc(r[4]) + "</td><td class='num'>" + r[5] + "</td><td class='num'>" + (r[6] || "—") + "</td><td class='cv'>" + fmt(r[9]) + "</td><td class='num'>" + fmt(r[10]) + "</td><td class='num'>" + fmt(r[14]) + "</td><td class='num'>" + (r[11] ? fmt(r[11]) : "—") + "</td><td>" + fst + "</td></tr>";
+      }
       if (po){
         var st = (r[17] ? "<span class='pill champ'>Champion</span> " : "") + (r[8] === "P" ? "<span class='pill'>Partial box</span> " : "") + (!run && !r[7] ? "<span class='pill'>Under 70%</span>" : "");
         return "<tr><td class='rk'>" + rank + "</td><td class='player'>" + plink(r) + "</td><td>" + seasonLabel(r[2]) + "</td><td class='mono' style='font-size:13px'>" + (r[16] || "—") + "</td><td class='mono' style='font-size:13px'>" + esc(r[4]) + "</td><td class='num'>" + r[5] + "</td><td class='num'>" + r[6] + "</td><td class='num'>" + r[18] + "</td><td class='cv'>" + fmt(run ? r[9] : r[10]) + "</td><td class='num'>" + fmt(run ? r[11] : r[9]) + "</td><td>" + st + "</td></tr>";
@@ -761,6 +782,7 @@ EffAdj    = 0.30 × (PTS − 0.92 × LgPtsPerAtt × Attempts)</pre></div>
     }).join("") : "<tr><td colspan='12' class='status'>No seasons match these filters.</td></tr>";
     document.getElementById("more").hidden = rows.length <= shown.length;
     document.getElementById("f-league").disabled = po;
+    if (fs && !FROWS.length) body.innerHTML = "<tr><td colspan='13' class='status'>Loading full-season scores…</td></tr>";
   }
   function set(k, v){ state[k] = v; state.shown = 50; if (k === "basis") state.sort = null; render(); }
   document.querySelectorAll("[data-basis]").forEach(function(b){ b.onclick = function(){

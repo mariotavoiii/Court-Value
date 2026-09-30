@@ -14,7 +14,8 @@ Each league-season is measured against itself: there are no era bonuses, no ABA 
 
 - **Website:** https://mariotavoiii.github.io/Court-Value/
 - **Scores:** [`data/PUBLIC_cv_scores.csv`](data/PUBLIC_cv_scores.csv), 26,208 player-seasons with full CV, CV_BASE, defensive credit, ranks and coverage flags.
-- **Playoff scores:** [`data/PUBLIC_playoff_cv_scores.csv`](data/PUBLIC_playoff_cv_scores.csv), Playoff CV Run and Rate for every NBA postseason since 1951–52 ([specification](methodology/PLAYOFFS.md)).
+- **Playoff scores:** [`data/PUBLIC_playoff_cv_scores.csv`](data/PUBLIC_playoff_cv_scores.csv), Playoff CV Run and Rate for every NBA postseason since 1951–52, on the regular season's ruler ([specification](methodology/PLAYOFFS.md)).
+- **Full-season scores:** [`data/PUBLIC_full_season_cv_scores.csv`](data/PUBLIC_full_season_cv_scores.csv), the regular season plus playoffs on one scale, with a title bonus.
 - **How it works:** [plain-English overview](methodology/OVERVIEW.md) · [technical specification](methodology/TECHNICAL_SPECIFICATION.md) · [worked examples](methodology/WORKED_EXAMPLES.md)
 - **Evidence:** [validation](methodology/VALIDATION.md) · [limitations](methodology/LIMITATIONS.md) · [anomaly log](anomaly_log.csv) · [release decisions](methodology/RELEASE_DECISIONS.md)
 
@@ -48,7 +49,11 @@ Audit evidence tables and research experiments are kept with the private inputs;
 
 ## Versions
 
-- **1.2.0:** adds Playoff CV. **Run**, the headline postseason résumé, counts each round once and adds capped, responsibility-weighted title credit. **Rate** measures quality while active. No minutes are used anywhere. Regular-season scores are unchanged.
+- **1.2.0:** adds Playoff CV and Full-season CV.
+  - **Run**, the headline postseason résumé, counts each round once and adds capped, responsibility-weighted title credit.
+  - **Rate** measures quality while active.
+  - **Full-season CV** counts every playoff game as one more game, plus a title bonus.
+  - All three use the regular season's ruler and no minutes. Regular-season scores are unchanged.
 - **1.1.0:** one defensive rule for every season. Opponent shot attempts, unrecorded before 1970–71, are estimated the same way for all of history, so full CV now covers NBA 1952–2026 and the ABA. Base scores are unchanged. See the [changelog](CHANGELOG.md). [Zenodo](https://doi.org/10.5281/zenodo.23045497).
 - **1.0.1 / 1.0.0:** first public release ([Zenodo](https://doi.org/10.5281/zenodo.23040991)).
 

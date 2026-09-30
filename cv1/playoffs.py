@@ -1,4 +1,4 @@
-"""Court Value Playoff CV (Run and Rate), model 1.2.0.
+"""Court Value Playoff CV (Run and Rate) and Full-Season CV, playoff model 1.0.0.
 
 Scores one NBA postseason per player (1952-2026) from the playoff player-game
 archive, with the CV 1.1 conventions and **no use of minutes played**: the
@@ -7,14 +7,22 @@ responsibility rule here uses production, shot attempts and games instead.
 
 Two scores, never added together or to regular-season CV:
 
-* Playoff CV Rate - quality while active: production per appearance,
-  standardized within the postseason (games-weighted, as in CV 1.1), plus
+Both playoff scores are measured on the **regular season's ruler**: a playoff
+per-game value is standardized against that season's regular-season reference
+(the games-weighted mean and SD of regular-season per-game value, and the
+regular-season defensive reference), so a playoff game is read exactly like a
+regular-season game.
+
+* Playoff CV Rate - quality while active: production per appearance plus
   bounded team-defense credit.
 * Playoff CV Run - the postseason resume and headline score. Each round is one
-  opportunity unit (series length neutral), summed over the rounds available
-  on the team's championship path, standardized within the postseason, plus
+  opportunity unit (series length neutral), averaged over the rounds available
+  on the team's championship path (unplayed rounds count zero), plus
   path-moderated defense and responsibility-weighted championship credit
   (capped at 3 = one CV standard deviation, reached at a 25% share).
+* Full-Season CV - regular season plus playoffs: every playoff game counts as
+  one more game of the season on the same ruler, plus the championship credit
+  scaled by the playoffs' share of the season's games.
 
 ABA postseasons are not covered: there is no ABA playoff game archive.
 
@@ -237,6 +245,18 @@ def team_postseasons(tg: pd.DataFrame) -> tuple[pd.DataFrame, pd.DataFrame]:
 
 
 # ---------------------------------------------------------------- players
+def regular_reference(rs: pd.DataFrame) -> pd.DataFrame:
+    """Regular-season rulers per NBA season, exactly as the regular-season engine standardizes."""
+    rows = []
+    for season, g in rs[rs["lg"].eq("NBA")].groupby("season"):
+        r = g[g["rate"].notna()]
+        mu = np.average(r["rate"], weights=r["G"])
+        sd = float(np.sqrt(np.average((r["rate"] - mu) ** 2, weights=r["G"])))
+        d = g["def_raw"].dropna()
+        rows.append(dict(season=season, rs_rate_mean=mu, rs_rate_sd=sd, rs_def_mean=d.mean(), rs_def_sd=d.std(ddof=0)))
+    return pd.DataFrame(rows)
+
+
 def compute(input_dir: Path) -> tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame, dict]:
     input_dir = Path(input_dir)
     games, qc = load_games(input_dir)
@@ -295,9 +315,14 @@ def compute(input_dir: Path) -> tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame, 
     p["rate_value"] = p["raw"] / p["g"]
 
     # ---- Rate: games-weighted within the postseason (CV 1.1 convention)
-    p["rate_base"] = 3 * p.groupby("season", group_keys=False).apply(lambda x: weighted_z(x["rate_value"], x["g"]))
+    rs = pd.read_csv(input_dir / "regular_season_cv.csv", float_precision="round_trip", low_memory=False)
+    ref = regular_reference(rs)
+    p = p.merge(ref, on="season", how="left", validate="many_to_one")
+    if p["rs_rate_sd"].isna().any():
+        raise ValueError("Postseason without a regular-season reference")
+    p["rate_base"] = 3 * (p["rate_value"] - p["rs_rate_mean"]) / p["rs_rate_sd"]
     p["def_raw"] = p["team_def_z"] * p["def_weight"]
-    p["rate_def_index"] = 3 * p.groupby("season")["def_raw"].transform(pop_z)
+    p["rate_def_index"] = 3 * (p["def_raw"] - p["rs_def_mean"]) / p["rs_def_sd"]
     p["rate_defense"] = bounded_defense(p["rate_def_index"])
     p["playoff_cv_rate"] = p["rate_base"] + p["rate_defense"]
     p["scored"] = p["playoff_cv_rate"].notna()
@@ -316,9 +341,9 @@ def compute(input_dir: Path) -> tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame, 
     p = p.merge(run, on=key, how="left", validate="one_to_one")
     p["run_raw"] = (p["run_sum"] / p["possible_path_rounds"]).where(p["box_games"].gt(0))
     p["path_availability"] = p["avail_sum"] / p["possible_path_rounds"]
-    p["run_base"] = 3 * p.groupby("season")["run_raw"].transform(pop_z)
+    p["run_base"] = 3 * (p["run_raw"] - p["rs_rate_mean"]) / p["rs_rate_sd"]
     p["run_def_raw"] = p["team_def_z"] * p["def_weight"] * p["path_availability"]
-    p["run_def_index"] = 3 * p.groupby("season")["run_def_raw"].transform(pop_z)
+    p["run_def_index"] = 3 * (p["run_def_raw"] - p["rs_def_mean"]) / p["rs_def_sd"]
     p["run_defense"] = bounded_defense(p["run_def_index"])
     p["run_performance"] = p["run_base"] + p["run_defense"]
     pos = p["run_raw"].clip(lower=0)
@@ -335,4 +360,26 @@ def compute(input_dir: Path) -> tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame, 
     p["lg"] = "NBA"
     qc.update({"player_postseasons": len(p), "team_postseasons": len(teams), "seasons": int(p["season"].nunique()),
                "champions": int(teams["champion"].sum())})
-    return p.sort_values(["season", "player_id"]).reset_index(drop=True), teams, r, qc
+    p = p.sort_values(["season", "player_id"]).reset_index(drop=True)
+    full = full_season(rs, p)
+    qc["full_season_rows"] = len(full)
+    return p, teams, r, qc, full
+
+
+def full_season(rs: pd.DataFrame, p: pd.DataFrame) -> pd.DataFrame:
+    """Regular season + playoffs on one ruler, plus the title credit scaled by the playoff share of games."""
+    f = rs[rs["cv_full"].notna()][["player_id", "player", "season", "lg", "teams", "G", "qualified", "cv_full"]].copy()
+    po = p[["player_id", "season", "lg", "g", "playoff_cv_rate", "championship_credit", "champion", "box_evidence"]
+           ].rename(columns={"g": "po_g"}) if "box_evidence" in p else p[["player_id", "season", "lg", "g", "playoff_cv_rate",
+           "championship_credit", "champion"]].rename(columns={"g": "po_g"})
+    f = f.merge(po, on=["player_id", "season", "lg"], how="left", validate="one_to_one")
+    scored = f["playoff_cv_rate"].notna()
+    f["po_games_counted"] = np.where(scored, f["po_g"], 0).astype(int)
+    total = f["G"] + f["po_games_counted"]
+    f["playoff_share"] = f["po_games_counted"] / total
+    f["title_bonus"] = np.where(scored, f["championship_credit"].fillna(0) * f["playoff_share"], 0.0)
+    f["full_season_cv"] = (f["G"] * f["cv_full"] + f["po_games_counted"] * f["playoff_cv_rate"].fillna(0)) / total + f["title_bonus"]
+    f["playoff_status"] = np.select([f["po_g"].isna(), ~scored], ["NO_PLAYOFFS", "PLAYOFFS_UNSCORED"], "INCLUDED")
+    f["full_season_rank_season"] = f["full_season_cv"].where(f["qualified"]).groupby([f["season"], f["lg"]]).rank(ascending=False, method="min").astype("Int64")
+    f["full_season_rank_alltime"] = f["full_season_cv"].where(f["qualified"]).rank(ascending=False, method="min").astype("Int64")
+    return f.drop(columns=["championship_credit"]).rename(columns={"G": "rs_games", "cv_full": "rs_cv_full"})

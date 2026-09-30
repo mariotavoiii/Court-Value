@@ -55,16 +55,26 @@ def main():
     check("champion responsibility shares sum to 1", ((share - 1).abs() > 1e-9).sum(), f"max deviation {(share - 1).abs().max():.2g}")
     check("defense bounds", ((s[["run_defense", "rate_defense"]] > 1.5 + TOL) | (s[["run_defense", "rate_defense"]] < -0.75 - TOL)).sum().sum(),
           "bounded tanh, negative halved")
-    mom = []
-    for season, g in s.groupby("season"):
-        w = g.g
-        m = np.average(g.rate_base, weights=w)
-        sd = np.sqrt(np.average((g.rate_base - m) ** 2, weights=w))
-        mom.append((season, m, sd, g.run_base.mean(), g.run_base.std(ddof=0)))
-    mom = pd.DataFrame(mom, columns=["season", "rate_wmean", "rate_wsd", "run_mean", "run_sd"])
-    mom.to_csv(out / "postseason_moments.csv", index=False)
-    check("Rate base games-weighted mean 0, SD 3", ((mom.rate_wmean.abs() > 1e-9) | ((mom.rate_wsd - 3).abs() > 1e-9)).sum(), "every postseason")
-    check("Run base mean 0, SD 3", ((mom.run_mean.abs() > 1e-9) | ((mom.run_sd - 3).abs() > 1e-9)).sum(), "every postseason")
+    # The regular-season ruler must reproduce the regular season's own scores exactly.
+    rs = pd.read_csv(a.input_dir / "regular_season_cv.csv", **rt)
+    ref = playoffs.regular_reference(rs)
+    x = rs[rs.lg.eq("NBA")].merge(ref, on="season")
+    base_err = (3 * (x.rate - x.rs_rate_mean) / x.rs_rate_sd - x.cv_base).abs().max()
+    di = 3 * (x.def_raw - x.rs_def_mean) / x.rs_def_sd
+    dc = pd.Series(np.where(1.5 * np.tanh(di / 6) >= 0, 1.5 * np.tanh(di / 6), 0.75 * np.tanh(di / 6)), index=x.index)
+    def_err = (dc - x.def_credit).abs().max()
+    check("regular-season ruler reproduces CV_BASE and defensive credit", int(base_err > 1e-9) + int(def_err > 1e-9),
+          f"max errors {base_err:.2g} (base), {def_err:.2g} (defense), NBA 1952-2026")
+    chk = s.merge(ref, on="season", suffixes=("", "_r"))
+    e1 = (chk.rate_base - 3 * (chk.rate_value - chk.rs_rate_mean_r) / chk.rs_rate_sd_r).abs().max()
+    e2 = (chk.run_base - 3 * (chk.run_raw - chk.rs_rate_mean_r) / chk.rs_rate_sd_r).abs().max()
+    check("playoff bases use that season's regular-season ruler", int(max(e1, e2) > 1e-9), f"max error {max(e1, e2):.2g}")
+    f = pd.read_csv(a.candidate_dir / "full_season_cv.csv", **rt)
+    fe = ((f.rs_games * f.rs_cv_full + f.po_games_counted * f.playoff_cv_rate.fillna(0)) / (f.rs_games + f.po_games_counted) + f.title_bonus - f.full_season_cv).abs().max()
+    check("Full-Season CV identity", int(fe > 1e-9), f"max error {fe:.2g}")
+    nop = f[f.playoff_status.ne("INCLUDED")]
+    check("no playoffs counted -> Full-Season CV equals regular-season CV", int(((nop.full_season_cv - nop.rs_cv_full).abs() > 1e-12).sum()), f"{len(nop)} rows")
+    check("title bonus bounds", int(((f.title_bonus < -1e-12) | (f.title_bonus > 3 * f.po_games_counted / (f.rs_games + f.po_games_counted) + 1e-12)).sum()), "0 to 3 x playoff share of games")
     check("box-complete from 1965", (t[t.season >= 1965].box_share < 1).sum(), "every team-game 1965-2026 has a complete box score")
     check("unscored only without box evidence", (p.playoff_cv_run.isna() & p.box_games.gt(0)).sum(), "")
     check("rate qualification rule", (p.rate_qualified.astype(bool) != ((10 * p.g >= 7 * p.team_games) & p.playoff_cv_run.notna())).sum(),
@@ -78,7 +88,7 @@ def main():
     mins = pd.to_numeric(g["numMinutes"], errors="coerce")
     g.loc[mins.notna(), "numMinutes"] = 1.0
     g.to_csv(tmp / "playoff_player_games.csv", index=False)
-    q, *_ = playoffs.compute(tmp)
+    q = playoffs.compute(tmp)[0]
     m = p.merge(q[["season", "player_id", "playoff_cv_run", "playoff_cv_rate"]], on=["season", "player_id"], suffixes=("", "_m"))
     diff = max((m.playoff_cv_run - m.playoff_cv_run_m).abs().max(), (m.playoff_cv_rate - m.playoff_cv_rate_m).abs().max())
     check("no dependence on minutes played", int(diff > 1e-12) + abs(len(m) - len(p)), f"all recorded minutes set to 1: max score change {diff:.2g}")

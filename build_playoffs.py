@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-"""Build Playoff CV (Run and Rate) from a declared playoff input snapshot.
+"""Build Playoff CV (Run and Rate) and Full-Season CV from a declared playoff input snapshot.
 
 Usage:
-    python build_playoffs.py --input-dir private_inputs/playoffs-2026-09-29 --output-dir releases/playoffs-1.0.0/outputs
+    python build_playoffs.py --input-dir private_inputs/playoffs-2026-09-29b --output-dir releases/playoffs-1.0.0/outputs
 
 The output directory must not exist (immutability). No network access.
 """
@@ -50,7 +50,7 @@ def evidence_label(share: pd.Series) -> pd.Series:
 def build(input_dir: Path, out: Path) -> dict:
     declared = verify_inputs(input_dir)
     out.mkdir(parents=True, exist_ok=False)
-    p, teams, rounds, qc = playoffs.compute(input_dir)
+    p, teams, rounds, qc, full = playoffs.compute(input_dir)
     p["box_evidence"] = evidence_label(p["box_share"])
     p["score_status"] = np.select([~p["scored"], p["rate_qualified"]], ["UNSCORED_NO_BOX_EVIDENCE", "SCORED_RATE_QUALIFIED"], "SCORED")
     p["playoff_model_version"] = PLAYOFF_MODEL_VERSION
@@ -59,6 +59,7 @@ def build(input_dir: Path, out: Path) -> dict:
         "player_id", "player", "season", "lg", "team", "team_id", "g", "team_games", "availability", "box_games", "box_share",
         "box_evidence", "pts", "ast", "trb", "fga", "fta", "rounds_appeared", "entry_round", "last_round", "rounds_played",
         "possible_path_rounds", "received_bye", "champion", "wins", "mov", "z_mov", "pace_adj", "league_psa", "team_def_z",
+        "rs_rate_mean", "rs_rate_sd", "rs_def_mean", "rs_def_sd",
         "role_tier", "role_weight", "def_tier", "def_weight", "context", "raw", "rate_value", "rate_base", "rate_defense",
         "playoff_cv_rate", "rate_qualified", "run_raw", "path_availability", "run_base", "run_defense", "run_performance",
         "championship_share", "championship_credit", "playoff_cv_run", "playoff_cv_run_rank_season", "playoff_cv_run_rank_alltime",
@@ -76,9 +77,19 @@ def build(input_dir: Path, out: Path) -> dict:
         public[c] = public[c].round(4)
     public = public.rename(columns={"lg": "league", "g": "games"})
     public.to_csv(out / "PUBLIC_playoff_cv_scores.csv", index=False, lineterminator="\n")
+    full["playoff_model_version"] = PLAYOFF_MODEL_VERSION
+    full["data_revision"] = DATA_REVISION
+    full.to_csv(out / "full_season_cv.csv", index=False, float_format=FLOAT, lineterminator="\n")
+    fpub = full[["player_id", "player", "season", "lg", "teams", "rs_games", "po_games_counted", "qualified", "playoff_status",
+                 "champion", "rs_cv_full", "playoff_cv_rate", "title_bonus", "full_season_cv", "full_season_rank_season",
+                 "full_season_rank_alltime", "playoff_model_version", "data_revision"]].copy()
+    for c in ["rs_cv_full", "playoff_cv_rate", "title_bonus", "full_season_cv"]:
+        fpub[c] = fpub[c].round(4)
+    fpub.rename(columns={"lg": "league"}).to_csv(out / "PUBLIC_full_season_cv_scores.csv", index=False, lineterminator="\n")
     summary = {"playoff_model_version": PLAYOFF_MODEL_VERSION, "data_revision": DATA_REVISION, "qc": qc,
                "status_counts": p["score_status"].value_counts().sort_index().to_dict(),
                "box_evidence_counts": p["box_evidence"].value_counts().sort_index().to_dict(),
+               "full_season_playoff_status": full["playoff_status"].value_counts().sort_index().to_dict(),
                "defense_coefficients": list(defense_estimator.COEFFICIENTS)}
     files = sorted(out.glob("*.csv"))
     manifest = {"playoff_model_version": PLAYOFF_MODEL_VERSION, "data_revision": DATA_REVISION,

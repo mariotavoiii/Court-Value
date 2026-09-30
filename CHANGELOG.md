@@ -2,17 +2,18 @@
 
 All published outputs are immutable. Methodological changes receive a new model version; new or corrected data receive a new data revision.
 
-## 1.2.0 (2026-09-29): adds Playoff CV 1.0
+## 1.2.0 (2026-09-29): adds Playoff CV 1.0 and Full-Season CV
 
-- **New product: Playoff CV**, one score per NBA player-postseason, 1951–52 to 2025–26 (11,299 player-postseasons, 11,082 scored). Specification, validation and limitations are in `docs/PLAYOFFS.md`.
-  - **Playoff CV Run** (headline) is series-length neutral and adds responsibility-weighted championship credit capped at 3.
-  - **Playoff CV Rate** (companion) measures quality per appearance.
-  - Both follow CV 1.1 conventions: the frozen season-totals team-defense estimate, games-weighted Rate reference and the 70% qualification rule.
-- **No minutes played anywhere** in Playoff CV (model-owner decision), because the archive's playoff minutes are incomplete before 1969–70. Defensive responsibility uses the same visible-load ranking as offense. The audit proves no score depends on minutes.
-- **Early box scores:** assists, rebounds and field-goal attempts missing from 1952–64 games are estimated from each player's box-complete games. 217 early player-postseasons with no box evidence are unscored. Every row is labeled COMPLETE, PARTIAL or NONE.
-- **Audit:** 16 of 16 checks pass. The clean-room rebuild is byte-identical. Games match Neil Paine's postseason file for 99.8% of 1977–2026 player-postseasons (all within one game). The Run leader played for the champion in 70 of 75 postseasons.
-- **Regular-season scores are unchanged** (model 1.1.0; files identical to release 1.1.0).
-- New anomalies A26–A28.
+- **New: Playoff CV**, one score per NBA player-postseason, 1951–52 to 2025–26 (11,299 player-postseasons, 11,082 scored). Specification, validation and limitations are in `docs/PLAYOFFS.md`.
+  - **Run** (headline): a series-length-neutral postseason résumé plus responsibility-weighted title credit (0–3).
+  - **Rate** (companion): quality while active.
+  - **One ruler:** both are measured on the same season's regular-season ruler, so a playoff 10 means a regular-season 10.
+- **New: Full-Season CV**, the regular season plus playoffs. Every playoff game counts as one more game on the same ruler, and a champion adds his title credit scaled by the playoffs' share of his games. It equals regular-season CV when no playoff games count.
+- **No minutes played anywhere** in playoff scoring (model-owner decision). The audit proves no score depends on minutes.
+- **Early box scores:** assists, rebounds and field-goal attempts missing from 1952–64 games are estimated from each player's box-complete games. 217 early player-postseasons with no box evidence are unscored, and every row is labeled COMPLETE, PARTIAL or NONE.
+- **Audit:** 19 of 19 checks pass, including that the ruler reproduces regular-season CV exactly. The clean-room rebuild is byte-identical, and games match Neil Paine's postseason file for 99.8% of 1977–2026 player-postseasons.
+- **Superseded candidate:** `releases/playoffs-1.0.0-rc.1` standardized each postseason against its own players, which gave Runs of 20–23 against regular-season peaks near 14. The website showed it for about an hour before release. Final ranks are nearly unchanged (within-postseason Spearman 0.999).
+- **Regular-season scores are unchanged** (model 1.1.0). New anomalies A26–A28.
 
 ## Post-1.1.0 tooling (2026-09-29): no score changes
 
