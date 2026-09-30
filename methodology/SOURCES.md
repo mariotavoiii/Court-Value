@@ -14,7 +14,16 @@
 | `verified_team_results.csv` | `outputs/cv_verified_mov_2026_09/team_game_results.csv` (exact copy) | Verified final margins | Recorded final scores corroborated across the NBA game index (Kaggle `Games.csv`), FiveThirtyEight/Neil Paine Elo files (one lineage) and ESPN (2025–26 and selected conflicts). Agreement is not proof of fully independent collection. 28 unresolved disagreements (pre-1997) are withheld. |
 | `identity_map.csv` | IDs extracted from `outputs/cv_player_seasons_1952_2026/CV_Player_Seasons_1952_2026.csv` | NBA person ID → player_id bridge | Identifiers only; no scores imported. |
 
-Exact bytes and SHA-256 values are in `private_inputs/2026-09-29/input_manifest.json`. `prepare_inputs.py` regenerates the snapshot from the research workspace.
+Exact bytes and SHA-256 values are in `private_inputs/2026-09-29/input_manifest.json`.
+
+## Playoff CV input snapshot `cv-playoff-inputs-2026-09-29` (release 1.2.0)
+
+| Prepared file | Origin | Used for | Notes |
+| --- | --- | --- | --- |
+| `playoff_player_games.csv` | Playoff rows (`gameType == "Playoffs"`) of `PlayerStatistics.csv`, the Eoin Moore historical NBA player box-score archive on Kaggle already used for regular-season appearances. It has 30 projected columns and 102,249 rows. | Playoff appearances, points, assists, rebounds, FGA, FTA, rounds, team and opponent | 2022 team IDs are repaired from team names (A28). 1952–64 box scores are partly incomplete (A26). Minutes are used only as appearance evidence (A27). |
+| `identity_map.csv`, `Player Totals.csv`, `Team Totals.csv` | Identical copies from `private_inputs/2026-09-29` | Player IDs and names; team abbreviations | — |
+
+Neil Paine's postseason player file (`paine.csv`) is a validation source only. It supplies games played and LAKER for 1977–2026 and is never a formula input. SHA-256 values are in `private_inputs/playoffs-2026-09-29/input_manifest.json`. `prepare_inputs.py` regenerates the snapshot from the research workspace.
 
 ## Validation-only sources (never formula inputs)
 
