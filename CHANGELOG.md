@@ -7,6 +7,7 @@ Published scores never change silently. Method changes get a new version; correc
 - **Career CV centers on the prime.** A career is built on the player's five best qualified seasons, with the playoffs weighing more than they do in a single season. Every other qualified season adds a little, but only for what it gives above All-Star level, so long stretches of ordinary years no longer lift a career.
 - **Season scores are unchanged** from 2.1.0.
 - Career scores are published as `PUBLIC_cv_2_1_1_careers.csv` and are not comparable with 2.1.0 career scores.
+- Archived: [Zenodo DOI 10.5281/zenodo.23071104](https://doi.org/10.5281/zenodo.23071104). 2.1.0 was not archived separately; this release includes it.
 
 ## 2.1.0 (2026-09-30)
 

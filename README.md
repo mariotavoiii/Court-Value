@@ -1,5 +1,7 @@
 # Court Value (CV)
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23071104.svg)](https://doi.org/10.5281/zenodo.23071104)
+
 **One number for a player's season, measured the same way since 1952.**
 
 Court Value rates every NBA season since 1951–52 and every ABA season (1967–68 to 1975–76) on one historically portable scale, regular season and playoffs together. Every season is measured against the other players in that same league-season. There are no era bonuses, and no awards or reputation go into the score. ABA seasons carry one measured league-strength adjustment, estimated from players who moved between the leagues.
@@ -50,7 +52,7 @@ Everything used has been recorded in every season since 1952. **From version 2.0
 
 ## Versions
 
-- **2.1.1 (2026-09-30):** Career CV now centers on the prime (five best seasons, playoffs weighted more, other seasons count only above All-Star level). Season scores are unchanged from 2.1.0.
+- **2.1.1 (2026-09-30)** ([Zenodo](https://doi.org/10.5281/zenodo.23071104)): Career CV now centers on the prime (five best seasons, playoffs weighted more, other seasons count only above All-Star level). Season scores are unchanged from 2.1.0.
 - **2.1.0 (2026-09-30):**
   - Defense is shared by role only, removing a tilt toward big men.
   - ABA seasons are adjusted for league strength, measured from players who moved between the leagues.
@@ -71,7 +73,7 @@ Earlier releases remain available from their archives under their original licen
 
 Please cite as described in [`CITATION.cff`](CITATION.cff).
 
-> Tavolieri, Mario, III. *Court Value (CV): a historically portable NBA/ABA player-season value metric.* Version 2.1.1. 2026. https://mariotavoiii.github.io/Court-Value/
+> Tavolieri, Mario, III. *Court Value (CV): a historically portable NBA/ABA player-season value metric.* Version 2.1.1. Zenodo, 2026. https://doi.org/10.5281/zenodo.23071104
 
 - **Scores and documentation:** [CC BY 4.0](LICENSE-DATA).
 - **Underlying statistics:** Basketball-Reference, via the Kaggle dataset *NBA Stats (1947–present)* by Sumitro Datta, plus ABA game logs. Raw statistics are not redistributed.
