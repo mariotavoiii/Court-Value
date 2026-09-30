@@ -1,71 +1,65 @@
 # Court Value (CV)
 
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23045497.svg)](https://doi.org/10.5281/zenodo.23045497)
-
 **One number for a player's season, measured the same way since 1952.**
 
-Court Value rates every NBA (1952–present) and ABA (1968–76) regular season on one historically portable scale. It uses only information that exists for every season:
-- box-score production;
-- responsibility within the team;
-- the team's margin of victory in the games the player actually played;
-- a bounded team-defense credit.
-
-Each league-season is measured against itself: there are no era bonuses, no ABA penalty, and no awards or reputation in the formula.
+Court Value rates every NBA season since 1951–52 and every ABA season (1967–68 to 1975–76) on one historically portable scale, regular season and playoffs together. Every season is measured against the other players in that same league-season. There are no era bonuses and no ABA penalty, and no awards or reputation go into the score.
 
 - **Website:** https://mariotavoiii.github.io/Court-Value/
-- **Scores:** [`data/PUBLIC_cv_scores.csv`](data/PUBLIC_cv_scores.csv), 26,208 player-seasons with full CV, CV_BASE, defensive credit, ranks and coverage flags.
-- **Playoff scores:** [`data/PUBLIC_playoff_cv_scores.csv`](data/PUBLIC_playoff_cv_scores.csv), Playoff CV Run and Rate for every NBA postseason since 1951–52, on the regular season's ruler ([specification](methodology/PLAYOFFS.md)).
-- **Full-season scores:** [`data/PUBLIC_full_season_cv_scores.csv`](data/PUBLIC_full_season_cv_scores.csv), the regular season plus playoffs on one scale, with a title bonus.
-- **How it works:** [plain-English overview](methodology/OVERVIEW.md) · [technical specification](methodology/TECHNICAL_SPECIFICATION.md) · [worked examples](methodology/WORKED_EXAMPLES.md)
-- **Evidence:** [validation](methodology/VALIDATION.md) · [limitations](methodology/LIMITATIONS.md) · [anomaly log](anomaly_log.csv) · [release decisions](methodology/RELEASE_DECISIONS.md)
+- **Scores:** [`data/PUBLIC_cv_2_0_scores.csv`](data/PUBLIC_cv_2_0_scores.csv), 26,204 player-seasons.
+
+## The three numbers
+
+| Column | Meaning |
+|---|---|
+| `cv` | **Season CV**: the regular season and the postseason combined into one score |
+| `rs` | The regular season alone |
+| `po` | The postseason alone, on the same scale (blank when the team missed the playoffs) |
+
+A team that missed the playoffs counts as league average for the playoff part of the season score. Seasons with no complete playoff box score use the regular season alone. Leaderboards require at least 70% of team games.
 
 ## Reading the scores
 
 | CV | Typical meaning |
 |---:|---|
-| 12+ | All-time season (37 qualified seasons) |
-| ~11 | Median MVP season |
-| ~7.5 | Median All-NBA season |
-| ~6 | Median All-Star season |
+| 12+ | All-time season (57 qualified seasons) |
+| 9–13 | Where most MVP seasons land (middle half 9.2–12.7) |
+| ~6 | Median All-NBA season |
+| ~4.5 | Median All-Star season |
 | 0 | The season's average player-game |
 
-Three CV points equal one games-weighted standard deviation within the league-season.
+Three points equal one standard deviation within the league-season.
 
-**Full CV** includes defense and, since version 1.1, covers every NBA and ABA season under one defensive rule. **CV_BASE** is the same score without defense. Never rank the two together. Leaderboards require at least 70% of team games.
+CV measures realized value and responsibility in a real season. It is not a causal impact estimate or wins above replacement, and it does not rate talent or career greatness.
 
-CV measures realized value and responsibility. It is not a causal impact estimate or wins above replacement, and it does not rate talent or career greatness.
+## Method
 
-## Reproducing the scores
+Court Value draws on:
+- box-score production and efficiency;
+- each player's share of his team's load;
+- how the team did in the games he played, and with and without him;
+- each team's actual defense, shared among its players;
+- postseason games judged against the players who actually played them.
 
-The calculator is `build_release.py` with the `cv1/` package. It builds from a declared input snapshot and refuses to run unless every input matches [`data/input_manifest.json`](data/input_manifest.json).
-
-The raw inputs are Basketball-Reference-derived season totals and game logs. They are **not redistributed**; see [methodology/SOURCES.md](methodology/SOURCES.md) for provenance and how to obtain them. With the inputs in place:
-
-```bash
-bash verify_locked_build.sh   # Python 3.11+; installs requirements.lock in a throwaway env, rebuilds, compares
-```
-
-Audit evidence tables and research experiments are kept with the private inputs; their results are summarized in [methodology/VALIDATION.md](methodology/VALIDATION.md).
+Everything used has been recorded in every season since 1952. **From version 2.0 the formula is proprietary**; this repository publishes the scores and the website.
 
 ## Versions
 
-- **1.2.0 (preview, not yet archived):** adds Playoff CV and Full-season CV.
-  - **Run**, the headline postseason résumé, counts each round once and adds capped, responsibility-weighted title credit.
-  - **Rate** measures quality while active.
-  - **Full-season CV** counts every playoff game as one more game, plus a title bonus.
-  - All three use the regular season's ruler and no minutes. Regular-season scores are unchanged.
-- **1.1.0:** one defensive rule for every season. Opponent shot attempts, unrecorded before 1970–71, are estimated the same way for all of history, so full CV now covers NBA 1952–2026 and the ABA. Base scores are unchanged. See the [changelog](CHANGELOG.md). [Zenodo](https://doi.org/10.5281/zenodo.23045497).
-- **1.0.1 / 1.0.0:** first public release ([Zenodo](https://doi.org/10.5281/zenodo.23040991)).
+- **2.0.0 (2026-09-30):**
+  - One season score combining the regular season and postseason.
+  - Every ABA postseason is added.
+  - New treatment of defense, of team results with and without each player, and of playoff games.
+  - Scores are **not comparable** with 1.x.
+- **1.1.0:** regular season only ([Zenodo](https://doi.org/10.5281/zenodo.23045497)).
+- **1.0.x:** first public release ([Zenodo](https://doi.org/10.5281/zenodo.23040991)).
 
-## Citation and licences
+Earlier releases remain available from their archives under their original licences. See the [changelog](CHANGELOG.md).
 
-Please cite as described in [`CITATION.cff`](CITATION.cff):
+## Citation and licence
 
-> Tavolieri, Mario, III. *Court Value (CV): a historically portable NBA/ABA player-season value metric.* Version 1.1.0. Zenodo, 2026. https://doi.org/10.5281/zenodo.23045497
+Please cite as described in [`CITATION.cff`](CITATION.cff).
 
 - **Scores and documentation:** [CC BY 4.0](LICENSE-DATA).
-- **Code:** [MIT](LICENSE-CODE).
-- **Underlying statistics:** Basketball-Reference, via the Kaggle dataset *NBA Stats (1947–present)* by Sumitro Datta.
+- **Underlying statistics:** Basketball-Reference, via the Kaggle dataset *NBA Stats (1947–present)* by Sumitro Datta, plus ABA game logs. Raw statistics are not redistributed.
 
 ## Feedback
 

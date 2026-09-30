@@ -1,20 +1,19 @@
 # Citation metadata for Court Value.
 cff-version: 1.2.0
-message: "If you use Court Value scores or methodology, please cite it as below."
+message: "If you use Court Value scores, please cite it as below."
 title: "Court Value (CV): a historically portable NBA/ABA player-season value metric"
 type: dataset
-version: 1.1.0
+version: 2.0.0
 authors:
   - given-names: Mario
     family-names: Tavolieri
     name-suffix: III
 abstract: >-
-  Court Value (CV) is a regular-season player × season × league metric for the NBA
-  (1952–present) and ABA (1968–1976). It measures realized season value and
-  responsibility from 1952-available box-score production, games-played team margin
-  of victory and a bounded team-defense responsibility credit, standardized within each
-  league-season. Since version 1.1 one defensive rule covers every NBA and ABA season.
-  It is not a causal impact or wins-above-replacement estimate.
+  Court Value (CV) rates every NBA (1952–present) and ABA (1968–1976) player-season on one
+  historically portable scale. Version 2.0 publishes one season score combining the regular
+  season (RS) and the postseason (PO), with both parts shown. It measures realized season value
+  and responsibility; it is not a causal impact or wins-above-replacement estimate. From version
+  2.0 the formula is proprietary; scores are CC BY 4.0.
 keywords:
   - basketball
   - NBA
@@ -23,15 +22,14 @@ keywords:
   - player evaluation
   - sports analytics
 license: CC-BY-4.0
-# CC-BY-4.0 covers the CV scores and documentation. The source code is MIT (see LICENSE-CODE).
-date-released: "2026-09-29"
+# CC-BY-4.0 covers the CV scores and documentation. The 2.0 formula is proprietary.
+date-released: "2026-09-30"
 url: "https://mariotavoiii.github.io/Court-Value/"
 repository-code: "https://github.com/mariotavoiii/Court-Value"
-doi: "10.5281/zenodo.23045497"
 identifiers:
   - type: doi
     value: "10.5281/zenodo.23045497"
-    description: "Zenodo archive of release 1.1.0"
+    description: "Zenodo archive of release 1.1.0 (previous version)"
   - type: doi
     value: "10.5281/zenodo.23040991"
-    description: "Zenodo archive of release 1.0.1 (previous version)"
+    description: "Zenodo archive of release 1.0.1"

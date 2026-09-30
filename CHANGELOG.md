@@ -1,87 +1,24 @@
 # Changelog
 
-All published outputs are immutable. Methodological changes receive a new model version; new or corrected data receive a new data revision.
+Published scores never change silently. Method changes get a new version; corrections and new seasons get a new data revision. Older releases stay available from their archives.
 
-## 1.2.0 (2026-09-29): adds Playoff CV 1.0 and Full-Season CV
+## 2.0.0 (2026-09-30)
 
-- **New: Playoff CV**, one score per NBA player-postseason, 1951–52 to 2025–26 (11,299 player-postseasons, 11,082 scored). Specification, validation and limitations are in `docs/PLAYOFFS.md`.
-  - **Run** (headline): a series-length-neutral postseason résumé plus responsibility-weighted title credit (0–3).
-  - **Rate** (companion): quality while active.
-  - **One ruler:** both are measured on the same season's regular-season ruler, so a playoff 10 means a regular-season 10.
-- **New: Full-Season CV**, the regular season plus playoffs. Every playoff game counts as one more game on the same ruler, and a champion adds his title credit scaled by the playoffs' share of his games. It equals regular-season CV when no playoff games count.
-- **No minutes played anywhere** in playoff scoring (model-owner decision). The audit proves no score depends on minutes.
-- **Early box scores:** assists, rebounds and field-goal attempts missing from 1952–64 games are estimated from each player's box-complete games. 217 early player-postseasons with no box evidence are unscored, and every row is labeled COMPLETE, PARTIAL or NONE.
-- **Audit:** 19 of 19 checks pass, including that the ruler reproduces regular-season CV exactly. The clean-room rebuild is byte-identical, and games match Neil Paine's postseason file for 99.8% of 1977–2026 player-postseasons.
-- **Superseded candidate:** `releases/playoffs-1.0.0-rc.1` standardized each postseason against its own players, which gave Runs of 20–23 against regular-season peaks near 14. The website showed it for about an hour before release. Final ranks are nearly unchanged (within-postseason Spearman 0.999).
-- **Regular-season scores are unchanged** (model 1.1.0). New anomalies A26–A28.
+- **One season score.** Season CV combines the regular season (RS) and the postseason (PO) on one scale. RS and PO are published beside it.
+- **Every ABA postseason** (1967–68 to 1975–76) is added. Together with every NBA postseason since 1951–52, all playoffs in both leagues are now scored.
+- **Missed playoffs** count as league average for the playoff part of the season score.
+- **New treatment** of team defense, of team results with and without each player, and of playoff games, which are judged against the players who actually played them. Short playoff samples are read cautiously.
+- **Proprietary formula.** From this version the formula and calculator are no longer published. Scores remain CC BY 4.0.
+- **Not comparable with 1.x.** Scores are on a new basis.
 
-## Post-1.1.0 tooling (2026-09-29): no score changes
+## 1.2 preview (2026-09-29, superseded)
 
-- **Cross-platform reproduction of 1.1.0: PASS.** macOS 15.8 with Python 3.14.7, pandas 3.0.2 and numpy 2.4.4 reproduces all 7 outputs. The public score file is byte-identical in value. Full-precision scores differ by at most 8e-14 (relative 1.5e-12), and ranks and qualification are identical.
-- **Fixed: `verify_locked_build.sh` tolerance.** The pure absolute test (1e-12) failed on `team_defense.csv`. There, a ~9,000 estimated-attempt value differed in its last binary digit between platform math libraries, a difference of 3.6e-12 absolute and 4e-16 relative. The test is now `|a − b| ≤ 1e-12 + 1e-12·|a|` (public file: 1e-4) and reports both absolute and relative differences (A25).
-- The copy of the verifier inside the archived 1.1.0 release keeps the old, stricter test; use the current one.
+Playoff CV (Run and Rate) and Full-season CV were shown on the website as a preview. They were never archived and are replaced by 2.0.
 
-## 1.1.0 (2026-09-29, data revision 2026-09-29): one defensive rule for all of history
+## 1.1.0 (2026-09-29)
 
-- **Changed: team defense.** Opponent shot attempts are estimated from season team totals recorded since 1951-52, with three frozen coefficients. The same rule applies to every NBA and ABA season (TECHNICAL_SPECIFICATION §7). Recorded opponent attempts (1971+) are used only to fit the coefficients and for diagnostics.
-- **Coverage:** full CV now covers NBA 1952–2026 and ABA 1968–76: 15,301 qualified seasons, up from 13,597 (NBA 1958–2024). There is no longer a CV_BASE-only tier for qualified seasons.
-- **Accuracy:** team defense agrees with recorded-attempt defense at r = 0.884 (NBA 1971–2026), up from 0.777, and at 0.838 for the ABA, which was not used in fitting.
-- **Scores:** CV_BASE is identical to 1.0.0. Full CV against 1.0.0 on the overlapping seasons: Spearman 0.995, mean absolute change 0.196, maximum 1.79.
-- **Validation (1977–2024):**
-  - All-Star 0.750 (1.0: 0.754), All-NBA 0.777 (0.781).
-  - MVP winner #1 0.52 (0.48), MVP top 3 0.96 (0.94), MVP-vote ρ 0.734 (0.744).
-  - All-Defensive 0.284 (0.265).
-- **Status fields:** `defense_coverage` is now `COMPLETE_SEASON_TOTALS_ESTIMATE` for every covered row. The 1.0 high/lower-confidence labels (archive reconciliation) no longer apply (A17 superseded).
-- **Audit:** 22 of 22 mechanical checks pass, including the coefficient refit, the team-defense recompute and CV_BASE invariance against 1.0. The clean rebuild is byte-identical. Anomalies A21–A24 are added.
-- **Unchanged:** inputs, base model, MOV, qualification and licences. The frozen control keeps the 1.0 defense.
+Regular season only. One defensive rule for every NBA and ABA season. [Zenodo DOI 10.5281/zenodo.23045497](https://doi.org/10.5281/zenodo.23045497).
 
-## 1.0.0 (2026-09-29, data revision 2026-09-29): first public release
+## 1.0.0 / 1.0.1 (2026-09-29)
 
-- **Scores:** identical to 1.0.0-rc.3; only the version label differs.
-- **Reproduction:** verified cross-platform. macOS with Python 3.14.7 and Linux with Python 3.11.15, both on pandas 3.0.2 and numpy 2.4.4, produce all outputs with maximum difference 0.0.
-- **`requirements.lock`** now pins the actual build environment. The previous pandas 2.2.3 pin is kept as `requirements.lock.pandas2_legacy`.
-- **Public outputs:** `PUBLIC_cv_scores.csv`, the website and the methodology.
-- **Licences:** scores and documentation under CC BY 4.0, code under MIT. Author: Mario Tavolieri III.
-
-## 1.0.0-rc.3 (2026-09-29, data revision 2026-09-29): packaging candidate
-
-- **Added:** `PUBLIC_cv_scores.csv`, the public score sheet. No raw box-score totals are included.
-- **Built under the locked dependencies** (pandas 2.2.3, numpy 2.3.5) on the owner's machine, to close A18.
-- **Unchanged:** methodology and scores (verified against rc.2).
-
-## 1.0.0-rc.2 (2026-09-29, data revision 2026-09-29): current release candidate, not published
-
-- **Changed: CV_BASE league-season standardization is weighted by games played.** CV_BASE has weighted mean 0 and weighted SD 3.
-  - Qualified scores shift down by 0.75 on average: the zero point is now the average player-game, which is higher than the average roster name.
-  - Rank agreement with rc.1 is 0.999.
-  - The all-time top 100 moves from 11 to 13 seasons for the 1970s–80s and from 45 to 42 for the 2010s–20s.
-- **Changed: folded-franchise qualification.** 1976 ABA Utah/San Diego stints qualify against the league schedule, so 6 rows become unqualified. No score changes.
-- **Unchanged:** games-played MOV, defense, all coefficients.
-- **Frozen control** kept as `cv1/control_v2026_5.py` (identical to the rc.1 engine).
-
-## 1.0.0-rc.1 (2026-09-29, data revision 2026-09-29): release candidate, not published
-
-First release candidate of the public CV 1.0 regular-season player-season metric.
-
-**Methodology relative to the frozen v2026.5-derived control (full-season MOV reconstruction):**
-
-- **Changed: team context uses verified literal games-played (appearance-game) MOV** per team stint. Full-season MOV is an explicit fallback with stint-level reason codes. 26,129 of 29,342 stints use appearance MOV.
-- **Unchanged:** every other coefficient, transform, tier rule, normalization population and the defensive framework. The candidate's defensive credit is identical to the control's.
-- **Specified for 1.0:** defensive equal-minute tie order; traded-player defense aggregated before standardization/compression; integer-exact 70% qualification (`10·G ≥ 7·TeamGames`); separate full-CV and CV_BASE products with row-level status fields; minimum ranks on full-precision ties.
-
-**Compared with the control:** qualified full-CV Spearman 0.99991, mean absolute change 0.027, maximum 0.745.
-
-**Engineering:**
-
-- New single entry point `build_release.py`, with input-manifest verification and output manifests.
-- Fixed a crash in `cv1/mov.py` (duplicate `team` column; the module had never executed).
-- Audit reads CSVs with round-trip float precision.
-
-**Relationship to history:** this is not a recovered copy of the lost original v2026.5 executable. Historical saved v2026.5 values remain development artifacts.
-
-**Open before 1.0.0:** A04, A05 and A18 in `anomaly_log.csv`.
-
-## Pre-release lineage (for provenance, not public versions)
-
-- **CELTIC v2025.1/v2025.2** (2025; `arctest/archive/lineage/CELTIC_v2025/CELTIC_Manual_v2025.2_full.txt`). This is the first documented form of the model. It introduced the core that CV still uses: BoxImpact = PTS + .65·AST + .65·REB; efficiency .30·(PTS − .92·LeaguePSA·attempts); scoring-ratio "pace" factor; √N rank-group tiers with weights 1/.85/.35/.15; tanh(.75·Z_MOV) context; per-82 rate; 3·Z within season and league. It differs from CV in three ways: the context coefficient was .25 (CV: .125); tiers used the mean of Z(box), Z(MP) and Z(MP/G) (CV: VisibleRole and availability); and it had no defensive component. Its per-82 rate is algebraically equivalent to CV's per-game rate under within-season Z.
-- **ARC v2026.x** (2026): renamed and extended with defense and responsibility; v2026.4 is `arc_pipeline.py`. The v2026.5 executable is lost; CV 1.0 adopts the documented v2026.5-derived reconstruction.
+First public release, regular season only. [Zenodo DOI 10.5281/zenodo.23040991](https://doi.org/10.5281/zenodo.23040991).

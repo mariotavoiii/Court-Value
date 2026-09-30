@@ -6,7 +6,7 @@
       "name": "Tavolieri, Mario, III"
     }
   ],
-  "description": "<p>Court Value (CV) rates every NBA (1951–52 to present) and ABA (1967–68 to 1975–76) regular season on one historically portable scale, using only information recorded since 1952. The inputs are box-score production, responsibility within the team, the team's margin of victory in the games the player actually played, and a bounded team-defense credit, all standardized within each league-season. Version 1.1 applies one defensive rule to every season, so full CV covers NBA 1952–2026 and ABA 1968–76. Version 1.2 adds Playoff CV (Run and Rate) for every NBA postseason since 1951–52, measured on the regular season's ruler, and Full-Season CV (regular season plus playoffs).</p><p>This archive contains the public score files (PUBLIC_cv_scores.csv, PUBLIC_playoff_cv_scores.csv, PUBLIC_full_season_cv_scores.csv), the calculator code, the technical specification, worked examples, validation and limitations. Raw Basketball-Reference-derived inputs are not redistributed.</p><p>Licences: scores and documentation CC BY 4.0; code MIT.</p><p>Website: https://mariotavoiii.github.io/Court-Value/</p>",
+  "description": "<p>Court Value (CV) rates every NBA season since 1951–52 and every ABA season (1967–68 to 1975–76) on one historically portable scale, regular season and playoffs together. Version 2.0 publishes one season score (CV) with its regular-season (RS) and postseason (PO) parts, for 26,204 player-seasons.</p><p>This archive contains the public score file (data/PUBLIC_cv_2_0_scores.csv) and the website. From version 2.0 the formula is proprietary and is not included. Scores are not comparable with 1.x.</p><p>Licence: scores and documentation CC BY 4.0.</p><p>Website: https://mariotavoiii.github.io/Court-Value/</p>",
   "license": "cc-by-4.0",
   "keywords": [
     "basketball",
@@ -22,6 +22,6 @@
       "relation": "isDocumentedBy"
     }
   ],
-  "notes": "Source code is licensed MIT (LICENSE-CODE). Underlying statistics come from Basketball-Reference via the Kaggle dataset 'NBA Stats (1947-present)' by Sumitro Datta.",
-  "version": "1.1.0"
+  "notes": "Underlying statistics come from Basketball-Reference via the Kaggle dataset 'NBA Stats (1947-present)' by Sumitro Datta, and ABA game logs. Raw statistics are not redistributed.",
+  "version": "2.0.0"
 }

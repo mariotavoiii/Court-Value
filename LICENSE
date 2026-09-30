@@ -1,10 +1,10 @@
-Court Value is released under two licences:
+Court Value scores and documentation (data/, docs/, *.md) are released under the
+Creative Commons Attribution 4.0 International licence (CC BY 4.0). See LICENSE-DATA.
 
-  - Source code (cv1/, *.py, *.sh): MIT License. See LICENSE-CODE.
-  - CV scores (PUBLIC_cv_scores.csv) and documentation (docs/, *.md):
-    Creative Commons Attribution 4.0 International (CC BY 4.0). See LICENSE-DATA.
+From version 2.0 the Court Value formula and calculator are proprietary and are not
+published or licensed. Earlier releases (1.0.x, 1.1.0) remain available from their
+Zenodo archives under the licences they were released with.
 
-Raw source data (private_inputs/) is NOT covered by these licences and is not
-redistributed. Underlying statistics are derived from Basketball-Reference
-(https://www.basketball-reference.com) via the Kaggle dataset "NBA Stats (1947-present)"
-by Sumitro Datta; see docs/SOURCES.md.
+Raw source statistics are not redistributed. Underlying statistics are derived from
+Basketball-Reference (https://www.basketball-reference.com), via the Kaggle dataset
+"NBA Stats (1947-present)" by Sumitro Datta, and from ABA game logs.
