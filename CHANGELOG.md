@@ -2,6 +2,12 @@
 
 Published scores never change silently. Method changes get a new version; corrections and new seasons get a new data revision. Older releases stay available from their archives.
 
+## 2.1.1 (2026-09-30)
+
+- **Career CV centers on the prime.** A career is built on the player's five best qualified seasons, with the playoffs weighing more than they do in a single season. Every other qualified season adds a little, but only for what it gives above All-Star level, so long stretches of ordinary years no longer lift a career.
+- **Season scores are unchanged** from 2.1.0.
+- Career scores are published as `PUBLIC_cv_2_1_1_careers.csv` and are not comparable with 2.1.0 career scores.
+
 ## 2.1.0 (2026-09-30)
 
 - **Defense by role.** Team defense is now shared among players by their role only, removing a tilt that favoured big men.

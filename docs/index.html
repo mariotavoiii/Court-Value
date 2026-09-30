@@ -238,7 +238,7 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-betw
       <thead><tr><th class="num">#</th><th>Player</th><th>Seasons</th><th class="num">Career CV</th><th>Best season</th><th class="num">Best CV</th></tr></thead>
       <tbody id="topcareers"><tr><td colspan="6" class="status">Loading careers…</td></tr></tbody>
     </table></div>
-    <p class="note">Career CV counts a player's five best seasons in full and adds a smaller share of every other good season, so a great prime leads and a long run of good years still counts. Qualified seasons only.</p>
+    <p class="note">Career CV is built on a player's five best seasons, with the playoffs weighing more than in a single season. Every other season adds a little, but only for what it gives above All-Star level. The prime decides; long stretches of ordinary years don't. Qualified seasons only.</p>
   </div>
 
   <div class="grid2 block">
@@ -311,7 +311,7 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-betw
     </div>
     <div class="card prose">
       <h3 style="margin-bottom:8px">From seasons to careers</h3>
-      <p style="margin:0">Career CV counts a player's five best seasons in full and adds a smaller share of every other good season. A great prime leads; a long run of good years still counts.</p>
+      <p style="margin:0">Career CV is built on a player's five best seasons, with the playoffs counting more than they do in a single season. Every other season adds a little, but only for what it gives above All-Star level. A great prime decides it; long stretches of ordinary years don't.</p>
     </div>
   </div>
 
@@ -355,20 +355,21 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-betw
     <a class="btn" href="data/PUBLIC_cv_2_1_scores.csv" download>Download CSV</a>
   </div>
   <div class="dl-row">
-    <div><h3>Career CV, version <span class="ver">2.1</span></h3><p class="soft" style="margin:4px 0 0">Every player with a qualified season: first and last season, qualified seasons, Career CV and rank, best season. CSV, about 0.2 MB.</p></div>
-    <a class="btn" href="data/PUBLIC_cv_2_1_careers.csv" download>Download CSV</a>
+    <div><h3>Career CV, version 2.1.1</h3><p class="soft" style="margin:4px 0 0">Every player with a qualified season: first and last season, qualified seasons, Career CV and rank, best season. CSV, about 0.2 MB.</p></div>
+    <a class="btn" href="data/PUBLIC_cv_2_1_1_careers.csv" download>Download CSV</a>
   </div>
   <p class="note">Earlier versions (1.0, 1.1 and 2.0) remain available from their Zenodo archives linked in the changelog. Their scores are on a different basis; don't mix them with 2.0.</p>
   <div class="grid2 block">
     <div class="card prose">
       <h3>Cite Court Value</h3>
-      <pre id="citation" style="white-space:pre-wrap">Tavolieri, Mario, III. Court Value (CV): a historically portable NBA/ABA player-season value metric. Version 2.1.0. 2026. https://mariotavoiii.github.io/Court-Value/</pre>
+      <pre id="citation" style="white-space:pre-wrap">Tavolieri, Mario, III. Court Value (CV): a historically portable NBA/ABA player-season value metric. Version 2.1.1. 2026. https://mariotavoiii.github.io/Court-Value/</pre>
       <button type="button" class="btn secondary" id="copy-cite" style="margin-top:12px">Copy citation</button>
       <p class="note">Scores: CC BY 4.0. The formula is proprietary. Underlying statistics come from Basketball-Reference, via the Kaggle dataset "NBA Stats (1947–present)" by Sumitro Datta. Raw statistics are not redistributed.</p>
     </div>
     <div class="card prose">
       <h3>Changelog</h3>
       <dl class="defs">
+        <dt>2.1.1</dt><dd>Career CV now centers on the prime: the five best seasons, with the playoffs weighing more than in a single season, and other seasons adding a little only above All-Star level. Season scores are unchanged.</dd>
         <dt>2.1</dt><dd>Defense is shared by role only, removing a tilt toward big men. ABA seasons are adjusted for league strength, measured from players who moved between the leagues. Each postseason's team defense is measured on one common scale, so thin early playoff records no longer swing scores. Adds Career CV. Scores are not comparable with 2.0.</dd>
         <dt>2.0</dt><dd>One season score combining the regular season (RS) and postseason (PO). Adds every ABA postseason. New treatment of defense, of team results with and without each player, and of playoff games judged against the players who played them. Scores are not comparable with 1.x. The formula is proprietary from this version on. <a href="https://doi.org/10.5281/zenodo.23066109">DOI 10.5281/zenodo.23066109</a></dd>
         <dt>1.1</dt><dd>Regular-season only. One defensive rule for every season, covering NBA 1951–52 to 2025–26 and the ABA. <a href="https://doi.org/10.5281/zenodo.23045497">DOI 10.5281/zenodo.23045497</a></dd>
@@ -733,7 +734,7 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-betw
     var notes = {full: "<mark>Season CV</mark> combines the regular season (RS) and the postseason (PO) on one scale. A team that missed the playoffs counts as league average for the playoff part.",
       base: "<mark>RS:</mark> the regular season by itself.",
       po: "<mark>PO:</mark> the postseason by itself, every NBA postseason since 1951–52 and ABA since 1967–68. “Qualified only” keeps players who were qualified in the regular season.",
-      career: "<mark>Career CV:</mark> a player's five best seasons in full plus a smaller share of every other good season. The years filter keeps careers that overlap the chosen range.",
+      career: "<mark>Career CV:</mark> a player's five best seasons, playoffs weighted more heavily, plus a little for every other All-Star-level season. The years filter keeps careers that overlap the chosen range.",
       season: "<mark>Full-season CV</mark> is the regular season plus the playoffs: every playoff game counts as one more game on the same ruler, and a champion adds his title credit scaled by the playoffs' share of his games. Same scale as regular-season CV.",
       run: "<mark>Playoff CV Run</mark> is the postseason résumé: each round counts once, plus capped, responsibility-weighted championship credit. Measured on the regular season's ruler; NBA postseasons from 1951–52.",
       rate: "<mark>Playoff CV Rate</mark> is quality while active. “Qualified only” keeps players who appeared in at least 70% of their team's playoff games."};
