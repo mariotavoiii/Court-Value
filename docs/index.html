@@ -628,11 +628,13 @@ EffAdj    = 0.30 × (PTS − 0.92 × LgPtsPerAtt × Attempts)</pre></div>
       "<div class='chart' id='pp-chart'></div>" +
       "<p class='caption'>" + (po ? (state.basis === "run" ? "Playoff CV Run: the postseason résumé, including championship credit. Hollow dots rest partly on estimated early box scores." : "Playoff CV Rate: quality while active. Hollow dots played under 70% of the team's playoff games.") + " Playoff and regular-season scores are separate scales."
           : "Shaded band: the middle half of MVP seasons (9.7 to 12.1). Filled dots are qualified seasons; hollow dots played under 70% of team games. " + (isFS() ? "Full-season CV counts every playoff game as one more game on the same ruler, plus a champion's title bonus." : full ? "Full CV includes the defensive credit." : "CV_BASE has no defensive component.")) + "</p>" +
-      (po ? "<div class='tablewrap'><table class='cmp-table'><thead><tr><th>Player</th><th class='num'>Postseasons</th><th class='num'>Titles</th><th>Best " + (state.basis === "run" ? "Run" : "Rate") + "</th></tr></thead><tbody>" +
+      (po ? "<div class='tablewrap'><table class='cmp-table'><thead><tr><th>Player</th><th class='num'>Postseasons</th><th class='num'>Finals</th><th class='num'>Titles</th><th class='num'>Led the postseason</th><th class='num'>Average " + (state.basis === "run" ? "Run" : "Rate") + "</th><th>Best " + (state.basis === "run" ? "Run" : "Rate") + "</th></tr></thead><tbody>" +
         series.map(function(sr){
           var best = sr.pts.slice().sort(function(a,b){ return b.y-a.y; })[0], titles = sr.pts.filter(function(p){ return p.r[17]; }).length;
-          return "<tr><td class='player'><span class='key " + sr.cls + "'><i></i>" + esc(sr.name) + "</span></td><td class='num'>" + sr.pts.length + "</td><td class='num'><b>" + titles + "</b></td><td>" + (best ? best.y.toFixed(2) + " in " + seasonLabel(best.r[2]) : "—") + "</td></tr>";
-        }).join("") + "</tbody></table></div>" :
+          var finals = sr.pts.filter(function(p){ return p.r[19]; }).length, led = sr.pts.filter(function(p){ return p.r[state.basis === "run" ? 12 : 14] === 1; }).length;
+          var avg = sr.pts.length ? sr.pts.reduce(function(a,p){ return a + p.y; }, 0) / sr.pts.length : null;
+          return "<tr><td class='player'><span class='key " + sr.cls + "'><i></i>" + esc(sr.name) + "</span></td><td class='num'>" + sr.pts.length + "</td><td class='num'>" + finals + "</td><td class='num'><b>" + titles + "</b></td><td class='num'><b>" + led + "</b></td><td class='num'>" + (avg === null ? "—" : avg.toFixed(2)) + "</td><td>" + (best ? best.y.toFixed(2) + " in " + seasonLabel(best.r[2]) : "—") + "</td></tr>";
+        }).join("") + "</tbody></table></div><p class='caption'>Led the postseason: ranked #1 in that postseason on this score" + (state.basis === "rate" ? " among players in at least 70% of their team's games" : "") + ". Averages count every scored postseason; Run counts rounds a team never reached as zero.</p>" :
       "<div class='tablewrap'><table class='cmp-table'><thead><tr><th>Player</th><th class='num'>Qualified seasons</th><th class='num'>In MVP range</th><th class='num'>Above it (12.1+)</th><th>Best qualified season</th></tr></thead><tbody>" +
       series.map(function(sr){
         var q = sr.pts.filter(function(p){ return p.r[7]; });
