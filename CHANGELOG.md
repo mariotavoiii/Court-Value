@@ -10,6 +10,7 @@ Published scores never change silently. Method changes get a new version; correc
 - **New treatment** of team defense, of team results with and without each player, and of playoff games, which are judged against the players who actually played them. Short playoff samples are read cautiously.
 - **Proprietary formula.** From this version the formula and calculator are no longer published. Scores remain CC BY 4.0.
 - **Not comparable with 1.x.** Scores are on a new basis.
+- Archived: [Zenodo DOI 10.5281/zenodo.23066109](https://doi.org/10.5281/zenodo.23066109).
 
 ## 1.2 preview (2026-09-29, superseded)
 
