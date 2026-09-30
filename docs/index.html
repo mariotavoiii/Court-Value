@@ -247,6 +247,7 @@ td.b3{white-space:normal;min-width:220px;font-size:14.5px}
     <nav aria-label="Sections">
       <a href="#home" data-nav="home">Home</a>
       <a href="#rankings" data-nav="rankings">Rankings</a>
+      <a href="#compare" data-nav="compare">Compare</a>
       <a href="#teams" data-nav="teams">Teams</a>
       <a href="#big3" data-nav="big3">Big 3</a>
       <a href="#decades" data-nav="decades">Decades</a>
@@ -349,14 +350,38 @@ td.b3{white-space:normal;min-width:220px;font-size:14.5px}
     <label class="check" for="f-qual"><input type="checkbox" id="f-qual" checked> Qualified only</label>
   </div>
   <p class="note" id="basis-note"></p>
-  <div id="player-panel" class="card" hidden></div>
   <div class="status" id="count" aria-live="polite" style="margin-top:12px"></div>
   <div class="tablewrap"><table aria-label="Rankings">
     <thead><tr id="rank-head"></tr></thead>
     <tbody id="rank-body"><tr><td class="status">Loading scores…</td></tr></tbody>
   </table></div>
   <button type="button" class="btn secondary more" id="more" hidden>Show 50 more</button>
-  <p class="note">Click a column heading to sort; click again to reverse. Click a player's name to add his career to the comparison chart (up to five). Positions are each season's listed position from Basketball-Reference, shown for filtering.</p>
+  <p class="note">Click a column heading to sort; click again to reverse. Click a player's name to compare his career on the Compare tab (up to five players). Positions are each season's listed position from Basketball-Reference, shown for filtering.</p>
+</section>
+
+<section id="compare" data-page hidden>
+  <span class="eyebrow">Compare</span>
+  <h2 style="margin-top:6px">Put careers side by side</h2>
+  <p class="lede prose" style="margin-top:12px">Up to five players on one chart, lined up by season, by career year or by age. <mark>The shaded band is where most MVP seasons land.</mark> Click any player's name elsewhere on the site to send him here.</p>
+  <div class="controls" role="group" aria-label="Comparison score">
+    <div class="field"><span class="lbl" id="cmpb-lbl">Score</span>
+      <div class="seg" role="group" aria-labelledby="cmpb-lbl">
+        <button type="button" data-cb="full" aria-pressed="true">Season CV</button>
+        <button type="button" data-cb="base" aria-pressed="false">RS</button>
+        <button type="button" data-cb="po" aria-pressed="false">PO</button>
+      </div>
+    </div>
+    <div class="field"><span class="lbl">Quick picks</span>
+      <div class="row" id="cmp-quick" style="gap:8px">
+        <button type="button" class="pp-close" data-q="jordami01,jamesle01,abdulka01">Jordan · LeBron · Kareem</button>
+        <button type="button" class="pp-close" data-q="birdla01,johnsma02">Bird · Magic</button>
+        <button type="button" class="pp-close" data-q="russebi01,chambwi01">Russell · Wilt</button>
+        <button type="button" class="pp-close" data-q="onealsh01,duncati01,olajuha01">Shaq · Duncan · Hakeem</button>
+        <button type="button" class="pp-close" data-q="curryst01,duranke01,antetgi01,jokicni01">Curry · Durant · Giannis · Jokić</button>
+      </div>
+    </div>
+  </div>
+  <div id="player-panel" class="card"><div class="status">Loading scores…</div></div>
 </section>
 
 <section id="teams" data-page hidden>
@@ -601,7 +626,7 @@ td.b3{white-space:normal;min-width:220px;font-size:14.5px}
       NAMEIDX[lab] = pid; return lab;
     }).sort().forEach(function(lab){ var o = document.createElement("option"); o.value = lab; dl.appendChild(o); });
     document.body.appendChild(dl);
-    renderTop10(); renderBest(); render(); renderTopRuns();
+    renderTop10(); renderBest(); render(); renderTopRuns(); renderCompare();
   }).catch(function(){
     var msg = '<tr><td colspan="7" class="status">The score file could not be loaded. Download the CSV from the Data page instead.</td></tr>';
     document.getElementById("top10").innerHTML = msg; document.getElementById("rank-body").innerHTML = msg;
@@ -611,7 +636,7 @@ td.b3{white-space:normal;min-width:220px;font-size:14.5px}
   function plink(r){ return "<button type='button' class='plink' data-pid='" + esc(r[0]) + "'>" + esc(r[1]) + "</button>"; }
   document.addEventListener("click", function(e){
     var b = e.target.closest && e.target.closest(".plink"); if (!b) return;
-    if (location.hash !== "#rankings") location.hash = "#rankings";
+    if (location.hash !== "#compare") location.hash = "#compare";
     showPlayer(b.getAttribute("data-pid"));
   });
 
@@ -713,40 +738,47 @@ td.b3{white-space:normal;min-width:220px;font-size:14.5px}
   }
 
   // ---- Career comparison: up to five players against the MVP range ----
-  var CMP = [], cmpX = "season", MAXCMP = 5;
+  var CMP = [], cmpX = "season", MAXCMP = 5, cmpBasis = "full";
+  function CK(){ return cmpBasis === "base" ? 10 : cmpBasis === "po" ? 11 : 9; }
+  function XV(r, j){ return cmpX === "season" ? r[2] : cmpX === "age" ? r[21] : j + 1; }
+  function XL(v, long){ return cmpX === "season" ? seasonLabel(v) : cmpX === "age" ? "Age " + v : (long ? "Career year " : "Year ") + v; }
   function showPlayer(pid){
     if (!BYID[pid]) return;
     var i = CMP.indexOf(pid);
     if (i === -1){ CMP.push(pid); if (CMP.length > MAXCMP) CMP.shift(); }
     renderCompare();
-    document.getElementById("player-panel").scrollIntoView({block: "nearest"});
   }
   function slotOf(pid){ return "s" + (CMP.indexOf(pid) + 1); }
   function careerRows(pid, k){
-    var rows = (SRCBY()[pid] || []).slice().sort(function(a,b){ return a[2]-b[2] || a[3]-b[3]; });
+    var rows = (BYID[pid] || []).slice().sort(function(a,b){ return a[2]-b[2] || a[3]-b[3]; });
     var seen = {}, out = [];
     rows.forEach(function(r){ if (r[k] === null || seen[r[2]]) return; seen[r[2]] = 1; out.push(r); });
     return out;
   }
   function renderCompare(){
     var panel = document.getElementById("player-panel");
-    if (!CMP.length){ panel.hidden = true; return; }
-    var full = state.basis === "full" || isFS(), po = isPO(), k = SK();
-    panel.hidden = false;
+    if (!ROWS.length) return;
+    var full = cmpBasis === "full", po = false, k = CK();
+    if (!CMP.length){
+      panel.innerHTML = "<div class='cmp-tools'><div class='field'><label for='cmp-add'>Add a player</label><input type='search' id='cmp-add' list='cmp-names' placeholder='Type a name' autocomplete='off'></div><span class='status'>Type a name, use a quick pick, or click any player's name on the site. Up to five.</span></div>";
+      var add0 = document.getElementById("cmp-add");
+      add0.addEventListener("change", function(){ var pid = NAMEIDX[add0.value]; if (pid){ add0.value = ""; showPlayer(pid); } });
+      return;
+    }
     var series = CMP.map(function(pid){
       var rows = careerRows(pid, k);
-      return {pid: pid, name: (BYID[pid] || PBYID[pid] || FBYID[pid])[0][1], cls: slotOf(pid), pts: rows.map(function(r, j){ return {x: cmpX === "season" ? r[2] : j + 1, y: r[k], r: r}; })};
+      return {pid: pid, name: (BYID[pid] || PBYID[pid] || FBYID[pid])[0][1], cls: slotOf(pid), pts: rows.map(function(r, j){ return {x: XV(r, j), y: r[k], r: r}; }).filter(function(p){ return p.x !== null && p.x !== undefined; })};
     });
     var names = {}; ROWS.forEach(function(r){ names[r[1]] = (names[r[1]] || 0); });
-    panel.innerHTML = "<div class='pp-head'><div><span class='eyebrow'>Compare careers · " + BASIS_LABEL[state.basis] + "</span><h3>" +
+    panel.innerHTML = "<div class='pp-head'><div><span class='eyebrow'>Compare careers · " + BASIS_LABEL[cmpBasis] + "</span><h3>" +
         (CMP.length === 1 ? esc(series[0].name) : CMP.length + " players") + "</h3></div><button type='button' class='pp-close' id='pp-close'>Close</button></div>" +
       "<div class='chips'>" + series.map(function(sr){ return "<span class='chip " + sr.cls + "'><i></i>" + esc(sr.name) + "<button type='button' aria-label='Remove " + esc(sr.name) + "' data-rm='" + esc(sr.pid) + "'>×</button></span>"; }).join("") + "</div>" +
       "<div class='cmp-tools'><div class='field'><label for='cmp-add'>Add a player</label><input type='search' id='cmp-add' list='cmp-names' placeholder='Type a name' autocomplete='off'" + (CMP.length >= MAXCMP ? " disabled" : "") + "></div>" +
-      "<div class='field'><span class='lbl' id='cmp-x-lbl'>Line up by</span><div class='seg' role='group' aria-labelledby='cmp-x-lbl'><button type='button' data-x='season' aria-pressed='" + (cmpX === "season") + "'>Season</button><button type='button' data-x='year' aria-pressed='" + (cmpX === "year") + "'>Career year</button></div></div>" +
-      "<span class='status'>" + (CMP.length >= MAXCMP ? "Five players is the limit; remove one to add another." : "Click any player's name in the table, or type one here. Up to five.") + "</span></div>" +
+      "<div class='field'><span class='lbl' id='cmp-x-lbl'>Line up by</span><div class='seg' role='group' aria-labelledby='cmp-x-lbl'><button type='button' data-x='season' aria-pressed='" + (cmpX === "season") + "'>Season</button><button type='button' data-x='year' aria-pressed='" + (cmpX === "year") + "'>Career year</button><button type='button' data-x='age' aria-pressed='" + (cmpX === "age") + "'>Age</button></div></div>" +
+      "<span class='status'>" + (CMP.length >= MAXCMP ? "Five players is the limit; remove one to add another." : "Click any player's name on the site, or type one here. Up to five.") + "</span></div>" +
       "<div class='chart' id='pp-chart'></div>" +
       "<p class='caption'>" + (po ? (state.basis === "run" ? "Playoff CV Run: the postseason résumé, including championship credit. Hollow dots rest partly on estimated early box scores." : "Playoff CV Rate: quality while active. Hollow dots played under 70% of the team's playoff games.") + " Playoff and regular-season scores are separate scales."
-          : "Shaded band: the middle half of MVP seasons (8.2 to 11.5). Filled dots are qualified seasons; hollow dots played under 70% of team games. " + (full || isCR() ? "Season CV combines the regular season and the postseason." : state.basis === "po" ? "PO is the postseason alone." : "RS is the regular season alone.")) + "</p>" +
+          : "Shaded band: the middle half of MVP seasons (8.2 to 11.5). Filled dots are qualified seasons; hollow dots played under 70% of team games. " + (full ? "Season CV combines the regular season and the postseason." : cmpBasis === "po" ? "PO is the postseason alone." : "RS is the regular season alone.")) + "</p>" +
       (po ? "<div class='tablewrap'><table class='cmp-table'><thead><tr><th>Player</th><th class='num'>Postseasons</th><th class='num'>Finals</th><th class='num'>Titles</th><th class='num'>Led the postseason</th><th class='num'>Average " + (state.basis === "run" ? "Run" : "Rate") + "</th><th>Best " + (state.basis === "run" ? "Run" : "Rate") + "</th></tr></thead><tbody>" +
         series.map(function(sr){
           var best = sr.pts.slice().sort(function(a,b){ return b.y-a.y; })[0], titles = sr.pts.filter(function(p){ return p.r[17]; }).length;
@@ -761,7 +793,7 @@ td.b3{white-space:normal;min-width:220px;font-size:14.5px}
         var best = q.slice().sort(function(a,b){ return b.y-a.y; })[0];
         return "<tr><td class='player'><span class='key " + sr.cls + "'><i></i>" + esc(sr.name) + "</span></td><td class='num'>" + q.length + "</td><td class='num'><b>" + inR + "</b></td><td class='num'>" + above + "</td><td>" + (best ? best.y.toFixed(2) + " in " + seasonLabel(best.r[2]) : "—") + "</td></tr>";
       }).join("") + "</tbody></table></div>");
-    document.getElementById("pp-close").onclick = function(){ CMP = []; panel.hidden = true; };
+    document.getElementById("pp-close").onclick = function(){ CMP = []; renderCompare(); };
     panel.querySelectorAll("[data-rm]").forEach(function(b){ b.onclick = function(){ CMP.splice(CMP.indexOf(b.getAttribute("data-rm")), 1); renderCompare(); }; });
     panel.querySelectorAll("[data-x]").forEach(function(b){ b.onclick = function(){ cmpX = b.getAttribute("data-x"); renderCompare(); }; });
     var add = document.getElementById("cmp-add");
@@ -788,7 +820,7 @@ td.b3{white-space:normal;min-width:220px;font-size:14.5px}
     }
     var span = x1 - x0, xstep = span > 40 ? (narrow ? 20 : 10) : span > 16 ? (narrow ? 8 : 4) : span > 6 ? (narrow ? 4 : 2) : 1;
     for (var yx = Math.ceil(x0 / xstep) * xstep; yx <= x1; yx += xstep){
-      var tx = svg("text", {x: X(yx), y: H - 8, "text-anchor": "middle"}, ax); tx.textContent = cmpX === "season" ? seasonLabel(yx) : "Year " + yx;
+      var tx = svg("text", {x: X(yx), y: H - 8, "text-anchor": "middle"}, ax); tx.textContent = XL(yx);
     }
     if (!po){
       var bl = Math.max(MVP_BAND.lo, yMin), bh = Math.min(MVP_BAND.hi, yMax);
@@ -822,9 +854,9 @@ td.b3{white-space:normal;min-width:220px;font-size:14.5px}
       xh.setAttribute("x1", X(xv)); xh.setAttribute("x2", X(xv)); xh.setAttribute("visibility", "visible");
       var lines = series.map(function(sr){
         var p = sr.pts.filter(function(q){ return q.x === xv; })[0]; if (!p) return "";
-        return "<span class='key " + sr.cls + "'><i></i>" + esc(sr.name) + " <b>" + p.y.toFixed(2) + "</b>" + (cmpX === "year" ? " · " + seasonLabel(p.r[2]) : "") + (po ? (p.r[17] ? " · champion" : "") + (state.basis === "rate" && !p.r[7] ? " · under 70% of games" : "") : (p.r[7] ? "" : " · not qualified")) + "</span>";
+        return "<span class='key " + sr.cls + "'><i></i>" + esc(sr.name) + " <b>" + p.y.toFixed(2) + "</b>" + (cmpX !== "season" ? " · " + seasonLabel(p.r[2]) : "") + (po ? (p.r[17] ? " · champion" : "") + (state.basis === "rate" && !p.r[7] ? " · under 70% of games" : "") : (p.r[7] ? "" : " · not qualified")) + "</span>";
       }).filter(Boolean);
-      tip.innerHTML = "<b>" + (cmpX === "season" ? seasonLabel(xv) : "Career year " + xv) + "</b>" + lines.join("");
+      tip.innerHTML = "<b>" + XL(xv, true) + "</b>" + lines.join("");
       var hb = host.getBoundingClientRect(), left = box.left - hb.left + X(xv) / W * box.width;
       if (narrow){ tip.style.whiteSpace = "normal"; tip.style.maxWidth = (hb.width - 8) + "px"; }
       tip.hidden = false;
@@ -923,7 +955,14 @@ td.b3{white-space:normal;min-width:220px;font-size:14.5px}
   document.querySelectorAll("[data-basis]").forEach(function(b){ b.onclick = function(){
     document.querySelectorAll("[data-basis]").forEach(function(x){ x.setAttribute("aria-pressed", String(x === b)); });
     set("basis", b.getAttribute("data-basis")); refreshPanel(); }; });
-  function refreshPanel(){ if (CMP.length) renderCompare(); }
+  function refreshPanel(){}
+  document.querySelectorAll("[data-cb]").forEach(function(b){ b.addEventListener("click", function(){
+    cmpBasis = b.getAttribute("data-cb");
+    document.querySelectorAll("[data-cb]").forEach(function(x){ x.setAttribute("aria-pressed", String(x === b)); });
+    renderCompare(); }); });
+  document.getElementById("cmp-quick").addEventListener("click", function(e){
+    var b = e.target.closest("[data-q]"); if (!b || !ROWS.length) return;
+    CMP = b.getAttribute("data-q").split(",").filter(function(pid){ return BYID[pid]; }); renderCompare(); });
   document.getElementById("f-from").onchange = function(){ var v = +this.value; if (v > state.to){ state.to = v; document.getElementById("f-to").value = v; } set("from", v); };
   document.getElementById("f-to").onchange = function(){ var v = +this.value; if (v < state.from){ state.from = v; document.getElementById("f-from").value = v; } set("to", v); };
   document.getElementById("f-pos").onchange = function(){ set("pos", this.value); };
