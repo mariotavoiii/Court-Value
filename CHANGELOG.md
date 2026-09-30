@@ -2,6 +2,18 @@
 
 All published outputs are immutable. Methodological changes receive a new model version; new or corrected data receive a new data revision.
 
+## 1.2.0 (2026-09-29): adds Playoff CV 1.0
+
+- **New product: Playoff CV**, one score per NBA player-postseason, 1951–52 to 2025–26 (11,299 player-postseasons, 11,082 scored). Specification, validation and limitations are in `docs/PLAYOFFS.md`.
+  - **Playoff CV Run** (headline) is series-length neutral and adds responsibility-weighted championship credit capped at 3.
+  - **Playoff CV Rate** (companion) measures quality per appearance.
+  - Both follow CV 1.1 conventions: the frozen season-totals team-defense estimate, games-weighted Rate reference and the 70% qualification rule.
+- **No minutes played anywhere** in Playoff CV (model-owner decision), because the archive's playoff minutes are incomplete before 1969–70. Defensive responsibility uses the same visible-load ranking as offense. The audit proves no score depends on minutes.
+- **Early box scores:** assists, rebounds and field-goal attempts missing from 1952–64 games are estimated from each player's box-complete games. 217 early player-postseasons with no box evidence are unscored. Every row is labeled COMPLETE, PARTIAL or NONE.
+- **Audit:** 16 of 16 checks pass. The clean-room rebuild is byte-identical. Games match Neil Paine's postseason file for 99.8% of 1977–2026 player-postseasons (all within one game). The Run leader played for the champion in 70 of 75 postseasons.
+- **Regular-season scores are unchanged** (model 1.1.0; files identical to release 1.1.0).
+- New anomalies A26–A28.
+
 ## Post-1.1.0 tooling (2026-09-29): no score changes
 
 - **Cross-platform reproduction of 1.1.0: PASS.** macOS 15.8 with Python 3.14.7, pandas 3.0.2 and numpy 2.4.4 reproduces all 7 outputs. The public score file is byte-identical in value. Full-precision scores differ by at most 8e-14 (relative 1.5e-12), and ranks and qualification are identical.

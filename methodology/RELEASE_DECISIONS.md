@@ -60,6 +60,19 @@ The model owner wanted defense measured consistently from 1952 on. Two facts fro
 - 1.0.0 remains archived and citable.
 - The frozen control still carries the 1.0 defense for comparison.
 
+## Decision for 1.2 (2026-09-29): Playoff CV published, no minutes
+
+Decision #15 kept playoff scores out of the 1.0 critical path. They are now published as a separate product, Playoff CV 1.0, with the owner's earlier design unchanged:
+- Run is the headline score, Rate is the companion.
+- Each round is one opportunity unit.
+- Championship credit is responsibility-weighted and capped at 3, reached at a 25% share.
+
+Two rules make it consistent with CV 1.1:
+1. **No minutes in any playoff calculation.** The archive's playoff minutes are incomplete before 1969-70, so defensive responsibility uses the same visible-load-and-availability ranking as offense in every postseason. The owner's words: "so lets not rely on minutes then, keep everything consistent."
+2. **Box-score completeness is handled by one rule** for every postseason (docs/PLAYOFFS.md §2).
+
+Regular-season CV is unchanged.
+
 ## Gates after this document
 
 **All four gates are closed for `1.0.0`.** Gate 2: 0 blocking failures and a cross-platform reproduction PASS. Gate 3: specification, worked examples and validation match the release. Gate 4: licences, citation, public repository and website are prepared. Gate 3 (documentation) has drafts. Gate 4 (publication) needs rights review, authorship/licence metadata, a website and an archive. No gate is inferred from this document alone.

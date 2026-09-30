@@ -111,7 +111,7 @@ tbody tr:hover{background:var(--hover)}
 .plink{background:none;border:0;padding:0;font:inherit;color:inherit;cursor:pointer;text-align:left;text-decoration:underline;text-decoration-color:var(--rule);text-underline-offset:4px}
 .plink:hover{text-decoration-color:var(--blue);color:var(--blue)}
 .pill{display:inline-block;font-size:10.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;padding:3px 6px;border-radius:3px;border:1.5px solid currentColor;color:var(--soft)}
-.pill.aba{color:var(--red)} .pill.base{color:var(--blue)}
+.pill.aba{color:var(--red)} .pill.champ{color:var(--green)} .pill.base{color:var(--blue)}
 /* controls */
 .controls{display:flex;flex-wrap:wrap;gap:12px 16px;align-items:end;padding-block:18px 10px}
 .field{display:flex;flex-direction:column;gap:6px}
@@ -223,6 +223,15 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-betw
     <p class="note">Qualified seasons only: at least 70% of team games. Full CV covers every NBA season since 1951–52 and every ABA season, all under one defensive rule.</p>
   </div>
 
+  <div class="block">
+    <div class="head-row"><div><span class="eyebrow">Playoffs</span><h2>The ten best postseason runs</h2></div><a href="#rankings" id="to-runs">All playoff rankings →</a></div>
+    <div class="tablewrap"><table aria-label="Top ten postseason runs by Playoff CV Run">
+      <thead><tr><th class="num">#</th><th>Player</th><th>Postseason</th><th>Team</th><th class="num">Run</th><th class="num">Title credit</th><th class="num">Rate</th></tr></thead>
+      <tbody id="topruns"><tr><td colspan="7" class="status">Loading scores…</td></tr></tbody>
+    </table></div>
+    <p class="note">Playoff CV Run is a postseason résumé on its own scale: each round counts once however long the series, and a champion's leaders earn up to 3 points of title credit by their share of the load. Playoff CV Rate is quality while active.</p>
+  </div>
+
   <div class="grid2 block">
     <div class="card prose">
       <h3 style="margin-bottom:8px">What it measures</h3>
@@ -267,8 +276,10 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-betw
   <div class="controls" role="group" aria-label="Filter rankings">
     <div class="field"><span class="lbl" id="basis-lbl">Score</span>
       <div class="seg" role="group" aria-labelledby="basis-lbl">
-        <button type="button" id="basis-full" aria-pressed="true">Full CV</button>
-        <button type="button" id="basis-base" aria-pressed="false">CV_BASE</button>
+        <button type="button" data-basis="full" aria-pressed="true">Full CV</button>
+        <button type="button" data-basis="base" aria-pressed="false">CV_BASE</button>
+        <button type="button" data-basis="run" aria-pressed="false">Playoff Run</button>
+        <button type="button" data-basis="rate" aria-pressed="false">Playoff Rate</button>
       </div>
     </div>
     <div class="field"><label for="f-from">From</label><select id="f-from"></select></div>
@@ -291,7 +302,7 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-betw
 </section>
 
 <section id="methodology" data-page hidden>
-  <span class="eyebrow">How it works · version <span class="ver">1.1</span></span>
+  <span class="eyebrow">How it works · version <span class="ver">1.2</span></span>
   <h2 style="margin:6px 0 12px">How a season becomes a number</h2>
   <p class="lede prose">Every step uses information recorded since 1952, and every season is measured against the other players in that same season. <mark>No era bonuses, no ABA penalty, and no awards or reputation go into the formula.</mark></p>
   <div class="strip">
@@ -306,6 +317,8 @@ EffAdj    = 0.30 × (PTS − 0.92 × LgPtsPerAtt × Attempts)</pre></div>
       <pre>CV_BASE = 3 × (Rate − season mean) / season SD</pre></div>
     <div class="frame"><span class="n">5</span><h3>Add the defense</h3><p>Each team's defense is rated by opponent scoring per shot and per game. Opponent shots weren't recorded before 1970–71, so CV estimates them the same way for every season from team totals kept since 1952. The credit is shared with players by minutes and capped between −0.75 and +1.5.</p>
       <pre>CV = CV_BASE + DefensiveCredit</pre></div>
+    <div class="frame"><span class="n">6</span><h3>Then the playoffs</h3><p>Playoff CV is its own score, never added to the regular season. <b>Run</b>, the headline, counts each round once however long the series, so a sweep is worth as much as a seven-game win. Champions earn up to 3 points of title credit, shared by how much of the load each player carried. <b>Rate</b> measures quality while active. Minutes played are never used, because early playoff records don't have them.</p>
+      <pre>Run = RunBase + Defense + TitleCredit</pre></div>
   </div>
 
   <div class="magic">
@@ -344,8 +357,12 @@ EffAdj    = 0.30 × (PTS − 0.92 × LgPtsPerAtt × Attempts)</pre></div>
   <span class="eyebrow">Data and changelog</span>
   <h2 style="margin:6px 0 16px">Take the numbers with you</h2>
   <div class="dl-row">
-    <div><h3>CV scores, version <span class="ver">1.1</span></h3><p class="soft" style="margin:4px 0 0">Every scored player-season: player, season, league, teams, games, minutes, qualification, score basis, full CV, CV_BASE, defensive credit and ranks. CSV, about 4 MB.</p></div>
+    <div><h3>CV scores, version <span class="ver">1.2</span></h3><p class="soft" style="margin:4px 0 0">Every scored player-season: player, season, league, teams, games, minutes, qualification, score basis, full CV, CV_BASE, defensive credit and ranks. CSV, about 4 MB.</p></div>
     <a class="btn" href="data/PUBLIC_cv_scores.csv" download>Download CSV</a>
+  </div>
+  <div class="dl-row">
+    <div><h3>Playoff CV scores, version 1.0</h3><p class="soft" style="margin:4px 0 0">Every NBA player-postseason since 1951–52: team, games, rounds, champion, box-score evidence, Playoff CV Run, title credit, Playoff CV Rate and ranks. CSV, about 1.6 MB.</p></div>
+    <a class="btn" href="data/PUBLIC_playoff_cv_scores.csv" download>Download CSV</a>
   </div>
   <div class="dl-row">
     <div><h3>Code, specification and validation</h3><p class="soft" style="margin:4px 0 0">The calculator, technical specification, worked examples, audit summary and anomaly log.</p></div>
@@ -361,6 +378,7 @@ EffAdj    = 0.30 × (PTS − 0.92 × LgPtsPerAtt × Attempts)</pre></div>
     <div class="card prose">
       <h3>Changelog</h3>
       <dl class="defs">
+        <dt>1.2</dt><dd>Adds Playoff CV (Run and Rate) for every NBA postseason since 1951–52. Regular-season scores unchanged.</dd>
         <dt>1.1</dt><dd>One defensive rule for every season. Full CV now covers NBA 1951–52 to 2025–26 and the ABA. Base scores are unchanged. <a href="https://doi.org/10.5281/zenodo.23045497">DOI 10.5281/zenodo.23045497</a></dd>
         <dt>1.0</dt><dd>First public release (<a href="https://doi.org/10.5281/zenodo.23040991">DOI 10.5281/zenodo.23040991</a>). Team context uses the margin in games actually played; season scores are weighted by games played.</dd>
         <dt>Pre-1.0</dt><dd>Research versions CELTIC (2025) and ARC (2026). Never published as releases.</dd>
@@ -383,13 +401,13 @@ EffAdj    = 0.30 × (PTS − 0.92 × LgPtsPerAtt × Attempts)</pre></div>
 </main>
 
 <footer><div class="wrap">
-  <span>Court Value <span class="ver">1.1</span> · data revision <span id="rev">2026-09-29</span></span>
+  <span>Court Value <span class="ver">1.2</span> · data revision <span id="rev">2026-09-29</span></span>
   <span>DOI <a href="https://doi.org/10.5281/zenodo.23045497">10.5281/zenodo.23045497</a> · Scores CC BY 4.0 · Code MIT · Statistics from Basketball-Reference</span>
 </div></footer>
 
 <script>
 (function(){
-  var CONFIG = { repo: "https://github.com/mariotavoiii/Court-Value", version: "1.1" };
+  var CONFIG = { repo: "https://github.com/mariotavoiii/Court-Value", version: "1.2" };
   var NS = "http://www.w3.org/2000/svg";
 
   var pages = [].slice.call(document.querySelectorAll("[data-page]"));
@@ -424,8 +442,19 @@ EffAdj    = 0.30 × (PTS − 0.92 × LgPtsPerAtt × Attempts)</pre></div>
   function svg(tag, attrs, parent){ var e = document.createElementNS(NS, tag); for (var k in attrs) e.setAttribute(k, attrs[k]); if (parent) parent.appendChild(e); return e; }
 
   // Row fields: 0 id, 1 player, 2 season, 3 lg(0 NBA/1 ABA), 4 teams, 5 g, 6 mp, 7 q, 8 cov, 9 cv, 10 base, 11 def, 12 rs, 13 ra, 14 brs, 15 bra, 16 pos
-  var ROWS = [], BYID = {}, NAMEIDX = {}, state = { basis: "full", from: 0, to: 9999, league: "all", pos: "all", team: "all", q: true, text: "", shown: 50, sort: null, dir: -1 };
+  var ROWS = [], BYID = {}, PROWS = [], PBYID = {}, NAMEIDX = {}, state = { basis: "full", from: 0, to: 9999, league: "all", pos: "all", team: "all", q: true, text: "", shown: 50, sort: null, dir: -1 };
 
+  // Playoff rows: 0 id, 1 player, 2 season, 3 lg, 4 team, 5 g, 6 team_games, 7 rate_q, 8 box evidence, 9 run, 10 rate, 11 credit,
+  // 12 run_rs, 13 run_ra, 14 rate_rs, 15 rate_ra, 16 pos, 17 champion, 18 rounds
+  function isPO(){ return state.basis === "run" || state.basis === "rate"; }
+  function SK(){ return state.basis === "full" || state.basis === "run" ? 9 : 10; }
+  function SRC(){ return isPO() ? PROWS : ROWS; }
+  function SRCBY(){ return isPO() ? PBYID : BYID; }
+  var BASIS_LABEL = {full: "Full CV", base: "CV_BASE", run: "Playoff CV Run", rate: "Playoff CV Rate"};
+  fetch("data/playoffs.json").then(function(r){ return r.json(); }).then(function(d){
+    PROWS = d.rows; PROWS.forEach(function(r){ (PBYID[r[0]] = PBYID[r[0]] || []).push(r); });
+    if (ROWS.length) renderTopRuns();
+  }).catch(function(){ var e = document.getElementById("topruns"); if (e) e.innerHTML = "<tr><td colspan='7' class='status'>The playoff file could not be loaded.</td></tr>"; });
   fetch("data/scores.json").then(function(r){ if (!r.ok) throw new Error(r.status); return r.json(); }).then(function(d){
     ROWS = d.rows;
     ROWS.forEach(function(r){ (BYID[r[0]] = BYID[r[0]] || []).push(r); });
@@ -448,7 +477,7 @@ EffAdj    = 0.30 × (PTS − 0.92 × LgPtsPerAtt × Attempts)</pre></div>
       NAMEIDX[lab] = pid; return lab;
     }).sort().forEach(function(lab){ var o = document.createElement("option"); o.value = lab; dl.appendChild(o); });
     document.body.appendChild(dl);
-    renderTop10(); renderBest(); render();
+    renderTop10(); renderBest(); render(); if (PROWS.length) renderTopRuns();
   }).catch(function(){
     var msg = '<tr><td colspan="7" class="status">The score file could not be loaded. Download the CSV from the Data page instead.</td></tr>';
     document.getElementById("top10").innerHTML = msg; document.getElementById("rank-body").innerHTML = msg;
@@ -462,6 +491,13 @@ EffAdj    = 0.30 × (PTS − 0.92 × LgPtsPerAtt × Attempts)</pre></div>
     showPlayer(b.getAttribute("data-pid"));
   });
 
+  function renderTopRuns(){
+    var top = PROWS.filter(function(r){ return r[13] !== null && r[13] <= 10; }).sort(function(a,b){ return a[13]-b[13]; });
+    document.getElementById("topruns").innerHTML = top.map(function(r){
+      return "<tr><td class='rk'>" + r[13] + "</td><td class='player'>" + plink(r) + "</td><td>" + seasonLabel(r[2]) + "</td><td class='num'>" + esc(r[4]) + "</td><td class='cv'>" + fmt(r[9]) + "</td><td class='num'>" + fmt(r[11]) + "</td><td class='num'>" + fmt(r[10]) + "</td></tr>";
+    }).join("");
+  }
+  document.getElementById("to-runs").addEventListener("click", function(){ var b = document.querySelector("[data-basis='run']"); if (b) setTimeout(function(){ b.click(); }, 0); });
   function renderTop10(){
     var top = ROWS.filter(function(r){ return r[13] !== null && r[13] <= 10; }).sort(function(a,b){ return a[13]-b[13]; });
     document.getElementById("top10").innerHTML = top.map(function(r){
@@ -548,7 +584,7 @@ EffAdj    = 0.30 × (PTS − 0.92 × LgPtsPerAtt × Attempts)</pre></div>
   // ---- Career comparison: up to five players against the MVP range ----
   var CMP = [], cmpX = "season", MAXCMP = 5;
   function showPlayer(pid){
-    if (!BYID[pid]) return;
+    if (!BYID[pid] && !PBYID[pid]) return;
     var i = CMP.indexOf(pid);
     if (i === -1){ CMP.push(pid); if (CMP.length > MAXCMP) CMP.shift(); }
     renderCompare();
@@ -556,7 +592,7 @@ EffAdj    = 0.30 × (PTS − 0.92 × LgPtsPerAtt × Attempts)</pre></div>
   }
   function slotOf(pid){ return "s" + (CMP.indexOf(pid) + 1); }
   function careerRows(pid, k){
-    var rows = (BYID[pid] || []).slice().sort(function(a,b){ return a[2]-b[2] || a[3]-b[3]; });
+    var rows = (SRCBY()[pid] || []).slice().sort(function(a,b){ return a[2]-b[2] || a[3]-b[3]; });
     var seen = {}, out = [];
     rows.forEach(function(r){ if (r[k] === null || seen[r[2]]) return; seen[r[2]] = 1; out.push(r); });
     return out;
@@ -564,36 +600,42 @@ EffAdj    = 0.30 × (PTS − 0.92 × LgPtsPerAtt × Attempts)</pre></div>
   function renderCompare(){
     var panel = document.getElementById("player-panel");
     if (!CMP.length){ panel.hidden = true; return; }
-    var full = state.basis === "full", k = full ? 9 : 10;
+    var full = state.basis === "full", po = isPO(), k = SK();
     panel.hidden = false;
     var series = CMP.map(function(pid){
       var rows = careerRows(pid, k);
-      return {pid: pid, name: BYID[pid][0][1], cls: slotOf(pid), pts: rows.map(function(r, j){ return {x: cmpX === "season" ? r[2] : j + 1, y: r[k], r: r}; })};
+      return {pid: pid, name: (BYID[pid] || PBYID[pid])[0][1], cls: slotOf(pid), pts: rows.map(function(r, j){ return {x: cmpX === "season" ? r[2] : j + 1, y: r[k], r: r}; })};
     });
     var names = {}; ROWS.forEach(function(r){ names[r[1]] = (names[r[1]] || 0); });
-    panel.innerHTML = "<div class='pp-head'><div><span class='eyebrow'>Compare careers · " + (full ? "Full CV" : "CV_BASE") + "</span><h3>" +
+    panel.innerHTML = "<div class='pp-head'><div><span class='eyebrow'>Compare careers · " + BASIS_LABEL[state.basis] + "</span><h3>" +
         (CMP.length === 1 ? esc(series[0].name) : CMP.length + " players") + "</h3></div><button type='button' class='pp-close' id='pp-close'>Close</button></div>" +
       "<div class='chips'>" + series.map(function(sr){ return "<span class='chip " + sr.cls + "'><i></i>" + esc(sr.name) + "<button type='button' aria-label='Remove " + esc(sr.name) + "' data-rm='" + esc(sr.pid) + "'>×</button></span>"; }).join("") + "</div>" +
       "<div class='cmp-tools'><div class='field'><label for='cmp-add'>Add a player</label><input type='search' id='cmp-add' list='cmp-names' placeholder='Type a name' autocomplete='off'" + (CMP.length >= MAXCMP ? " disabled" : "") + "></div>" +
       "<div class='field'><span class='lbl' id='cmp-x-lbl'>Line up by</span><div class='seg' role='group' aria-labelledby='cmp-x-lbl'><button type='button' data-x='season' aria-pressed='" + (cmpX === "season") + "'>Season</button><button type='button' data-x='year' aria-pressed='" + (cmpX === "year") + "'>Career year</button></div></div>" +
       "<span class='status'>" + (CMP.length >= MAXCMP ? "Five players is the limit; remove one to add another." : "Click any player's name in the table, or type one here. Up to five.") + "</span></div>" +
       "<div class='chart' id='pp-chart'></div>" +
-      "<p class='caption'>Shaded band: the middle half of MVP seasons (9.7 to 12.1). Filled dots are qualified seasons; hollow dots played under 70% of team games. " + (full ? "Full CV includes the defensive credit." : "CV_BASE has no defensive component.") + "</p>" +
+      "<p class='caption'>" + (po ? (state.basis === "run" ? "Playoff CV Run: the postseason résumé, including championship credit. Hollow dots rest partly on estimated early box scores." : "Playoff CV Rate: quality while active. Hollow dots played under 70% of the team's playoff games.") + " Playoff and regular-season scores are separate scales."
+          : "Shaded band: the middle half of MVP seasons (9.7 to 12.1). Filled dots are qualified seasons; hollow dots played under 70% of team games. " + (full ? "Full CV includes the defensive credit." : "CV_BASE has no defensive component.")) + "</p>" +
+      (po ? "<div class='tablewrap'><table class='cmp-table'><thead><tr><th>Player</th><th class='num'>Postseasons</th><th class='num'>Titles</th><th>Best " + (state.basis === "run" ? "Run" : "Rate") + "</th></tr></thead><tbody>" +
+        series.map(function(sr){
+          var best = sr.pts.slice().sort(function(a,b){ return b.y-a.y; })[0], titles = sr.pts.filter(function(p){ return p.r[17]; }).length;
+          return "<tr><td class='player'><span class='key " + sr.cls + "'><i></i>" + esc(sr.name) + "</span></td><td class='num'>" + sr.pts.length + "</td><td class='num'><b>" + titles + "</b></td><td>" + (best ? best.y.toFixed(2) + " in " + seasonLabel(best.r[2]) : "—") + "</td></tr>";
+        }).join("") + "</tbody></table></div>" :
       "<div class='tablewrap'><table class='cmp-table'><thead><tr><th>Player</th><th class='num'>Qualified seasons</th><th class='num'>In MVP range</th><th class='num'>Above it (12.1+)</th><th>Best qualified season</th></tr></thead><tbody>" +
       series.map(function(sr){
         var q = sr.pts.filter(function(p){ return p.r[7]; });
         var inR = q.filter(function(p){ return p.y >= MVP_BAND.lo && p.y <= MVP_BAND.hi; }).length, above = q.filter(function(p){ return p.y > MVP_BAND.hi; }).length;
         var best = q.slice().sort(function(a,b){ return b.y-a.y; })[0];
         return "<tr><td class='player'><span class='key " + sr.cls + "'><i></i>" + esc(sr.name) + "</span></td><td class='num'>" + q.length + "</td><td class='num'><b>" + inR + "</b></td><td class='num'>" + above + "</td><td>" + (best ? best.y.toFixed(2) + " in " + seasonLabel(best.r[2]) : "—") + "</td></tr>";
-      }).join("") + "</tbody></table></div>";
+      }).join("") + "</tbody></table></div>");
     document.getElementById("pp-close").onclick = function(){ CMP = []; panel.hidden = true; };
     panel.querySelectorAll("[data-rm]").forEach(function(b){ b.onclick = function(){ CMP.splice(CMP.indexOf(b.getAttribute("data-rm")), 1); renderCompare(); }; });
     panel.querySelectorAll("[data-x]").forEach(function(b){ b.onclick = function(){ cmpX = b.getAttribute("data-x"); renderCompare(); }; });
     var add = document.getElementById("cmp-add");
     add.addEventListener("change", function(){ var pid = NAMEIDX[add.value]; if (pid){ add.value = ""; showPlayer(pid); } });
-    drawMulti(document.getElementById("pp-chart"), series, full);
+    drawMulti(document.getElementById("pp-chart"), series, full, po);
   }
-  function drawMulti(host, series, full){
+  function drawMulti(host, series, full, po){
     host.innerHTML = "";
     var all = []; series.forEach(function(sr){ all = all.concat(sr.pts); });
     if (!all.length){ host.innerHTML = "<p class='note'>No seasons with this score.</p>"; return; }
@@ -602,7 +644,7 @@ EffAdj    = 0.30 × (PTS − 0.92 × LgPtsPerAtt × Attempts)</pre></div>
     var xs = all.map(function(p){ return p.x; }), x0 = Math.min.apply(null, xs), x1 = Math.max.apply(null, xs);
     if (x0 === x1){ x0 -= 1; x1 += 1; }
     var ys = all.map(function(p){ return p.y; });
-    var yMin = Math.min(-2, Math.floor(Math.min.apply(null, ys) / 2) * 2), yMax = Math.max(13, Math.ceil(Math.max.apply(null, ys) / 2) * 2);
+    var yMin = Math.min(-2, Math.floor(Math.min.apply(null, ys) / 2) * 2), yMax = Math.max(po ? 4 : 13, Math.ceil(Math.max.apply(null, ys) / 2) * 2);
     var X = function(v){ return m.l + (v - x0) / (x1 - x0) * (W - m.l - m.r); };
     var Y = function(v){ return m.t + (yMax - v) / (yMax - yMin) * (H - m.t - m.b); };
     var s = svg("svg", {viewBox: "0 0 " + W + " " + H, role: "img", "aria-label": "Career CV for " + series.map(function(x){ return x.name; }).join(", ")}, host);
@@ -615,16 +657,18 @@ EffAdj    = 0.30 × (PTS − 0.92 × LgPtsPerAtt × Attempts)</pre></div>
     for (var yx = Math.ceil(x0 / xstep) * xstep; yx <= x1; yx += xstep){
       var tx = svg("text", {x: X(yx), y: H - 8, "text-anchor": "middle"}, ax); tx.textContent = cmpX === "season" ? seasonLabel(yx) : "Year " + yx;
     }
-    var bl = Math.max(MVP_BAND.lo, yMin), bh = Math.min(MVP_BAND.hi, yMax);
-    svg("rect", {x: m.l, width: W - m.l - m.r, y: Y(bh), height: Y(bl) - Y(bh), "class": "band"}, s);
-    var btx = svg("text", {x: m.l + 8, y: Y(bh) + 13, "class": "bandlabel"}, s); btx.textContent = MVP_BAND.label;
+    if (!po){
+      var bl = Math.max(MVP_BAND.lo, yMin), bh = Math.min(MVP_BAND.hi, yMax);
+      svg("rect", {x: m.l, width: W - m.l - m.r, y: Y(bh), height: Y(bl) - Y(bh), "class": "band"}, s);
+      var btx = svg("text", {x: m.l + 8, y: Y(bh) + 13, "class": "bandlabel"}, s); btx.textContent = MVP_BAND.label;
+    }
     var xh = svg("line", {y1: m.t, y2: H - m.b, "class": "xhair", visibility: "hidden"}, s);
     var labels = [];
     series.forEach(function(sr){
       var g = svg("g", {"class": sr.cls}, s), d = "", prev = null;
       sr.pts.forEach(function(p){ d += (prev !== null && p.x - prev === 1 ? "L" : "M") + X(p.x).toFixed(1) + "," + Y(p.y).toFixed(1); prev = p.x; });
       svg("path", {d: d, "class": "sline"}, g);
-      sr.pts.forEach(function(p){ svg("circle", {cx: X(p.x), cy: Y(p.y), r: 4, "class": "sdot" + (p.r[7] ? "" : " unq")}, g); });
+      sr.pts.forEach(function(p){ var hollow = state.basis === "run" ? p.r[8] !== "C" : !p.r[7]; svg("circle", {cx: X(p.x), cy: Y(p.y), r: 4, "class": "sdot" + (hollow ? " unq" : "")}, g); });
       var last = sr.pts[sr.pts.length - 1];
       if (last) labels.push({cls: sr.cls, name: sr.name, x: X(last.x), y: Y(last.y)});
     });
@@ -645,7 +689,7 @@ EffAdj    = 0.30 × (PTS − 0.92 × LgPtsPerAtt × Attempts)</pre></div>
       xh.setAttribute("x1", X(xv)); xh.setAttribute("x2", X(xv)); xh.setAttribute("visibility", "visible");
       var lines = series.map(function(sr){
         var p = sr.pts.filter(function(q){ return q.x === xv; })[0]; if (!p) return "";
-        return "<span class='key " + sr.cls + "'><i></i>" + esc(sr.name) + " <b>" + p.y.toFixed(2) + "</b>" + (cmpX === "year" ? " · " + seasonLabel(p.r[2]) : "") + (p.r[7] ? "" : " · not qualified") + "</span>";
+        return "<span class='key " + sr.cls + "'><i></i>" + esc(sr.name) + " <b>" + p.y.toFixed(2) + "</b>" + (cmpX === "year" ? " · " + seasonLabel(p.r[2]) : "") + (po ? (p.r[17] ? " · champion" : "") + (state.basis === "rate" && !p.r[7] ? " · under 70% of games" : "") : (p.r[7] ? "" : " · not qualified")) + "</span>";
       }).filter(Boolean);
       tip.innerHTML = "<b>" + (cmpX === "season" ? seasonLabel(xv) : "Career year " + xv) + "</b>" + lines.join("");
       var hb = host.getBoundingClientRect(), left = box.left - hb.left + X(xv) / W * box.width;
@@ -662,10 +706,10 @@ EffAdj    = 0.30 × (PTS − 0.92 × LgPtsPerAtt × Attempts)</pre></div>
 
   var head = document.getElementById("rank-head"), body = document.getElementById("rank-body");
   function filtered(){
-    var full = state.basis === "full", t = state.text.toLowerCase();
-    var out = ROWS.filter(function(r){
-      if (full ? r[9] === null : r[10] === null) return false;
-      if (state.q && !r[7]) return false;
+    var t = state.text.toLowerCase(), k0 = SK(), noQ = state.basis === "run";
+    var out = SRC().filter(function(r){
+      if (r[k0] === null) return false;
+      if (state.q && !noQ && !r[7]) return false;
       if (r[2] < state.from || r[2] > state.to) return false;
       if (state.pos !== "all" && r[16] !== state.pos) return false;
       if (state.team !== "all" && String(r[4]).split(/[^A-Z0-9]+/).indexOf(state.team) === -1) return false;
@@ -673,7 +717,7 @@ EffAdj    = 0.30 × (PTS − 0.92 × LgPtsPerAtt × Attempts)</pre></div>
       if (t && r[1].toLowerCase().indexOf(t) === -1) return false;
       return true;
     });
-    var k = full ? 9 : 10, sk = state.sort === null ? k : state.sort, dir = state.sort === null ? -1 : state.dir;
+    var k = k0, sk = state.sort === null ? k : state.sort, dir = state.sort === null ? -1 : state.dir;
     out.sort(function(a,b){
       var x = a[sk], y = b[sk], c;
       if (x === null && y === null) c = 0; else if (x === null) return 1; else if (y === null) return -1;
@@ -683,13 +727,18 @@ EffAdj    = 0.30 × (PTS − 0.92 × LgPtsPerAtt × Attempts)</pre></div>
     return out;
   }
   function render(){
-    var full = state.basis === "full";
-    document.getElementById("basis-note").innerHTML = full
-      ? "Full CV includes the defensive credit. It covers every NBA and ABA season."
-      : "<mark>CV_BASE has no defensive component.</mark> Don't compare it directly with full CV.";
-    var cols = [["Rank", null, "num"], ["Player", 1, ""], ["Season", 2, ""], ["Lg", 3, ""], ["Pos", 16, ""], ["Team", 4, ""], ["G", 5, "num"], ["MP", 6, "num"],
-                [full ? "CV" : "CV_BASE", full ? 9 : 10, "num"]].concat(full ? [["Base", 10, "num"], ["Def", 11, "num"]] : []).concat([["Status", null, ""]]);
-    var scoreKey = full ? 9 : 10;
+    var full = state.basis === "full", po = isPO(), run = state.basis === "run";
+    var notes = {full: "Full CV includes the defensive credit. It covers every NBA and ABA season.",
+      base: "<mark>CV_BASE has no defensive component.</mark> Don't compare it directly with full CV.",
+      run: "<mark>Playoff CV Run</mark> is the postseason résumé: each round counts once, plus capped, responsibility-weighted championship credit. NBA postseasons from 1951–52; a separate scale from regular-season CV.",
+      rate: "<mark>Playoff CV Rate</mark> is quality while active. “Qualified only” keeps players who appeared in at least 70% of their team's playoff games."};
+    document.getElementById("basis-note").innerHTML = notes[state.basis];
+    var cols = po
+      ? [["Rank", null, "num"], ["Player", 1, ""], ["Season", 2, ""], ["Pos", 16, ""], ["Team", 4, ""], ["G", 5, "num"], ["Team G", 6, "num"], ["Rounds", 18, "num"],
+         [run ? "Run" : "Rate", run ? 9 : 10, "num"], [run ? "Title credit" : "Run", run ? 11 : 9, "num"], ["Status", null, ""]]
+      : [["Rank", null, "num"], ["Player", 1, ""], ["Season", 2, ""], ["Lg", 3, ""], ["Pos", 16, ""], ["Team", 4, ""], ["G", 5, "num"], ["MP", 6, "num"],
+         [full ? "CV" : "CV_BASE", full ? 9 : 10, "num"]].concat(full ? [["Base", 10, "num"], ["Def", 11, "num"]] : []).concat([["Status", null, ""]]);
+    var scoreKey = SK();
     head.innerHTML = cols.map(function(c){
       if (c[1] === null) return "<th class='" + c[2] + "'>" + c[0] + "</th>";
       var active = state.sort === null ? c[1] === scoreKey : state.sort === c[1];
@@ -697,20 +746,26 @@ EffAdj    = 0.30 × (PTS − 0.92 × LgPtsPerAtt × Attempts)</pre></div>
       return "<th class='sort " + c[2] + "'" + (active ? " aria-sort='" + (dir > 0 ? "ascending" : "descending") + "'" : "") + "><button type='button' data-sort='" + c[1] + "'>" + c[0] + "</button></th>";
     }).join("");
     var rows = filtered(), shown = rows.slice(0, state.shown);
-    var ri = state.from === state.to ? (full ? 12 : 14) : (full ? 13 : 15);
-    document.getElementById("count").textContent = rows.length.toLocaleString() + " seasons" + (rows.length > shown.length ? " · showing " + shown.length : "");
+    var single = state.from === state.to;
+    var ri = po ? (run ? (single ? 12 : 13) : (single ? 14 : 15)) : (single ? (full ? 12 : 14) : (full ? 13 : 15));
+    document.getElementById("count").textContent = rows.length.toLocaleString() + (po ? " postseasons" : " seasons") + (rows.length > shown.length ? " · showing " + shown.length : "");
     body.innerHTML = shown.length ? shown.map(function(r){
-      var rank = r[ri] !== null && r[7] ? r[ri] : "—";
+      var rank = r[ri] !== null && (run || r[7]) ? r[ri] : "—";
+      if (po){
+        var st = (r[17] ? "<span class='pill champ'>Champion</span> " : "") + (r[8] === "P" ? "<span class='pill'>Partial box</span> " : "") + (!run && !r[7] ? "<span class='pill'>Under 70%</span>" : "");
+        return "<tr><td class='rk'>" + rank + "</td><td class='player'>" + plink(r) + "</td><td>" + seasonLabel(r[2]) + "</td><td class='mono' style='font-size:13px'>" + (r[16] || "—") + "</td><td class='mono' style='font-size:13px'>" + esc(r[4]) + "</td><td class='num'>" + r[5] + "</td><td class='num'>" + r[6] + "</td><td class='num'>" + r[18] + "</td><td class='cv'>" + fmt(run ? r[9] : r[10]) + "</td><td class='num'>" + fmt(run ? r[11] : r[9]) + "</td><td>" + st + "</td></tr>";
+      }
       var status = r[7] ? "" : "<span class='pill'>Not qualified</span>";
       if (!full && r[9] === null) status += (status ? " " : "") + "<span class='pill base'>Base only</span>";
       return "<tr><td class='rk'>" + rank + "</td><td class='player'>" + plink(r) + "</td><td>" + seasonLabel(r[2]) + "</td><td><span class='pill" + (r[3] ? " aba" : "") + "'>" + (r[3] ? "ABA" : "NBA") + "</span></td><td class='mono' style='font-size:13px'>" + (r[16] || "—") + "</td><td class='mono' style='font-size:13px'>" + esc(r[4]) + "</td><td class='num'>" + r[5] + "</td><td class='num'>" + r[6].toLocaleString() + "</td><td class='cv'>" + fmt(full ? r[9] : r[10]) + "</td>" + (full ? "<td class='num'>" + fmt(r[10]) + "</td><td class='num'>" + fmt(r[11]) + "</td>" : "") + "<td>" + status + "</td></tr>";
     }).join("") : "<tr><td colspan='12' class='status'>No seasons match these filters.</td></tr>";
     document.getElementById("more").hidden = rows.length <= shown.length;
+    document.getElementById("f-league").disabled = po;
   }
-  function set(k, v){ state[k] = v; state.shown = 50; if (k === "basis" && (state.sort === 9 || state.sort === 10)) state.sort = null; render(); }
-  var bf = document.getElementById("basis-full"), bb = document.getElementById("basis-base");
-  bf.onclick = function(){ bf.setAttribute("aria-pressed","true"); bb.setAttribute("aria-pressed","false"); set("basis","full"); refreshPanel(); };
-  bb.onclick = function(){ bb.setAttribute("aria-pressed","true"); bf.setAttribute("aria-pressed","false"); set("basis","base"); refreshPanel(); };
+  function set(k, v){ state[k] = v; state.shown = 50; if (k === "basis") state.sort = null; render(); }
+  document.querySelectorAll("[data-basis]").forEach(function(b){ b.onclick = function(){
+    document.querySelectorAll("[data-basis]").forEach(function(x){ x.setAttribute("aria-pressed", String(x === b)); });
+    set("basis", b.getAttribute("data-basis")); refreshPanel(); }; });
   function refreshPanel(){ if (CMP.length) renderCompare(); }
   document.getElementById("f-from").onchange = function(){ var v = +this.value; if (v > state.to){ state.to = v; document.getElementById("f-to").value = v; } set("from", v); };
   document.getElementById("f-to").onchange = function(){ var v = +this.value; if (v < state.from){ state.from = v; document.getElementById("f-from").value = v; } set("to", v); };
@@ -718,7 +773,7 @@ EffAdj    = 0.30 × (PTS − 0.92 × LgPtsPerAtt × Attempts)</pre></div>
   document.getElementById("f-team").onchange = function(){ set("team", this.value); };
   head.addEventListener("click", function(e){
     var b = e.target.closest("button[data-sort]"); if (!b) return;
-    var key = +b.getAttribute("data-sort"), cur = state.sort === null ? (state.basis === "full" ? 9 : 10) : state.sort;
+    var key = +b.getAttribute("data-sort"), cur = state.sort === null ? SK() : state.sort;
     var textCol = key === 1 || key === 4 || key === 16;
     if (key === cur) state.dir = (state.sort === null ? -1 : state.dir) * -1; else state.dir = textCol || key === 2 ? 1 : -1;
     state.sort = key; state.shown = 50; render();

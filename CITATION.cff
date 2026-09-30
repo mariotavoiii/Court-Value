@@ -3,7 +3,7 @@ cff-version: 1.2.0
 message: "If you use Court Value scores or methodology, please cite it as below."
 title: "Court Value (CV): a historically portable NBA/ABA player-season value metric"
 type: dataset
-version: 1.1.0
+version: 1.2.0
 authors:
   - given-names: Mario
     family-names: Tavolieri
@@ -13,7 +13,8 @@ abstract: >-
   (1952–present) and ABA (1968–1976). It measures realized season value and
   responsibility from 1952-available box-score production, games-played team margin
   of victory and a bounded team-defense responsibility credit, standardized within each
-  league-season. Since version 1.1 one defensive rule covers every NBA and ABA season.
+  league-season. Since version 1.1 one defensive rule covers every NBA and ABA season; version 1.2 adds
+  Playoff CV (Run and Rate) for every NBA postseason.
   It is not a causal impact or wins-above-replacement estimate.
 keywords:
   - basketball
