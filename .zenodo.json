@@ -6,7 +6,7 @@
       "name": "Tavolieri, Mario, III"
     }
   ],
-  "description": "<p>Court Value (CV) rates every NBA season since 1951–52 and every ABA season (1967–68 to 1975–76) on one historically portable scale, regular season and playoffs together. Version 2.0 publishes one season score (CV) with its regular-season (RS) and postseason (PO) parts, for 26,204 player-seasons.</p><p>This archive contains the public score file (data/PUBLIC_cv_2_0_scores.csv) and the website. From version 2.0 the formula is proprietary and is not included. Scores are not comparable with 1.x.</p><p>Licence: scores and documentation CC BY 4.0.</p><p>Website: https://mariotavoiii.github.io/Court-Value/</p>",
+  "description": "<p>Court Value (CV) rates every NBA season since 1951–52 and every ABA season (1967–68 to 1975–76) on one historically portable scale, regular season and playoffs together. Version 2.1 publishes one season score (CV) with its regular-season (RS) and postseason (PO) parts for 26,204 player-seasons, and a Career CV for 2,934 players.</p><p>This archive contains the public score files (data/PUBLIC_cv_2_1_scores.csv and data/PUBLIC_cv_2_1_careers.csv) and the website. The formula is proprietary and is not included. Scores are not comparable with 2.0 or 1.x.</p><p>Licence: scores and documentation CC BY 4.0.</p><p>Website: https://mariotavoiii.github.io/Court-Value/</p>",
   "license": "cc-by-4.0",
   "keywords": [
     "basketball",
@@ -20,8 +20,13 @@
     {
       "identifier": "https://mariotavoiii.github.io/Court-Value/",
       "relation": "isDocumentedBy"
+    },
+    {
+      "identifier": "10.5281/zenodo.23066109",
+      "relation": "isNewVersionOf",
+      "scheme": "doi"
     }
   ],
   "notes": "Underlying statistics come from Basketball-Reference via the Kaggle dataset 'NBA Stats (1947-present)' by Sumitro Datta, and ABA game logs. Raw statistics are not redistributed.",
-  "version": "2.0.0"
+  "version": "2.1.0"
 }

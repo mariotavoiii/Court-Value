@@ -3,15 +3,15 @@ cff-version: 1.2.0
 message: "If you use Court Value scores, please cite it as below."
 title: "Court Value (CV): a historically portable NBA/ABA player-season value metric"
 type: dataset
-version: 2.0.0
+version: 2.1.0
 authors:
   - given-names: Mario
     family-names: Tavolieri
     name-suffix: III
 abstract: >-
   Court Value (CV) rates every NBA (1952–present) and ABA (1968–1976) player-season on one
-  historically portable scale. Version 2.0 publishes one season score combining the regular
-  season (RS) and the postseason (PO), with both parts shown. It measures realized season value
+  historically portable scale. Version 2.1 publishes one season score combining the regular
+  season (RS) and the postseason (PO), with both parts shown, and a Career CV. It measures realized season value
   and responsibility; it is not a causal impact or wins-above-replacement estimate. From version
   2.0 the formula is proprietary; scores are CC BY 4.0.
 keywords:
@@ -22,18 +22,17 @@ keywords:
   - player evaluation
   - sports analytics
 license: CC-BY-4.0
-# CC-BY-4.0 covers the CV scores and documentation. The 2.0 formula is proprietary.
+# CC-BY-4.0 covers the CV scores and documentation. The formula is proprietary.
 date-released: "2026-09-30"
 url: "https://mariotavoiii.github.io/Court-Value/"
 repository-code: "https://github.com/mariotavoiii/Court-Value"
-doi: "10.5281/zenodo.23066109"
 identifiers:
   - type: doi
     value: "10.5281/zenodo.23066109"
-    description: "Zenodo archive of release 2.0.0"
+    description: "Zenodo archive of release 2.0.0 (previous version)"
   - type: doi
     value: "10.5281/zenodo.23045497"
-    description: "Zenodo archive of release 1.1.0 (previous version)"
+    description: "Zenodo archive of release 1.1.0"
   - type: doi
     value: "10.5281/zenodo.23040991"
     description: "Zenodo archive of release 1.0.1"

@@ -1,13 +1,12 @@
 # Court Value (CV)
 
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23066109.svg)](https://doi.org/10.5281/zenodo.23066109)
-
 **One number for a player's season, measured the same way since 1952.**
 
-Court Value rates every NBA season since 1951–52 and every ABA season (1967–68 to 1975–76) on one historically portable scale, regular season and playoffs together. Every season is measured against the other players in that same league-season. There are no era bonuses and no ABA penalty, and no awards or reputation go into the score.
+Court Value rates every NBA season since 1951–52 and every ABA season (1967–68 to 1975–76) on one historically portable scale, regular season and playoffs together. Every season is measured against the other players in that same league-season. There are no era bonuses, and no awards or reputation go into the score. ABA seasons carry one measured league-strength adjustment, estimated from players who moved between the leagues.
 
 - **Website:** https://mariotavoiii.github.io/Court-Value/
-- **Scores:** [`data/PUBLIC_cv_2_0_scores.csv`](data/PUBLIC_cv_2_0_scores.csv), 26,204 player-seasons.
+- **Season scores:** [`data/PUBLIC_cv_2_1_scores.csv`](data/PUBLIC_cv_2_1_scores.csv), 26,204 player-seasons.
+- **Career scores:** [`data/PUBLIC_cv_2_1_careers.csv`](data/PUBLIC_cv_2_1_careers.csv), 2,934 players with a qualified season.
 
 ## The three numbers
 
@@ -23,15 +22,19 @@ A team that missed the playoffs counts as league average for the playoff part of
 
 | CV | Typical meaning |
 |---:|---|
-| 12+ | All-time season (57 qualified seasons) |
-| 9–13 | Where most MVP seasons land (middle half 9.2–12.7) |
+| 12+ | All-time season (27 qualified seasons) |
+| 8–12 | Where most MVP seasons land (middle half 8.2–11.5) |
 | ~6 | Median All-NBA season |
-| ~4.5 | Median All-Star season |
+| ~4 | Median All-Star season |
 | 0 | The season's average player-game |
 
 Three points equal one standard deviation within the league-season.
 
-CV measures realized value and responsibility in a real season. It is not a causal impact estimate or wins above replacement, and it does not rate talent or career greatness.
+CV measures realized value and responsibility in a real season. It is not a causal impact estimate or wins above replacement, and it does not rate talent.
+
+## Career CV
+
+Career CV counts a player's five best qualified seasons in full and adds a smaller share of every other positive qualified season, so a great prime leads and a long run of good years still counts.
 
 ## Method
 
@@ -39,13 +42,20 @@ Court Value draws on:
 - box-score production and efficiency;
 - each player's share of his team's load;
 - how the team did in the games he played, and with and without him;
-- each team's actual defense, shared among its players;
-- postseason games judged against the players who actually played them.
+- each team's actual defense, shared among its players by role;
+- postseason games judged against the players who actually played them;
+- for the ABA, the league's measured strength against the NBA in that year.
 
 Everything used has been recorded in every season since 1952. **From version 2.0 the formula is proprietary**; this repository publishes the scores and the website.
 
 ## Versions
 
+- **2.1.0 (2026-09-30):**
+  - Defense is shared by role only, removing a tilt toward big men.
+  - ABA seasons are adjusted for league strength, measured from players who moved between the leagues.
+  - Each postseason's team defense is measured on one common scale.
+  - Adds Career CV.
+  - Scores are **not comparable** with 2.0.
 - **2.0.0 (2026-09-30)** ([Zenodo](https://doi.org/10.5281/zenodo.23066109)):
   - One season score combining the regular season and postseason.
   - Every ABA postseason is added.
@@ -60,7 +70,7 @@ Earlier releases remain available from their archives under their original licen
 
 Please cite as described in [`CITATION.cff`](CITATION.cff).
 
-> Tavolieri, Mario, III. *Court Value (CV): a historically portable NBA/ABA player-season value metric.* Version 2.0.0. Zenodo, 2026. https://doi.org/10.5281/zenodo.23066109
+> Tavolieri, Mario, III. *Court Value (CV): a historically portable NBA/ABA player-season value metric.* Version 2.1.0. 2026. https://mariotavoiii.github.io/Court-Value/
 
 - **Scores and documentation:** [CC BY 4.0](LICENSE-DATA).
 - **Underlying statistics:** Basketball-Reference, via the Kaggle dataset *NBA Stats (1947–present)* by Sumitro Datta, plus ABA game logs. Raw statistics are not redistributed.

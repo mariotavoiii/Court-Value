@@ -200,10 +200,10 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-betw
     </div>
     <div class="card scale" aria-label="How to read a CV score">
       <h3>Reading the number</h3>
-      <div class="tick"><b>12+</b><span>All-time territory. 57 qualified seasons have reached it.</span></div>
-      <div class="tick"><b>9–13</b><span>Where most MVP seasons land. The middle half runs 9.2 to 12.7.</span></div>
+      <div class="tick"><b>12+</b><span>All-time territory. 27 qualified seasons have reached it.</span></div>
+      <div class="tick"><b>8–12</b><span>Where most MVP seasons land. The middle half runs 8.2 to 11.5.</span></div>
       <div class="tick"><b>6</b><span>A typical All-NBA season.</span></div>
-      <div class="tick"><b>4.5</b><span>A typical All-Star season.</span></div>
+      <div class="tick"><b>4</b><span>A typical All-Star season.</span></div>
       <div class="tick"><b>0</b><span>That season's average player-game.</span></div>
     </div>
   </div>
@@ -211,7 +211,7 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-betw
   <div class="block">
     <div class="head-row"><div><span class="eyebrow">The chart</span><h2>The best season of every year</h2></div></div>
     <div class="chart card" id="best-chart" style="padding:18px 18px 10px"><div class="status">Loading scores…</div></div>
-    <p class="caption">Highest qualified CV in each NBA season, 1951–52 to 2025–26. The shaded band is where the middle half of MVP seasons fall (9.2 to 12.7); red dots mark years whose best season reached 12 or more. Hover or tap a dot for the player; click to open his career.</p>
+    <p class="caption">Highest qualified CV in each NBA season, 1951–52 to 2025–26. The shaded band is where the middle half of MVP seasons fall (8.2 to 11.5); red dots mark years whose best season reached 12 or more. Hover or tap a dot for the player; click to open his career.</p>
   </div>
 
   <div class="block">
@@ -229,7 +229,16 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-betw
       <thead><tr><th class="num">#</th><th>Player</th><th>Postseason</th><th>Team</th><th class="num">PO</th><th class="num">Season CV</th><th class="num">RS</th></tr></thead>
       <tbody id="topruns"><tr><td colspan="7" class="status">Loading scores…</td></tr></tbody>
     </table></div>
-    <p class="note">PO is the postseason on the regular season\'s scale, so a playoff 10 means a regular-season 10. Every NBA postseason since 1951–52 and every ABA postseason since 1967–68. Each round counts once however long the series, short runs are read cautiously, each game is judged against the players who actually played it, and champions earn title credit by their share of the load.</p>
+    <p class="note">PO is the postseason on the regular season's scale, so a playoff 10 means a regular-season 10. Every NBA postseason since 1951–52 and every ABA postseason since 1967–68. Each round counts once however long the series, short runs are read cautiously, each game is judged against the players who actually played it, and champions earn title credit by their share of the load.</p>
+  </div>
+
+  <div class="block">
+    <div class="head-row"><div><span class="eyebrow">Careers</span><h2>The ten best careers</h2></div><a href="#rankings" id="to-careers">All career rankings →</a></div>
+    <div class="tablewrap"><table aria-label="Top ten careers by Career CV">
+      <thead><tr><th class="num">#</th><th>Player</th><th>Seasons</th><th class="num">Career CV</th><th>Best season</th><th class="num">Best CV</th></tr></thead>
+      <tbody id="topcareers"><tr><td colspan="6" class="status">Loading careers…</td></tr></tbody>
+    </table></div>
+    <p class="note">Career CV counts a player's five best seasons in full and adds a smaller share of every other good season, so a great prime leads and a long run of good years still counts. Qualified seasons only.</p>
   </div>
 
   <div class="grid2 block">
@@ -260,6 +269,7 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-betw
         <button type="button" data-basis="full" aria-pressed="true">Season CV</button>
         <button type="button" data-basis="base" aria-pressed="false">RS</button>
         <button type="button" data-basis="po" aria-pressed="false">PO</button>
+        <button type="button" data-basis="career" aria-pressed="false">Career</button>
       </div>
     </div>
     <div class="field"><label for="f-from">From</label><select id="f-from"></select></div>
@@ -282,16 +292,27 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-betw
 </section>
 
 <section id="methodology" data-page hidden>
-  <span class="eyebrow">How it works · version <span class="ver">2.0</span></span>
+  <span class="eyebrow">How it works · version <span class="ver">2.1</span></span>
   <h2 style="margin:6px 0 12px">How a season becomes a number</h2>
-  <p class="lede prose">Every step uses information recorded since 1952, and every season is measured against the other players in that same season. <mark>No era bonuses, no ABA penalty, and no awards or reputation go into the score.</mark></p>
+  <p class="lede prose">Every step uses information recorded since 1952, and every season is measured against the other players in that same season. <mark>No era bonuses and no awards or reputation go into the score.</mark> ABA seasons carry one measured league-strength adjustment, estimated from players who moved between the leagues.</p>
   <div class="strip">
     <div class="frame"><span class="n">1</span><h3>Count the production</h3><p>Points, assists and rebounds, the box-score numbers recorded every season since 1952. Efficient scoring counts for more than empty volume.</p></div>
     <div class="frame"><span class="n">2</span><h3>Weigh the load</h3><p>Players who carry more of their team's offense earn more of the credit for how the team did. Load measures responsibility, not skill.</p></div>
     <div class="frame"><span class="n">3</span><h3>Check the scoreboard</h3><p>How the team did in the games he actually played, and how the team did with him and without him, judged against what the players on the floor were expected to produce.</p></div>
-    <div class="frame"><span class="n">4</span><h3>Share the defense</h3><p>Each team's real defense, rated the same way in every season since 1952, is shared among its players by their role and by physical evidence recorded in every era.</p></div>
+    <div class="frame"><span class="n">4</span><h3>Share the defense</h3><p>Each team's real defense, rated the same way in every season since 1952, is shared among its players by their role on the team.</p></div>
     <div class="frame"><span class="n">5</span><h3>Then the playoffs</h3><p>Every playoff game is judged against the players who actually played it. Each round counts once however long the series, short runs are read cautiously, and champions earn title credit by their share of the load.</p></div>
     <div class="frame"><span class="n">6</span><h3>One season score</h3><p>The regular season (RS) and the postseason (PO) combine into one CV. Missing the playoffs counts as league average for the playoff part, so a great season on a bad team still ranks.</p></div>
+  </div>
+
+  <div class="grid2 block">
+    <div class="card prose">
+      <h3 style="margin-bottom:8px">Two leagues, one scale</h3>
+      <p style="margin:0">The early ABA was a weaker league than the NBA, and it caught up. CV measures the gap from the players who moved between the leagues and adjusts each ABA season by its own year's gap. By 1975–76 the leagues were even.</p>
+    </div>
+    <div class="card prose">
+      <h3 style="margin-bottom:8px">From seasons to careers</h3>
+      <p style="margin:0">Career CV counts a player's five best seasons in full and adds a smaller share of every other good season. A great prime leads; a long run of good years still counts.</p>
+    </div>
   </div>
 
   <div class="magic">
@@ -308,7 +329,7 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-betw
       <dl class="defs">
         <dt>Seasons</dt><dd>NBA 1951–52 to 2025–26; ABA 1967–68 to 1975–76</dd>
         <dt>Postseasons</dt><dd>Every NBA and ABA postseason in those years</dd>
-        <dt>Rows</dt><dd>26,204 player-seasons</dd>
+        <dt>Rows</dt><dd>26,204 player-seasons; 2,934 careers</dd>
         <dt>Leaderboards</dt><dd>At least 70% of team games</dd>
       </dl>
     </div>
@@ -316,7 +337,7 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-betw
       <h3>Known limits</h3>
       <ul class="list" style="margin:8px 0 0">
         <li>Box scores before 1973–74 have no steals, blocks or turnovers, so CV uses none in any era.</li>
-        <li>Defense is each team's real defense shared among players; it is not a grade for each defender.</li>
+        <li>Defense is each team's real defense shared among players by role; it is not a grade for each defender.</li>
         <li>Standing within a season doesn't prove equal strength across eras or leagues.</li>
         <li>Some early playoff box scores (NBA before 1965, ABA before 1972) are missing assists; those games are estimated and marked "Partial playoff box".</li>
         <li>Players who almost never missed a game give the with-and-without comparison little to work with.</li>
@@ -330,20 +351,25 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-betw
   <span class="eyebrow">Data and changelog</span>
   <h2 style="margin:6px 0 16px">Take the numbers with you</h2>
   <div class="dl-row">
-    <div><h3>CV scores, version <span class="ver">2.0</span></h3><p class="soft" style="margin:4px 0 0">Every scored player-season, NBA and ABA: player, season, league, teams, games, playoff games, qualification, season CV, RS, PO, playoff status, champion and ranks. CSV, about 3 MB.</p></div>
-    <a class="btn" href="data/PUBLIC_cv_2_0_scores.csv" download>Download CSV</a>
+    <div><h3>CV season scores, version <span class="ver">2.1</span></h3><p class="soft" style="margin:4px 0 0">Every scored player-season, NBA and ABA: player, season, league, teams, games, playoff games, qualification, season CV, RS, PO, playoff status, champion and ranks. CSV, about 3 MB.</p></div>
+    <a class="btn" href="data/PUBLIC_cv_2_1_scores.csv" download>Download CSV</a>
   </div>
-  <p class="note">Earlier versions (1.0 and 1.1) remain available from their Zenodo archives linked in the changelog. Their scores are on a different basis; don't mix them with 2.0.</p>
+  <div class="dl-row">
+    <div><h3>Career CV, version <span class="ver">2.1</span></h3><p class="soft" style="margin:4px 0 0">Every player with a qualified season: first and last season, qualified seasons, Career CV and rank, best season. CSV, about 0.2 MB.</p></div>
+    <a class="btn" href="data/PUBLIC_cv_2_1_careers.csv" download>Download CSV</a>
+  </div>
+  <p class="note">Earlier versions (1.0, 1.1 and 2.0) remain available from their Zenodo archives linked in the changelog. Their scores are on a different basis; don't mix them with 2.0.</p>
   <div class="grid2 block">
     <div class="card prose">
       <h3>Cite Court Value</h3>
-      <pre id="citation" style="white-space:pre-wrap">Tavolieri, Mario, III. Court Value (CV): a historically portable NBA/ABA player-season value metric. Version 2.0.0. Zenodo, 2026. https://doi.org/10.5281/zenodo.23066109</pre>
+      <pre id="citation" style="white-space:pre-wrap">Tavolieri, Mario, III. Court Value (CV): a historically portable NBA/ABA player-season value metric. Version 2.1.0. 2026. https://mariotavoiii.github.io/Court-Value/</pre>
       <button type="button" class="btn secondary" id="copy-cite" style="margin-top:12px">Copy citation</button>
       <p class="note">Scores: CC BY 4.0. The formula is proprietary. Underlying statistics come from Basketball-Reference, via the Kaggle dataset "NBA Stats (1947–present)" by Sumitro Datta. Raw statistics are not redistributed.</p>
     </div>
     <div class="card prose">
       <h3>Changelog</h3>
       <dl class="defs">
+        <dt>2.1</dt><dd>Defense is shared by role only, removing a tilt toward big men. ABA seasons are adjusted for league strength, measured from players who moved between the leagues. Each postseason's team defense is measured on one common scale, so thin early playoff records no longer swing scores. Adds Career CV. Scores are not comparable with 2.0.</dd>
         <dt>2.0</dt><dd>One season score combining the regular season (RS) and postseason (PO). Adds every ABA postseason. New treatment of defense, of team results with and without each player, and of playoff games judged against the players who played them. Scores are not comparable with 1.x. The formula is proprietary from this version on. <a href="https://doi.org/10.5281/zenodo.23066109">DOI 10.5281/zenodo.23066109</a></dd>
         <dt>1.1</dt><dd>Regular-season only. One defensive rule for every season, covering NBA 1951–52 to 2025–26 and the ABA. <a href="https://doi.org/10.5281/zenodo.23045497">DOI 10.5281/zenodo.23045497</a></dd>
         <dt>1.0</dt><dd>First public release (<a href="https://doi.org/10.5281/zenodo.23040991">DOI 10.5281/zenodo.23040991</a>). Team context uses the margin in games actually played; season scores are weighted by games played.</dd>
@@ -367,13 +393,13 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-betw
 </main>
 
 <footer><div class="wrap">
-  <span>Court Value <span class="ver">2.0</span> · data revision <span id="rev">2026-09-30</span></span>
-  <span id="doi-line">DOI <a href="https://doi.org/10.5281/zenodo.23066109">10.5281/zenodo.23066109</a> · Scores CC BY 4.0 · Statistics from Basketball-Reference</span>
+  <span>Court Value <span class="ver">2.1</span> · data revision <span id="rev">2026-09-30</span></span>
+  <span id="doi-line">Scores CC BY 4.0 · Statistics from Basketball-Reference</span>
 </div></footer>
 
 <script>
 (function(){
-  var CONFIG = { repo: "https://github.com/mariotavoiii/Court-Value", version: "2.0" };
+  var CONFIG = { repo: "https://github.com/mariotavoiii/Court-Value", version: "2.1" };
   var NS = "http://www.w3.org/2000/svg";
 
   var pages = [].slice.call(document.querySelectorAll("[data-page]"));
@@ -398,15 +424,15 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-betw
     try { navigator.clipboard.writeText(el.textContent).then(done, sel); } catch(e){ sel(); }
   });
 
-  // Middle half (25th-75th percentile) of qualified MVP-winning seasons, NBA and ABA, CV 2.0.
-  var MVP_BAND = {lo: 9.23, hi: 12.74, label: "MVP RANGE · MIDDLE HALF OF MVP SEASONS"};
+  // Middle half (25th-75th percentile) of qualified MVP-winning seasons, NBA and ABA, CV 2.1.
+  var MVP_BAND = {lo: 8.24, hi: 11.46, label: "MVP RANGE · MIDDLE HALF OF MVP SEASONS"};
   function seasonLabel(y){ return (y - 1) + "–" + String(y).slice(-2); }
   function fmt(x){ return x === null ? "—" : x.toFixed(2); }
   function esc(s){ return String(s).replace(/[&<>"]/g, function(c){ return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]; }); }
   function svg(tag, attrs, parent){ var e = document.createElementNS(NS, tag); for (var k in attrs) e.setAttribute(k, attrs[k]); if (parent) parent.appendChild(e); return e; }
 
   // Row fields: 0 id, 1 player, 2 season, 3 lg(0 NBA/1 ABA), 4 teams, 5 g, 6 mp, 7 q, 8 cov, 9 cv, 10 base, 11 def, 12 rs, 13 ra, 14 brs, 15 bra, 16 pos
-  var ROWS = [], BYID = {}, PROWS = [], PBYID = {}, FROWS = [], FBYID = {}, NAMEIDX = {}, state = { basis: "full", from: 0, to: 9999, league: "all", pos: "all", team: "all", q: true, text: "", shown: 50, sort: null, dir: -1 };
+  var CROWS = [], ROWS = [], BYID = {}, PROWS = [], PBYID = {}, FROWS = [], FBYID = {}, NAMEIDX = {}, state = { basis: "full", from: 0, to: 9999, league: "all", pos: "all", team: "all", q: true, text: "", shown: 50, sort: null, dir: -1 };
 
   // Playoff rows: 0 id, 1 player, 2 season, 3 lg, 4 team, 5 g, 6 team_games, 7 rate_q, 8 box evidence, 9 run, 10 rate, 11 credit,
   // 12 run_rs, 13 run_ra, 14 rate_rs, 15 rate_ra, 16 pos, 17 champion, 18 rounds
@@ -415,9 +441,13 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-betw
   // 10 regular-season CV, 11 title bonus, 12 rank season, 13 rank all-time, 14 playoff rate, 16 pos, 17 champion
   function isFS(){ return false; }
   function SK(){ return state.basis === "base" ? 10 : state.basis === "po" ? 11 : 9; }
-  function SRC(){ return isPO() ? PROWS : isFS() ? FROWS : ROWS; }
+  function isCR(){ return state.basis === "career"; }
+  function SRC(){ return isCR() ? CROWS : isPO() ? PROWS : isFS() ? FROWS : ROWS; }
   function SRCBY(){ return isPO() ? PBYID : isFS() ? FBYID : BYID; }
-  var BASIS_LABEL = {full: "Season CV", base: "RS", po: "PO"};
+  var BASIS_LABEL = {full: "Season CV", base: "RS", po: "PO", career: "Career CV"};
+  fetch("data/careers.json").then(function(r){ return r.json(); }).then(function(d){
+    CROWS = d.rows; renderTopCareers(); if (isCR()) render();
+  }).catch(function(){ var e = document.getElementById("topcareers"); if (e) e.innerHTML = "<tr><td colspan='6' class='status'>The career file could not be loaded.</td></tr>"; });
   fetch("data/scores.json").then(function(r){ if (!r.ok) throw new Error(r.status); return r.json(); }).then(function(d){
     ROWS = d.rows;
     ROWS.forEach(function(r){ (BYID[r[0]] = BYID[r[0]] || []).push(r); });
@@ -461,6 +491,13 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-betw
     }).join("");
   }
   document.getElementById("to-runs").addEventListener("click", function(){ var b = document.querySelector("[data-basis='po']"); if (b) setTimeout(function(){ b.click(); }, 0); });
+  function renderTopCareers(){
+    var top = CROWS.filter(function(r){ return r[13] <= 10; }).sort(function(a,b){ return a[13]-b[13]; });
+    document.getElementById("topcareers").innerHTML = top.map(function(r){
+      return "<tr><td class='rk'>" + r[13] + "</td><td class='player'>" + plink(r) + "</td><td>" + esc(r[4]) + "</td><td class='cv'>" + fmt(r[9]) + "</td><td>" + seasonLabel(r[6]) + "</td><td class='num'>" + fmt(r[10]) + "</td></tr>";
+    }).join("");
+  }
+  document.getElementById("to-careers").addEventListener("click", function(){ var b = document.querySelector("[data-basis='career']"); if (b) setTimeout(function(){ b.click(); }, 0); });
   function renderTop10(){
     var top = ROWS.filter(function(r){ return r[13] !== null && r[13] <= 10; }).sort(function(a,b){ return a[13]-b[13]; });
     document.getElementById("top10").innerHTML = top.map(function(r){
@@ -578,7 +615,7 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-betw
       "<span class='status'>" + (CMP.length >= MAXCMP ? "Five players is the limit; remove one to add another." : "Click any player's name in the table, or type one here. Up to five.") + "</span></div>" +
       "<div class='chart' id='pp-chart'></div>" +
       "<p class='caption'>" + (po ? (state.basis === "run" ? "Playoff CV Run: the postseason résumé, including championship credit. Hollow dots rest partly on estimated early box scores." : "Playoff CV Rate: quality while active. Hollow dots played under 70% of the team's playoff games.") + " Playoff and regular-season scores are separate scales."
-          : "Shaded band: the middle half of MVP seasons (9.2 to 12.7). Filled dots are qualified seasons; hollow dots played under 70% of team games. " + (full ? "Season CV combines the regular season and the postseason." : state.basis === "po" ? "PO is the postseason alone." : "RS is the regular season alone.")) + "</p>" +
+          : "Shaded band: the middle half of MVP seasons (8.2 to 11.5). Filled dots are qualified seasons; hollow dots played under 70% of team games. " + (full || isCR() ? "Season CV combines the regular season and the postseason." : state.basis === "po" ? "PO is the postseason alone." : "RS is the regular season alone.")) + "</p>" +
       (po ? "<div class='tablewrap'><table class='cmp-table'><thead><tr><th>Player</th><th class='num'>Postseasons</th><th class='num'>Finals</th><th class='num'>Titles</th><th class='num'>Led the postseason</th><th class='num'>Average " + (state.basis === "run" ? "Run" : "Rate") + "</th><th>Best " + (state.basis === "run" ? "Run" : "Rate") + "</th></tr></thead><tbody>" +
         series.map(function(sr){
           var best = sr.pts.slice().sort(function(a,b){ return b.y-a.y; })[0], titles = sr.pts.filter(function(p){ return p.r[17]; }).length;
@@ -586,7 +623,7 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-betw
           var avg = sr.pts.length ? sr.pts.reduce(function(a,p){ return a + p.y; }, 0) / sr.pts.length : null;
           return "<tr><td class='player'><span class='key " + sr.cls + "'><i></i>" + esc(sr.name) + "</span></td><td class='num'>" + sr.pts.length + "</td><td class='num'>" + finals + "</td><td class='num'><b>" + titles + "</b></td><td class='num'><b>" + led + "</b></td><td class='num'>" + (avg === null ? "—" : avg.toFixed(2)) + "</td><td>" + (best ? best.y.toFixed(2) + " in " + seasonLabel(best.r[2]) : "—") + "</td></tr>";
         }).join("") + "</tbody></table></div><p class='caption'>Led the postseason: ranked #1 in that postseason on this score" + (state.basis === "rate" ? " among players in at least 70% of their team's games" : "") + ". Averages count every scored postseason; Run counts rounds a team never reached as zero.</p>" :
-      "<div class='tablewrap'><table class='cmp-table'><thead><tr><th>Player</th><th class='num'>Qualified seasons</th><th class='num'>In MVP range</th><th class='num'>Above it (12.7+)</th><th>Best qualified season</th></tr></thead><tbody>" +
+      "<div class='tablewrap'><table class='cmp-table'><thead><tr><th>Player</th><th class='num'>Qualified seasons</th><th class='num'>In MVP range</th><th class='num'>Above it (11.5+)</th><th>Best qualified season</th></tr></thead><tbody>" +
       series.map(function(sr){
         var q = sr.pts.filter(function(p){ return p.r[7]; });
         var inR = q.filter(function(p){ return p.y >= MVP_BAND.lo && p.y <= MVP_BAND.hi; }).length, above = q.filter(function(p){ return p.y > MVP_BAND.hi; }).length;
@@ -675,10 +712,10 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-betw
     var out = SRC().filter(function(r){
       if (r[k0] === null) return false;
       if (state.q && !noQ && !r[7]) return false;
-      if (r[2] < state.from || r[2] > state.to) return false;
+      if (isCR() ? (r[19] > state.to || r[2] < state.from) : (r[2] < state.from || r[2] > state.to)) return false;
       if (state.pos !== "all" && r[16] !== state.pos) return false;
-      if (state.team !== "all" && String(r[4]).split(/[^A-Z0-9]+/).indexOf(state.team) === -1) return false;
-      if (state.league !== "all" && r[3] !== +state.league) return false;
+      if (!isCR() && state.team !== "all" && String(r[4]).split(/[^A-Z0-9]+/).indexOf(state.team) === -1) return false;
+      if (state.league !== "all" && r[3] !== +state.league && !(isCR() && r[3] === 2)) return false;
       if (t && r[1].toLowerCase().indexOf(t) === -1) return false;
       return true;
     });
@@ -696,12 +733,17 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-betw
     var notes = {full: "<mark>Season CV</mark> combines the regular season (RS) and the postseason (PO) on one scale. A team that missed the playoffs counts as league average for the playoff part.",
       base: "<mark>RS:</mark> the regular season by itself.",
       po: "<mark>PO:</mark> the postseason by itself, every NBA postseason since 1951–52 and ABA since 1967–68. “Qualified only” keeps players who were qualified in the regular season.",
+      career: "<mark>Career CV:</mark> a player's five best seasons in full plus a smaller share of every other good season. The years filter keeps careers that overlap the chosen range.",
       season: "<mark>Full-season CV</mark> is the regular season plus the playoffs: every playoff game counts as one more game on the same ruler, and a champion adds his title credit scaled by the playoffs' share of his games. Same scale as regular-season CV.",
       run: "<mark>Playoff CV Run</mark> is the postseason résumé: each round counts once, plus capped, responsibility-weighted championship credit. Measured on the regular season's ruler; NBA postseasons from 1951–52.",
       rate: "<mark>Playoff CV Rate</mark> is quality while active. “Qualified only” keeps players who appeared in at least 70% of their team's playoff games."};
     document.getElementById("basis-note").innerHTML = notes[state.basis];
     var fs = isFS();
-    var cols = fs
+    var cr = isCR();
+    var cols = cr
+      ? [["Rank", null, "num"], ["Player", 1, ""], ["Seasons", 19, ""], ["Lg", 3, ""], ["Pos", 16, ""], ["Qualified seasons", 5, "num"], ["Career CV", 9, "num"],
+         ["Best season", 6, ""], ["Best CV", 10, "num"], ["Titles", 17, "num"]]
+      : fs
       ? [["Rank", null, "num"], ["Player", 1, ""], ["Season", 2, ""], ["Lg", 3, ""], ["Pos", 16, ""], ["Team", 4, ""], ["RS G", 5, "num"], ["PO G", 6, "num"],
          ["Full season", 9, "num"], ["Reg. season", 10, "num"], ["PO Rate", 14, "num"], ["Title", 11, "num"], ["Status", null, ""]]
       : po
@@ -718,9 +760,13 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-betw
     }).join("");
     var rows = filtered(), shown = rows.slice(0, state.shown);
     var single = state.from === state.to;
-    var ri = state.basis === "po" ? (single ? 19 : 20) : state.basis === "base" ? (single ? 14 : 15) : (single ? 12 : 13);
-    document.getElementById("count").textContent = rows.length.toLocaleString() + (po ? " postseasons" : " seasons") + (rows.length > shown.length ? " · showing " + shown.length : "");
+    var ri = cr ? 13 : state.basis === "po" ? (single ? 19 : 20) : state.basis === "base" ? (single ? 14 : 15) : (single ? 12 : 13);
+    document.getElementById("count").textContent = rows.length.toLocaleString() + (cr ? " careers" : po ? " postseasons" : " seasons") + (rows.length > shown.length ? " · showing " + shown.length : "");
     body.innerHTML = shown.length ? shown.map(function(r){
+      if (cr){
+        var lgp = r[3] === 2 ? "<span class='pill aba'>NBA/ABA</span>" : "<span class='pill" + (r[3] ? " aba" : "") + "'>" + (r[3] ? "ABA" : "NBA") + "</span>";
+        return "<tr><td class='rk'>" + r[13] + "</td><td class='player'>" + plink(r) + "</td><td>" + esc(r[4]) + "</td><td>" + lgp + "</td><td class='mono' style='font-size:13px'>" + (r[16] || "—") + "</td><td class='num'>" + r[5] + "</td><td class='cv'>" + fmt(r[9]) + "</td><td>" + (r[6] ? seasonLabel(r[6]) : "—") + "</td><td class='num'>" + fmt(r[10]) + "</td><td class='num'>" + (r[17] || "—") + "</td></tr>";
+      }
       var rank = r[ri] !== null && (state.basis === "po" || r[7]) ? r[ri] : "—";
       if (fs){
         var fst = (r[7] ? "" : "<span class='pill'>Not qualified</span> ") + (r[17] ? "<span class='pill champ'>Champion</span> " : "") + (r[8] === "U" ? "<span class='pill'>Playoffs unscored</span>" : "");
@@ -739,7 +785,7 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-betw
       return "<tr><td class='rk'>" + rank + "</td><td class='player'>" + plink(r) + "</td><td>" + seasonLabel(r[2]) + "</td><td><span class='pill" + (r[3] ? " aba" : "") + "'>" + (r[3] ? "ABA" : "NBA") + "</span></td><td class='mono' style='font-size:13px'>" + (r[16] || "—") + "</td><td class='mono' style='font-size:13px'>" + esc(r[4]) + "</td><td class='num'>" + r[5] + "</td><td class='num'>" + (r[6] || "—") + "</td><td class='cv'>" + fmt(r[SK()]) + "</td>" + (full ? "<td class='num'>" + fmt(r[10]) + "</td><td class='num'>" + fmt(r[11]) + "</td>" : state.basis === "po" ? "<td class='num'>" + fmt(r[9]) + "</td>" : "<td class='num'>" + fmt(r[9]) + "</td>") + "<td>" + status + "</td></tr>";
     }).join("") : "<tr><td colspan='12' class='status'>No seasons match these filters.</td></tr>";
     document.getElementById("more").hidden = rows.length <= shown.length;
-    document.getElementById("f-league").disabled = po;
+    document.getElementById("f-league").disabled = po; document.getElementById("f-team").disabled = cr;
     if (fs && !FROWS.length) body.innerHTML = "<tr><td colspan='13' class='status'>Loading full-season scores…</td></tr>";
   }
   function set(k, v){ state[k] = v; state.shown = 50; if (k === "basis") state.sort = null; render(); }
