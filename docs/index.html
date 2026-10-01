@@ -234,6 +234,15 @@ td.b3{white-space:normal;min-width:220px;font-size:14.5px}
 .decdetail h3.dt{font:400 clamp(28px,4vw,40px)/1.05 var(--display);margin:6px 0 4px}
 .decdetail .grid2{margin-top:18px}
 .decdetail h4{font:400 20px/1.1 var(--display);margin:0 0 8px}
+.allteams{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:8px}
+@media (max-width:760px){.allteams{grid-template-columns:minmax(0,1fr)}}
+.at{list-style:none;margin:6px 0 0;padding:0}
+.at li{display:grid;grid-template-columns:22px minmax(0,1fr) auto;gap:8px;align-items:baseline;padding:5px 0;border-top:1px dotted var(--rule);font-size:15.5px}
+.at .ps{font:600 11px/1 var(--mono);color:var(--soft)}
+.at b{font-weight:600;overflow-wrap:anywhere}
+.at .n{font:500 13px var(--mono);color:var(--soft)}
+#fr-chips .pp-close{padding:5px 8px;font-size:12px}
+#fr-chips .pp-close[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 </style>
 </head><body>
@@ -251,6 +260,7 @@ td.b3{white-space:normal;min-width:220px;font-size:14.5px}
       <a href="#teams" data-nav="teams">Teams</a>
       <a href="#big3" data-nav="big3">Big 3</a>
       <a href="#decades" data-nav="decades">Decades</a>
+      <a href="#franchises" data-nav="franchises">Franchises</a>
       <a href="#methodology" data-nav="methodology">How it works</a>
       <a href="#downloads" data-nav="downloads">Data</a>
       <a href="#contact" data-nav="contact">Contact</a>
@@ -387,7 +397,7 @@ td.b3{white-space:normal;min-width:220px;font-size:14.5px}
 <section id="teams" data-page hidden>
   <span class="eyebrow">Teams · Time Machine</span>
   <h2 style="margin-top:6px">Any two teams, any two eras</h2>
-  <p class="lede prose" style="margin-top:12px">Pick two team-seasons and play them in a best-of-seven. Each team's rating comes from its players' regular-season Court Value, weighted by how much each one played, and reads as <mark>points per game better than an average team of its own season</mark>.</p>
+  <p class="lede prose" style="margin-top:12px">Pick two team-seasons and play them in a best-of-seven. A team's rating blends its players' Court Value with how the team actually performed against its own league, regular season and playoffs weighted 65/35 like the season score. It reads as <mark>points per game better than an average team of its own era</mark>.</p>
   <div class="pick2">
     <div class="card tcard a" id="tm-a"></div>
     <div class="vs" aria-hidden="true">vs</div>
@@ -408,11 +418,11 @@ td.b3{white-space:normal;min-width:220px;font-size:14.5px}
     <div class="head-row"><div><span class="eyebrow">All time</span><h2>The best teams</h2></div>
       <div class="field"><label for="tm-lg">League</label><select id="tm-lg"><option value="all">NBA and ABA</option><option value="0">NBA</option><option value="1">ABA</option></select></div></div>
     <div class="tablewrap"><table aria-label="Best team-seasons by team rating">
-      <thead><tr><th class="num">#</th><th>Team</th><th>Season</th><th class="num">W–L</th><th class="num">Rating</th><th class="num">Actual margin</th><th>Result</th><th></th></tr></thead>
-      <tbody id="tm-list"><tr><td colspan="8" class="status">Loading teams…</td></tr></tbody>
+      <thead><tr><th class="num">#</th><th>Team</th><th>Season</th><th class="num">W–L</th><th class="num">Rating</th><th class="num">Roster (CV)</th><th class="num">Regular season</th><th class="num">Playoffs</th><th>Result</th><th></th></tr></thead>
+      <tbody id="tm-list"><tr><td colspan="10" class="status">Loading teams…</td></tr></tbody>
     </table></div>
     <button type="button" class="btn secondary more" id="tm-more">Show 25 more</button>
-    <p class="note">Rating is how many points per game better than an average team of the same season the roster's Court Value projects. Across 1,758 team-seasons it tracks the actual scoring margin closely (r = 0.95); the gap between the two columns is where a team won more or less than its players' value suggests. Every team is measured against its own league, so a 1967 team and a 2017 team meet as two equally dominant clubs, not as two rosters of equal size or skill. Use a row's buttons to send it to either side of the Time Machine.</p>
+    <p class="note"><b>Roster (CV)</b> is what the players' Court Value alone projects. <b>Regular season</b> blends that with the team's schedule-adjusted margin, and <b>Playoffs</b> is how the team played in the postseason against the teams it actually faced, read cautiously for short runs. The rating is 65% regular season and 35% playoffs. Results are measured against the spread of their own league, so a team from a lopsided era gets no extra credit for it. Tested on every playoff game since 1952, this blend picks series winners better than either the roster or the results alone. Use a row's buttons to send it to either side of the Time Machine.</p>
   </div>
 </section>
 
@@ -444,6 +454,15 @@ td.b3{white-space:normal;min-width:220px;font-size:14.5px}
   <p class="lede prose" style="margin-top:12px">Each decade's best players, seasons, teams and Big 3s. A decade runs by the season's final year, so 1989–90 opens the 1990s. <mark>Pick a decade for the full lists.</mark></p>
   <div class="decgrid" id="dec-grid"><div class="status">Loading decades…</div></div>
   <div class="block decdetail" id="dec-detail"></div>
+</section>
+
+<section id="franchises" data-page hidden>
+  <span class="eyebrow">Franchises</span>
+  <h2 style="margin-top:6px">Every franchise's best</h2>
+  <p class="lede prose" style="margin-top:12px">Each franchise's All-Franchise teams and its best players, seasons, teams and Big 3s. A franchise keeps its history through moves and renames, and the Nuggets, Pacers, Spurs and Nets keep their ABA years. <mark>Records start in 1951–52.</mark></p>
+  <div class="controls"><div class="field"><label for="fr-sel">Franchise</label><select id="fr-sel"></select></div></div>
+  <div class="row" id="fr-chips" style="gap:6px"></div>
+  <div class="block decdetail" id="fr-detail"><div class="status">Loading franchises…</div></div>
 </section>
 
 <section id="methodology" data-page hidden>
@@ -984,7 +1003,7 @@ td.b3{white-space:normal;min-width:220px;font-size:14.5px}
 <script>
 (function(){
   // Team rows: 0 season, 1 lg, 2 team, 3 name, 4 W, 5 L, 6 rating, 7 mov, 8 champion, 9 rank, 10 big3, 11 big3_rank, 12 big3 players [[name,pos,cv]], 13 roster [[name,pos,g,min%,rs,cv]]
-  var T = null, BYK = {}, BYSEASON = {}, META = null, DEC = null, loading = false;
+  var T = null, BYK = {}, BYSEASON = {}, META = null, DEC = null, FR = null, loading = false;
   var SEL = { tm: ["1996|0|CHI", "1986|0|BOS"], b3: ["2017|0|GSW", "1992|0|CHI"] };
   var LIST = { tm: 25, b3: 25 }, LG = { tm: "all", b3: "all" };
   function $(id){ return document.getElementById(id); }
@@ -1003,12 +1022,13 @@ td.b3{white-space:normal;min-width:220px;font-size:14.5px}
 
   function load(){
     if (T || loading) return; loading = true;
-    Promise.all([fetch("data/teams.json").then(function(r){ return r.json(); }), fetch("data/decades.json").then(function(r){ return r.json(); })]).then(function(d){
+    Promise.all([fetch("data/teams.json").then(function(r){ return r.json(); }), fetch("data/decades.json").then(function(r){ return r.json(); }), fetch("data/franchises.json").then(function(r){ return r.json(); })]).then(function(d){
+      FR = d[2].franchises;
       META = d[0].meta; T = d[0].rows; DEC = d[1].decades;
       T.forEach(function(r){ BYK[key(r)] = r; (BYSEASON[r[0]] = BYSEASON[r[0]] || []).push(r); });
       Object.keys(BYSEASON).forEach(function(s){ BYSEASON[s].sort(function(a, b){ return a[1] - b[1] || a[3].localeCompare(b[3]); }); });
       ["tm", "b3"].forEach(function(m){ picker(m, 0); picker(m, 1); });
-      renderTM(); renderB3(); listTM(); listB3(); renderDecades();
+      renderTM(); renderB3(); listTM(); listB3(); renderDecades(); renderFranchises();
     }).catch(function(){ ["tm-list", "b3-list"].forEach(function(id){ $(id).innerHTML = "<tr><td class='status'>The team file could not be loaded.</td></tr>"; }); $("dec-grid").innerHTML = "<div class='status'>The decade file could not be loaded.</div>"; });
   }
 
@@ -1035,8 +1055,9 @@ td.b3{white-space:normal;min-width:220px;font-size:14.5px}
   function teamBody(r){
     var ro = r[13].map(function(p){ return "<tr><td class='nm'>" + esc(p[0]) + "</td><td class='n'>" + esc(p[1] || "") + "</td><td class='n'>" + p[3].toFixed(0) + "%</td><td class='n'>" + f2(p[4]) + "</td><td class='n'>" + f2(p[5]) + "</td></tr>"; }).join("");
     return "<div class='tname'>" + sl(r[0]) + " " + esc(r[3]) + "</div>" +
-      "<div class='tsub'><span>W–L <b>" + wl(r) + "</b></span><span>Actual margin <b>" + (r[7] === null ? "—" : sgn(r[7])) + "</b></span><span>#" + r[9] + " all time</span>" + lgPill(r) + result(r) + "</div>" +
-      "<div class='rating'><span class='big'>" + sgn(r[6]) + "</span><span>Team rating: points per game above an average team of " + sl(r[0]) + "</span></div>" +
+      "<div class='tsub'><span>W–L <b>" + wl(r) + "</b></span>" + (r[17] !== null ? "<span>Playoffs <b>" + r[17] + "–" + r[18] + "</b></span>" : "") + "<span>#" + r[9] + " all time</span>" + lgPill(r) + result(r) + "</div>" +
+      "<div class='rating'><span class='big'>" + sgn(r[6]) + "</span><span>Team rating: points per game above an average team of its era</span></div>" +
+      "<div class='tsub'><span>Roster (CV) <b>" + sgn(r[14]) + "</b></span><span>Regular season <b>" + sgn(r[15]) + "</b></span><span>Playoffs <b>" + (r[17] !== null ? sgn(r[16]) : "—") + "</b></span></div>" +
       "<div class='tablewrap' style='border-top:0'><table class='mini'><thead><tr><th>Top minutes</th><th class='n'>Pos</th><th class='n'>Min</th><th class='n'>RS</th><th class='n'>CV</th></tr></thead><tbody>" + ro + "</tbody></table></div>";
   }
   function winP(ra, rb, homeA){ var h = META.home * (homeA ? 1 : -1); return phi((ra - rb + h) / META.game_sd); }
@@ -1068,7 +1089,7 @@ td.b3{white-space:normal;min-width:220px;font-size:14.5px}
     $("tm-bar").innerHTML = "<div class='a' style='flex-basis:" + (pa * 100) + "%'>" + esc(tag(a)) + " " + pct(pa) + "</div><div class='b' style='flex-basis:" + (pb * 100) + "%'>" + pct(pb) + " " + esc(tag(b)) + "</div>";
     $("tm-out").innerHTML = cells.join("");
     var hi = s.aHigh ? a : b;
-    $("tm-cap").textContent = "Home court goes to the higher-rated team (" + sl(hi[0]) + " " + hi[3] + "), in a 2-2-1-1-1 format. Single-game chances: " + s.p.map(function(x){ return Math.round(x * 100) + "%"; }).join(", ") + " for " + sl(a[0]) + " " + a[3] + " in games 1–7.";
+    $("tm-cap").textContent = "Home court goes to the higher-rated team (" + sl(hi[0]) + " " + hi[3] + "), in a 2-2-1-1-1 format, worth about " + META.home.toFixed(0) + " points a game as measured in real playoff games. Single-game chances: " + s.p.map(function(x){ return Math.round(x * 100) + "%"; }).join(", ") + " for " + sl(a[0]) + " " + a[3] + " in games 1–7.";
     $("tm-games").innerHTML = ""; $("tm-verdict").textContent = "";
   }
   var playing = null;
@@ -1093,7 +1114,7 @@ td.b3{white-space:normal;min-width:220px;font-size:14.5px}
   function listTM(){
     var rows = T.filter(function(r){ return LG.tm === "all" || r[1] === +LG.tm; }).sort(function(x, y){ return y[6] - x[6]; });
     $("tm-list").innerHTML = rows.slice(0, LIST.tm).map(function(r, i){
-      return "<tr><td class='rk'>" + (i + 1) + "</td><td class='tm'>" + esc(r[3]) + lgPill(r) + "</td><td>" + sl(r[0]) + "</td><td class='num'>" + wl(r) + "</td><td class='cv'>" + sgn(r[6]) + "</td><td class='num'>" + (r[7] === null ? "—" : sgn(r[7])) + "</td><td>" + result(r) + "</td><td><div class='row' style='gap:6px;flex-wrap:nowrap'><button type='button' class='pp-close' data-side='0' data-k='" + key(r) + "'>Left</button><button type='button' class='pp-close' data-side='1' data-k='" + key(r) + "'>Right</button></div></td></tr>";
+      return "<tr><td class='rk'>" + (i + 1) + "</td><td class='tm'>" + esc(r[3]) + lgPill(r) + "</td><td>" + sl(r[0]) + "</td><td class='num'>" + wl(r) + "</td><td class='cv'>" + sgn(r[6]) + "</td><td class='num'>" + sgn(r[14]) + "</td><td class='num'>" + sgn(r[15]) + "</td><td class='num'>" + (r[17] !== null ? sgn(r[16]) + " <span class='soft'>(" + r[17] + "–" + r[18] + ")</span>" : "—") + "</td><td>" + result(r) + "</td><td><div class='row' style='gap:6px;flex-wrap:nowrap'><button type='button' class='pp-close' data-side='0' data-k='" + key(r) + "'>Left</button><button type='button' class='pp-close' data-side='1' data-k='" + key(r) + "'>Right</button></div></td></tr>";
     }).join("");
     $("tm-more").hidden = LIST.tm >= rows.length;
   }
@@ -1127,6 +1148,16 @@ td.b3{white-space:normal;min-width:220px;font-size:14.5px}
     $("b3-more").hidden = LIST.b3 >= rows.length;
   }
 
+  // ---- shared lists
+  function allHTML(all){
+    return "<div class='allteams'>" + all.map(function(tm, i){ return "<div class='slot3'><span class='lbl'>" + ["1st", "2nd", "3rd"][i] + " team</span><ul class='at'>" +
+      tm.map(function(p){ return "<li><span class='ps'>" + p[0] + "</span><b>" + esc(p[1]) + "</b><span class='n'>" + p[2].toFixed(1) + "</span></li>"; }).join("") + "</ul></div>"; }).join("") + "</div>";
+  }
+  function teamTable(list){ return "<div class='tablewrap'><table><thead><tr><th class='num'>#</th><th>Team</th><th>Season</th><th class='num'>W–L</th><th class='num'>Rating</th><th>Result</th></tr></thead><tbody>" +
+    list.map(function(t, i){ return "<tr><td class='rk'>" + (i + 1) + "</td><td class='tm'>" + esc(t[2]) + (t[1] === "ABA" ? " <span class='pill aba'>ABA</span>" : "") + "</td><td>" + sl(t[0]) + "</td><td class='num'>" + (t[4] || "—") + "</td><td class='cv'>" + sgn(t[3]) + "</td><td>" + (t[5] ? "<span class='pill champ'>Champion</span>" : "") + "</td></tr>"; }).join("") + "</tbody></table></div>"; }
+  function b3Table(list){ return "<div class='tablewrap'><table><thead><tr><th class='num'>#</th><th>Team</th><th>The three</th><th class='num'>Big 3 CV</th></tr></thead><tbody>" +
+    list.map(function(t, i){ return "<tr><td class='rk'>" + (i + 1) + "</td><td class='tm'>" + sl(t[0]) + " " + esc(t[2]) + (t[1] === "ABA" ? " <span class='pill aba'>ABA</span>" : "") + "</td><td class='b3'>" + t[4].map(esc).join(" · ") + "</td><td class='cv'>" + t[3].toFixed(1) + "</td></tr>"; }).join("") + "</tbody></table></div>"; }
+
   // ---- Decades
   var DSEL = null;
   function dlabel(d){ return d + "s"; }
@@ -1148,13 +1179,41 @@ td.b3{white-space:normal;min-width:220px;font-size:14.5px}
     var te = D.teams.map(function(t, i){ return "<tr><td class='rk'>" + (i + 1) + "</td><td class='tm'>" + esc(t[2]) + (t[1] === "ABA" ? " <span class='pill aba'>ABA</span>" : "") + "</td><td>" + sl(t[0]) + "</td><td class='num'>" + (t[4] || "—") + "</td><td class='cv'>" + sgn(t[3]) + "</td><td>" + (t[5] ? "<span class='pill champ'>Champion</span>" : "") + "</td></tr>"; }).join("");
     var bb = D.big3.map(function(t, i){ return "<tr><td class='rk'>" + (i + 1) + "</td><td class='tm'>" + sl(t[0]) + " " + esc(t[2]) + (t[1] === "ABA" ? " <span class='pill aba'>ABA</span>" : "") + "</td><td class='b3'>" + t[4].map(esc).join(" · ") + "</td><td class='cv'>" + t[3].toFixed(1) + "</td></tr>"; }).join("");
     $("dec-detail").innerHTML = "<span class='eyebrow'>" + span + "</span><h3 class='dt'>The " + dlabel(DSEL) + "</h3>" +
+      "<h4 style='margin-top:18px'>All-Decade teams</h4>" + allHTML(D.all) + "<p class='note' style='font-size:14.5px'>Two guards, two forwards and a center per team, chosen by Decade CV. Position is the one a player was listed at most in the decade.</p>" +
       "<div class='grid2'><div><h4>Best players</h4><div class='tablewrap'><table><thead><tr><th class='num'>#</th><th>Player</th><th class='num'>Seasons</th><th class='num'>Decade CV</th></tr></thead><tbody>" + pl + "</tbody></table></div><p class='note' style='font-size:14.5px'>Decade CV applies the Career CV rule to the seasons inside the decade only.</p></div>" +
       "<div><h4>Best seasons</h4><div class='tablewrap'><table><thead><tr><th class='num'>#</th><th>Player</th><th>Season</th><th class='num'>CV</th><th class='num'>RS</th><th class='num'>PO</th></tr></thead><tbody>" + se + "</tbody></table></div></div>" +
-      "<div><h4>Best teams</h4><div class='tablewrap'><table><thead><tr><th class='num'>#</th><th>Team</th><th>Season</th><th class='num'>W–L</th><th class='num'>Rating</th><th>Result</th></tr></thead><tbody>" + te + "</tbody></table></div></div>" +
-      "<div><h4>Best Big 3s</h4><div class='tablewrap'><table><thead><tr><th class='num'>#</th><th>Team</th><th>The three</th><th class='num'>Big 3 CV</th></tr></thead><tbody>" + bb + "</tbody></table></div></div></div>";
+      "<div><h4>Best teams</h4>" + teamTable(D.teams) + "</div><div><h4>Best Big 3s</h4>" + b3Table(D.big3) + "</div></div>";
+  }
+
+  // ---- Franchises
+  var FSEL = "BOS";
+  function renderFranchises(){
+    var sel = $("fr-sel");
+    if (!sel.options.length){
+      var cur = [], def = [];
+      Object.keys(FR).forEach(function(k){ (FR[k].group === "current" ? cur : def).push(k); });
+      var byName = function(a, b){ return FR[a].name.localeCompare(FR[b].name); };
+      sel.innerHTML = "<optgroup label='Current franchises'>" + cur.sort(byName).map(function(k){ return "<option value='" + k + "'>" + esc(FR[k].name) + "</option>"; }).join("") + "</optgroup>" +
+        "<optgroup label='Former franchises'>" + def.sort(byName).map(function(k){ return "<option value='" + k + "'>" + esc(FR[k].name) + "</option>"; }).join("") + "</optgroup>";
+      $("fr-chips").innerHTML = cur.sort(function(a, b){ return a.localeCompare(b); }).map(function(k){ return "<button type='button' class='pp-close' data-fr='" + k + "' title='" + esc(FR[k].name) + "'>" + k + "</button>"; }).join("");
+    }
+    sel.value = FSEL;
+    $("fr-chips").querySelectorAll("[data-fr]").forEach(function(b){ b.setAttribute("aria-pressed", String(b.dataset.fr === FSEL)); });
+    var F = FR[FSEL];
+    var others = F.names.filter(function(n){ return n[0] !== F.name.replace(/ \(.*\)$/, ""); });
+    var pl = F.players.map(function(p, i){ return "<tr><td class='rk'>" + (i + 1) + "</td><td class='player'>" + esc(p[0]) + "</td><td>" + sl(p[3]) + " to " + sl(p[4]) + "</td><td class='num'>" + p[2] + "</td><td class='cv'>" + p[1].toFixed(1) + "</td></tr>"; }).join("");
+    var se = F.seasons_top.map(function(s, i){ return "<tr><td class='rk'>" + (i + 1) + "</td><td class='player'>" + esc(s[0]) + "</td><td>" + sl(s[1]) + " <span class='soft mono' style='font-size:12px'>" + esc(s[2]) + "</span></td><td class='cv'>" + s[3].toFixed(2) + "</td><td class='num'>" + s[4].toFixed(2) + "</td><td class='num'>" + f2(s[5]) + "</td><td>" + (s[6] ? "<span class='pill champ'>Title</span>" : "") + "</td></tr>"; }).join("");
+    $("fr-detail").innerHTML = "<span class='eyebrow'>" + sl(F.first) + " to " + sl(F.last) + " · " + F.seasons + " seasons · " + F.titles + " title" + (F.titles === 1 ? "" : "s") + "</span><h3 class='dt'>" + esc(F.name) + "</h3>" +
+      (others.length ? "<p class='note' style='margin-top:0'>Also played as " + others.map(function(n){ return esc(n[0]) + " (" + sl(n[1]) + (n[2] !== n[1] ? " to " + sl(n[2]) : "") + ")"; }).join(", ") + ".</p>" : "") +
+      "<h4 style='margin-top:18px'>All-Franchise teams</h4>" + allHTML(F.all) + "<p class='note' style='font-size:14.5px'>Two guards, two forwards and a center per team, chosen by Franchise CV: the Career CV rule applied to a player's seasons with this franchise only.</p>" +
+      "<div class='grid2'><div><h4>Best players</h4><div class='tablewrap'><table><thead><tr><th class='num'>#</th><th>Player</th><th>With the team</th><th class='num'>Seasons</th><th class='num'>Franchise CV</th></tr></thead><tbody>" + pl + "</tbody></table></div></div>" +
+      "<div><h4>Best seasons</h4><div class='tablewrap'><table><thead><tr><th class='num'>#</th><th>Player</th><th>Season</th><th class='num'>CV</th><th class='num'>RS</th><th class='num'>PO</th><th></th></tr></thead><tbody>" + se + "</tbody></table></div></div>" +
+      "<div><h4>Best teams</h4>" + teamTable(F.teams) + "</div><div><h4>Best Big 3s</h4>" + b3Table(F.big3) + "</div></div>";
   }
 
   // ---- events
+  $("fr-sel").addEventListener("change", function(){ FSEL = this.value; renderFranchises(); });
+  $("fr-chips").addEventListener("click", function(e){ var b = e.target.closest("[data-fr]"); if (b){ FSEL = b.dataset.fr; renderFranchises(); } });
   $("tm-play").addEventListener("click", function(){ if (T) play(); });
   $("tm-rand").addEventListener("click", function(){
     if (!T) return; var pool = T.slice().sort(function(x, y){ return y[6] - x[6]; }).slice(0, 150);
@@ -1168,7 +1227,7 @@ td.b3{white-space:normal;min-width:220px;font-size:14.5px}
   $("tm-list").addEventListener("click", function(e){ var b = e.target.closest("button[data-k]"); if (b) setSide("tm", +b.dataset.side, b.dataset.k); });
   $("b3-list").addEventListener("click", function(e){ var b = e.target.closest("button[data-k]"); if (b) setSide("b3", +b.dataset.side, b.dataset.k); });
   $("dec-grid").addEventListener("click", function(e){ var b = e.target.closest("[data-dec]"); if (!b) return; DSEL = b.dataset.dec; renderDecades(); var el = $("dec-detail"); if (el.scrollIntoView) el.scrollIntoView({behavior: "smooth", block: "start"}); });
-  function maybe(){ var id = (location.hash || "").slice(1); if (id === "teams" || id === "big3" || id === "decades") load(); }
+  function maybe(){ var id = (location.hash || "").slice(1); if (id === "teams" || id === "big3" || id === "decades" || id === "franchises") load(); }
   window.addEventListener("hashchange", maybe); maybe();
 })();
 </script>
