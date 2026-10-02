@@ -243,6 +243,98 @@ td.b3{white-space:normal;min-width:220px;font-size:14.5px}
 .at .n{font:500 13px var(--mono);color:var(--soft)}
 #fr-chips .pp-close{padding:5px 8px;font-size:12px}
 #fr-chips .pp-close[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+/* player pages */
+a.plink{color:inherit;font-weight:inherit}
+a.plink:hover{color:var(--blue)}
+a.tlink{color:inherit;text-decoration:underline;text-decoration-color:var(--rule);text-underline-offset:4px}
+a.tlink:hover{color:var(--blue);text-decoration-color:var(--blue)}
+.pl-top{display:flex;justify-content:space-between;align-items:end;gap:14px 24px;flex-wrap:wrap}
+.pl-top h2{font:400 clamp(34px,5.6vw,60px)/1 var(--display);margin-top:6px}
+.pl-find{display:flex;gap:8px;align-items:end}
+.pl-sub{font:500 13px/1.5 var(--mono);color:var(--soft);display:flex;gap:6px 16px;flex-wrap:wrap;margin-top:10px}
+.pl-sub b{color:var(--ink);font-weight:600}
+.pl-stats{display:grid;grid-template-columns:minmax(0,1.25fr) repeat(3,minmax(0,1fr));gap:14px;margin-top:22px}
+@media (max-width:860px){.pl-stats{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.stat{background:var(--card);border:3px solid var(--ink);border-radius:10px;box-shadow:5px 5px 0 var(--shadow);padding:14px 16px;display:flex;flex-direction:column;gap:4px;min-width:0}
+.stat .lbl{display:block}
+.stat .big{font:400 clamp(30px,4vw,44px)/1 var(--display);font-variant-numeric:tabular-nums}
+.stat.lead .big{color:var(--red)}
+.stat small{font:500 12.5px/1.4 var(--mono);color:var(--soft)}
+.pl-why{margin-top:16px;max-width:78ch}
+.legend{display:flex;gap:6px 18px;flex-wrap:wrap;font:500 12px/1.4 var(--mono);color:var(--soft);margin-top:8px}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:6px;vertical-align:-1px;border:2px solid var(--blue)}
+.legend i.p{background:var(--red);border-color:var(--red)} .legend i.a{background:var(--blue)} .legend i.o{background:var(--soft);border-color:var(--soft)} .legend i.u{background:var(--card)}
+.chart .dot.prime{fill:var(--red)}
+.chart .dot.other{fill:var(--soft)}
+.chart .dot.unq{fill:var(--card);stroke:var(--blue);stroke-width:2}
+.chart .dot.sel{stroke:var(--ink);stroke-width:3}
+.sdetail{margin-top:22px;border-top:10px solid var(--yellow)}
+.sdetail h3{font:400 clamp(24px,3vw,32px)/1.05 var(--display)}
+.sgrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:14px}
+@media (max-width:700px){.sgrid{grid-template-columns:1fr}}
+.sbox{border:2px solid var(--rule);border-radius:8px;padding:10px 12px}
+.sbox .v{font:400 32px/1 var(--display);font-variant-numeric:tabular-nums;margin:4px 0}
+.sbox .r{font:500 12.5px/1.5 var(--mono);color:var(--soft)}
+.sbox .r b{color:var(--ink);font-weight:600}
+.facts{list-style:none;margin:14px 0 0;padding:0}
+.facts li{padding:8px 0;border-top:1px dotted var(--rule);font-size:16px;line-height:1.45}
+.facts li b{font-weight:600}
+tr.sel-row{background:var(--hi)!important}
+td.role{font:600 11px/1 var(--mono);letter-spacing:.06em;text-transform:uppercase}
+td.role.p{color:var(--red)} td.role.a{color:var(--blue)} td.role.o{color:var(--soft)}
+@media (max-width:640px){.hide-sm{display:none}}
+/* home search */
+.hero h1{font-size:clamp(36px,5.4vw,64px)}
+.finder{display:flex;flex-direction:column;gap:6px;margin-top:4px;max-width:560px}
+.combo{position:relative}
+.combo input{width:100%;font:500 17px/1.2 var(--mono);padding:14px 16px;border:3px solid var(--ink);border-radius:10px;background:var(--card);color:var(--ink);box-shadow:5px 5px 0 var(--shadow)}
+.combo input::placeholder{color:var(--soft)}
+.combo ul{position:absolute;left:0;right:0;top:calc(100% + 8px);z-index:6;list-style:none;margin:0;padding:6px;background:var(--card);border:3px solid var(--ink);border-radius:10px;box-shadow:5px 5px 0 var(--shadow);max-height:min(420px,60vh);overflow-y:auto}
+.combo li a{display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding:9px 10px;border-radius:6px;text-decoration:none;color:var(--ink)}
+.combo li a b{font-weight:600;font-size:17px}
+.combo li a span{font:500 12px/1.3 var(--mono);color:var(--soft);text-align:right}
+.combo li[aria-selected="true"] a,.combo li a:hover{background:var(--hi)}
+.combo .kind{font:600 10px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--red);margin-right:8px}
+.combo .empty{padding:10px;font:500 13px var(--mono);color:var(--soft)}
+.actions{gap:12px;margin-top:6px}
+/* grouped nav */
+.subnav{display:flex;gap:4px;flex-wrap:wrap;margin:0 0 18px;padding-bottom:10px;border-bottom:1px solid var(--rule)}
+.subnav a{font:600 12px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--soft);text-decoration:none;padding:8px 10px;border-radius:3px;border:2px solid transparent}
+.subnav a:hover{color:var(--ink);background:var(--hover)}
+.subnav a[aria-current="page"]{color:var(--ink);border-color:var(--ink)}
+/* sticky player column and phone tables */
+.tablewrap td.player,.tablewrap th.pcol{position:sticky;left:0;z-index:1;background:var(--paper)}
+tbody tr:hover td.player{background:var(--hover)}
+tr.sel-row td.player{background:var(--hi)}
+.exp,.xrow,.ftoggle{display:none}
+.presets{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:18px}
+.presets .lbl{margin-right:4px}
+.presets .pp-close[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+.presets .pp-close:disabled{opacity:.4;cursor:default}
+td.lift{font:600 14px/1 var(--mono);text-align:right}
+td.lift.up{color:var(--green)} td.lift.down{color:var(--red)}
+.ftoggle{font:600 13px/1 var(--mono);padding:10px 12px;border:2px solid var(--ink);border-radius:6px;background:var(--card);color:var(--ink);cursor:pointer;align-self:end}
+.ftoggle[aria-expanded="true"]{background:var(--ink);color:var(--paper)}
+.expb{font:600 16px/1 var(--mono);width:30px;height:30px;border:2px solid var(--ink);border-radius:6px;background:var(--card);color:var(--ink);cursor:pointer}
+.expb[aria-expanded="true"]{background:var(--ink);color:var(--paper)}
+.xdl{display:grid;grid-template-columns:max-content minmax(0,1fr);gap:6px 14px;margin:0;padding:4px 0 6px;font-size:15px}
+.xdl dt{font:600 10.5px/1.9 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--soft)}
+.xdl dd{margin:0;white-space:normal}
+.xrow td{white-space:normal;background:var(--hover)}
+@media (max-width:640px){
+  #rankings .x{display:none}
+  #rankings .exp{display:table-cell;width:1%;padding-left:4px}
+  #rankings tr.xrow{display:table-row}
+  #rankings td.player{min-width:0}
+  #rankings td,#rankings th{padding-inline:6px}
+  #rankings td.cv{font-size:19px}
+  .combo input{font-size:15px;padding:12px 14px}
+  .ftoggle{display:inline-block}
+  #rank-controls:not(.open) .field.opt,#rank-controls:not(.open) .check{display:none}
+  .mob-a tr>*:nth-child(4),.mob-a tr>*:nth-child(6),.mob-a tr>*:nth-child(7){display:none}
+  .mob-b tr>*:nth-child(5),.mob-b tr>*:nth-child(6){display:none}
+  .mob-a td.player,.mob-b td.player{min-width:0}
+}
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 </style>
 </head><body>
@@ -254,16 +346,11 @@ td.b3{white-space:normal;min-width:220px;font-size:14.5px}
       <b>Court Value</b>
     </a>
     <nav aria-label="Sections">
-      <a href="#home" data-nav="home">Home</a>
       <a href="#rankings" data-nav="rankings">Rankings</a>
       <a href="#compare" data-nav="compare">Compare</a>
-      <a href="#teams" data-nav="teams">Teams</a>
-      <a href="#big3" data-nav="big3">Big 3</a>
+      <a href="#teams" data-nav="teams big3 franchises">Teams</a>
       <a href="#decades" data-nav="decades">Decades</a>
-      <a href="#franchises" data-nav="franchises">Franchises</a>
-      <a href="#methodology" data-nav="methodology">How it works</a>
-      <a href="#downloads" data-nav="downloads">Data</a>
-      <a href="#contact" data-nav="contact">Contact</a>
+      <a href="#methodology" data-nav="methodology downloads contact">About</a>
     </nav>
   </div>
 </header>
@@ -274,8 +361,13 @@ td.b3{white-space:normal;min-width:220px;font-size:14.5px}
   <div class="hero">
     <div class="stack">
       <span class="eyebrow">NBA 1952–present · ABA 1968–76 · regular season and playoffs</span>
-      <h1>One number for a player's season, measured the same way since 1952.</h1>
-      <p class="lede">Court Value rates every NBA and ABA season on one scale, regular season and playoffs together. It uses only what has been recorded every year since 1952: the box score, <mark>how the team did in the games the player actually played</mark>, how well that team defended, and what happened in the postseason.</p>
+      <h1>Every NBA and ABA season, on one scale.</h1>
+      <p class="lede">Court Value rates every player-season since 1952 the same way, regular season and playoffs together: the box score, <mark>how the team did in the games he actually played</mark>, the team's defense and the postseason.</p>
+      <div class="finder" role="search">
+        <label class="lbl" for="q">Find a player or team</label>
+        <div class="combo"><input id="q" type="search" role="combobox" aria-expanded="false" aria-controls="q-list" aria-autocomplete="list" placeholder="Jokić, Celtics, 1996 Bulls…" autocomplete="off" spellcheck="false"><ul id="q-list" role="listbox" aria-label="Matches" hidden></ul></div>
+      </div>
+      <div class="row actions"><a class="btn" href="#rankings">Explore rankings</a><a class="btn secondary" href="#compare">Compare players</a><a class="btn secondary" href="#teams">Match up teams</a></div>
     </div>
     <div class="card scale" aria-label="How to read a CV score">
       <h3>Reading the number</h3>
@@ -290,12 +382,12 @@ td.b3{white-space:normal;min-width:220px;font-size:14.5px}
   <div class="block">
     <div class="head-row"><div><span class="eyebrow">The chart</span><h2>The best season of every year</h2></div></div>
     <div class="chart card" id="best-chart" style="padding:18px 18px 10px"><div class="status">Loading scores…</div></div>
-    <p class="caption">Highest qualified CV in each NBA season, 1951–52 to 2025–26. The shaded band is where the middle half of MVP seasons fall (8.2 to 11.5); red dots mark years whose best season reached 12 or more. Hover or tap a dot for the player; click to open his career.</p>
+    <p class="caption">Highest qualified CV in each NBA season, 1951–52 to 2025–26. The shaded band is where the middle half of MVP seasons fall (8.2 to 11.5); red dots mark years whose best season reached 12 or more. Hover or tap a dot for the player; click to open that season.</p>
   </div>
 
   <div class="block">
     <div class="head-row"><div><span class="eyebrow">Leaderboard</span><h2>The ten best seasons</h2></div><a href="#rankings">All rankings →</a></div>
-    <div class="tablewrap"><table aria-label="Top ten seasons by full CV">
+    <div class="tablewrap"><table class="mob-a" aria-label="Top ten seasons by full CV">
       <thead><tr><th class="num">#</th><th>Player</th><th>Season</th><th>Team</th><th class="num">CV</th><th class="num">RS</th><th class="num">PO</th></tr></thead>
       <tbody id="top10"><tr><td colspan="7" class="status">Loading scores…</td></tr></tbody>
     </table></div>
@@ -303,8 +395,8 @@ td.b3{white-space:normal;min-width:220px;font-size:14.5px}
   </div>
 
   <div class="block">
-    <div class="head-row"><div><span class="eyebrow">Playoffs</span><h2>The ten best postseasons</h2></div><a href="#rankings" id="to-runs">All postseason rankings →</a></div>
-    <div class="tablewrap"><table aria-label="Top ten postseasons by PO">
+    <div class="head-row"><div><span class="eyebrow">Playoffs</span><h2>The ten best postseasons</h2></div><span class="row" style="gap:6px 18px"><a href="#rankings?view=lift">Biggest playoff lifts →</a><a href="#rankings?score=po">All postseason rankings →</a></span></div>
+    <div class="tablewrap"><table class="mob-a" aria-label="Top ten postseasons by PO">
       <thead><tr><th class="num">#</th><th>Player</th><th>Postseason</th><th>Team</th><th class="num">PO</th><th class="num">Season CV</th><th class="num">RS</th></tr></thead>
       <tbody id="topruns"><tr><td colspan="7" class="status">Loading scores…</td></tr></tbody>
     </table></div>
@@ -312,12 +404,12 @@ td.b3{white-space:normal;min-width:220px;font-size:14.5px}
   </div>
 
   <div class="block">
-    <div class="head-row"><div><span class="eyebrow">Careers</span><h2>The ten best careers</h2></div><a href="#rankings" id="to-careers">All career rankings →</a></div>
-    <div class="tablewrap"><table aria-label="Top ten careers by Career CV">
-      <thead><tr><th class="num">#</th><th>Player</th><th>Seasons</th><th class="num">Career CV</th><th>Best season</th><th class="num">Best CV</th></tr></thead>
+    <div class="head-row"><div><span class="eyebrow">Careers</span><h2>The ten best careers</h2></div><a href="#rankings?score=career">All career rankings →</a></div>
+    <div class="tablewrap"><table class="mob-b" aria-label="Top ten careers by Career CV">
+      <thead><tr><th class="num">#</th><th>Player</th><th>Career</th><th class="num">Career CV</th><th>Best season</th><th class="num">Best CV</th></tr></thead>
       <tbody id="topcareers"><tr><td colspan="6" class="status">Loading careers…</td></tr></tbody>
     </table></div>
-    <p class="note">Career CV is built on a player's five best seasons, with the playoffs weighing more than in a single season. Every other season adds a little, but only for what it gives above All-Star level. The prime decides; long stretches of ordinary years don't. Qualified seasons only.</p>
+    <p class="note">Career CV is built on a player's five best seasons, with the playoffs weighing more than in a single season. Every other season adds a little, but only for what it gives above All-Star level. The prime decides; long stretches of ordinary years don't. Career CV counts qualified seasons only; the career span shows every season played.</p>
   </div>
 
   <div class="grid2 block">
@@ -342,7 +434,14 @@ td.b3{white-space:normal;min-width:220px;font-size:14.5px}
 <section id="rankings" data-page hidden>
   <span class="eyebrow">Rankings</span>
   <h2 style="margin-top:6px">Every season, ranked</h2>
-  <div class="controls" role="group" aria-label="Filter rankings">
+  <div class="presets" role="group" aria-label="Views">
+    <span class="lbl">Views</span>
+    <button type="button" class="pp-close" data-view="all" aria-pressed="true">All seasons</button>
+    <button type="button" class="pp-close" data-view="best" aria-pressed="false">Best season per player</button>
+    <button type="button" class="pp-close" data-view="champ" aria-pressed="false">Championship seasons</button>
+    <button type="button" class="pp-close" data-view="lift" aria-pressed="false">Biggest playoff lifts</button>
+  </div>
+  <div class="controls" id="rank-controls" role="group" aria-label="Filter rankings">
     <div class="field"><span class="lbl" id="basis-lbl">Score</span>
       <div class="seg" role="group" aria-labelledby="basis-lbl">
         <button type="button" data-basis="full" aria-pressed="true">Season CV</button>
@@ -351,13 +450,14 @@ td.b3{white-space:normal;min-width:220px;font-size:14.5px}
         <button type="button" data-basis="career" aria-pressed="false">Career</button>
       </div>
     </div>
-    <div class="field"><label for="f-from">From</label><select id="f-from"></select></div>
-    <div class="field"><label for="f-to">To</label><select id="f-to"></select></div>
-    <div class="field"><label for="f-league">League</label><select id="f-league"><option value="all">NBA and ABA</option><option value="0">NBA</option><option value="1">ABA</option></select></div>
-    <div class="field"><label for="f-pos">Position</label><select id="f-pos"><option value="all">All</option><option>PG</option><option>SG</option><option>SF</option><option>PF</option><option>C</option></select></div>
-    <div class="field"><label for="f-team">Team</label><select id="f-team"><option value="all">All teams</option></select></div>
-    <div class="field"><label for="f-search">Player</label><input type="search" id="f-search" placeholder="Search a name" autocomplete="off"></div>
+    <div class="field opt"><label for="f-from">From</label><select id="f-from"></select></div>
+    <div class="field opt"><label for="f-to">To</label><select id="f-to"></select></div>
+    <div class="field opt"><label for="f-league">League</label><select id="f-league"><option value="all">NBA and ABA</option><option value="0">NBA</option><option value="1">ABA</option></select></div>
+    <div class="field opt"><label for="f-pos">Position</label><select id="f-pos"><option value="all">All</option><option>PG</option><option>SG</option><option>SF</option><option>PF</option><option>C</option></select></div>
+    <div class="field opt"><label for="f-team">Team</label><select id="f-team"><option value="all">All teams</option></select></div>
+    <div class="field opt"><label for="f-search">Player</label><input type="search" id="f-search" placeholder="Search a name" autocomplete="off"></div>
     <label class="check" for="f-qual"><input type="checkbox" id="f-qual" checked> Qualified only</label>
+    <button type="button" class="ftoggle" id="ftoggle" aria-expanded="false" aria-controls="rank-controls">Filters</button>
   </div>
   <p class="note" id="basis-note"></p>
   <div class="status" id="count" aria-live="polite" style="margin-top:12px"></div>
@@ -366,13 +466,13 @@ td.b3{white-space:normal;min-width:220px;font-size:14.5px}
     <tbody id="rank-body"><tr><td class="status">Loading scores…</td></tr></tbody>
   </table></div>
   <button type="button" class="btn secondary more" id="more" hidden>Show 50 more</button>
-  <p class="note">Click a column heading to sort; click again to reverse. Click a player's name to compare his career on the Compare tab (up to five players). Positions are each season's listed position from Basketball-Reference, shown for filtering.</p>
+  <p class="note">Click a column heading to sort; click again to reverse. Click a player's name to open his page and that season. Every filter is kept in the address, so you can share the exact view. Positions are each season's listed position from Basketball-Reference, shown for filtering.</p>
 </section>
 
 <section id="compare" data-page hidden>
   <span class="eyebrow">Compare</span>
   <h2 style="margin-top:6px">Put careers side by side</h2>
-  <p class="lede prose" style="margin-top:12px">Up to five players on one chart, lined up by season, by career year or by age. <mark>The shaded band is where most MVP seasons land.</mark> Click any player's name elsewhere on the site to send him here.</p>
+  <p class="lede prose" style="margin-top:12px">Up to five players on one chart, lined up by season, by career year or by age. <mark>The shaded band is where most MVP seasons land.</mark> Add players here, or use the Compare button on any player's page. The address keeps the players and settings, so the view can be shared.</p>
   <div class="controls" role="group" aria-label="Comparison score">
     <div class="field"><span class="lbl" id="cmpb-lbl">Score</span>
       <div class="seg" role="group" aria-labelledby="cmpb-lbl">
@@ -392,6 +492,10 @@ td.b3{white-space:normal;min-width:220px;font-size:14.5px}
     </div>
   </div>
   <div id="player-panel" class="card"><div class="status">Loading scores…</div></div>
+</section>
+
+<section id="player" data-page hidden>
+  <div id="pl-body"><div class="status">Loading scores…</div></div>
 </section>
 
 <section id="teams" data-page hidden>
@@ -459,7 +563,7 @@ td.b3{white-space:normal;min-width:220px;font-size:14.5px}
 <section id="franchises" data-page hidden>
   <span class="eyebrow">Franchises</span>
   <h2 style="margin-top:6px">Every franchise's best</h2>
-  <p class="lede prose" style="margin-top:12px">Each franchise's All-Franchise teams and its best players, seasons, teams and Big 3s. A franchise keeps its history through moves and renames, and the Nuggets, Pacers, Spurs and Nets keep their ABA years. <mark>Records start in 1951–52.</mark></p>
+  <p class="lede prose" style="margin-top:12px">Each franchise's best players, seasons, teams and Big 3s, and its All-Franchise teams. A franchise keeps its history through moves and renames, and the Nuggets, Pacers, Spurs and Nets keep their ABA years. <mark>Records start in 1951–52.</mark></p>
   <div class="controls"><div class="field"><label for="fr-sel">Franchise</label><select id="fr-sel"></select></div></div>
   <div class="row" id="fr-chips" style="gap:6px"></div>
   <div class="block decdetail" id="fr-detail"><div class="status">Loading franchises…</div></div>
@@ -540,7 +644,7 @@ td.b3{white-space:normal;min-width:220px;font-size:14.5px}
   <span class="eyebrow">Data and changelog</span>
   <h2 style="margin:6px 0 16px">Take the numbers with you</h2>
   <div class="dl-row">
-    <div><h3>CV season scores, version <span class="ver">2.1</span></h3><p class="soft" style="margin:4px 0 0">Every scored player-season, NBA and ABA: player, season, league, teams, games, playoff games, qualification, season CV, RS, PO, playoff status, champion and ranks. CSV, about 3 MB.</p></div>
+    <div><h3>CV season scores, version 2.1</h3><p class="soft" style="margin:4px 0 0">Every scored player-season, NBA and ABA: player, season, league, teams, games, playoff games, qualification, season CV, RS, PO, playoff status, champion and ranks. CSV, about 3 MB.</p></div>
     <a class="btn" href="data/PUBLIC_cv_2_1_scores.csv" download>Download CSV</a>
   </div>
   <div class="dl-row">
@@ -589,19 +693,58 @@ td.b3{white-space:normal;min-width:220px;font-size:14.5px}
 
 <script>
 (function(){
-  var CONFIG = { repo: "https://github.com/mariotavoiii/Court-Value", version: "2.1" };
+  var CONFIG = { repo: "https://github.com/mariotavoiii/Court-Value", version: "2.1.1" };
   var NS = "http://www.w3.org/2000/svg";
 
   var pages = [].slice.call(document.querySelectorAll("[data-page]"));
   var navs = [].slice.call(document.querySelectorAll("[data-nav]"));
+  // ---- Router. Addresses look like #page/arg/arg?key=value&key=value, so every view can be shared.
+  // Navigation sets location.hash (adds history); state changes inside a page use replaceState.
+  function parseHash(){
+    var h = (location.hash || "#home").slice(1), qi = h.indexOf("?");
+    var path = qi < 0 ? h : h.slice(0, qi), qs = qi < 0 ? "" : h.slice(qi + 1), params = {};
+    qs.split("&").forEach(function(kv){ if (!kv) return; var i = kv.indexOf("="); params[decodeURIComponent(i < 0 ? kv : kv.slice(0, i))] = i < 0 ? "" : decodeURIComponent(kv.slice(i + 1)); });
+    var parts = path.split("/").map(function(x){ try { return decodeURIComponent(x); } catch(e){ return x; } });
+    return {page: parts[0] || "home", args: parts.slice(1).filter(function(x){ return x !== ""; }), params: params};
+  }
+  function buildHash(page, args, params){
+    var h = "#" + page + (args && args.length ? "/" + args.map(encodeURIComponent).join("/") : "");
+    var q = Object.keys(params || {}).filter(function(k){ return params[k] !== undefined && params[k] !== null && params[k] !== ""; })
+      .map(function(k){ return encodeURIComponent(k) + "=" + encodeURIComponent(params[k]); });
+    return (h + (q.length ? "?" + q.join("&") : "")).replace(/%2C/g, ",");
+  }
+  var HANDLERS = {}, lastView = null;
+  var CVR = window.CVR = {
+    parse: parseHash, build: buildHash,
+    on: function(page, fn){ HANDLERS[page] = fn; },
+    // keep the address in step with what's on screen, without adding history or re-routing
+    booted: false,   // until the first route has been applied, don't overwrite the address we arrived with
+    replace: function(page, args, params){
+      if (!CVR.booted || parseHash().page !== page) return;
+      var h = buildHash(page, args, params);
+      if (h !== location.hash && history.replaceState) history.replaceState(null, "", h);
+    },
+    apply: function(){ var r = parseHash(); if (HANDLERS[r.page]) HANDLERS[r.page](r.args, r.params); }
+  };
   function route(){
-    var id = (location.hash || "#home").slice(1), el = document.getElementById(id);
+    var r = parseHash(), id = r.page, el = document.getElementById(id);
     if (!el || !el.hasAttribute("data-page")) id = "home";
     pages.forEach(function(p){ p.hidden = p.id !== id; });
-    navs.forEach(function(a){ if (a.dataset.nav === id) a.setAttribute("aria-current","page"); else a.removeAttribute("aria-current"); });
-    window.scrollTo(0,0);
+    navs.forEach(function(a){ if (a.dataset.nav.split(" ").indexOf(id) > -1) a.setAttribute("aria-current","page"); else a.removeAttribute("aria-current"); });
+    document.querySelectorAll(".subnav a").forEach(function(a){ if (a.getAttribute("href") === "#" + id) a.setAttribute("aria-current","page"); else a.removeAttribute("aria-current"); });
+    var view = id + "/" + r.args.join("/");
+    if (id === "player" && lastView && lastView.split("/")[1] === r.args[0] && lastView.indexOf("player/") === 0){ /* same player, new season: keep scroll */ }
+    else if (view !== lastView) window.scrollTo(0,0);
+    lastView = view;
+    if (id !== "player") document.title = "Court Value";
+    if (HANDLERS[id]) HANDLERS[id](r.args, r.params);
   }
-  window.addEventListener("hashchange", route); route();
+  window.addEventListener("hashchange", route);
+  // sub-tabs for grouped sections
+  [[["teams", "Time Machine"], ["big3", "Big 3"], ["franchises", "Franchises"]], [["methodology", "How it works"], ["downloads", "Data"], ["contact", "Contact"]]].forEach(function(g){
+    var html = "<nav class='subnav' aria-label='" + (g[0][0] === "teams" ? "Teams" : "About") + "'>" + g.map(function(x){ return "<a href='#" + x[0] + "'>" + x[1] + "</a>"; }).join("") + "</nav>";
+    g.forEach(function(x){ document.getElementById(x[0]).insertAdjacentHTML("afterbegin", html); });
+  });
 
   document.querySelectorAll(".ver").forEach(function(el){ el.textContent = CONFIG.version; });
   if (CONFIG.repo){
@@ -622,7 +765,7 @@ td.b3{white-space:normal;min-width:220px;font-size:14.5px}
   function svg(tag, attrs, parent){ var e = document.createElementNS(NS, tag); for (var k in attrs) e.setAttribute(k, attrs[k]); if (parent) parent.appendChild(e); return e; }
 
   // Row fields: 0 id, 1 player, 2 season, 3 lg(0 NBA/1 ABA), 4 teams, 5 g, 6 mp, 7 q, 8 cov, 9 cv, 10 base, 11 def, 12 rs, 13 ra, 14 brs, 15 bra, 16 pos
-  var CROWS = [], ROWS = [], BYID = {}, PROWS = [], PBYID = {}, FROWS = [], FBYID = {}, NAMEIDX = {}, state = { basis: "full", from: 0, to: 9999, league: "all", pos: "all", team: "all", q: true, text: "", shown: 50, sort: null, dir: -1 };
+  var CROWS = [], ROWS = [], BYID = {}, PROWS = [], PBYID = {}, FROWS = [], FBYID = {}, NAMEIDX = {}, state = { basis: "full", from: 0, to: 9999, league: "all", pos: "all", team: "all", q: true, text: "", shown: 50, sort: null, dir: -1, view: "all" };
 
   // Playoff rows: 0 id, 1 player, 2 season, 3 lg, 4 team, 5 g, 6 team_games, 7 rate_q, 8 box evidence, 9 run, 10 rate, 11 credit,
   // 12 run_rs, 13 run_ra, 14 rate_rs, 15 rate_ra, 16 pos, 17 champion, 18 rounds
@@ -635,11 +778,14 @@ td.b3{white-space:normal;min-width:220px;font-size:14.5px}
   function SRC(){ return isCR() ? CROWS : isPO() ? PROWS : isFS() ? FROWS : ROWS; }
   function SRCBY(){ return isPO() ? PBYID : isFS() ? FBYID : BYID; }
   var BASIS_LABEL = {full: "Season CV", base: "RS", po: "PO", career: "Career CV"};
-  fetch("data/careers.json").then(function(r){ return r.json(); }).then(function(d){
-    CROWS = d.rows; renderTopCareers(); if (isCR()) render();
+  var CBYID = {}, scoresP, careersP, DEF = {from: 0, to: 9999};
+  careersP = fetch("data/careers.json").then(function(r){ return r.json(); }).then(function(d){
+    CROWS = d.rows; CROWS.forEach(function(r){ CBYID[r[0]] = r; });
+    if (ROWS.length){ renderTopCareers(); if (isCR()) render(); }
   }).catch(function(){ var e = document.getElementById("topcareers"); if (e) e.innerHTML = "<tr><td colspan='6' class='status'>The career file could not be loaded.</td></tr>"; });
-  fetch("data/scores.json").then(function(r){ if (!r.ok) throw new Error(r.status); return r.json(); }).then(function(d){
+  scoresP = fetch("data/scores.json").then(function(r){ if (!r.ok) throw new Error(r.status); return r.json(); }).then(function(d){
     ROWS = d.rows;
+    ROWS.forEach(function(r){ r[22] = r[11] !== null && r[11] !== undefined ? +(r[11] - r[10]).toFixed(3) : null; });   // playoff lift: PO minus RS
     ROWS.forEach(function(r){ (BYID[r[0]] = BYID[r[0]] || []).push(r); });
     document.getElementById("rev").textContent = d.meta.data_revision;
     var seasons = {}; ROWS.forEach(function(r){ seasons[r[2]] = 1; });
@@ -649,7 +795,7 @@ td.b3{white-space:normal;min-width:220px;font-size:14.5px}
       var o = document.createElement("option"); o.value = y; o.textContent = seasonLabel(y); fFrom.appendChild(o);
       var o2 = o.cloneNode(true); fTo.appendChild(o2);
     });
-    state.from = ys[0]; state.to = ys[ys.length-1]; fFrom.value = state.from; fTo.value = state.to;
+    state.from = DEF.from = ys[0]; state.to = DEF.to = ys[ys.length-1]; fFrom.value = state.from; fTo.value = state.to;
     var teams = {}; ROWS.forEach(function(r){ String(r[4]).split(/[^A-Z0-9]+/).forEach(function(t){ if (t) teams[t] = 1; }); });
     var fTeam = document.getElementById("f-team");
     Object.keys(teams).sort().forEach(function(t){ var o = document.createElement("option"); o.value = t; o.textContent = t; fTeam.appendChild(o); });
@@ -660,38 +806,68 @@ td.b3{white-space:normal;min-width:220px;font-size:14.5px}
       NAMEIDX[lab] = pid; return lab;
     }).sort().forEach(function(lab){ var o = document.createElement("option"); o.value = lab; dl.appendChild(o); });
     document.body.appendChild(dl);
+    Object.keys(BYID).forEach(function(pid){ var n = BYID[pid][0][1]; (NAMES[n] = NAMES[n] || []).push(pid); });
     renderTop10(); renderBest(); render(); renderTopRuns(); renderCompare();
-  }).catch(function(){
+    if (CROWS.length) renderTopCareers();
+    CVR.booted = true;
+    CVR.apply();
+  });
+  scoresP.catch(function(){
     var msg = '<tr><td colspan="7" class="status">The score file could not be loaded. Download the CSV from the Data page instead.</td></tr>';
     document.getElementById("top10").innerHTML = msg; document.getElementById("rank-body").innerHTML = msg;
     document.getElementById("best-chart").innerHTML = '<div class="status">The chart could not be loaded.</div>';
   });
 
-  function plink(r){ return "<button type='button' class='plink' data-pid='" + esc(r[0]) + "'>" + esc(r[1]) + "</button>"; }
-  document.addEventListener("click", function(e){
-    var b = e.target.closest && e.target.closest(".plink"); if (!b) return;
-    if (location.hash !== "#compare") location.hash = "#compare";
-    showPlayer(b.getAttribute("data-pid"));
-  });
+  // Player links. A season row links to the player's page opened at that season.
+  var NAMES = {};
+  function phref(pid, season){ return buildHash("player", season ? [pid, String(season)] : [pid]); }
+  function plink(r){ return "<a class='plink' href='" + phref(r[0]) + "'>" + esc(r[1]) + "</a>"; }
+  function slink(r){ return "<a class='plink' href='" + phref(r[0], r[2]) + "'>" + esc(r[1]) + "</a>"; }
+  // Resolve a name from the team, decade and franchise files to a player id, using the season (or range) and team to
+  // separate players who share a name.
+  function pidFor(name, s0, s1, team){
+    var c = NAMES[name]; if (!c) return null; if (c.length === 1) return c[0];
+    if (s0 === undefined) return c[0];
+    if (s1 === undefined) s1 = s0;
+    var hit = c.filter(function(pid){ return BYID[pid].some(function(r){ return r[2] >= s0 && r[2] <= s1 && (!team || String(r[4]).split(",").indexOf(team) > -1); }); });
+    if (!hit.length && team) hit = c.filter(function(pid){ return BYID[pid].some(function(r){ return r[2] >= s0 && r[2] <= s1; }); });
+    return (hit[0] || c[0]);
+  }
+  function fullSpan(pid){
+    var rs = BYID[pid]; if (!rs) return null;
+    var ys = rs.map(function(r){ return r[2]; });
+    return [Math.min.apply(null, ys), Math.max.apply(null, ys)];
+  }
+  function spanLabel(sp){ return (sp[0] - 1) + "–" + String(sp[1]).slice(-2); }
+  function spanLong(sp){ return sp[0] === sp[1] ? seasonLabel(sp[0]) : seasonLabel(sp[0]) + " to " + seasonLabel(sp[1]); }
+  window.CV = {
+    ready: scoresP.then(function(){ return true; }),
+    seasonLabel: seasonLabel,
+    // name link for another script: season given → that season on his page; range → his page
+    nameLink: function(name, s0, s1, team, seasonLink){
+      var pid = pidFor(name, s0, s1, team);
+      if (!pid) return esc(name);
+      return "<a class='plink' href='" + phref(pid, seasonLink ? s0 : null) + "'>" + esc(name) + "</a>";
+    }
+  };
 
   function renderTopRuns(){
     var top = ROWS.filter(function(r){ return r[20] !== null && r[20] <= 10; }).sort(function(a,b){ return a[20]-b[20]; });
     document.getElementById("topruns").innerHTML = top.map(function(r){
-      return "<tr><td class='rk'>" + r[20] + "</td><td class='player'>" + plink(r) + "</td><td>" + seasonLabel(r[2]) + "</td><td class='num'>" + esc(r[4]) + "</td><td class='cv'>" + fmt(r[11]) + "</td><td class='num'>" + fmt(r[9]) + "</td><td class='num'>" + fmt(r[10]) + "</td></tr>";
+      return "<tr><td class='rk'>" + r[20] + "</td><td class='player'>" + slink(r) + "</td><td>" + seasonLabel(r[2]) + "</td><td class='num'>" + esc(r[4]) + "</td><td class='cv'>" + fmt(r[11]) + "</td><td class='num'>" + fmt(r[9]) + "</td><td class='num'>" + fmt(r[10]) + "</td></tr>";
     }).join("");
   }
-  document.getElementById("to-runs").addEventListener("click", function(){ var b = document.querySelector("[data-basis='po']"); if (b) setTimeout(function(){ b.click(); }, 0); });
   function renderTopCareers(){
     var top = CROWS.filter(function(r){ return r[13] <= 10; }).sort(function(a,b){ return a[13]-b[13]; });
     document.getElementById("topcareers").innerHTML = top.map(function(r){
-      return "<tr><td class='rk'>" + r[13] + "</td><td class='player'>" + plink(r) + "</td><td>" + esc(r[4]) + "</td><td class='cv'>" + fmt(r[9]) + "</td><td>" + seasonLabel(r[6]) + "</td><td class='num'>" + fmt(r[10]) + "</td></tr>";
+      var sp = fullSpan(r[0]);
+      return "<tr><td class='rk'>" + r[13] + "</td><td class='player'>" + plink(r) + "</td><td>" + (sp ? spanLabel(sp) : esc(r[4])) + "</td><td class='cv'>" + fmt(r[9]) + "</td><td><a class='tlink' href='" + phref(r[0], r[6]) + "'>" + seasonLabel(r[6]) + "</a></td><td class='num'>" + fmt(r[10]) + "</td></tr>";
     }).join("");
   }
-  document.getElementById("to-careers").addEventListener("click", function(){ var b = document.querySelector("[data-basis='career']"); if (b) setTimeout(function(){ b.click(); }, 0); });
   function renderTop10(){
     var top = ROWS.filter(function(r){ return r[13] !== null && r[13] <= 10; }).sort(function(a,b){ return a[13]-b[13]; });
     document.getElementById("top10").innerHTML = top.map(function(r){
-      return "<tr><td class='rk'>" + r[13] + "</td><td class='player'>" + plink(r) + "</td><td>" + seasonLabel(r[2]) + "</td><td class='num'>" + esc(r[4]) + "</td><td class='cv'>" + fmt(r[9]) + "</td><td class='num'>" + fmt(r[10]) + "</td><td class='num'>" + fmt(r[11]) + "</td></tr>";
+      return "<tr><td class='rk'>" + r[13] + "</td><td class='player'>" + slink(r) + "</td><td>" + seasonLabel(r[2]) + "</td><td class='num'>" + esc(r[4]) + "</td><td class='cv'>" + fmt(r[9]) + "</td><td class='num'>" + fmt(r[10]) + "</td><td class='num'>" + fmt(r[11]) + "</td></tr>";
     }).join("");
   }
 
@@ -733,7 +909,7 @@ td.b3{white-space:normal;min-width:220px;font-size:14.5px}
       pts.forEach(function(p){ d += (prev !== null && p.x - prev === 1 ? "L" : "M") + X(p.x).toFixed(1) + "," + Y(p.y).toFixed(1); prev = p.x; });
       svg("path", {d: d, "class": "line"}, s);
     }
-    var dots = pts.map(function(p){ return svg("circle", {cx: X(p.x), cy: Y(p.y), r: opts.r || 4.5, "class": "dot" + (opts.hot && opts.hot(p) ? " hot" : "")}, s); });
+    var dots = pts.map(function(p){ return svg("circle", {cx: X(p.x), cy: Y(p.y), r: opts.r || 4.5, "class": "dot" + (opts.hot && opts.hot(p) ? " hot" : "") + (opts.cls ? " " + opts.cls(p) : "")}, s); });
     var tip = document.createElement("div"); tip.className = "tip"; tip.hidden = true; host.appendChild(tip);
     var hit = svg("rect", {x: m.l, y: m.t, width: W - m.l - m.r, height: H - m.t - m.b, "class": "hit"}, s);
     function nearest(clientX){
@@ -767,7 +943,7 @@ td.b3{white-space:normal;min-width:220px;font-size:14.5px}
       xfmt: function(y){ return seasonLabel(y); }, ref: 12, refLabel: "12: ALL-TIME TERRITORY",
       hot: function(p){ return p.y >= 12; },
       tip: function(p){ return "<b>" + esc(p.r[1]) + "</b> · " + seasonLabel(p.x) + "<br>CV " + p.y.toFixed(2) + " · " + esc(p.r[4]); },
-      onClick: function(p){ location.hash = "#rankings"; showPlayer(p.r[0]); }
+      onClick: function(p){ location.hash = phref(p.r[0], p.r[2]); }
     });
   }
 
@@ -797,6 +973,7 @@ td.b3{white-space:normal;min-width:220px;font-size:14.5px}
       panel.innerHTML = "<div class='cmp-tools'><div class='field'><label for='cmp-add'>Add a player</label><input type='search' id='cmp-add' list='cmp-names' placeholder='Type a name' autocomplete='off'></div><span class='status'>Type a name, use a quick pick, or click any player's name on the site. Up to five.</span></div>";
       var add0 = document.getElementById("cmp-add");
       add0.addEventListener("change", function(){ var pid = NAMEIDX[add0.value]; if (pid){ add0.value = ""; showPlayer(pid); } });
+      syncCompare();
       return;
     }
     var series = CMP.map(function(pid){
@@ -806,7 +983,7 @@ td.b3{white-space:normal;min-width:220px;font-size:14.5px}
     var names = {}; ROWS.forEach(function(r){ names[r[1]] = (names[r[1]] || 0); });
     panel.innerHTML = "<div class='pp-head'><div><span class='eyebrow'>Compare careers · " + BASIS_LABEL[cmpBasis] + "</span><h3>" +
         (CMP.length === 1 ? esc(series[0].name) : CMP.length + " players") + "</h3></div><button type='button' class='pp-close' id='pp-close'>Close</button></div>" +
-      "<div class='chips'>" + series.map(function(sr){ return "<span class='chip " + sr.cls + "'><i></i>" + esc(sr.name) + "<button type='button' aria-label='Remove " + esc(sr.name) + "' data-rm='" + esc(sr.pid) + "'>×</button></span>"; }).join("") + "</div>" +
+      "<div class='chips'>" + series.map(function(sr){ return "<span class='chip " + sr.cls + "'><i></i><a class='plink' href='" + phref(sr.pid) + "'>" + esc(sr.name) + "</a><button type='button' aria-label='Remove " + esc(sr.name) + "' data-rm='" + esc(sr.pid) + "'>×</button></span>"; }).join("") + "</div>" +
       "<div class='cmp-tools'><div class='field'><label for='cmp-add'>Add a player</label><input type='search' id='cmp-add' list='cmp-names' placeholder='Type a name' autocomplete='off'" + (CMP.length >= MAXCMP ? " disabled" : "") + "></div>" +
       "<div class='field'><span class='lbl' id='cmp-x-lbl'>Line up by</span><div class='seg' role='group' aria-labelledby='cmp-x-lbl'><button type='button' data-x='season' aria-pressed='" + (cmpX === "season") + "'>Season</button><button type='button' data-x='year' aria-pressed='" + (cmpX === "year") + "'>Career year</button><button type='button' data-x='age' aria-pressed='" + (cmpX === "age") + "'>Age</button></div></div>" +
       "<span class='status'>" + (CMP.length >= MAXCMP ? "Five players is the limit; remove one to add another." : "Click any player's name on the site, or type one here. Up to five.") + "</span></div>" +
@@ -833,7 +1010,19 @@ td.b3{white-space:normal;min-width:220px;font-size:14.5px}
     var add = document.getElementById("cmp-add");
     add.addEventListener("change", function(){ var pid = NAMEIDX[add.value]; if (pid){ add.value = ""; showPlayer(pid); } });
     drawMulti(document.getElementById("pp-chart"), series, full, po);
+    syncCompare();
   }
+  function syncCompare(){
+    CVR.replace("compare", CMP.length ? [CMP.join(",")] : [], {score: cmpBasis === "full" ? "" : cmpBasis, by: cmpX === "season" ? "" : cmpX});
+  }
+  function pressCmp(){ document.querySelectorAll("[data-cb]").forEach(function(x){ x.setAttribute("aria-pressed", String(x.getAttribute("data-cb") === cmpBasis)); }); }
+  CVR.on("compare", function(args, params){
+    if (!ROWS.length) return;
+    if (args[0]) CMP = args[0].split(",").filter(function(pid){ return BYID[pid]; }).slice(0, MAXCMP);
+    if (params.score && /^(full|base|po)$/.test(params.score)) cmpBasis = params.score; else if (args[0]) cmpBasis = "full";
+    if (params.by && /^(season|year|age)$/.test(params.by)) cmpX = params.by; else if (args[0]) cmpX = "season";
+    pressCmp(); renderCompare();
+  });
   function drawMulti(host, series, full, po){
     host.innerHTML = "";
     var all = []; series.forEach(function(sr){ all = all.concat(sr.pts); });
@@ -903,11 +1092,236 @@ td.b3{white-space:normal;min-width:220px;font-size:14.5px}
     hit.addEventListener("pointerleave", function(){ tip.hidden = true; xh.setAttribute("visibility", "hidden"); });
   }
 
+  // ---- Player pages: #player/<id> and #player/<id>/<season>
+  var DETAIL = null, detailP = null, PL = {pid: null, season: null};
+  function loadDetail(){
+    if (!detailP) detailP = fetch("data/career_detail.json").then(function(r){ return r.json(); }).then(function(d){ DETAIL = d.rows; }).catch(function(){ DETAIL = {}; });
+    return detailP;
+  }
+  function ordinalRank(n){ return n === null || n === undefined ? null : "#" + n.toLocaleString(); }
+  CVR.on("player", function(args){
+    if (!ROWS.length) return;   // runs again once the scores arrive
+    var host = document.getElementById("pl-body"), pid = args[0];
+    if (!pid || !BYID[pid]){
+      document.title = "Player not found · Court Value";
+      host.innerHTML = "<span class='eyebrow'>Player</span><h2 style='margin-top:6px'>No player at that address</h2><p class='note'>Try the <a href='#rankings'>rankings</a> and search by name.</p>";
+      return;
+    }
+    var season = args[1] ? parseInt(args[1], 10) : null;
+    Promise.all([careersP, loadDetail()]).then(function(){ renderPlayer(pid, isNaN(season) ? null : season); });
+  });
+  function renderPlayer(pid, season){
+    var host = document.getElementById("pl-body"), samePlayer = PL.pid === pid;
+    PL.pid = pid; PL.season = season;
+    var rows = BYID[pid].slice().sort(function(a,b){ return a[2]-b[2] || a[3]-b[3]; });
+    var name = rows[0][1], c = CBYID[pid], det = DETAIL && DETAIL[pid], role = {};
+    document.title = name + " · Court Value";
+    if (det){ det[2].forEach(function(x){ role[x[0] + "|" + x[1]] = "p"; }); det[3].forEach(function(x){ role[x[0] + "|" + x[1]] = "a"; }); }
+    function roleOf(r){ return !r[7] ? "u" : (role[r[2] + "|" + r[3]] || "o"); }
+    var ROLE = {p: "Prime", a: "Adds", o: "—", u: "Not qualified"};
+    var pos = {}, teams = [], lgs = {}, titles = 0, qn = 0;
+    rows.forEach(function(r){
+      if (r[16]) pos[r[16]] = (pos[r[16]] || 0) + 1; lgs[r[3]] = 1; if (r[17]) titles++; if (r[7]) qn++;
+      String(r[4]).split(",").forEach(function(t){ if (t && teams.indexOf(t) === -1) teams.push(t); });
+    });
+    var mainPos = Object.keys(pos).sort(function(a,b){ return pos[b]-pos[a]; })[0] || "";
+    var lgTxt = lgs[0] && lgs[1] ? "NBA and ABA" : lgs[1] ? "ABA" : "NBA";
+    var sp = fullSpan(pid), q = rows.filter(function(r){ return r[7]; });
+    var best = q.slice().sort(function(a,b){ return b[9]-a[9]; })[0];
+    var cmpList = CMP.indexOf(pid) > -1 ? CMP.slice() : CMP.concat([pid]).slice(-MAXCMP);
+    var h = "<div class='pl-top'><div><span class='eyebrow'>Player · " + esc(mainPos) + (mainPos ? " · " : "") + lgTxt + "</span><h2>" + esc(name) + "</h2>" +
+      "<div class='pl-sub'><span>Seasons <b>" + spanLong(sp) + "</b></span><span>" + (teams.length > 1 ? "Teams" : "Team") + " <b>" + teams.map(esc).join(", ") + "</b></span>" + (titles ? "<span>Titles <b>" + titles + "</b></span>" : "") + "</div></div>" +
+      "<div class='pl-find'><div class='field'><label for='pl-find'>Another player</label><input type='search' id='pl-find' list='cmp-names' placeholder='Type a name' autocomplete='off'></div>" +
+      "<a class='btn secondary' href='" + buildHash("compare", [cmpList.join(",")]) + "'>Compare</a></div></div>";
+    // headline numbers
+    h += "<div class='pl-stats'>";
+    if (c){
+      h += "<div class='stat lead'><span class='lbl'>Career CV</span><span class='big'>" + c[9].toFixed(1) + "</span><small>" + ordinalRank(c[13]) + " of " + CROWS.length.toLocaleString() + " careers</small></div>";
+      if (det){
+        h += "<div class='stat'><span class='lbl'>Prime</span><span class='big'>" + det[0].toFixed(1) + "</span><small>His five best seasons</small></div>" +
+          "<div class='stat'><span class='lbl'>Other seasons</span><span class='big'>+" + det[1].toFixed(1) + "</span><small>" + det[3].length + " more above All-Star level</small></div>";
+      }
+    } else {
+      h += "<div class='stat lead'><span class='lbl'>Career CV</span><span class='big'>—</span><small>No qualified season, so no Career CV</small></div>";
+    }
+    h += "<div class='stat'><span class='lbl'>Best season</span><span class='big'>" + (best ? best[9].toFixed(1) : "—") + "</span><small>" + (best ? "<a class='tlink' href='" + phref(pid, best[2]) + "'>" + seasonLabel(best[2]) + "</a> · " + ordinalRank(best[13]) + " all time" : "No qualified season") + "</small></div></div>";
+    if (c && det){
+      h += "<p class='note pl-why'>Career CV is his <mark>five-season prime (" + det[0].toFixed(1) + ")</mark> plus a little from other seasons above All-Star level (+" + det[1].toFixed(1) + "). The prime is picked with the playoffs weighing more than in a single season, so it isn't always his five highest season CVs. " +
+        qn + " of his " + rows.length + " seasons qualified (at least 70% of team games); the others aren't counted.</p>";
+    } else if (!c){
+      h += "<p class='note pl-why'>Career CV counts only qualified seasons, at least 70% of team games. None of his " + rows.length + " seasons reached that.</p>";
+    }
+    // career chart
+    h += "<div class='block' style='padding-top:30px'><div class='head-row'><div><span class='eyebrow'>Season by season</span><h2 style='font-size:clamp(24px,3vw,32px)'>Every season's CV</h2></div></div>" +
+      "<div class='chart card' id='pl-chart' style='padding:18px 18px 10px'></div>" +
+      "<div class='legend'><span><i class='p'></i>Prime season</span><span><i class='a'></i>Adds to Career CV</span><span><i class='o'></i>Qualified, adds nothing</span><span><i class='u'></i>Not qualified</span><span>Click a dot or a season for the details.</span></div></div>";
+    // season detail
+    var sr = season ? rows.filter(function(r){ return r[2] === season; }) : [];
+    if (sr.length) h += seasonDetail(sr[0], roleOf(sr[0]), name);
+    // table
+    h += "<div class='block' style='padding-top:30px'><div class='tablewrap'><table aria-label='Seasons for " + esc(name) + "'><thead><tr><th>Season</th><th class='num hide-sm'>Age</th><th>Team</th><th class='num'>G</th><th class='num hide-sm'>PO G</th><th class='num'>CV</th><th class='num'>RS</th><th class='num'>PO</th><th class='num'>Rank</th><th class='num hide-sm'>All time</th><th>Career</th><th class='hide-sm'>Status</th></tr></thead><tbody>" +
+      rows.map(function(r){
+        var ro = roleOf(r), st = [];
+        if (r[17]) st.push("<span class='pill champ'>Champion</span>");
+        if (r[3]) st.push("<span class='pill aba'>ABA</span>");
+        if (r[8] === "N") st.push("<span class='pill'>Missed playoffs</span>");
+        if (r[8] === "B") st.push("<span class='pill base'>RS only</span>");
+        if (r[18] === "P") st.push("<span class='pill'>Partial playoff box</span>");
+        return "<tr" + (season === r[2] ? " class='sel-row'" : "") + "><td><a class='tlink' href='" + phref(pid, r[2]) + "'>" + seasonLabel(r[2]) + "</a></td><td class='num hide-sm'>" + (r[21] || "—") + "</td><td class='mono' style='font-size:13px'>" + esc(r[4]) + "</td><td class='num'>" + r[5] + "</td><td class='num hide-sm'>" + (r[6] || "—") + "</td><td class='cv'>" + fmt(r[9]) + "</td><td class='num'>" + fmt(r[10]) + "</td><td class='num'>" + fmt(r[11]) + "</td><td class='num'>" + (r[7] && r[12] !== null ? r[12] : "—") + "</td><td class='num hide-sm'>" + (r[7] && r[13] !== null ? r[13].toLocaleString() : "—") + "</td><td class='role " + ro + "'>" + ROLE[ro] + "</td><td class='hide-sm'>" + st.join(" ") + "</td></tr>";
+      }).join("") + "</tbody></table></div>" +
+      "<p class='note'>Rank is his place in that season, All time his place among every qualified season since 1952, both by season CV. Prime and Adds show the seasons that make up his Career CV.</p></div>";
+    host.innerHTML = h;
+    var find = document.getElementById("pl-find");
+    find.addEventListener("change", function(){ var p = NAMEIDX[find.value]; if (p) location.hash = phref(p); });
+    var pts = careerRows(pid, 9).map(function(r){ return {x: r[2], y: r[9], r: r}; });
+    var chHost = document.getElementById("pl-chart"), narrow = chHost.getBoundingClientRect().width < 600;
+    drawChart(chHost, pts, {width: narrow ? 520 : 1040, height: narrow ? 360 : 320,
+      label: "Season CV for " + name, yMin: 0, yMax: 14, line: true, r: 5.5, band: MVP_BAND,
+      xfmt: function(y){ return seasonLabel(y); },
+      cls: function(p){ var ro = roleOf(p.r); return (ro === "p" ? "prime" : ro === "o" ? "other" : ro === "u" ? "unq" : "") + (p.x === season ? " sel" : ""); },
+      tip: function(p){ var ro = roleOf(p.r); return "<b>" + seasonLabel(p.x) + "</b> · " + esc(p.r[4]) + "<br>CV " + p.y.toFixed(2) + " · RS " + fmt(p.r[10]) + " · PO " + fmt(p.r[11]) + (ro === "p" ? "<br>Prime season" : ro === "a" ? "<br>Adds to Career CV" : ro === "u" ? "<br>Not qualified" : ""); },
+      onClick: function(p){ location.hash = phref(pid, p.x); }
+    });
+    if (sr.length){
+      fillTeams(sr[0], name);
+      var card = document.getElementById("pl-season");
+      if (samePlayer && card && card.scrollIntoView) card.scrollIntoView({behavior: "smooth", block: "nearest"});
+    }
+  }
+  function seasonDetail(r, ro, name){
+    var champ = r[17] ? " <span class='pill champ'>Champion</span>" : "", aba = r[3] ? " <span class='pill aba'>ABA</span>" : "";
+    var rankLine = function(rs, ra, what){
+      if (!r[7]) return "Not ranked: under 70% of team games";
+      return (rs !== null ? "<b>" + ordinalRank(rs) + "</b> " + what : "") + (ra !== null ? " · <b>" + ordinalRank(ra) + "</b> all time" : "");
+    };
+    var poLine = r[11] === null ? (r[8] === "N" ? "Missed the playoffs" : r[8] === "B" ? "No playoff box score" : "No postseason score")
+      : (r[19] !== null ? "<b>" + ordinalRank(r[19]) + "</b> that postseason" : "") + (r[20] !== null ? " · <b>" + ordinalRank(r[20]) + "</b> all time" : "");
+    var po;
+    if (r[8] === "N") po = "His team missed the playoffs. The playoff part of the season score counts as league average, so a great season on a losing team still ranks.";
+    else if (r[8] === "B") po = "No playoff box score survives for this postseason, so the season is scored on the regular season alone.";
+    else if (r[11] === null) po = "He didn't play in the postseason.";
+    else po = "He played <b>" + r[6] + "</b> playoff game" + (r[6] === 1 ? "" : "s") + "<span id='pl-tpo'></span>" + (r[17] ? " and won the title." : ".");
+    if (r[18] === "P") po += " <b>Partial playoff box:</b> some of these playoff box scores are missing assists, so those games are estimated.";
+    var career = {p: "One of his <b>five prime seasons</b>, which make up most of his Career CV.",
+      a: "Outside his prime, but above All-Star level, so it <b>adds a little</b> to his Career CV.",
+      o: "Outside his prime and not above All-Star level, so it <b>doesn't change</b> his Career CV.",
+      u: "<b>Not qualified:</b> he played under 70% of his team's games, so this season isn't ranked on leaderboards or counted in Career CV."}[ro];
+    return "<div class='card sdetail' id='pl-season'><div class='pp-head'><div><span class='eyebrow'>" + esc(name) + " · " + esc(r[4]) + (r[21] ? " · age " + r[21] : "") + "</span><h3>" + seasonLabel(r[2]) + champ + aba + "</h3></div>" +
+      "<a class='pp-close' href='" + phref(r[0]) + "' style='text-decoration:none'>Close</a></div>" +
+      "<div class='sgrid'><div class='sbox'><span class='lbl'>Season CV</span><div class='v'>" + fmt(r[9]) + "</div><div class='r'>" + rankLine(r[12], r[13], "that season") + "</div></div>" +
+      "<div class='sbox'><span class='lbl'>Regular season (RS)</span><div class='v'>" + fmt(r[10]) + "</div><div class='r'>" + rankLine(r[14], r[15], "that season") + "</div></div>" +
+      "<div class='sbox'><span class='lbl'>Postseason (PO)</span><div class='v'>" + fmt(r[11]) + "</div><div class='r'>" + poLine + "</div></div></div>" +
+      "<ul class='facts'><li><b>Games:</b> " + r[5] + " in the regular season<span id='pl-tg'></span>. " + (r[7] ? "Qualified." : "") + "</li>" +
+      "<li><b>Playoffs:</b> " + po + "</li><li><b>Career:</b> " + career + "</li>" +
+      "<li id='pl-teams'><b>Team:</b> " + esc(r[4]) + "</li>" +
+      "<li><a href='" + buildHash("rankings", [], {from: r[2], to: r[2], lg: r[3] ? "1" : ""}) + "'>The full " + seasonLabel(r[2]) + " " + (r[3] ? "ABA" : "NBA") + " leaderboard →</a></li></ul></div>";
+  }
+  function fillTeams(r, name){
+    if (!window.CV.loadTeams) return;
+    window.CV.loadTeams().then(function(TB){
+      var el = document.getElementById("pl-teams"); if (!el || PL.pid !== r[0] || PL.season !== r[2]) return;
+      var abbrs = String(r[4]).split(","), ts = abbrs.map(function(a){ return TB.byKey(r[2], r[3], a); }).filter(Boolean);
+      if (!ts.length) return;
+      el.innerHTML = "<b>" + (ts.length > 1 ? "Teams" : "Team") + ":</b> " + ts.map(function(t){
+        var inB3 = (t[12] || []).some(function(p){ return p[0] === name; });
+        return "<a class='tlink' href='" + buildHash("teams", [TB.urlKey(t)]) + "'>" + seasonLabel(t[0]) + " " + esc(t[3]) + "</a>" +
+          (t[4] !== null ? ", " + t[4] + "–" + t[5] : "") + ", team rating " + (t[6] >= 0 ? "+" : "−") + Math.abs(t[6]).toFixed(1) + " (#" + t[9] + " all time)" +
+          (inB3 ? "; part of its <a class='tlink' href='" + buildHash("big3", [TB.urlKey(t)]) + "'>Big 3</a> (#" + t[11] + " all time)" : "");
+      }).join(". ") + ".";
+      if (ts.length === 1 && ts[0][4] !== null){
+        var tg = document.getElementById("pl-tg"); if (tg) tg.textContent = " of the team's " + (ts[0][4] + ts[0][5]) + " (" + Math.round(r[5] / (ts[0][4] + ts[0][5]) * 100) + "%)";
+      }
+      var tpo = document.getElementById("pl-tpo");
+      if (tpo && ts.length){ var last = ts[ts.length - 1]; if (last[17] !== null) tpo.textContent = "; the " + last[3] + " went " + last[17] + "–" + last[18] + " in the playoffs"; }
+    });
+  }
+
+
+  // ---- Home search: players, franchises and team-seasons ("1996 Bulls"); a player plus a year opens that season
+  var PIDX = null, TIDX = null, FIDX = null;
+  function norm(x){ return String(x).normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase().replace(/[^a-z0-9]+/g, " ").trim(); }
+  function wordsMatch(qw, target){ var tw = target.split(" "); return qw.every(function(w){ return tw.some(function(t){ return t.indexOf(w) === 0 || (w.length >= 4 && t.indexOf(w) > 0); }); }); }
+  function buildPIDX(){
+    PIDX = Object.keys(BYID).map(function(pid){
+      var c = CBYID[pid], sp = fullSpan(pid);
+      return {pid: pid, name: BYID[pid][0][1], n: norm(BYID[pid][0][1]), rank: c ? c[13] : 1e6 - BYID[pid].length, cv: c ? c[9] : null, sp: sp};
+    }).sort(function(a, b){ return a.rank - b.rank; });
+  }
+  function searchAll(raw){
+    if (!PIDX) buildPIDX();
+    var q = norm(raw); if (!q) return [];
+    var words = q.split(" "), nums = words.filter(function(w){ return /^\d+$/.test(w); }), text = words.filter(function(w){ return !/^\d+$/.test(w); });
+    var year = null;
+    if (nums.length && text.length){
+      var y = +nums[nums.length - 1];
+      if (y < 100) y += (y >= 47 ? 1900 : 2000);
+      if (y >= 1952 && y <= DEF.to) year = y;
+    }
+    if (!text.length) return [];
+    var out = [];
+    if (TIDX && year !== null){
+      TIDX.filter(function(t){ return t.r[0] === year && wordsMatch(text, t.n); }).slice(0, 3).forEach(function(t){
+        out.push({kind: "Team", label: seasonLabel(t.r[0]) + " " + t.r[3], meta: (t.r[4] !== null ? t.r[4] + "–" + t.r[5] + " · " : "") + "rating " + (t.r[6] >= 0 ? "+" : "−") + Math.abs(t.r[6]).toFixed(1), href: buildHash("teams", [t.url])});
+      });
+    }
+    if (FIDX && year === null){
+      FIDX.filter(function(f){ return f.keys.some(function(k){ return wordsMatch(text, k); }) || (text.length === 1 && f.code === text[0]); }).slice(0, 2).forEach(function(f){
+        out.push({kind: "Franchise", label: f.name, meta: seasonLabel(f.first).slice(0, 4) + "–" + String(f.last).slice(-2) + " · " + f.titles + " title" + (f.titles === 1 ? "" : "s"), href: buildHash("franchises", [f.key])});
+      });
+    }
+    PIDX.filter(function(p){ return wordsMatch(text, p.n); }).slice(0, 8 - out.length).forEach(function(p){
+      var played = year !== null && BYID[p.pid].some(function(r){ return r[2] === year; });
+      out.push({kind: played ? "Season" : "", label: p.name, meta: played ? seasonLabel(year) : spanLabel(p.sp) + (p.cv !== null ? " · Career CV " + p.cv.toFixed(1) : ""), href: phref(p.pid, played ? year : null)});
+    });
+    return out.slice(0, 8);
+  }
+  (function(){
+    var inp = document.getElementById("q"), list = document.getElementById("q-list"), items = [], active = -1;
+    function teamsIn(){
+      if (TIDX || !window.CV.loadTeams) return;
+      window.CV.loadTeams().then(function(TB){
+        TIDX = TB.rows.map(function(t){ return {r: t, n: norm(t[3] + " " + t[2]), url: TB.urlKey(t)}; });
+        FIDX = Object.keys(TB.franchises).map(function(k){ var F = TB.franchises[k];
+          return {key: k, code: k.toLowerCase(), name: F.name, first: F.first, last: F.last, titles: F.titles, keys: [norm(F.name)].concat((F.names || []).map(function(n){ return norm(n[0]); }))}; });
+        if (inp.value) show();
+      }).catch(function(){});
+    }
+    function close(){ list.hidden = true; inp.setAttribute("aria-expanded", "false"); inp.removeAttribute("aria-activedescendant"); active = -1; }
+    function mark(i){
+      active = i;
+      [].forEach.call(list.children, function(li, j){ li.setAttribute("aria-selected", String(j === i)); });
+      if (i >= 0){ inp.setAttribute("aria-activedescendant", "q-o-" + i); var el = list.children[i]; if (el && el.scrollIntoView) el.scrollIntoView({block: "nearest"}); }
+    }
+    function show(){
+      if (!ROWS.length){ list.innerHTML = "<li class='empty'>Loading scores…</li>"; list.hidden = false; return; }
+      items = searchAll(inp.value);
+      if (!inp.value.trim()){ close(); return; }
+      list.innerHTML = items.length ? items.map(function(it, i){
+        return "<li role='option' id='q-o-" + i + "' aria-selected='false'><a href='" + it.href + "' tabindex='-1'><b>" + (it.kind ? "<span class='kind'>" + it.kind + "</span>" : "") + esc(it.label) + "</b><span>" + esc(it.meta) + "</span></a></li>";
+      }).join("") : "<li class='empty'>No player or team matches “" + esc(inp.value.trim()) + "”.</li>";
+      list.hidden = false; inp.setAttribute("aria-expanded", "true"); mark(items.length ? 0 : -1);
+    }
+    inp.addEventListener("focus", teamsIn);
+    inp.addEventListener("input", show);
+    inp.addEventListener("keydown", function(e){
+      if (e.key === "ArrowDown" && items.length){ e.preventDefault(); if (list.hidden) show(); mark((active + 1) % items.length); }
+      else if (e.key === "ArrowUp" && items.length){ e.preventDefault(); mark((active - 1 + items.length) % items.length); }
+      else if (e.key === "Enter"){ e.preventDefault(); var it = items[active >= 0 ? active : 0]; if (it){ close(); inp.value = ""; location.hash = it.href; } }
+      else if (e.key === "Escape"){ close(); }
+    });
+    list.addEventListener("mousedown", function(e){ e.preventDefault(); });   // keep focus so the click lands
+    list.addEventListener("click", function(e){ if (e.target.closest("a")){ close(); inp.value = ""; } });
+    inp.addEventListener("blur", function(){ setTimeout(close, 120); });
+  })();
+
   var head = document.getElementById("rank-head"), body = document.getElementById("rank-body");
+  function VIEW(){ return isCR() ? "all" : state.view; }
   function filtered(){
-    var t = state.text.toLowerCase(), k0 = SK(), noQ = state.basis === "run";
+    var t = state.text.toLowerCase(), k0 = SK(), noQ = state.basis === "run", vw = VIEW();
     var out = SRC().filter(function(r){
       if (r[k0] === null) return false;
+      if (vw === "champ" && !r[17]) return false;
+      if (vw === "lift" && (r[22] === null || r[22] === undefined)) return false;
       if (state.q && !noQ && !r[7]) return false;
       if (isCR() ? (r[19] > state.to || r[2] < state.from) : (r[2] < state.from || r[2] > state.to)) return false;
       if (state.pos !== "all" && r[16] !== state.pos) return false;
@@ -916,7 +1330,12 @@ td.b3{white-space:normal;min-width:220px;font-size:14.5px}
       if (t && r[1].toLowerCase().indexOf(t) === -1) return false;
       return true;
     });
-    var k = k0, sk = state.sort === null ? k : state.sort, dir = state.sort === null ? -1 : state.dir;
+    if (vw === "best"){   // one row per player: his best season on the chosen score, within the filters
+      var bestBy = {};
+      out.forEach(function(r){ var b = bestBy[r[0]]; if (!b || r[k0] > b[k0]) bestBy[r[0]] = r; });
+      out = Object.keys(bestBy).map(function(pid){ return bestBy[pid]; });
+    }
+    var k = vw === "lift" ? 22 : k0, sk = state.sort === null ? k : state.sort, dir = state.sort === null ? -1 : state.dir;
     out.sort(function(a,b){
       var x = a[sk], y = b[sk], c;
       if (x === null && y === null) c = 0; else if (x === null) return 1; else if (y === null) return -1;
@@ -934,11 +1353,16 @@ td.b3{white-space:normal;min-width:220px;font-size:14.5px}
       season: "<mark>Full-season CV</mark> is the regular season plus the playoffs: every playoff game counts as one more game on the same ruler, and a champion adds his title credit scaled by the playoffs' share of his games. Same scale as regular-season CV.",
       run: "<mark>Playoff CV Run</mark> is the postseason résumé: each round counts once, plus capped, responsibility-weighted championship credit. Measured on the regular season's ruler; NBA postseasons from 1951–52.",
       rate: "<mark>Playoff CV Rate</mark> is quality while active. “Qualified only” keeps players who appeared in at least 70% of their team's playoff games."};
-    document.getElementById("basis-note").innerHTML = notes[state.basis];
+    var vw = VIEW(), vnotes = {
+      best: " <b>Best season per player:</b> each player's single best season on this score, within the filters.",
+      champ: " <b>Championship seasons:</b> players on the title team. Each counts if he was on the roster when it won.",
+      lift: " <b>Biggest playoff lifts:</b> PO minus RS, how much better he was in the postseason than in the regular season. Click the Lift heading to flip it and see the biggest drops."};
+    document.getElementById("basis-note").innerHTML = notes[state.basis] + (vnotes[vw] || "");
+    document.querySelectorAll("[data-view]").forEach(function(b){ b.setAttribute("aria-pressed", String(b.getAttribute("data-view") === vw)); b.disabled = isCR() && b.getAttribute("data-view") !== "all"; });
     var fs = isFS();
     var cr = isCR();
     var cols = cr
-      ? [["Rank", null, "num"], ["Player", 1, ""], ["Seasons", 19, ""], ["Lg", 3, ""], ["Pos", 16, ""], ["Qualified seasons", 5, "num"], ["Career CV", 9, "num"],
+      ? [["Rank", null, "num"], ["Player", 1, ""], ["Career", 19, ""], ["Lg", 3, ""], ["Pos", 16, ""], ["Qualified seasons", 5, "num"], ["Career CV", 9, "num"],
          ["Best season", 6, ""], ["Best CV", 10, "num"], ["Titles", 17, "num"]]
       : fs
       ? [["Rank", null, "num"], ["Player", 1, ""], ["Season", 2, ""], ["Lg", 3, ""], ["Pos", 16, ""], ["Team", 4, ""], ["RS G", 5, "num"], ["PO G", 6, "num"],
@@ -947,8 +1371,8 @@ td.b3{white-space:normal;min-width:220px;font-size:14.5px}
       ? [["Rank", null, "num"], ["Player", 1, ""], ["Season", 2, ""], ["Pos", 16, ""], ["Team", 4, ""], ["G", 5, "num"], ["Team G", 6, "num"], ["Rounds", 18, "num"],
          [run ? "Run" : "Rate", run ? 9 : 10, "num"], [run ? "Title credit" : "Run", run ? 11 : 9, "num"], ["Status", null, ""]]
       : [["Rank", null, "num"], ["Player", 1, ""], ["Season", 2, ""], ["Lg", 3, ""], ["Pos", 16, ""], ["Team", 4, ""], ["G", 5, "num"], ["PO G", 6, "num"],
-         [full ? "CV" : state.basis === "po" ? "PO" : "RS", SK(), "num"]].concat(full ? [["RS", 10, "num"], ["PO", 11, "num"]] : state.basis === "po" ? [["Season CV", 9, "num"]] : [["Season CV", 9, "num"]]).concat([["Status", null, ""]]);
-    var scoreKey = SK();
+         [full ? "CV" : state.basis === "po" ? "PO" : "RS", SK(), "num"]].concat(full ? [["RS", 10, "num"], ["PO", 11, "num"]] : state.basis === "po" ? [["Season CV", 9, "num"]] : [["Season CV", 9, "num"]]).concat(vw === "lift" ? [["Lift", 22, "num"]] : []).concat([["Status", null, ""]]);
+    var scoreKey = vw === "lift" ? 22 : SK();
     head.innerHTML = cols.map(function(c){
       if (c[1] === null) return "<th class='" + c[2] + "'>" + c[0] + "</th>";
       var active = state.sort === null ? c[1] === scoreKey : state.sort === c[1];
@@ -958,13 +1382,14 @@ td.b3{white-space:normal;min-width:220px;font-size:14.5px}
     var rows = filtered(), shown = rows.slice(0, state.shown);
     var single = state.from === state.to;
     var ri = cr ? 13 : state.basis === "po" ? (single ? 19 : 20) : state.basis === "base" ? (single ? 14 : 15) : (single ? 12 : 13);
-    document.getElementById("count").textContent = rows.length.toLocaleString() + (cr ? " careers" : po ? " postseasons" : " seasons") + (rows.length > shown.length ? " · showing " + shown.length : "");
-    body.innerHTML = shown.length ? shown.map(function(r){
+    document.getElementById("count").textContent = rows.length.toLocaleString() + (cr ? " careers" : vw === "best" ? " players" : po ? " postseasons" : " seasons") + (rows.length > shown.length ? " · showing " + shown.length : "");
+    body.innerHTML = shown.length ? shown.map(function(r, idx){
       if (cr){
         var lgp = r[3] === 2 ? "<span class='pill aba'>NBA/ABA</span>" : "<span class='pill" + (r[3] ? " aba" : "") + "'>" + (r[3] ? "ABA" : "NBA") + "</span>";
-        return "<tr><td class='rk'>" + r[13] + "</td><td class='player'>" + plink(r) + "</td><td>" + esc(r[4]) + "</td><td>" + lgp + "</td><td class='mono' style='font-size:13px'>" + (r[16] || "—") + "</td><td class='num'>" + r[5] + "</td><td class='cv'>" + fmt(r[9]) + "</td><td>" + (r[6] ? seasonLabel(r[6]) : "—") + "</td><td class='num'>" + fmt(r[10]) + "</td><td class='num'>" + (r[17] || "—") + "</td></tr>";
+        var sp = fullSpan(r[0]);
+        return "<tr><td class='rk'>" + r[13] + "</td><td class='player'>" + plink(r) + "</td><td>" + (sp ? spanLabel(sp) : esc(r[4])) + "</td><td>" + lgp + "</td><td class='mono' style='font-size:13px'>" + (r[16] || "—") + "</td><td class='num'>" + r[5] + "</td><td class='cv'>" + fmt(r[9]) + "</td><td>" + (r[6] ? "<a class='tlink' href='" + phref(r[0], r[6]) + "'>" + seasonLabel(r[6]) + "</a>" : "—") + "</td><td class='num'>" + fmt(r[10]) + "</td><td class='num'>" + (r[17] || "—") + "</td></tr>";
       }
-      var rank = r[ri] !== null && (state.basis === "po" || r[7]) ? r[ri] : "—";
+      var rank = vw === "lift" ? idx + 1 : r[ri] !== null && (state.basis === "po" || r[7]) ? r[ri] : "—";
       if (fs){
         var fst = (r[7] ? "" : "<span class='pill'>Not qualified</span> ") + (r[17] ? "<span class='pill champ'>Champion</span> " : "") + (r[8] === "U" ? "<span class='pill'>Playoffs unscored</span>" : "");
         return "<tr><td class='rk'>" + rank + "</td><td class='player'>" + plink(r) + "</td><td>" + seasonLabel(r[2]) + "</td><td><span class='pill" + (r[3] ? " aba" : "") + "'>" + (r[3] ? "ABA" : "NBA") + "</span></td><td class='mono' style='font-size:13px'>" + (r[16] || "—") + "</td><td class='mono' style='font-size:13px'>" + esc(r[4]) + "</td><td class='num'>" + r[5] + "</td><td class='num'>" + (r[6] || "—") + "</td><td class='cv'>" + fmt(r[9]) + "</td><td class='num'>" + fmt(r[10]) + "</td><td class='num'>" + fmt(r[14]) + "</td><td class='num'>" + (r[11] ? fmt(r[11]) : "—") + "</td><td>" + fst + "</td></tr>";
@@ -979,12 +1404,80 @@ td.b3{white-space:normal;min-width:220px;font-size:14.5px}
       if (r[8] === "N") add("<span class='pill'>Missed playoffs</span>");
       if (r[8] === "B") add("<span class='pill base'>RS only · no playoff box score</span>");
       if (r[18] === "P") add("<span class='pill'>Partial playoff box</span>");
-      return "<tr><td class='rk'>" + rank + "</td><td class='player'>" + plink(r) + "</td><td>" + seasonLabel(r[2]) + "</td><td><span class='pill" + (r[3] ? " aba" : "") + "'>" + (r[3] ? "ABA" : "NBA") + "</span></td><td class='mono' style='font-size:13px'>" + (r[16] || "—") + "</td><td class='mono' style='font-size:13px'>" + esc(r[4]) + "</td><td class='num'>" + r[5] + "</td><td class='num'>" + (r[6] || "—") + "</td><td class='cv'>" + fmt(r[SK()]) + "</td>" + (full ? "<td class='num'>" + fmt(r[10]) + "</td><td class='num'>" + fmt(r[11]) + "</td>" : state.basis === "po" ? "<td class='num'>" + fmt(r[9]) + "</td>" : "<td class='num'>" + fmt(r[9]) + "</td>") + "<td>" + status + "</td></tr>";
+      return "<tr><td class='rk'>" + rank + "</td><td class='player'>" + slink(r) + "</td><td>" + seasonLabel(r[2]) + "</td><td><span class='pill" + (r[3] ? " aba" : "") + "'>" + (r[3] ? "ABA" : "NBA") + "</span></td><td class='mono' style='font-size:13px'>" + (r[16] || "—") + "</td><td class='mono' style='font-size:13px'>" + esc(r[4]) + "</td><td class='num'>" + r[5] + "</td><td class='num'>" + (r[6] || "—") + "</td><td class='cv'>" + fmt(r[SK()]) + "</td>" + (full ? "<td class='num'>" + fmt(r[10]) + "</td><td class='num'>" + fmt(r[11]) + "</td>" : state.basis === "po" ? "<td class='num'>" + fmt(r[9]) + "</td>" : "<td class='num'>" + fmt(r[9]) + "</td>") + (vw === "lift" ? "<td class='lift " + (r[22] >= 0 ? "up" : "down") + "'>" + (r[22] >= 0 ? "+" : "−") + Math.abs(r[22]).toFixed(2) + "</td>" : "") + "<td>" + status + "</td></tr>";
     }).join("") : "<tr><td colspan='12' class='status'>No seasons match these filters.</td></tr>";
     document.getElementById("more").hidden = rows.length <= shown.length;
     document.getElementById("f-league").disabled = po; document.getElementById("f-team").disabled = cr;
     if (fs && !FROWS.length) body.innerHTML = "<tr><td colspan='13' class='status'>Loading full-season scores…</td></tr>";
+    phoneCols(cols, cr ? [0, 1, 6] : vw === "lift" ? [0, 1, 2, cols.length - 2] : [0, 1, 2, 8]);
+    syncRank();
   }
+  // ---- phones: keep rank, player, season and score; the rest opens under the row
+  var RANKCOLS = [];
+  function phoneCols(cols, core){
+    RANKCOLS = cols;
+    [].forEach.call(head.children, function(th, i){ if (core.indexOf(i) === -1) th.classList.add("x"); if (cols[i] && cols[i][1] === 1) th.classList.add("pcol"); });
+    head.insertAdjacentHTML("beforeend", "<th class='exp'><span style='position:absolute;left:-9999px'>Details</span></th>");
+    [].forEach.call(body.rows, function(tr){
+      if (tr.cells.length < cols.length) return;
+      [].forEach.call(tr.cells, function(td, i){ if (core.indexOf(i) === -1) td.classList.add("x"); });
+      tr.insertAdjacentHTML("beforeend", "<td class='exp'><button type='button' class='expb' aria-expanded='false' aria-label='Show details'>+</button></td>");
+    });
+  }
+  function toggleRow(tr){
+    var b = tr.querySelector(".expb"), nx = tr.nextElementSibling;
+    if (nx && nx.classList.contains("xrow")){ nx.remove(); b.setAttribute("aria-expanded", "false"); b.textContent = "+"; return; }
+    var dl = "";
+    [].forEach.call(tr.cells, function(td, i){
+      if (!td.classList.contains("x") || !RANKCOLS[i]) return;
+      var v = td.innerHTML.trim(); if (!v) return;
+      dl += "<dt>" + RANKCOLS[i][0] + "</dt><dd>" + v + "</dd>";
+    });
+    var a = tr.querySelector("a.plink"), link = a ? "<dt></dt><dd><a href='" + a.getAttribute("href") + "'>" + (isCR() ? "Open his page →" : "Open this season →") + "</a></dd>" : "";
+    tr.insertAdjacentHTML("afterend", "<tr class='xrow'><td colspan='" + tr.cells.length + "'><dl class='xdl'>" + dl + link + "</dl></td></tr>");
+    b.setAttribute("aria-expanded", "true"); b.textContent = "−";
+  }
+  body.addEventListener("click", function(e){
+    if (e.target.closest("a")) return;
+    var tr = e.target.closest("tr"); if (!tr || !tr.querySelector(".expb")) return;
+    if (e.target.closest(".expb") || (window.matchMedia && matchMedia("(max-width:640px)").matches)) toggleRow(tr);
+  });
+  // ---- rankings <-> address
+  document.querySelectorAll("[data-view]").forEach(function(b){ b.onclick = function(){ state.sort = null; set("view", b.getAttribute("data-view")); }; });
+  document.getElementById("ftoggle").onclick = function(){
+    var c = document.getElementById("rank-controls"), open = !c.classList.contains("open");
+    c.classList.toggle("open", open); this.setAttribute("aria-expanded", String(open));
+  };
+  function syncRank(){
+    var nf = (state.from !== DEF.from || state.to !== DEF.to ? 1 : 0) + (state.league !== "all") + (state.pos !== "all") + (state.team !== "all") + (!state.q) + (state.text ? 1 : 0);
+    document.getElementById("ftoggle").textContent = "Filters" + (nf ? " · " + nf : "");
+    CVR.replace("rankings", [], {
+      score: state.basis === "full" ? "" : state.basis, view: VIEW() === "all" ? "" : state.view,
+      from: state.from !== DEF.from ? state.from : "", to: state.to !== DEF.to ? state.to : "",
+      lg: state.league !== "all" ? state.league : "", pos: state.pos !== "all" ? state.pos : "",
+      team: state.team !== "all" ? state.team : "", all: state.q ? "" : "1", name: state.text,
+      sort: state.sort === null ? "" : state.sort, dir: state.sort === null ? "" : (state.dir > 0 ? "asc" : "desc")
+    });
+  }
+  CVR.on("rankings", function(args, P){
+    if (!ROWS.length || !Object.keys(P).length) return;
+    var yr = function(v, d){ v = parseInt(v, 10); return isNaN(v) ? d : Math.max(DEF.from, Math.min(DEF.to, v)); };
+    state.basis = /^(full|base|po|career)$/.test(P.score || "") ? P.score : "full";
+    state.view = /^(best|champ|lift)$/.test(P.view || "") ? P.view : "all";
+    state.from = yr(P.from, DEF.from); state.to = yr(P.to, DEF.to); if (state.from > state.to) state.to = state.from;
+    state.league = P.lg === "0" || P.lg === "1" ? P.lg : "all";
+    state.pos = /^(PG|SG|SF|PF|C)$/.test(P.pos || "") ? P.pos : "all";
+    var fTeam = document.getElementById("f-team");
+    state.team = P.team && fTeam.querySelector("option[value='" + P.team.replace(/[^A-Z0-9]/g, "") + "']") ? P.team : "all";
+    state.q = P.all !== "1"; state.text = P.name || "";
+    state.sort = P.sort !== undefined && P.sort !== "" && !isNaN(+P.sort) ? +P.sort : null; state.dir = P.dir === "asc" ? 1 : -1;
+    state.shown = 50;
+    document.querySelectorAll("[data-basis]").forEach(function(x){ x.setAttribute("aria-pressed", String(x.getAttribute("data-basis") === state.basis)); });
+    document.getElementById("f-from").value = state.from; document.getElementById("f-to").value = state.to;
+    document.getElementById("f-league").value = state.league; document.getElementById("f-pos").value = state.pos;
+    fTeam.value = state.team; document.getElementById("f-qual").checked = state.q; document.getElementById("f-search").value = state.text;
+    render();
+  });
   function set(k, v){ state[k] = v; state.shown = 50; if (k === "basis") state.sort = null; render(); }
   document.querySelectorAll("[data-basis]").forEach(function(b){ b.onclick = function(){
     document.querySelectorAll("[data-basis]").forEach(function(x){ x.setAttribute("aria-pressed", String(x === b)); });
@@ -1003,7 +1496,7 @@ td.b3{white-space:normal;min-width:220px;font-size:14.5px}
   document.getElementById("f-team").onchange = function(){ set("team", this.value); };
   head.addEventListener("click", function(e){
     var b = e.target.closest("button[data-sort]"); if (!b) return;
-    var key = +b.getAttribute("data-sort"), cur = state.sort === null ? SK() : state.sort;
+    var key = +b.getAttribute("data-sort"), cur = state.sort === null ? (VIEW() === "lift" ? 22 : SK()) : state.sort;
     var textCol = key === 1 || key === 4 || key === 16;
     if (key === cur) state.dir = (state.sort === null ? -1 : state.dir) * -1; else state.dir = textCol || key === 2 ? 1 : -1;
     state.sort = key; state.shown = 50; render();
@@ -1012,6 +1505,7 @@ td.b3{white-space:normal;min-width:220px;font-size:14.5px}
   document.getElementById("f-qual").onchange = function(){ set("q", this.checked); };
   var tmr; document.getElementById("f-search").oninput = function(){ var v = this.value; clearTimeout(tmr); tmr = setTimeout(function(){ set("text", v.trim()); }, 150); };
   document.getElementById("more").onclick = function(){ state.shown += 50; render(); };
+  route();
 })();
 </script>
 
@@ -1035,9 +1529,10 @@ td.b3{white-space:normal;min-width:220px;font-size:14.5px}
   function phi(x){ var t = 1 / (1 + 0.3275911 * Math.abs(x) / Math.SQRT2), y = 1 - (((((1.061405429 * t - 1.453152027) * t) + 1.421413741) * t - 0.284496736) * t + 0.254829592) * t * Math.exp(-x * x / 2); return x >= 0 ? (1 + y) / 2 : (1 - y) / 2; }
   function gauss(){ var u = 0, v = 0; while (!u) u = Math.random(); while (!v) v = Math.random(); return Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v); }
 
+  var loadP = null;
   function load(){
-    if (T || loading) return; loading = true;
-    Promise.all([fetch("data/teams.json").then(function(r){ return r.json(); }), fetch("data/decades.json").then(function(r){ return r.json(); }), fetch("data/franchises.json").then(function(r){ return r.json(); })]).then(function(d){
+    if (loadP) return loadP;
+    loadP = Promise.all([fetch("data/teams.json").then(function(r){ return r.json(); }), fetch("data/decades.json").then(function(r){ return r.json(); }), fetch("data/franchises.json").then(function(r){ return r.json(); }), window.CV.ready]).then(function(d){
       FR = d[2].franchises;
       META = d[0].meta; T = d[0].rows; DEC = d[1].decades;
       T.forEach(function(r){ BYK[key(r)] = r; (BYSEASON[r[0]] = BYSEASON[r[0]] || []).push(r); });
@@ -1045,7 +1540,37 @@ td.b3{white-space:normal;min-width:220px;font-size:14.5px}
       ["tm", "b3"].forEach(function(m){ picker(m, 0); picker(m, 1); });
       renderTM(); renderB3(); listTM(); listB3(); renderDecades(); renderFranchises();
     }).catch(function(){ ["tm-list", "b3-list"].forEach(function(id){ $(id).innerHTML = "<tr><td class='status'>The team file could not be loaded.</td></tr>"; }); $("dec-grid").innerHTML = "<div class='status'>The decade file could not be loaded.</div>"; });
+    return loadP;
   }
+  // ---- links and addresses
+  function k2u(k){ return k.split("|").join("-"); }
+  function u2k(u){ return String(u).split("-").join("|"); }
+  function nl(name, s0, s1, team, seasonLink){ return window.CV.nameLink(name, s0, s1, team, seasonLink); }
+  function teamKeyByName(season, lgStr, name){
+    var lg = lgStr === "ABA" || lgStr === 1 ? 1 : 0;
+    var t = (BYSEASON[season] || []).filter(function(x){ return x[1] === lg && x[3] === name; })[0];
+    return t ? key(t) : null;
+  }
+  function teamLink(season, lgStr, name, page){
+    var k = teamKeyByName(season, lgStr, name), label = esc(name);
+    return k ? "<a class='tlink' href='" + CVR.build(page || "teams", [k2u(k)]) + "'>" + label + "</a>" : label;
+  }
+  window.CV.loadTeams = function(){
+    return load().then(function(){
+      if (!T) throw new Error("teams");
+      return {byKey: function(s, lg, a){ return BYK[s + "|" + lg + "|" + a]; }, urlKey: function(t){ return k2u(key(t)); }, rows: T, franchises: FR};
+    });
+  };
+  function applySides(m, args){
+    if (!args[0]) return;
+    var ks = args[0].split(",").map(u2k).filter(function(k){ return BYK[k] && (m === "tm" || BYK[k][12]); });
+    if (ks[0]) SEL[m][0] = ks[0]; if (ks[1]) SEL[m][1] = ks[1];
+    picker(m, 0); picker(m, 1);
+  }
+  CVR.on("teams", function(args){ load().then(function(){ if (!T) return; applySides("tm", args); renderTM(); }); });
+  CVR.on("big3", function(args){ load().then(function(){ if (!T) return; applySides("b3", args); renderB3(); }); });
+  CVR.on("decades", function(args){ load().then(function(){ if (!T) return; if (args[0] && DEC[args[0]]) DSEL = args[0]; renderDecades(); }); });
+  CVR.on("franchises", function(args){ load().then(function(){ if (!T) return; if (args[0] && FR[args[0]]) FSEL = args[0]; renderFranchises(); }); });
 
   // ---- pickers
   var SEASONS = [];
@@ -1068,7 +1593,7 @@ td.b3{white-space:normal;min-width:220px;font-size:14.5px}
 
   // ---- Time Machine
   function teamBody(r){
-    var ro = r[13].map(function(p){ return "<tr><td class='nm'>" + esc(p[0]) + "</td><td class='n'>" + esc(p[1] || "") + "</td><td class='n'>" + p[3].toFixed(0) + "%</td><td class='n'>" + f2(p[4]) + "</td><td class='n'>" + f2(p[5]) + "</td></tr>"; }).join("");
+    var ro = r[13].map(function(p){ return "<tr><td class='nm'>" + nl(p[0], r[0], r[0], r[2], true) + "</td><td class='n'>" + esc(p[1] || "") + "</td><td class='n'>" + p[3].toFixed(0) + "%</td><td class='n'>" + f2(p[4]) + "</td><td class='n'>" + f2(p[5]) + "</td></tr>"; }).join("");
     return "<div class='tname'>" + sl(r[0]) + " " + esc(r[3]) + "</div>" +
       "<div class='tsub'><span>W–L <b>" + wl(r) + "</b></span>" + (r[17] !== null ? "<span>Playoffs <b>" + r[17] + "–" + r[18] + "</b></span>" : "") + "<span>#" + r[9] + " all time</span>" + lgPill(r) + result(r) + "</div>" +
       "<div class='rating'><span class='big'>" + sgn(r[6]) + "</span><span>Team rating: points per game above an average team of its era</span></div>" +
@@ -1106,6 +1631,7 @@ td.b3{white-space:normal;min-width:220px;font-size:14.5px}
     var hi = s.aHigh ? a : b;
     $("tm-cap").textContent = "Home court goes to the higher-rated team (" + sl(hi[0]) + " " + hi[3] + "), in a 2-2-1-1-1 format, worth about " + META.home.toFixed(0) + " points a game as measured in real playoff games. Single-game chances: " + s.p.map(function(x){ return Math.round(x * 100) + "%"; }).join(", ") + " for " + sl(a[0]) + " " + a[3] + " in games 1–7.";
     $("tm-games").innerHTML = ""; $("tm-verdict").textContent = "";
+    CVR.replace("teams", [SEL.tm.map(k2u).join(",")]);
   }
   var playing = null;
   function play(){
@@ -1137,7 +1663,7 @@ td.b3{white-space:normal;min-width:220px;font-size:14.5px}
   // ---- Big 3
   function b3Body(r){
     var mx = 16;
-    var ps = r[12].map(function(p){ return "<div class='b3p'><span class='nm'>" + esc(p[0]) + "<small>" + esc(p[1] || "") + "</small></span><span class='v'>" + p[2].toFixed(2) + "</span><span class='track'><i style='width:" + Math.max(0, Math.min(100, p[2] / mx * 100)) + "%'></i></span></div>"; }).join("");
+    var ps = r[12].map(function(p){ return "<div class='b3p'><span class='nm'>" + nl(p[0], r[0], r[0], r[2], true) + "<small>" + esc(p[1] || "") + "</small></span><span class='v'>" + p[2].toFixed(2) + "</span><span class='track'><i style='width:" + Math.max(0, Math.min(100, p[2] / mx * 100)) + "%'></i></span></div>"; }).join("");
     return "<div class='tname'>" + sl(r[0]) + " " + esc(r[3]) + "</div>" +
       "<div class='tsub'><span>W–L <b>" + wl(r) + "</b></span><span>#" + r[11] + " Big 3 all time</span>" + lgPill(r) + result(r) + "</div>" +
       "<div class='rating'><span class='big'>" + r[10].toFixed(1) + "</span><span>Big 3 CV: the three season scores added up</span></div><div class='b3list'>" + ps + "</div>";
@@ -1149,29 +1675,30 @@ td.b3{white-space:normal;min-width:220px;font-size:14.5px}
     var d = a[10] - b[10], lead = d >= 0 ? a : b;
     var slots = ["Best player", "Second", "Third"].map(function(lab, i){
       var x = a[12][i], y = b[12][i], e = x[2] - y[2];
-      return "<div class='slot3'><span class='lbl'>" + lab + "</span><div class='who'><b class='edge-a'>" + esc(x[0]) + "</b> " + x[2].toFixed(2) + "<br><b class='edge-b'>" + esc(y[0]) + "</b> " + y[2].toFixed(2) + "</div><div class='lbl' style='margin-top:6px'>Edge: <span class='" + (e >= 0 ? "edge-a" : "edge-b") + "'>" + esc(tag(e >= 0 ? a : b)) + " by " + Math.abs(e).toFixed(2) + "</span></div></div>";
+      return "<div class='slot3'><span class='lbl'>" + lab + "</span><div class='who'><b class='edge-a'>" + nl(x[0], a[0], a[0], a[2], true) + "</b> " + x[2].toFixed(2) + "<br><b class='edge-b'>" + nl(y[0], b[0], b[0], b[2], true) + "</b> " + y[2].toFixed(2) + "</div><div class='lbl' style='margin-top:6px'>Edge: <span class='" + (e >= 0 ? "edge-a" : "edge-b") + "'>" + esc(tag(e >= 0 ? a : b)) + " by " + Math.abs(e).toFixed(2) + "</span></div></div>";
     }).join("");
     var tot = a[10] + b[10];
     $("b3-cmp").innerHTML = "<span class='lbl'>Head to head · spot by spot</span><div class='oddbar'><div class='a' style='flex-basis:" + (a[10] / tot * 100) + "%'>" + esc(tag(a)) + " " + a[10].toFixed(1) + "</div><div class='b' style='flex-basis:" + (b[10] / tot * 100) + "%'>" + b[10].toFixed(1) + " " + esc(tag(b)) + "</div></div>" +
       "<div class='verdict' style='margin:0 0 4px'>" + (Math.abs(d) < 0.05 ? "Dead even." : "<span class='" + (d >= 0 ? "edge-a" : "edge-b") + "'>" + esc(sl(lead[0]) + " " + lead[3]) + "</span> by " + Math.abs(d).toFixed(1) + " CV.") + "</div><div class='slots3'>" + slots + "</div>";
+    CVR.replace("big3", [SEL.b3.map(k2u).join(",")]);
   }
   function listB3(){
     var rows = T.filter(function(r){ return r[10] !== null && (LG.b3 === "all" || r[1] === +LG.b3); }).sort(function(x, y){ return y[10] - x[10]; });
     $("b3-list").innerHTML = rows.slice(0, LIST.b3).map(function(r, i){
-      return "<tr><td class='rk'>" + (i + 1) + "</td><td class='tm'>" + esc(r[3]) + lgPill(r) + "</td><td>" + sl(r[0]) + "</td><td class='b3'>" + r[12].map(function(p){ return esc(p[0]) + " <span class='soft mono' style='font-size:12px'>" + p[2].toFixed(1) + "</span>"; }).join(" · ") + "</td><td class='cv'>" + r[10].toFixed(1) + "</td><td>" + result(r) + "</td><td><div class='row' style='gap:6px;flex-wrap:nowrap'><button type='button' class='pp-close' data-side='0' data-k='" + key(r) + "'>Left</button><button type='button' class='pp-close' data-side='1' data-k='" + key(r) + "'>Right</button></div></td></tr>";
+      return "<tr><td class='rk'>" + (i + 1) + "</td><td class='tm'>" + esc(r[3]) + lgPill(r) + "</td><td>" + sl(r[0]) + "</td><td class='b3'>" + r[12].map(function(p){ return nl(p[0], r[0], r[0], r[2], true) + " <span class='soft mono' style='font-size:12px'>" + p[2].toFixed(1) + "</span>"; }).join(" · ") + "</td><td class='cv'>" + r[10].toFixed(1) + "</td><td>" + result(r) + "</td><td><div class='row' style='gap:6px;flex-wrap:nowrap'><button type='button' class='pp-close' data-side='0' data-k='" + key(r) + "'>Left</button><button type='button' class='pp-close' data-side='1' data-k='" + key(r) + "'>Right</button></div></td></tr>";
     }).join("");
     $("b3-more").hidden = LIST.b3 >= rows.length;
   }
 
   // ---- shared lists
-  function allHTML(all){
+  function allHTML(all, s0, s1){
     return "<div class='allteams'>" + all.map(function(tm, i){ return "<div class='slot3'><span class='lbl'>" + ["1st", "2nd", "3rd"][i] + " team</span><ul class='at'>" +
-      tm.map(function(p){ return "<li><span class='ps'>" + p[0] + "</span><b>" + esc(p[1]) + "</b><span class='n'>" + p[2].toFixed(1) + "</span></li>"; }).join("") + "</ul></div>"; }).join("") + "</div>";
+      tm.map(function(p){ return "<li><span class='ps'>" + p[0] + "</span><b>" + nl(p[1], s0, s1) + "</b><span class='n'>" + p[2].toFixed(1) + "</span></li>"; }).join("") + "</ul></div>"; }).join("") + "</div>";
   }
   function teamTable(list){ return "<div class='tablewrap'><table><thead><tr><th class='num'>#</th><th>Team</th><th>Season</th><th class='num'>W–L</th><th class='num'>Rating</th><th>Result</th></tr></thead><tbody>" +
-    list.map(function(t, i){ return "<tr><td class='rk'>" + (i + 1) + "</td><td class='tm'>" + esc(t[2]) + (t[1] === "ABA" ? " <span class='pill aba'>ABA</span>" : "") + "</td><td>" + sl(t[0]) + "</td><td class='num'>" + (t[4] || "—") + "</td><td class='cv'>" + sgn(t[3]) + "</td><td>" + (t[5] ? "<span class='pill champ'>Champion</span>" : "") + "</td></tr>"; }).join("") + "</tbody></table></div>"; }
+    list.map(function(t, i){ return "<tr><td class='rk'>" + (i + 1) + "</td><td class='tm'>" + teamLink(t[0], t[1], t[2]) + (t[1] === "ABA" ? " <span class='pill aba'>ABA</span>" : "") + "</td><td>" + sl(t[0]) + "</td><td class='num'>" + (t[4] || "—") + "</td><td class='cv'>" + sgn(t[3]) + "</td><td>" + (t[5] ? "<span class='pill champ'>Champion</span>" : "") + "</td></tr>"; }).join("") + "</tbody></table></div>"; }
   function b3Table(list){ return "<div class='tablewrap'><table><thead><tr><th class='num'>#</th><th>Team</th><th>The three</th><th class='num'>Big 3 CV</th></tr></thead><tbody>" +
-    list.map(function(t, i){ return "<tr><td class='rk'>" + (i + 1) + "</td><td class='tm'>" + sl(t[0]) + " " + esc(t[2]) + (t[1] === "ABA" ? " <span class='pill aba'>ABA</span>" : "") + "</td><td class='b3'>" + t[4].map(esc).join(" · ") + "</td><td class='cv'>" + t[3].toFixed(1) + "</td></tr>"; }).join("") + "</tbody></table></div>"; }
+    list.map(function(t, i){ return "<tr><td class='rk'>" + (i + 1) + "</td><td class='tm'>" + sl(t[0]) + " " + teamLink(t[0], t[1], t[2], "big3") + (t[1] === "ABA" ? " <span class='pill aba'>ABA</span>" : "") + "</td><td class='b3'>" + t[4].map(function(n){ return nl(n, t[0], t[0], null, true); }).join(" · ") + "</td><td class='cv'>" + t[3].toFixed(1) + "</td></tr>"; }).join("") + "</tbody></table></div>"; }
 
   // ---- Decades
   var DSEL = null;
@@ -1189,15 +1716,16 @@ td.b3{white-space:normal;min-width:220px;font-size:14.5px}
     }).join("");
     var D = DEC[DSEL], first = +DSEL, last = first + 9;
     var span = sl(Math.max(first, 1952)) + " to " + sl(Math.min(last, 2026));
-    var pl = D.players.map(function(p, i){ return "<tr><td class='rk'>" + (i + 1) + "</td><td class='player'>" + esc(p[0]) + (p[3].indexOf("ABA") > -1 ? " <span class='pill aba'>" + esc(p[3]) + "</span>" : "") + "</td><td class='num'>" + p[2] + "</td><td class='cv'>" + p[1].toFixed(1) + "</td></tr>"; }).join("");
-    var se = D.seasons.map(function(s, i){ return "<tr><td class='rk'>" + (i + 1) + "</td><td class='player'>" + esc(s[0]) + (s[2] === "ABA" ? " <span class='pill aba'>ABA</span>" : "") + "</td><td>" + sl(s[1]) + "</td><td class='cv'>" + s[3].toFixed(2) + "</td><td class='num'>" + s[4].toFixed(2) + "</td><td class='num'>" + f2(s[5]) + "</td></tr>"; }).join("");
-    var te = D.teams.map(function(t, i){ return "<tr><td class='rk'>" + (i + 1) + "</td><td class='tm'>" + esc(t[2]) + (t[1] === "ABA" ? " <span class='pill aba'>ABA</span>" : "") + "</td><td>" + sl(t[0]) + "</td><td class='num'>" + (t[4] || "—") + "</td><td class='cv'>" + sgn(t[3]) + "</td><td>" + (t[5] ? "<span class='pill champ'>Champion</span>" : "") + "</td></tr>"; }).join("");
-    var bb = D.big3.map(function(t, i){ return "<tr><td class='rk'>" + (i + 1) + "</td><td class='tm'>" + sl(t[0]) + " " + esc(t[2]) + (t[1] === "ABA" ? " <span class='pill aba'>ABA</span>" : "") + "</td><td class='b3'>" + t[4].map(esc).join(" · ") + "</td><td class='cv'>" + t[3].toFixed(1) + "</td></tr>"; }).join("");
+    var pl = D.players.map(function(p, i){ return "<tr><td class='rk'>" + (i + 1) + "</td><td class='player'>" + nl(p[0], first, last) + (p[3].indexOf("ABA") > -1 ? " <span class='pill aba'>" + esc(p[3]) + "</span>" : "") + "</td><td class='num'>" + p[2] + "</td><td class='cv'>" + p[1].toFixed(1) + "</td></tr>"; }).join("");
+    var se = D.seasons.map(function(s, i){ return "<tr><td class='rk'>" + (i + 1) + "</td><td class='player'>" + nl(s[0], s[1], s[1], null, true) + (s[2] === "ABA" ? " <span class='pill aba'>ABA</span>" : "") + "</td><td>" + sl(s[1]) + "</td><td class='cv'>" + s[3].toFixed(2) + "</td><td class='num'>" + s[4].toFixed(2) + "</td><td class='num'>" + f2(s[5]) + "</td></tr>"; }).join("");
+    var te = D.teams.map(function(t, i){ return "<tr><td class='rk'>" + (i + 1) + "</td><td class='tm'>" + teamLink(t[0], t[1], t[2]) + (t[1] === "ABA" ? " <span class='pill aba'>ABA</span>" : "") + "</td><td>" + sl(t[0]) + "</td><td class='num'>" + (t[4] || "—") + "</td><td class='cv'>" + sgn(t[3]) + "</td><td>" + (t[5] ? "<span class='pill champ'>Champion</span>" : "") + "</td></tr>"; }).join("");
+    var bb = D.big3.map(function(t, i){ return "<tr><td class='rk'>" + (i + 1) + "</td><td class='tm'>" + sl(t[0]) + " " + teamLink(t[0], t[1], t[2], "big3") + (t[1] === "ABA" ? " <span class='pill aba'>ABA</span>" : "") + "</td><td class='b3'>" + t[4].map(function(n){ return nl(n, t[0], t[0], null, true); }).join(" · ") + "</td><td class='cv'>" + t[3].toFixed(1) + "</td></tr>"; }).join("");
     $("dec-detail").innerHTML = "<span class='eyebrow'>" + span + "</span><h3 class='dt'>The " + dlabel(DSEL) + "</h3>" +
-      "<h4 style='margin-top:18px'>All-Decade teams</h4>" + allHTML(D.all) + "<p class='note' style='font-size:14.5px'>Two guards, two forwards and a center per team, chosen by Decade CV. Position is the one a player was listed at most in the decade.</p>" +
       "<div class='grid2'><div><h4>Best players</h4><div class='tablewrap'><table><thead><tr><th class='num'>#</th><th>Player</th><th class='num'>Seasons</th><th class='num'>Decade CV</th></tr></thead><tbody>" + pl + "</tbody></table></div><p class='note' style='font-size:14.5px'>Decade CV applies the Career CV rule to the seasons inside the decade only.</p></div>" +
       "<div><h4>Best seasons</h4><div class='tablewrap'><table><thead><tr><th class='num'>#</th><th>Player</th><th>Season</th><th class='num'>CV</th><th class='num'>RS</th><th class='num'>PO</th></tr></thead><tbody>" + se + "</tbody></table></div></div>" +
-      "<div><h4>Best teams</h4>" + teamTable(D.teams) + "</div><div><h4>Best Big 3s</h4>" + b3Table(D.big3) + "</div></div>";
+      "<div><h4>Best teams</h4>" + teamTable(D.teams) + "</div><div><h4>Best Big 3s</h4>" + b3Table(D.big3) + "</div></div>" +
+      "<h4 style='margin-top:36px'>All-Decade teams</h4>" + allHTML(D.all, first, last) + "<p class='note' style='font-size:14.5px'>Two guards, two forwards and a center per team, chosen by Decade CV. Position is the one a player was listed at most in the decade.</p>";
+    CVR.replace("decades", [DSEL]);
   }
 
   // ---- Franchises
@@ -1216,14 +1744,15 @@ td.b3{white-space:normal;min-width:220px;font-size:14.5px}
     $("fr-chips").querySelectorAll("[data-fr]").forEach(function(b){ b.setAttribute("aria-pressed", String(b.dataset.fr === FSEL)); });
     var F = FR[FSEL];
     var others = F.names.filter(function(n){ return n[0] !== F.name.replace(/ \(.*\)$/, ""); });
-    var pl = F.players.map(function(p, i){ return "<tr><td class='rk'>" + (i + 1) + "</td><td class='player'>" + esc(p[0]) + "</td><td>" + sl(p[3]) + " to " + sl(p[4]) + "</td><td class='num'>" + p[2] + "</td><td class='cv'>" + p[1].toFixed(1) + "</td></tr>"; }).join("");
-    var se = F.seasons_top.map(function(s, i){ return "<tr><td class='rk'>" + (i + 1) + "</td><td class='player'>" + esc(s[0]) + "</td><td>" + sl(s[1]) + " <span class='soft mono' style='font-size:12px'>" + esc(s[2]) + "</span></td><td class='cv'>" + s[3].toFixed(2) + "</td><td class='num'>" + s[4].toFixed(2) + "</td><td class='num'>" + f2(s[5]) + "</td><td>" + (s[6] ? "<span class='pill champ'>Title</span>" : "") + "</td></tr>"; }).join("");
+    var pl = F.players.map(function(p, i){ return "<tr><td class='rk'>" + (i + 1) + "</td><td class='player'>" + nl(p[0], p[3], p[4]) + "</td><td>" + sl(p[3]) + " to " + sl(p[4]) + "</td><td class='num'>" + p[2] + "</td><td class='cv'>" + p[1].toFixed(1) + "</td></tr>"; }).join("");
+    var se = F.seasons_top.map(function(s, i){ return "<tr><td class='rk'>" + (i + 1) + "</td><td class='player'>" + nl(s[0], s[1], s[1], s[2], true) + "</td><td>" + sl(s[1]) + " <span class='soft mono' style='font-size:12px'>" + esc(s[2]) + "</span></td><td class='cv'>" + s[3].toFixed(2) + "</td><td class='num'>" + s[4].toFixed(2) + "</td><td class='num'>" + f2(s[5]) + "</td><td>" + (s[6] ? "<span class='pill champ'>Title</span>" : "") + "</td></tr>"; }).join("");
     $("fr-detail").innerHTML = "<span class='eyebrow'>" + sl(F.first) + " to " + sl(F.last) + " · " + F.seasons + " seasons · " + F.titles + " title" + (F.titles === 1 ? "" : "s") + "</span><h3 class='dt'>" + esc(F.name) + "</h3>" +
       (others.length ? "<p class='note' style='margin-top:0'>Also played as " + others.map(function(n){ return esc(n[0]) + " (" + sl(n[1]) + (n[2] !== n[1] ? " to " + sl(n[2]) : "") + ")"; }).join(", ") + ".</p>" : "") +
-      "<h4 style='margin-top:18px'>All-Franchise teams</h4>" + allHTML(F.all) + "<p class='note' style='font-size:14.5px'>Two guards, two forwards and a center per team, chosen by Franchise CV: the Career CV rule applied to a player's seasons with this franchise only.</p>" +
       "<div class='grid2'><div><h4>Best players</h4><div class='tablewrap'><table><thead><tr><th class='num'>#</th><th>Player</th><th>With the team</th><th class='num'>Seasons</th><th class='num'>Franchise CV</th></tr></thead><tbody>" + pl + "</tbody></table></div></div>" +
       "<div><h4>Best seasons</h4><div class='tablewrap'><table><thead><tr><th class='num'>#</th><th>Player</th><th>Season</th><th class='num'>CV</th><th class='num'>RS</th><th class='num'>PO</th><th></th></tr></thead><tbody>" + se + "</tbody></table></div></div>" +
-      "<div><h4>Best teams</h4>" + teamTable(F.teams) + "</div><div><h4>Best Big 3s</h4>" + b3Table(F.big3) + "</div></div>";
+      "<div><h4>Best teams</h4>" + teamTable(F.teams) + "</div><div><h4>Best Big 3s</h4>" + b3Table(F.big3) + "</div></div>" +
+      "<h4 style='margin-top:36px'>All-Franchise teams</h4>" + allHTML(F.all, F.first, F.last) + "<p class='note' style='font-size:14.5px'>Two guards, two forwards and a center per team, chosen by Franchise CV: the Career CV rule applied to a player's seasons with this franchise only.</p>";
+    CVR.replace("franchises", [FSEL]);
   }
 
   // ---- events
@@ -1242,8 +1771,8 @@ td.b3{white-space:normal;min-width:220px;font-size:14.5px}
   $("tm-list").addEventListener("click", function(e){ var b = e.target.closest("button[data-k]"); if (b) setSide("tm", +b.dataset.side, b.dataset.k); });
   $("b3-list").addEventListener("click", function(e){ var b = e.target.closest("button[data-k]"); if (b) setSide("b3", +b.dataset.side, b.dataset.k); });
   $("dec-grid").addEventListener("click", function(e){ var b = e.target.closest("[data-dec]"); if (!b) return; DSEL = b.dataset.dec; renderDecades(); var el = $("dec-detail"); if (el.scrollIntoView) el.scrollIntoView({behavior: "smooth", block: "start"}); });
-  function maybe(){ var id = (location.hash || "").slice(1); if (id === "teams" || id === "big3" || id === "decades" || id === "franchises") load(); }
-  window.addEventListener("hashchange", maybe); maybe();
+  var here = CVR.parse().page;
+  if (here === "teams" || here === "big3" || here === "decades" || here === "franchises") CVR.apply();
 })();
 </script>
 </body></html>
