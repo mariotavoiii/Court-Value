@@ -284,6 +284,14 @@ a.tlink:hover{color:var(--blue);text-decoration-color:var(--blue)}
 .stat.lead .big{color:var(--red)}
 .stat small{font:500 12.5px/1.4 var(--mono);color:var(--soft)}
 .pl-why{margin-top:16px;max-width:78ch}
+.comps{margin-top:26px}
+.comps .head-row{margin-bottom:8px}
+.complist{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,200px),1fr));gap:10px}
+.comp{display:flex;flex-direction:column;gap:2px;padding:10px 12px;border:2px solid var(--ink);border-radius:8px;background:var(--card);color:var(--ink);text-decoration:none;box-shadow:3px 3px 0 var(--shadow)}
+.comp:hover{background:var(--hi)}
+.comp .sim{font:400 26px/1 var(--display)}
+.comp b{font-weight:600;font-size:16.5px;line-height:1.2}
+.comp small{font:500 11.5px/1.4 var(--mono);color:var(--soft)}
 .legend{display:flex;gap:6px 18px;flex-wrap:wrap;font:500 12px/1.4 var(--mono);color:var(--soft);margin-top:8px}
 .legend i{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:6px;vertical-align:-1px;border:2px solid var(--blue)}
 .legend i.p{background:var(--red);border-color:var(--red)} .legend i.a{background:var(--blue)} .legend i.o{background:var(--soft);border-color:var(--soft)} .legend i.u{background:var(--card)}
@@ -1155,6 +1163,21 @@ td.lift.up{color:var(--green)} td.lift.down{color:var(--red)}
     if (!detailP) detailP = fetch("data/career_detail.json").then(function(r){ return r.json(); }).then(function(d){ DETAIL = d.rows; }).catch(function(){ DETAIL = {}; });
     return detailP;
   }
+  var COMPS = null, compsP = null;
+  function loadComps(){
+    if (!compsP) compsP = fetch("data/comps.json").then(function(r){ return r.json(); }).then(function(d){ COMPS = d.rows; }).catch(function(){ COMPS = {}; });
+    return compsP;
+  }
+  function compsHTML(pid){
+    var list = COMPS && COMPS[pid]; if (!list || !list.length) return "";
+    var top = list[0][1], word = top >= 85 ? "Close comps" : top >= 72 ? "Nearest comps" : "No close comps; the nearest";
+    return "<div class='comps'><div class='head-row'><div><span class='eyebrow'>Similar careers</span><h3 style='font:400 24px/1.1 var(--display);margin-top:4px'>" + word + "</h3></div>" +
+      "<a href='" + buildHash("compare", [[pid].concat(list.slice(0, 4).map(function(x){ return x[0]; })).join(",")]) + "'>Compare them →</a></div>" +
+      "<div class='complist'>" + list.map(function(x){
+        var c = CBYID[x[0]], sp = fullSpan(x[0]);
+        return "<a class='comp' href='" + phref(x[0]) + "'><span class='sim'>" + x[1] + "</span><b>" + esc(BYID[x[0]][0][1]) + "</b><small>" + (sp ? spanLabel(sp) : "") + (c ? " · Career CV " + c[9].toFixed(1) : "") + "</small></a>";
+      }).join("") + "</div><p class='caption'>Similarity out of 100, from Court Value alone: Career CV, regular-season and playoff peaks, the age he peaked and how his season-by-season curve rose and fell. It measures the shape of a career, not playing style. For active players it compares careers so far.</p></div>";
+  }
   function ordinalRank(n){ return n === null || n === undefined ? null : "#" + n.toLocaleString(); }
   CVR.on("player", function(args){
     if (!ROWS.length) return;   // runs again once the scores arrive
@@ -1165,7 +1188,7 @@ td.lift.up{color:var(--green)} td.lift.down{color:var(--red)}
       return;
     }
     var season = args[1] ? parseInt(args[1], 10) : null;
-    Promise.all([careersP, loadDetail()]).then(function(){ renderPlayer(pid, isNaN(season) ? null : season); });
+    Promise.all([careersP, loadDetail(), loadComps()]).then(function(){ renderPlayer(pid, isNaN(season) ? null : season); });
   });
   function renderPlayer(pid, season){
     var host = document.getElementById("pl-body"), samePlayer = PL.pid === pid;
@@ -1208,6 +1231,7 @@ td.lift.up{color:var(--green)} td.lift.down{color:var(--red)}
     } else if (!c){
       h += "<p class='note pl-why'>Career CV counts only qualified seasons, at least 70% of team games. None of his " + rows.length + " seasons reached that.</p>";
     }
+    h += compsHTML(pid);
     // career chart
     h += "<div class='block' style='padding-top:30px'><div class='head-row'><div><span class='eyebrow'>Season by season</span><h2 style='font-size:clamp(24px,3vw,32px)'>Every season's CV</h2></div></div>" +
       "<div class='chart card' id='pl-chart' style='padding:18px 18px 10px'></div>" +
