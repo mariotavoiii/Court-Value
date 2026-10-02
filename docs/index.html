@@ -265,6 +265,13 @@ td.b3{white-space:normal;min-width:220px;font-size:14.5px}
 .fr-head .tbadge{width:64px;height:64px;font-size:16px}
 .former{margin-top:22px}
 .former summary{cursor:pointer;font:600 13px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;padding:10px 0}
+/* team-coloured franchise charts; titles in gold */
+.teamline{--c:var(--tc)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .teamline{--c:color-mix(in srgb,var(--tc) 55%,#fff)}}
+:root[data-theme="dark"] .teamline{--c:color-mix(in srgb,var(--tc) 55%,#fff)}
+#fr-chart.teamline .line{stroke:var(--c);stroke-width:2.5}
+#fr-chart.teamline .dot{fill:var(--c)}
+#fr-chart .dot.hot,#fr-chart .sdot.title{fill:var(--yellow);stroke:var(--ink);stroke-width:2}
 .fr-nav{display:flex;justify-content:space-between;gap:10px 18px;flex-wrap:wrap;font:600 13px/1.4 var(--mono)}
 /* player pages */
 a.plink{color:inherit;font-weight:inherit}
@@ -1869,23 +1876,39 @@ td.lift.up{color:var(--green)} td.lift.down{color:var(--red)}
   }
   function syncFr(){ CVR.replace("franchises", FSEL ? [FSEL] : [], {vs: FVS.join(","), smooth: FSMOOTH === null ? "" : (FSMOOTH ? "1" : "0")}); }
   // ---- franchise chart: one franchise, or up to three on one chart
+  // team colour for each line; a colour too close to an earlier line's falls back to a contrasting one
+  function hexRGB(h){ return [1, 3, 5].map(function(i){ return parseInt(h.slice(i, i + 2), 16); }); }
+  function near(a, b){   // "redmean" colour distance, closer to how different two colours look
+    var x = hexRGB(a), y = hexRGB(b), rm = (x[0] + y[0]) / 2, dr = x[0]-y[0], dg = x[1]-y[1], db = x[2]-y[2];
+    return Math.sqrt((2 + rm / 256) * dr * dr + 4 * dg * dg + (2 + (255 - rm) / 256) * db * db) < 100;
+  }
+  function lineColors(keys){
+    var out = [], spare = ["#b86e00", "#2f8f5b", "#7b4bc4", "#2458c7", "#d63a2f"];
+    keys.forEach(function(k){
+      var c = TCOL[k];
+      if (!c || out.some(function(o){ return near(o, c); })) c = spare.filter(function(sc){ return !out.some(function(o){ return near(o, sc); }); })[0] || "#57534a";
+      out.push(c);
+    });
+    return out;
+  }
   function frRows(k){ return T.filter(function(t){ return t[19] === k; }).sort(function(a, b){ return a[0] - b[0]; }); }
   function frChart(){
     var host = $("fr-chart"), tools = $("fr-cmp"); if (!host) return;
-    var keys = [FSEL].concat(FVS), smooth = FSMOOTH === null ? keys.length > 1 : FSMOOTH, F = FR[FSEL];
+    var keys = [FSEL].concat(FVS), smooth = FSMOOTH === null ? keys.length > 1 : FSMOOTH, F = FR[FSEL], cols = lineColors(keys);
     // compare controls
     var O = forder(), opts = O.all.filter(function(k){ return keys.indexOf(k) === -1; });
     tools.innerHTML = "<div class='field'><label for='fr-add'>Compare with</label><select id='fr-add'" + (keys.length >= 3 ? " disabled" : "") + "><option value=''>" + (keys.length >= 3 ? "Three is the limit" : "Add a franchise…") + "</option>" +
       opts.map(function(k){ return "<option value='" + k + "'>" + esc(FR[k].name) + "</option>"; }).join("") + "</select></div>" +
-      "<div class='chips' style='margin:0'>" + keys.map(function(k, i){ return "<span class='chip s" + (i + 1) + "'><i></i>" + esc(FR[k].name) + (i ? "<button type='button' aria-label='Remove " + esc(FR[k].name) + "' data-frrm='" + k + "'>×</button>" : "") + "</span>"; }).join("") + "</div>" +
+      "<div class='chips' style='margin:0'>" + keys.map(function(k, i){ return "<span class='chip teamline' style='--tc:" + cols[i] + "'><i></i>" + esc(FR[k].name) + (i ? "<button type='button' aria-label='Remove " + esc(FR[k].name) + "' data-frrm='" + k + "'>×</button>" : "") + "</span>"; }).join("") + "</div>" +
       "<label class='check' for='fr-smooth' style='padding-bottom:0'><input type='checkbox' id='fr-smooth'" + (smooth ? " checked" : "") + "> 5-season average</label>";
     $("fr-add").onchange = function(){ if (this.value){ FVS.push(this.value); frChart(); syncFr(); } };
     $("fr-smooth").onchange = function(){ FSMOOTH = this.checked; frChart(); syncFr(); };
     tools.querySelectorAll("[data-frrm]").forEach(function(b){ b.onclick = function(){ FVS.splice(FVS.indexOf(b.dataset.frrm), 1); frChart(); syncFr(); }; });
     var cap = $("fr-cap");
+    host.classList.toggle("teamline", !!TCOL[FSEL]); host.style.setProperty("--tc", cols[0]);
     if (keys.length === 1 && !smooth){
       var seasons = frRows(FSEL), narrow = host.getBoundingClientRect().width < 600;
-      cap.textContent = "Team rating each season: points per game better than an average team of its era. Red dots won the title. Click a season to open that team in the Time Machine.";
+      cap.textContent = "Team rating each season: points per game better than an average team of its era. Gold dots won the title. Click a season to open that team in the Time Machine.";
       if (seasons.length && window.CV.drawChart) window.CV.drawChart(host, seasons.map(function(t){ return {x: t[0], y: t[6], r: t}; }), {
         width: narrow ? 520 : 1040, height: narrow ? 340 : 280, label: "Team rating by season for " + F.name, yMin: -4, yMax: 4, line: true, r: seasons.length > 40 ? 4 : 5,
         xfmt: function(y){ return sl(y); }, hot: function(p){ return !!p.r[8]; },
@@ -1895,10 +1918,10 @@ td.lift.up{color:var(--green)} td.lift.down{color:var(--red)}
       return;
     }
     cap.textContent = (smooth ? "Each line is a centered 5-season average of team rating, so long eras stand out over single seasons. " : "Team rating each season. ") +
-      "Ringed dots won the title. Hover for every franchise's rating that season" + (keys.length > 1 ? "; click a season two of them played to open that matchup in the Time Machine." : ".");
+      "Gold dots won the title. Hover for every franchise's rating that season" + (keys.length > 1 ? "; click a season two of them played to open that matchup in the Time Machine." : ".");
     var series = keys.map(function(k, i){
       var rows = frRows(k);
-      return {k: k, cls: "s" + (i + 1), pts: rows.map(function(t){
+      return {k: k, color: cols[i], pts: rows.map(function(t){
         var y = t[6];
         if (smooth){ var w = rows.filter(function(u){ return Math.abs(u[0] - t[0]) <= 2; }); y = w.reduce(function(a, u){ return a + u[6]; }, 0) / w.length; }
         return {x: t[0], y: y, r: t};
@@ -1925,15 +1948,15 @@ td.lift.up{color:var(--green)} td.lift.down{color:var(--red)}
     for (var yx = Math.ceil(x0 / xstep) * xstep; yx <= x1; yx += xstep){ var tx = sv("text", {x: X(yx), y: H - 8, "text-anchor": "middle"}, ax); tx.textContent = sl(yx); }
     var xh = sv("line", {y1: m.t, y2: H - m.b, "class": "xhair", visibility: "hidden"}, svgEl), labels = [];
     series.forEach(function(sr){
-      var g = sv("g", {"class": sr.cls}, svgEl), d = "", prev = null;
+      var g = sv("g", {"class": "teamline", style: "--tc:" + sr.color}, svgEl), d = "", prev = null;
       sr.pts.forEach(function(p){ d += (prev !== null && p.x - prev === 1 ? "L" : "M") + X(p.x).toFixed(1) + "," + Y(p.y).toFixed(1); prev = p.x; });
       sv("path", {d: d, "class": "sline", style: "stroke-width:2.5"}, g);
-      sr.pts.forEach(function(p){ if (p.r[8]) sv("circle", {cx: X(p.x), cy: Y(p.y), r: 5, "class": "sdot", style: "stroke:var(--ink);stroke-width:2"}, g); });
-      var last = sr.pts[sr.pts.length - 1]; if (last) labels.push({cls: sr.cls, k: sr.k, x: X(last.x), y: Y(last.y)});
+      sr.pts.forEach(function(p){ if (p.r[8]) sv("circle", {cx: X(p.x), cy: Y(p.y), r: 5, "class": "sdot title"}, g); });
+      var last = sr.pts[sr.pts.length - 1]; if (last) labels.push({color: sr.color, k: sr.k, x: X(last.x), y: Y(last.y)});
     });
     labels.sort(function(a, b){ return a.y - b.y; });
     for (var i = 1; i < labels.length; i++) if (labels[i].y - labels[i - 1].y < 14) labels[i].y = labels[i - 1].y + 14;
-    labels.forEach(function(L){ var g = sv("g", {"class": L.cls}, svgEl); var t = sv("text", {x: L.x + 8, y: L.y + 4, "class": "slabel"}, g); t.textContent = L.k; });
+    labels.forEach(function(L){ var g = sv("g", {"class": "teamline", style: "--tc:" + L.color}, svgEl); var t = sv("text", {x: L.x + 8, y: L.y + 4, "class": "slabel"}, g); t.textContent = L.k; });
     var tip = document.createElement("div"); tip.className = "tip"; tip.hidden = true; host.appendChild(tip);
     var hit = sv("rect", {x: m.l, y: m.t, width: W - m.l - m.r, height: H - m.t - m.b, "class": "hit"}, svgEl);
     function at(clientX){ var box = svgEl.getBoundingClientRect(); return Math.round(x0 + ((clientX - box.left) / box.width * W - m.l) / (W - m.l - m.r) * (x1 - x0)); }
@@ -1942,7 +1965,7 @@ td.lift.up{color:var(--green)} td.lift.down{color:var(--red)}
       xh.setAttribute("x1", X(xv)); xh.setAttribute("x2", X(xv)); xh.setAttribute("visibility", "visible");
       var lines = series.map(function(sr){
         var p = sr.pts.filter(function(q){ return q.x === xv; })[0]; if (!p) return "";
-        return "<span class='key " + sr.cls + "'><i></i>" + esc(p.r[3]) + " <b>" + sgn(p.y) + "</b>" + (smooth ? " <span style='opacity:.7'>(that season " + sgn(p.r[6]) + ")</span>" : "") + (p.r[8] ? " · title" : "") + "</span>";
+        return "<span class='key teamline' style='--tc:" + sr.color + "'><i></i>" + esc(p.r[3]) + " <b>" + sgn(p.y) + "</b>" + (smooth ? " <span style='opacity:.7'>(that season " + sgn(p.r[6]) + ")</span>" : "") + (p.r[8] ? " · title" : "") + "</span>";
       }).filter(Boolean);
       tip.innerHTML = "<b>" + sl(xv) + "</b>" + (lines.length ? lines.join("") : "<span>No season</span>");
       if (narrow){ tip.style.whiteSpace = "normal"; tip.style.maxWidth = (hb.width - 8) + "px"; }
