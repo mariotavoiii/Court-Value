@@ -340,16 +340,13 @@ td.role.p{color:var(--red)} td.role.a{color:var(--blue)} td.role.o{color:var(--s
 .subnav{display:flex;gap:4px;flex-wrap:wrap;margin:0 0 18px;padding-bottom:10px;border-bottom:1px solid var(--rule)}
 .subnav a{font:600 12px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--soft);text-decoration:none;padding:8px 10px;border-radius:3px;border:2px solid transparent}
 .subnav a:hover{color:var(--ink);background:var(--hover)}
-.subnav a[aria-current="page"]{color:var(--ink);border-color:var(--ink)}
+.subnav a[aria-current="page"]{color:var(--ink);border-color:var(--ink);background:none}
+.subnav[hidden]{display:none}
 /* sticky player column and phone tables */
 .tablewrap td.player,.tablewrap th.pcol{position:sticky;left:0;z-index:1;background:var(--paper)}
 tbody tr:hover td.player{background:var(--hover)}
 tr.sel-row td.player{background:var(--hi)}
 .exp,.xrow,.ftoggle{display:none}
-.kindbar{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
-.kindseg{display:inline-flex;border:2px solid var(--ink);border-radius:6px;overflow:hidden}
-.kindseg a{font:600 13px/1 var(--mono);padding:9px 16px;color:var(--ink);background:var(--card);text-decoration:none}
-.kindseg a[aria-current="page"]{background:var(--ink);color:var(--paper)}
 #tr-head th.on{color:var(--ink)}
 td.lift{font:600 14px/1 var(--mono);text-align:right}
 td.lift.up{color:var(--green)} td.lift.down{color:var(--red)}
@@ -388,9 +385,8 @@ td.lift.up{color:var(--green)} td.lift.down{color:var(--red)}
       <b>Court Value</b>
     </a>
     <nav aria-label="Sections">
-      <a href="#rankings" data-nav="rankings">Rankings</a>
-      <a href="#compare" data-nav="compare">Compare</a>
-      <a href="#franchises" data-nav="teams big3 franchises">Teams</a>
+      <a href="#rankings" data-nav="rankings compare player">Players</a>
+      <a href="#franchises" data-nav="franchises teamrank teams big3">Teams</a>
       <a href="#decades" data-nav="decades">Decades</a>
       <a href="#methodology" data-nav="methodology downloads contact">About</a>
     </nav>
@@ -475,9 +471,8 @@ td.lift.up{color:var(--green)} td.lift.down{color:var(--red)}
 </section>
 
 <section id="rankings" data-page hidden>
-  <div class="kindbar"><span class="eyebrow">Rankings</span>
-    <nav class="kindseg" aria-label="Rankings of"><a href="#rankings" data-kind="players">Players</a><a href="#rankings/teams" data-kind="teams">Teams</a></nav></div>
   <div id="rank-players">
+  <span class="eyebrow">Players · Rankings</span>
   <h2 style="margin-top:6px">Every season, ranked</h2>
   <div class="controls" id="rank-controls" role="group" aria-label="Filter rankings">
     <div class="field"><span class="lbl" id="basis-lbl">Score</span>
@@ -509,6 +504,7 @@ td.lift.up{color:var(--green)} td.lift.down{color:var(--red)}
   <p class="note">Click a column heading to sort; click again to reverse. Click a player's name to open his page and that season. Every filter is kept in the address, so you can share the exact view. Positions are each season's listed position from Basketball-Reference, shown for filtering.</p>
   </div>
   <div id="rank-teams" hidden>
+    <span class="eyebrow">Teams · Rankings</span>
     <h2 style="margin-top:6px">Every team, ranked</h2>
     <div class="controls" id="tr-controls" role="group" aria-label="Filter team rankings">
       <div class="field"><span class="lbl" id="tr-lbl">Score</span>
@@ -536,7 +532,7 @@ td.lift.up{color:var(--green)} td.lift.down{color:var(--red)}
 </section>
 
 <section id="compare" data-page hidden>
-  <span class="eyebrow">Compare</span>
+  <span class="eyebrow">Players · Compare</span>
   <h2 style="margin-top:6px">Put careers side by side</h2>
   <p class="lede prose" style="margin-top:12px">Up to five players on one chart, lined up by season, by career year or by age. <mark>The shaded band is where most MVP seasons land.</mark> Add players here, or use the Compare button on any player's page. The address keeps the players and settings, so the view can be shared.</p>
   <div class="controls" role="group" aria-label="Comparison score">
@@ -813,8 +809,10 @@ td.lift.up{color:var(--green)} td.lift.down{color:var(--red)}
     var r = parseHash(), id = r.page, el = document.getElementById(id);
     if (!el || !el.hasAttribute("data-page")) id = "home";
     pages.forEach(function(p){ p.hidden = p.id !== id; });
-    navs.forEach(function(a){ if (a.dataset.nav.split(" ").indexOf(id) > -1) a.setAttribute("aria-current","page"); else a.removeAttribute("aria-current"); });
-    document.querySelectorAll(".subnav a").forEach(function(a){ if (a.getAttribute("href") === "#" + id) a.setAttribute("aria-current","page"); else a.removeAttribute("aria-current"); });
+    var navKey = id === "rankings" && r.args[0] === "teams" ? "teamrank" : id;   // team rankings live at #rankings/teams but belong to Teams
+    navs.forEach(function(a){ if (a.dataset.nav.split(" ").indexOf(navKey) > -1) a.setAttribute("aria-current","page"); else a.removeAttribute("aria-current"); });
+    document.querySelectorAll(".subnav a").forEach(function(a){ if (a.dataset.sub === navKey) a.setAttribute("aria-current","page"); else a.removeAttribute("aria-current"); });
+    document.querySelectorAll("#rankings > .subnav").forEach(function(n){ n.hidden = (n.dataset.group === "teams") !== (navKey === "teamrank"); });
     var view = id + "/" + r.args.join("/");
     if (id === "player" && lastView && lastView.split("/")[1] === r.args[0] && lastView.indexOf("player/") === 0){ /* same player, new season: keep scroll */ }
     else if (view !== lastView) window.scrollTo(0,0);
@@ -824,9 +822,13 @@ td.lift.up{color:var(--green)} td.lift.down{color:var(--red)}
   }
   window.addEventListener("hashchange", route);
   // sub-tabs for grouped sections
-  [[["franchises", "Franchises"], ["teams", "Time Machine"], ["big3", "Big 3"]], [["methodology", "How it works"], ["downloads", "Data"], ["contact", "Contact"]]].forEach(function(g){
-    var html = "<nav class='subnav' aria-label='" + (g[0][0] === "franchises" ? "Teams" : "About") + "'>" + g.map(function(x){ return "<a href='#" + x[0] + "'>" + x[1] + "</a>"; }).join("") + "</nav>";
-    g.forEach(function(x){ document.getElementById(x[0]).insertAdjacentHTML("afterbegin", html); });
+  // [key, label, address, section it sits in]
+  [{name: "players", label: "Players", items: [["rankings", "Rankings", "#rankings", "rankings"], ["compare", "Compare", "#compare", "compare"]]},
+   {name: "teams", label: "Teams", items: [["franchises", "Franchises", "#franchises", "franchises"], ["teamrank", "Rankings", "#rankings/teams", "rankings"], ["teams", "Time Machine", "#teams", "teams"], ["big3", "Big 3", "#big3", "big3"]]},
+   {name: "about", label: "About", items: [["methodology", "How it works", "#methodology", "methodology"], ["downloads", "Data", "#downloads", "downloads"], ["contact", "Contact", "#contact", "contact"]]}].forEach(function(g){
+    var html = "<nav class='subnav' data-group='" + g.name + "' aria-label='" + g.label + "'>" + g.items.map(function(x){ return "<a href='" + x[2] + "' data-sub='" + x[0] + "'>" + x[1] + "</a>"; }).join("") + "</nav>";
+    var done = {};
+    g.items.forEach(function(x){ if (done[x[3]]) return; done[x[3]] = 1; document.getElementById(x[3]).insertAdjacentHTML("afterbegin", html); });
   });
 
   document.querySelectorAll(".ver").forEach(function(el){ el.textContent = CONFIG.version; });
@@ -1571,7 +1573,6 @@ td.lift.up{color:var(--green)} td.lift.down{color:var(--red)}
     RKIND = args[0] === "teams" ? "teams" : "players";
     document.getElementById("rank-players").hidden = RKIND !== "players";
     document.getElementById("rank-teams").hidden = RKIND !== "teams";
-    document.querySelectorAll("[data-kind]").forEach(function(a){ if (a.dataset.kind === RKIND) a.setAttribute("aria-current", "page"); else a.removeAttribute("aria-current"); });
     if (RKIND === "teams"){ if (window.CV.teamRank) window.CV.teamRank(P); return; }
     if (ROWS.length && !Object.keys(P).length) syncRank();
     if (!ROWS.length || !Object.keys(P).length) return;
