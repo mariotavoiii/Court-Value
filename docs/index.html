@@ -346,6 +346,11 @@ td.role.p{color:var(--red)} td.role.a{color:var(--blue)} td.role.o{color:var(--s
 tbody tr:hover td.player{background:var(--hover)}
 tr.sel-row td.player{background:var(--hi)}
 .exp,.xrow,.ftoggle{display:none}
+.kindbar{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.kindseg{display:inline-flex;border:2px solid var(--ink);border-radius:6px;overflow:hidden}
+.kindseg a{font:600 13px/1 var(--mono);padding:9px 16px;color:var(--ink);background:var(--card);text-decoration:none}
+.kindseg a[aria-current="page"]{background:var(--ink);color:var(--paper)}
+#tr-head th.on{color:var(--ink)}
 .presets{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:18px}
 .presets .lbl{margin-right:4px}
 #view-sel{display:none}
@@ -371,7 +376,9 @@ td.lift.up{color:var(--green)} td.lift.down{color:var(--red)}
   #rankings td.cv{font-size:19px}
   .combo input{font-size:15px;padding:12px 14px}
   .ftoggle{display:inline-block}
-  #rank-controls:not(.open) .field.opt,#rank-controls:not(.open) .check{display:none}
+  #rank-controls:not(.open) .field.opt,#rank-controls:not(.open) .check,#tr-controls:not(.open) .field.opt,#tr-controls:not(.open) .check{display:none}
+  #rank-teams td,#rank-teams th{padding-inline:6px}
+  #rank-teams td.tm{min-width:0}
   .mob-a tr>*:nth-child(4),.mob-a tr>*:nth-child(6),.mob-a tr>*:nth-child(7){display:none}
   .mob-b tr>*:nth-child(5),.mob-b tr>*:nth-child(6){display:none}
   .mob-a td.player,.mob-b td.player{min-width:0}
@@ -474,7 +481,9 @@ td.lift.up{color:var(--green)} td.lift.down{color:var(--red)}
 </section>
 
 <section id="rankings" data-page hidden>
-  <span class="eyebrow">Rankings</span>
+  <div class="kindbar"><span class="eyebrow">Rankings</span>
+    <nav class="kindseg" aria-label="Rankings of"><a href="#rankings" data-kind="players">Players</a><a href="#rankings/teams" data-kind="teams">Teams</a></nav></div>
+  <div id="rank-players">
   <h2 style="margin-top:6px">Every season, ranked</h2>
   <div class="presets" role="group" aria-label="Views">
     <span class="lbl">Views</span>
@@ -510,6 +519,32 @@ td.lift.up{color:var(--green)} td.lift.down{color:var(--red)}
   </table></div>
   <button type="button" class="btn secondary more" id="more" hidden>Show 50 more</button>
   <p class="note">Click a column heading to sort; click again to reverse. Click a player's name to open his page and that season. Every filter is kept in the address, so you can share the exact view. Positions are each season's listed position from Basketball-Reference, shown for filtering.</p>
+  </div>
+  <div id="rank-teams" hidden>
+    <h2 style="margin-top:6px">Every team, ranked</h2>
+    <div class="controls" id="tr-controls" role="group" aria-label="Filter team rankings">
+      <div class="field"><span class="lbl" id="tr-lbl">Score</span>
+        <div class="seg" role="group" aria-labelledby="tr-lbl" id="tr-score">
+          <button type="button" data-ts="rating" aria-pressed="true">Rating</button>
+          <button type="button" data-ts="rs" aria-pressed="false">RS</button>
+          <button type="button" data-ts="po" aria-pressed="false">PO</button>
+          <button type="button" data-ts="roster" aria-pressed="false">Roster</button>
+          <button type="button" data-ts="big3" aria-pressed="false">Big 3</button>
+        </div></div>
+      <div class="field opt"><label for="tr-from">From</label><select id="tr-from"></select></div>
+      <div class="field opt"><label for="tr-to">To</label><select id="tr-to"></select></div>
+      <div class="field opt"><label for="tr-lg">League</label><select id="tr-lg"><option value="all">NBA and ABA</option><option value="0">NBA</option><option value="1">ABA</option></select></div>
+      <div class="field opt"><label for="tr-fr">Franchise</label><select id="tr-fr"><option value="all">All franchises</option></select></div>
+      <label class="check" for="tr-champ"><input type="checkbox" id="tr-champ"> Champions only</label>
+      <label class="check" for="tr-best"><input type="checkbox" id="tr-best"> Best season per franchise</label>
+      <button type="button" class="ftoggle" id="tr-ftoggle" aria-expanded="false" aria-controls="tr-controls">Filters</button>
+    </div>
+    <p class="note" id="tr-note"></p>
+    <div class="status" id="tr-count" aria-live="polite" style="margin-top:12px"></div>
+    <div class="tablewrap"><table aria-label="Team rankings"><thead><tr id="tr-head"></tr></thead><tbody id="tr-body"><tr><td class="status">Loading teams…</td></tr></tbody></table></div>
+    <button type="button" class="btn secondary more" id="tr-more" hidden>Show 50 more</button>
+    <p class="note">Every rating is points per game better than an average team of its own league and season, so eras compare fairly. Click a heading to sort. Click a team to open it in the Time Machine. Every filter is kept in the address.</p>
+  </div>
 </section>
 
 <section id="compare" data-page hidden>
@@ -564,7 +599,7 @@ td.lift.up{color:var(--green)} td.lift.down{color:var(--red)}
   </div>
   </div>
   <div class="block">
-    <div class="head-row"><div><span class="eyebrow">All time</span><h2>The best teams</h2></div>
+    <div class="head-row"><div><span class="eyebrow">All time</span><h2>The best teams</h2><a href="#rankings/teams" style="font:600 13px/1 var(--mono)">Full team rankings →</a></div>
       <div class="field"><label for="tm-lg">League</label><select id="tm-lg"><option value="all">NBA and ABA</option><option value="0">NBA</option><option value="1">ABA</option></select></div></div>
     <div class="tablewrap"><table aria-label="Best team-seasons by team rating">
       <thead><tr><th class="num">#</th><th>Team</th><th>Season</th><th class="num">W–L</th><th class="num">Rating</th><th class="num">Roster (CV)</th><th class="num">Regular season</th><th class="num">Playoffs</th><th>Result</th><th></th></tr></thead>
@@ -588,7 +623,7 @@ td.lift.up{color:var(--green)} td.lift.down{color:var(--red)}
   <div class="card odds" id="b3-cmp"></div>
   </div>
   <div class="block">
-    <div class="head-row"><div><span class="eyebrow">All time</span><h2>The best Big 3s</h2></div>
+    <div class="head-row"><div><span class="eyebrow">All time</span><h2>The best Big 3s</h2><a href="#rankings/teams?score=big3" style="font:600 13px/1 var(--mono)">Full Big 3 rankings →</a></div>
       <div class="field"><label for="b3-lg">League</label><select id="b3-lg"><option value="all">NBA and ABA</option><option value="0">NBA</option><option value="1">ABA</option></select></div></div>
     <div class="tablewrap"><table aria-label="Best Big 3s by combined season CV">
       <thead><tr><th class="num">#</th><th>Team</th><th>Season</th><th>The three</th><th class="num">Big 3 CV</th><th>Result</th><th></th></tr></thead>
@@ -1538,7 +1573,9 @@ td.lift.up{color:var(--green)} td.lift.down{color:var(--red)}
     var c = document.getElementById("rank-controls"), open = !c.classList.contains("open");
     c.classList.toggle("open", open); this.setAttribute("aria-expanded", String(open));
   };
+  var RKIND = "players";
   function syncRank(){
+    if (RKIND !== "players") return;
     var nf = (state.from !== DEF.from || state.to !== DEF.to ? 1 : 0) + (state.league !== "all") + (state.pos !== "all") + (state.team !== "all") + (!state.q) + (state.text ? 1 : 0);
     document.getElementById("ftoggle").textContent = "Filters" + (nf ? " · " + nf : "");
     CVR.replace("rankings", [], {
@@ -1550,6 +1587,12 @@ td.lift.up{color:var(--green)} td.lift.down{color:var(--red)}
     });
   }
   CVR.on("rankings", function(args, P){
+    RKIND = args[0] === "teams" ? "teams" : "players";
+    document.getElementById("rank-players").hidden = RKIND !== "players";
+    document.getElementById("rank-teams").hidden = RKIND !== "teams";
+    document.querySelectorAll("[data-kind]").forEach(function(a){ if (a.dataset.kind === RKIND) a.setAttribute("aria-current", "page"); else a.removeAttribute("aria-current"); });
+    if (RKIND === "teams"){ if (window.CV.teamRank) window.CV.teamRank(P); return; }
+    if (ROWS.length && !Object.keys(P).length) syncRank();
     if (!ROWS.length || !Object.keys(P).length) return;
     var yr = function(v, d){ v = parseInt(v, 10); return isNaN(v) ? d : Math.max(DEF.from, Math.min(DEF.to, v)); };
     state.basis = /^(full|base|po|career)$/.test(P.score || "") ? P.score : "full";
@@ -1632,6 +1675,99 @@ td.lift.up{color:var(--green)} td.lift.down{color:var(--red)}
     }).catch(function(){ ["tm-list", "b3-list"].forEach(function(id){ $(id).innerHTML = "<tr><td class='status'>The team file could not be loaded.</td></tr>"; }); $("dec-grid").innerHTML = "<div class='status'>The decade file could not be loaded.</div>"; });
     return loadP;
   }
+  // ---- Team rankings: #rankings/teams
+  var TR = {score: "rating", from: null, to: null, lg: "all", fr: "all", champ: false, best: false, sort: null, dir: -1, shown: 50}, TRDEF = null;
+  var TRK = {rating: 6, rs: 15, po: 16, roster: 14, big3: 10};
+  var TRNOTE = {
+    rating: "<mark>Team rating</mark> blends the regular season (65%) and the playoffs (35%), as in the season score.",
+    rs: "<mark>Regular season:</mark> the team's schedule-adjusted margin blended with what its players' Court Value projects.",
+    po: "<mark>Playoffs:</mark> how the team played against the teams it actually faced, read cautiously for short runs. Teams that missed the playoffs are left out.",
+    roster: "<mark>Roster:</mark> what the players' Court Value alone projects, weighted by minutes.",
+    big3: "<mark>Big 3:</mark> the team's three best qualified seasons by Court Value, added up. Players count where they played at least 30% of the team's games."};
+  function trInit(){
+    if (TRDEF) return;
+    var ys = Object.keys(BYSEASON).map(Number).sort(function(a, b){ return a - b; });
+    TRDEF = {from: ys[0], to: ys[ys.length - 1]}; TR.from = TRDEF.from; TR.to = TRDEF.to;
+    var opt = ys.map(function(y){ return "<option value='" + y + "'>" + sl(y) + "</option>"; }).join("");
+    $("tr-from").innerHTML = opt; $("tr-to").innerHTML = opt;
+    var O = forder();
+    $("tr-fr").innerHTML = "<option value='all'>All franchises</option><optgroup label='Current'>" + O.cur.map(function(k){ return "<option value='" + k + "'>" + esc(FR[k].name) + "</option>"; }).join("") + "</optgroup><optgroup label='Former'>" + O.def.map(function(k){ return "<option value='" + k + "'>" + esc(FR[k].name) + "</option>"; }).join("") + "</optgroup>";
+    function set(k, v){ TR[k] = v; TR.shown = 50; if (k === "score") TR.sort = null; renderTR(); }
+    document.querySelectorAll("[data-ts]").forEach(function(b){ b.onclick = function(){ set("score", b.dataset.ts); }; });
+    $("tr-from").onchange = function(){ var v = +this.value; if (v > TR.to){ TR.to = v; } set("from", v); };
+    $("tr-to").onchange = function(){ var v = +this.value; if (v < TR.from){ TR.from = v; } set("to", v); };
+    $("tr-lg").onchange = function(){ set("lg", this.value); };
+    $("tr-fr").onchange = function(){ set("fr", this.value); };
+    $("tr-champ").onchange = function(){ set("champ", this.checked); };
+    $("tr-best").onchange = function(){ set("best", this.checked); };
+    $("tr-more").onclick = function(){ TR.shown += 50; renderTR(); };
+    $("tr-ftoggle").onclick = function(){ var c = $("tr-controls"), open = !c.classList.contains("open"); c.classList.toggle("open", open); this.setAttribute("aria-expanded", String(open)); };
+    $("tr-head").addEventListener("click", function(e){
+      var b = e.target.closest("button[data-tsort]"); if (!b) return;
+      var k = +b.dataset.tsort, cur = TR.sort === null ? TRK[TR.score] : TR.sort;
+      if (k === cur) TR.dir = (TR.sort === null ? -1 : TR.dir) * -1; else TR.dir = (k === 0 || k === 3) ? 1 : -1;
+      TR.sort = k; TR.shown = 50; renderTR();
+    });
+  }
+  function trApply(P){
+    if (!Object.keys(P).length) return;
+    var yr = function(v, d){ v = parseInt(v, 10); return isNaN(v) ? d : Math.max(TRDEF.from, Math.min(TRDEF.to, v)); };
+    TR.score = TRK.hasOwnProperty(P.score) ? P.score : "rating";
+    TR.from = yr(P.from, TRDEF.from); TR.to = yr(P.to, TRDEF.to); if (TR.from > TR.to) TR.to = TR.from;
+    TR.lg = P.lg === "0" || P.lg === "1" ? P.lg : "all"; TR.fr = FR[P.fr] ? P.fr : "all";
+    TR.champ = P.champ === "1"; TR.best = P.best === "1";
+    TR.sort = P.sort !== undefined && P.sort !== "" && !isNaN(+P.sort) ? +P.sort : null; TR.dir = P.dir === "asc" ? 1 : -1; TR.shown = 50;
+  }
+  function renderTR(){
+    var k = TRK[TR.score];
+    var rows = T.filter(function(t){
+      if (t[0] < TR.from || t[0] > TR.to) return false;
+      if (TR.lg !== "all" && t[1] !== +TR.lg) return false;
+      if (TR.fr !== "all" && t[19] !== TR.fr) return false;
+      if (TR.champ && !t[8]) return false;
+      if (t[k] === null || t[k] === undefined) return false;
+      if (TR.score === "po" && t[17] === null) return false;
+      return true;
+    });
+    if (TR.best){ var bb = {}; rows.forEach(function(t){ if (!bb[t[19]] || t[k] > bb[t[19]][k]) bb[t[19]] = t; }); rows = Object.keys(bb).map(function(f){ return bb[f]; }); }
+    rows.sort(function(a, b){ return b[k] - a[k] || a[0] - b[0]; });
+    var rank = new Map(); rows.forEach(function(t, i){ rank.set(t, i + 1); });
+    if (TR.sort !== null){
+      var sk = TR.sort, dir = TR.dir;
+      rows.sort(function(a, b){
+        var x = sk === 3 ? a[3] : sk === 4 ? (a[4] === null ? null : a[4] / (a[4] + a[5])) : a[sk], y = sk === 3 ? b[3] : sk === 4 ? (b[4] === null ? null : b[4] / (b[4] + b[5])) : b[sk];
+        if (x === null && y === null) return 0; if (x === null) return 1; if (y === null) return -1;
+        return dir * (typeof x === "string" ? x.localeCompare(y) : x - y) || b[k] - a[k];
+      });
+    }
+    var cols = [["#", null, "num"], ["Team", 3, ""], ["Season", 0, ""], ["W–L", 4, "num hide-sm"], ["Rating", 6, "num"], ["Regular season", 15, "num"], ["Playoffs", 16, "num"], ["Roster", 14, "num"], ["Big 3", 10, "num"], ["Result", null, "hide-sm"]];
+    var active = TR.sort === null ? k : TR.sort;
+    $("tr-head").innerHTML = cols.map(function(c){
+      var cls = c[2] + (c[1] !== null && c[1] !== k && [6, 15, 16, 14, 10].indexOf(c[1]) > -1 ? " hide-sm" : "") + (c[1] === k ? " on" : "");
+      if (c[1] === null) return "<th class='" + cls + "'>" + c[0] + "</th>";
+      return "<th class='sort " + cls + "'" + (c[1] === active ? " aria-sort='" + ((TR.sort === null ? -1 : TR.dir) > 0 ? "ascending" : "descending") + "'" : "") + "><button type='button' data-tsort='" + c[1] + "'>" + c[0] + "</button></th>";
+    }).join("");
+    var shown = rows.slice(0, TR.shown);
+    function cell(col, v, txt){ return "<td class='" + (col === k ? "cv" : "num hide-sm") + "'>" + txt + "</td>"; }
+    $("tr-body").innerHTML = shown.length ? shown.map(function(t){
+      var po = t[17] !== null ? sgn(t[16]) + " <span class='soft' style='font-size:12px'>(" + t[17] + "–" + t[18] + ")</span>" : "<span class='soft'>missed</span>";
+      return "<tr><td class='rk'>" + rank.get(t) + "</td><td class='tm'><a class='plink' href='" + CVR.build("teams", [k2u(key(t))]) + "'>" + esc(t[3]) + "</a>" + lgPill(t) + "</td><td>" + sl(t[0]) + "</td><td class='num hide-sm'>" + wl(t) + "</td>" +
+        cell(6, t[6], sgn(t[6])) + cell(15, t[15], sgn(t[15])) + cell(16, t[16], po) + cell(14, t[14], sgn(t[14])) + cell(10, t[10], t[10] === null ? "—" : t[10].toFixed(1)) +
+        "<td class='hide-sm'>" + result(t) + "</td></tr>";
+    }).join("") : "<tr><td colspan='10' class='status'>No teams match these filters.</td></tr>";
+    $("tr-count").textContent = rows.length.toLocaleString() + (TR.best ? " franchises" : " team-seasons") + (rows.length > shown.length ? " · showing " + shown.length : "");
+    $("tr-more").hidden = rows.length <= shown.length;
+    $("tr-note").innerHTML = TRNOTE[TR.score];
+    var nf = (TR.from !== TRDEF.from || TR.to !== TRDEF.to ? 1 : 0) + (TR.lg !== "all") + (TR.fr !== "all") + TR.champ + TR.best;
+    $("tr-ftoggle").textContent = "Filters" + (nf ? " · " + nf : "");
+    document.querySelectorAll("[data-ts]").forEach(function(b){ b.setAttribute("aria-pressed", String(b.dataset.ts === TR.score)); });
+    $("tr-from").value = TR.from; $("tr-to").value = TR.to; $("tr-lg").value = TR.lg; $("tr-fr").value = TR.fr; $("tr-champ").checked = TR.champ; $("tr-best").checked = TR.best;
+    CVR.replace("rankings", ["teams"], {score: TR.score === "rating" ? "" : TR.score, from: TR.from !== TRDEF.from ? TR.from : "", to: TR.to !== TRDEF.to ? TR.to : "",
+      lg: TR.lg !== "all" ? TR.lg : "", fr: TR.fr !== "all" ? TR.fr : "", champ: TR.champ ? "1" : "", best: TR.best ? "1" : "",
+      sort: TR.sort === null ? "" : TR.sort, dir: TR.sort === null ? "" : (TR.dir > 0 ? "asc" : "desc")});
+  }
+  window.CV.teamRank = function(P){ load().then(function(){ if (!T) return; trInit(); trApply(P); renderTR(); }); };
+
   // ---- links and addresses
   function k2u(k){ return k.split("|").join("-"); }
   function u2k(u){ return String(u).split("-").join("|"); }
