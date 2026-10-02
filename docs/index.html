@@ -284,7 +284,7 @@ a.tlink:hover{color:var(--blue);text-decoration-color:var(--blue)}
 .stat.lead .big{color:var(--red)}
 .stat small{font:500 12.5px/1.4 var(--mono);color:var(--soft)}
 .pl-why{margin-top:16px;max-width:78ch}
-.comps{margin-top:26px}
+.comps{margin-top:40px;padding-top:24px;border-top:3px solid var(--ink)}
 .comps .head-row{margin-bottom:8px}
 .complist{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,200px),1fr));gap:10px}
 .comp{display:flex;flex-direction:column;gap:2px;padding:10px 12px;border:2px solid var(--ink);border-radius:8px;background:var(--card);color:var(--ink);text-decoration:none;box-shadow:3px 3px 0 var(--shadow)}
@@ -1231,7 +1231,6 @@ td.lift.up{color:var(--green)} td.lift.down{color:var(--red)}
     } else if (!c){
       h += "<p class='note pl-why'>Career CV counts only qualified seasons, at least 70% of team games. None of his " + rows.length + " seasons reached that.</p>";
     }
-    h += compsHTML(pid);
     // career chart
     h += "<div class='block' style='padding-top:30px'><div class='head-row'><div><span class='eyebrow'>Season by season</span><h2 style='font-size:clamp(24px,3vw,32px)'>Every season's CV</h2></div></div>" +
       "<div class='chart card' id='pl-chart' style='padding:18px 18px 10px'></div>" +
@@ -1251,6 +1250,7 @@ td.lift.up{color:var(--green)} td.lift.down{color:var(--red)}
         return "<tr" + (season === r[2] ? " class='sel-row'" : "") + "><td><a class='tlink' href='" + phref(pid, r[2]) + "'>" + seasonLabel(r[2]) + "</a></td><td class='num hide-sm'>" + (r[21] || "—") + "</td><td class='mono' style='font-size:13px'>" + esc(r[4]) + "</td><td class='num'>" + r[5] + "</td><td class='num hide-sm'>" + (r[6] || "—") + "</td><td class='cv'>" + fmt(r[9]) + "</td><td class='num'>" + fmt(r[10]) + "</td><td class='num'>" + fmt(r[11]) + "</td><td class='num'>" + (r[7] && r[12] !== null ? r[12] : "—") + "</td><td class='num hide-sm'>" + (r[7] && r[13] !== null ? r[13].toLocaleString() : "—") + "</td><td class='role " + ro + "'>" + ROLE[ro] + "</td><td class='hide-sm'>" + st.join(" ") + "</td></tr>";
       }).join("") + "</tbody></table></div>" +
       "<p class='note'>Rank is his place in that season, All time his place among every qualified season since 1952, both by season CV. Prime and Adds show the seasons that make up his Career CV.</p></div>";
+    h += compsHTML(pid);
     host.innerHTML = h;
     var find = document.getElementById("pl-find");
     find.addEventListener("change", function(){ var p = NAMEIDX[find.value]; if (p) location.hash = phref(p); });
