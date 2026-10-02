@@ -1266,7 +1266,7 @@ td.lift.up{color:var(--green)} td.lift.down{color:var(--red)}
     if (sr.length){
       fillTeams(sr[0], name);
       var card = document.getElementById("pl-season");
-      if (card && card.scrollIntoView) card.scrollIntoView(samePlayer ? {behavior: "smooth", block: "nearest"} : {block: "start"});
+      if (samePlayer && card && card.scrollIntoView) card.scrollIntoView({behavior: "smooth", block: "nearest"});   // new arrivals start at the top
     }
   }
   function seasonDetail(r, ro, name){
