@@ -1176,7 +1176,7 @@ td.lift.up{color:var(--green)} td.lift.down{color:var(--red)}
       "<div class='complist'>" + list.map(function(x){
         var c = CBYID[x[0]], sp = fullSpan(x[0]);
         return "<a class='comp' href='" + phref(x[0]) + "'><span class='sim'>" + x[1] + "</span><b>" + esc(BYID[x[0]][0][1]) + "</b><small>" + (sp ? spanLabel(sp) : "") + (c ? " · Career CV " + c[9].toFixed(1) : "") + "</small></a>";
-      }).join("") + "</div><p class='caption'>Similarity out of 100, from Court Value alone: Career CV, regular-season and playoff peaks, the age he peaked and how his season-by-season curve rose and fell. It measures the shape of a career, not playing style. For active players it compares careers so far.</p></div>";
+      }).join("") + "</div><p class='caption'>Similarity out of 100, from Court Value alone: Career CV, regular-season and playoff peaks, the age he peaked and how his season-by-season curve rose and fell. Comps come from his listed position or the one next to it (PG–SG–SF–PF–C). It measures the shape of a career, not playing style. For active players it compares careers so far.</p></div>";
   }
   function ordinalRank(n){ return n === null || n === undefined ? null : "#" + n.toLocaleString(); }
   CVR.on("player", function(args){
