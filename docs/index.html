@@ -1653,7 +1653,12 @@ td.lift.up{color:var(--green)} td.lift.down{color:var(--red)}
   CVR.on("teams", function(args){ load().then(function(){ if (!T) return; applySides("tm", args); renderTM(); }); });
   CVR.on("big3", function(args){ load().then(function(){ if (!T) return; applySides("b3", args); renderB3(); }); });
   CVR.on("decades", function(args){ load().then(function(){ if (!T) return; if (args[0] && DEC[args[0]]) DSEL = args[0]; renderDecades(); }); });
-  CVR.on("franchises", function(args){ load().then(function(){ if (!T) return; FSEL = args[0] && FR[args[0]] ? args[0] : null; renderFranchises(); }); });
+  CVR.on("franchises", function(args, params){ load().then(function(){
+    if (!T) return; FSEL = args[0] && FR[args[0]] ? args[0] : null;
+    FVS = (params.vs || "").split(",").filter(function(k){ return FR[k] && k !== FSEL; }).slice(0, 2);
+    FSMOOTH = params.smooth === "1" ? true : params.smooth === "0" ? false : null;
+    renderFranchises();
+  }); });
 
   // ---- pickers
   var SEASONS = [];
@@ -1813,7 +1818,7 @@ td.lift.up{color:var(--green)} td.lift.down{color:var(--red)}
   }
 
   // ---- Franchises: #franchises is the hub, #franchises/<key> a franchise's page
-  var FSEL = null, FORDER = null;
+  var FSEL = null, FORDER = null, FVS = [], FSMOOTH = null;
   // Primary team colours for the badges (plain colour blocks, no logos)
   var TCOL = {ATL:"#C8102E",BOS:"#007A33",BRK:"#111111",CHO:"#1D1160",CHI:"#CE1141",CLE:"#860038",DAL:"#00538C",DEN:"#0E2240",DET:"#C8102E",GSW:"#1D428A",
     HOU:"#CE1141",IND:"#002D62",LAC:"#C8102E",LAL:"#552583",MEM:"#5D76A9",MIA:"#98002E",MIL:"#00471B",MIN:"#0C2340",NOP:"#0C2340",NYK:"#F58426",OKC:"#007AC1",
@@ -1852,23 +1857,107 @@ td.lift.up{color:var(--green)} td.lift.down{color:var(--red)}
     var seasons = T.filter(function(t){ return t[19] === FSEL; }).sort(function(a, b){ return a[0] - b[0]; });
     $("fr-detail").innerHTML = "<div class='fr-head'>" + badge(FSEL) + "<div><span class='eyebrow'>" + sl(F.first) + " to " + sl(F.last) + " · " + F.seasons + " seasons · " + F.titles + " title" + (F.titles === 1 ? "" : "s") + "</span><h3 class='dt'>" + esc(F.name) + "</h3></div></div>" +
       (others.length ? "<p class='note' style='margin-top:0'>Also played as " + others.map(function(n){ return esc(n[0]) + " (" + sl(n[1]) + (n[2] !== n[1] ? " to " + sl(n[2]) : "") + ")"; }).join(", ") + ".</p>" : "") +
-      "<h4 style='margin-top:22px'>Season by season</h4><div class='chart card' id='fr-chart' style='padding:18px 18px 10px'></div>" +
-      "<p class='caption'>Team rating each season: points per game better than an average team of its era. Red dots won the title. Click a season to open that team in the Time Machine.</p>" +
+      "<h4 style='margin-top:22px'>Season by season</h4><div class='controls' id='fr-cmp' style='padding-top:4px'></div><div class='chart card' id='fr-chart' style='padding:18px 18px 10px'></div>" +
+      "<p class='caption' id='fr-cap'></p>" +
       "<div class='grid2'><div><h4>Best players</h4><div class='tablewrap'><table><thead><tr><th class='num'>#</th><th>Player</th><th>With the team</th><th class='num'>Seasons</th><th class='num'>Franchise CV</th></tr></thead><tbody>" + pl + "</tbody></table></div></div>" +
       "<div><h4>Best seasons</h4><div class='tablewrap'><table><thead><tr><th class='num'>#</th><th>Player</th><th>Season</th><th class='num'>CV</th><th class='num'>RS</th><th class='num'>PO</th><th></th></tr></thead><tbody>" + se + "</tbody></table></div></div>" +
       "<div><h4>Best teams</h4>" + teamTable(F.teams) + "</div><div><h4>Best Big 3s</h4>" + b3Table(F.big3) + "</div></div>" +
       "<h4 style='margin-top:36px'>All-Franchise teams</h4>" + allHTML(F.all, F.first, F.last) + "<p class='note' style='font-size:14.5px'>Two guards, two forwards and a center per team, chosen by Franchise CV: the Career CV rule applied to a player's seasons with this franchise only.</p>" +
       "<p style='margin-top:28px'>" + "<a class='btn secondary' href='" + CVR.build("franchises", [next]) + "'>Next: " + esc(FR[next].name) + " →</a></p>";
-    var host = $("fr-chart"), narrow = host.getBoundingClientRect().width < 600;
-    if (seasons.length && window.CV.drawChart){
-      window.CV.drawChart(host, seasons.map(function(t){ return {x: t[0], y: t[6], r: t}; }), {
+    frChart();
+    syncFr();
+  }
+  function syncFr(){ CVR.replace("franchises", FSEL ? [FSEL] : [], {vs: FVS.join(","), smooth: FSMOOTH === null ? "" : (FSMOOTH ? "1" : "0")}); }
+  // ---- franchise chart: one franchise, or up to three on one chart
+  function frRows(k){ return T.filter(function(t){ return t[19] === k; }).sort(function(a, b){ return a[0] - b[0]; }); }
+  function frChart(){
+    var host = $("fr-chart"), tools = $("fr-cmp"); if (!host) return;
+    var keys = [FSEL].concat(FVS), smooth = FSMOOTH === null ? keys.length > 1 : FSMOOTH, F = FR[FSEL];
+    // compare controls
+    var O = forder(), opts = O.all.filter(function(k){ return keys.indexOf(k) === -1; });
+    tools.innerHTML = "<div class='field'><label for='fr-add'>Compare with</label><select id='fr-add'" + (keys.length >= 3 ? " disabled" : "") + "><option value=''>" + (keys.length >= 3 ? "Three is the limit" : "Add a franchise…") + "</option>" +
+      opts.map(function(k){ return "<option value='" + k + "'>" + esc(FR[k].name) + "</option>"; }).join("") + "</select></div>" +
+      "<div class='chips' style='margin:0'>" + keys.map(function(k, i){ return "<span class='chip s" + (i + 1) + "'><i></i>" + esc(FR[k].name) + (i ? "<button type='button' aria-label='Remove " + esc(FR[k].name) + "' data-frrm='" + k + "'>×</button>" : "") + "</span>"; }).join("") + "</div>" +
+      "<label class='check' for='fr-smooth' style='padding-bottom:0'><input type='checkbox' id='fr-smooth'" + (smooth ? " checked" : "") + "> 5-season average</label>";
+    $("fr-add").onchange = function(){ if (this.value){ FVS.push(this.value); frChart(); syncFr(); } };
+    $("fr-smooth").onchange = function(){ FSMOOTH = this.checked; frChart(); syncFr(); };
+    tools.querySelectorAll("[data-frrm]").forEach(function(b){ b.onclick = function(){ FVS.splice(FVS.indexOf(b.dataset.frrm), 1); frChart(); syncFr(); }; });
+    var cap = $("fr-cap");
+    if (keys.length === 1 && !smooth){
+      var seasons = frRows(FSEL), narrow = host.getBoundingClientRect().width < 600;
+      cap.textContent = "Team rating each season: points per game better than an average team of its era. Red dots won the title. Click a season to open that team in the Time Machine.";
+      if (seasons.length && window.CV.drawChart) window.CV.drawChart(host, seasons.map(function(t){ return {x: t[0], y: t[6], r: t}; }), {
         width: narrow ? 520 : 1040, height: narrow ? 340 : 280, label: "Team rating by season for " + F.name, yMin: -4, yMax: 4, line: true, r: seasons.length > 40 ? 4 : 5,
         xfmt: function(y){ return sl(y); }, hot: function(p){ return !!p.r[8]; },
         tip: function(p){ var t = p.r; return "<b>" + sl(t[0]) + " " + esc(t[3]) + "</b><br>" + (t[4] !== null ? t[4] + "–" + t[5] + " · " : "") + "rating " + sgn(t[6]) + (t[8] ? " · champion" : ""); },
         onClick: function(p){ location.hash = CVR.build("teams", [k2u(key(p.r))]); }
       });
+      return;
     }
-    CVR.replace("franchises", [FSEL]);
+    cap.textContent = (smooth ? "Each line is a centered 5-season average of team rating, so long eras stand out over single seasons. " : "Team rating each season. ") +
+      "Ringed dots won the title. Hover for every franchise's rating that season" + (keys.length > 1 ? "; click a season two of them played to open that matchup in the Time Machine." : ".");
+    var series = keys.map(function(k, i){
+      var rows = frRows(k);
+      return {k: k, cls: "s" + (i + 1), pts: rows.map(function(t){
+        var y = t[6];
+        if (smooth){ var w = rows.filter(function(u){ return Math.abs(u[0] - t[0]) <= 2; }); y = w.reduce(function(a, u){ return a + u[6]; }, 0) / w.length; }
+        return {x: t[0], y: y, r: t};
+      })};
+    });
+    drawFr(host, series, smooth);
+  }
+  function drawFr(host, series, smooth){
+    var NS = "http://www.w3.org/2000/svg";
+    function sv(tag, a, par){ var e = document.createElementNS(NS, tag); for (var k in a) e.setAttribute(k, a[k]); if (par) par.appendChild(e); return e; }
+    host.innerHTML = "";
+    var narrow = host.getBoundingClientRect().width < 600, W = narrow ? 560 : 1040, H = narrow ? 380 : 300, m = {t: 16, r: narrow ? 50 : 56, b: 30, l: 38};
+    var all = []; series.forEach(function(sr){ all = all.concat(sr.pts); });
+    var xs = all.map(function(p){ return p.x; }), x0 = Math.min.apply(null, xs), x1 = Math.max.apply(null, xs); if (x0 === x1){ x0--; x1++; }
+    var ys = all.map(function(p){ return p.y; }), yMin = Math.min(-4, Math.floor(Math.min.apply(null, ys) / 2) * 2), yMax = Math.max(4, Math.ceil(Math.max.apply(null, ys) / 2) * 2);
+    var X = function(v){ return m.l + (v - x0) / (x1 - x0) * (W - m.l - m.r); }, Y = function(v){ return m.t + (yMax - v) / (yMax - yMin) * (H - m.t - m.b); };
+    var svgEl = sv("svg", {viewBox: "0 0 " + W + " " + H, role: "img", "aria-label": "Team rating by season: " + series.map(function(sr){ return FR[sr.k].name; }).join(", ")}, host);
+    var ax = sv("g", {"class": "axis"}, svgEl), step = (yMax - yMin) > 12 ? 4 : 2;
+    for (var v = Math.ceil(yMin / step) * step; v <= yMax; v += step){
+      sv("line", {x1: m.l, x2: W - m.r, y1: Y(v), y2: Y(v), "class": v === 0 ? "baseline" : "gridline"}, ax);
+      var tt = sv("text", {x: m.l - 8, y: Y(v) + 4, "text-anchor": "end"}, ax); tt.textContent = v;
+    }
+    var xstep = (x1 - x0) > 40 ? (narrow ? 20 : 10) : (narrow ? 8 : 4);
+    for (var yx = Math.ceil(x0 / xstep) * xstep; yx <= x1; yx += xstep){ var tx = sv("text", {x: X(yx), y: H - 8, "text-anchor": "middle"}, ax); tx.textContent = sl(yx); }
+    var xh = sv("line", {y1: m.t, y2: H - m.b, "class": "xhair", visibility: "hidden"}, svgEl), labels = [];
+    series.forEach(function(sr){
+      var g = sv("g", {"class": sr.cls}, svgEl), d = "", prev = null;
+      sr.pts.forEach(function(p){ d += (prev !== null && p.x - prev === 1 ? "L" : "M") + X(p.x).toFixed(1) + "," + Y(p.y).toFixed(1); prev = p.x; });
+      sv("path", {d: d, "class": "sline", style: "stroke-width:2.5"}, g);
+      sr.pts.forEach(function(p){ if (p.r[8]) sv("circle", {cx: X(p.x), cy: Y(p.y), r: 5, "class": "sdot", style: "stroke:var(--ink);stroke-width:2"}, g); });
+      var last = sr.pts[sr.pts.length - 1]; if (last) labels.push({cls: sr.cls, k: sr.k, x: X(last.x), y: Y(last.y)});
+    });
+    labels.sort(function(a, b){ return a.y - b.y; });
+    for (var i = 1; i < labels.length; i++) if (labels[i].y - labels[i - 1].y < 14) labels[i].y = labels[i - 1].y + 14;
+    labels.forEach(function(L){ var g = sv("g", {"class": L.cls}, svgEl); var t = sv("text", {x: L.x + 8, y: L.y + 4, "class": "slabel"}, g); t.textContent = L.k; });
+    var tip = document.createElement("div"); tip.className = "tip"; tip.hidden = true; host.appendChild(tip);
+    var hit = sv("rect", {x: m.l, y: m.t, width: W - m.l - m.r, height: H - m.t - m.b, "class": "hit"}, svgEl);
+    function at(clientX){ var box = svgEl.getBoundingClientRect(); return Math.round(x0 + ((clientX - box.left) / box.width * W - m.l) / (W - m.l - m.r) * (x1 - x0)); }
+    function show(clientX){
+      var xv = Math.max(x0, Math.min(x1, at(clientX))), box = svgEl.getBoundingClientRect(), hb = host.getBoundingClientRect();
+      xh.setAttribute("x1", X(xv)); xh.setAttribute("x2", X(xv)); xh.setAttribute("visibility", "visible");
+      var lines = series.map(function(sr){
+        var p = sr.pts.filter(function(q){ return q.x === xv; })[0]; if (!p) return "";
+        return "<span class='key " + sr.cls + "'><i></i>" + esc(p.r[3]) + " <b>" + sgn(p.y) + "</b>" + (smooth ? " <span style='opacity:.7'>(that season " + sgn(p.r[6]) + ")</span>" : "") + (p.r[8] ? " · title" : "") + "</span>";
+      }).filter(Boolean);
+      tip.innerHTML = "<b>" + sl(xv) + "</b>" + (lines.length ? lines.join("") : "<span>No season</span>");
+      if (narrow){ tip.style.whiteSpace = "normal"; tip.style.maxWidth = (hb.width - 8) + "px"; }
+      tip.hidden = false;
+      var left = box.left - hb.left + X(xv) / W * box.width, tw = tip.offsetWidth / 2 + 4;
+      tip.style.left = Math.max(tw, Math.min(hb.width - tw, left)) + "px"; tip.style.top = (box.top - hb.top + 6) + "px"; tip.style.transform = "translate(-50%, 0)";
+    }
+    hit.addEventListener("pointermove", function(e){ show(e.clientX); });
+    hit.addEventListener("pointerdown", function(e){ show(e.clientX); });
+    hit.addEventListener("pointerleave", function(){ tip.hidden = true; xh.setAttribute("visibility", "hidden"); });
+    hit.addEventListener("click", function(e){
+      var xv = at(e.clientX), have = series.map(function(sr){ return sr.pts.filter(function(q){ return q.x === xv; })[0]; }).filter(Boolean);
+      if (have.length >= 2) location.hash = CVR.build("teams", [k2u(key(have[0].r)) + "," + k2u(key(have[1].r))]);
+      else if (have.length === 1) location.hash = CVR.build("teams", [k2u(key(have[0].r))]);
+    });
   }
 
   // ---- events
