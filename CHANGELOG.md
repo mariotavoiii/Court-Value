@@ -2,6 +2,16 @@
 
 Published scores never change silently. Method changes get a new version; corrections and new seasons get a new data revision. Older releases stay available from their archives.
 
+## Website updates (2026-10-02)
+
+The website changed; **the scores did not.** Season scores remain 2.1.0 and Career CV remains 2.1.1.
+
+- Player pages: Career CV with its prime and other-season parts, the five prime seasons, every season's ranks and playoff context, and the five most similar careers (`docs/data/career_detail.json`, `docs/data/comps.json`).
+- Shareable addresses for every ranking, comparison, matchup, decade and franchise.
+- Search for players, franchises and team-seasons; simpler navigation; rankings that work on phones.
+- Ranking views: best season per player, championship seasons, biggest playoff lifts.
+- Franchise hub with season-by-season team ratings.
+
 ## 2.1.1 (2026-09-30)
 
 - **Career CV centers on the prime.** A career is built on the player's five best qualified seasons, with the playoffs weighing more than they do in a single season. Every other qualified season adds a little, but only for what it gives above All-Star level, so long stretches of ordinary years no longer lift a career.

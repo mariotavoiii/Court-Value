@@ -38,6 +38,17 @@ CV measures realized value and responsibility in a real season. It is not a caus
 
 Career CV is built on a player's five best qualified seasons, with the playoffs weighing more than they do in a single season. Every other qualified season adds a little, but only for what it gives above All-Star level. A great prime decides it; long stretches of ordinary years don't.
 
+## The website
+
+The [website](https://mariotavoiii.github.io/Court-Value/) is built only from the published scores:
+
+- **Rankings** of every season, postseason and career, with views for each player's best season, championship seasons and the biggest playoff lifts (PO minus RS).
+- **Player pages** with Career CV, the five prime seasons and the seasons that add to them, every season's score and ranks, and the five most similar careers.
+- **Compare** up to five careers by season, career year or age.
+- **Teams:** franchise histories, the Time Machine for any two team-seasons, Big 3s, and the best of every decade.
+
+Every view has its own address, so any ranking, comparison or matchup can be shared as a link. The site's data files in `docs/data/` are derived from the published scores and carry the same CC BY 4.0 licence.
+
 ## Method
 
 Court Value draws on:
