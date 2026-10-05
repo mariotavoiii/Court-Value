@@ -357,6 +357,9 @@ td.role.p{color:var(--red)} td.role.a{color:var(--blue)} td.role.o{color:var(--s
 .rlegend i{display:inline-block;width:12px;height:12px;border-radius:50%;border:2px solid var(--ink);box-sizing:border-box;margin-right:6px;vertical-align:-2px;background:var(--blue)}
 .rlegend i.p{background:var(--red)}
 .guide .rlab span.desc{font:400 13.5px/1.3 var(--serif);letter-spacing:0;color:var(--ink);white-space:normal;width:104px}
+.b3names{font:500 12px/1.5 var(--mono);color:var(--soft);margin-top:3px;white-space:normal}
+.b3names a.plink{font-weight:500;text-decoration-color:var(--rule)}
+@media (min-width:900px){.b3names{white-space:nowrap}}
 .guide-list{display:none;margin:12px 0 0;padding:0;list-style:none}
 .guide-list li{display:grid;grid-template-columns:56px minmax(0,1fr);gap:10px;padding:6px 0;border-top:1px dotted var(--rule);font-size:15px}
 .guide-list b{font:400 18px/1.2 var(--display)}
@@ -1867,8 +1870,10 @@ td.lift.up{color:var(--green)} td.lift.down{color:var(--red)}
     function cell(col, v, txt){ return "<td class='" + (col === k ? "cv" : "num hide-sm") + "'>" + txt + "</td>"; }
     $("tr-body").innerHTML = shown.length ? shown.map(function(t){
       var po = t[17] !== null ? sgn(t[16]) + " <span class='soft' style='font-size:12px'>(" + t[17] + "–" + t[18] + ")</span>" : "<span class='soft'>missed</span>";
-      return "<tr><td class='rk'>" + rank.get(t) + "</td><td class='tm'><a class='plink' href='" + CVR.build("teams", [k2u(key(t))]) + "'>" + esc(t[3]) + "</a>" + lgPill(t) + "</td><td>" + sl(t[0]) + "</td><td class='num hide-sm'>" + wl(t) + "</td>" +
-        cell(6, t[6], sgn(t[6])) + cell(15, t[15], sgn(t[15])) + cell(16, t[16], po) + cell(14, t[14], sgn(t[14])) + cell(10, t[10], t[10] === null ? "—" : t[10].toFixed(1)) +
+      var three = (t[12] || []).map(function(p){ return nl(p[0], t[0], t[0], t[2], true); }).join(" · ");
+      return "<tr><td class='rk'>" + rank.get(t) + "</td><td class='tm'><a class='plink' href='" + CVR.build("teams", [k2u(key(t))]) + "'>" + esc(t[3]) + "</a>" + lgPill(t) +
+        (TR.score === "big3" && three ? "<div class='b3names'>" + three + "</div>" : "") + "</td><td>" + sl(t[0]) + "</td><td class='num hide-sm'>" + wl(t) + "</td>" +
+        cell(6, t[6], sgn(t[6])) + cell(15, t[15], sgn(t[15])) + cell(16, t[16], po) + cell(14, t[14], sgn(t[14])) + cell(10, t[10], t[10] === null ? "—" : "<span title='" + esc((t[12] || []).map(function(p){ return p[0] + " " + p[2].toFixed(1); }).join(", ")) + "'>" + t[10].toFixed(1) + "</span>") +
         "<td class='hide-sm'>" + result(t) + "</td></tr>";
     }).join("") : "<tr><td colspan='10' class='status'>No teams match these filters.</td></tr>";
     $("tr-count").textContent = rows.length.toLocaleString() + (TR.best ? " franchises" : " team-seasons") + (rows.length > shown.length ? " · showing " + shown.length : "");
