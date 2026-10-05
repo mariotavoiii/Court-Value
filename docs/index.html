@@ -120,6 +120,7 @@ select,input[type="search"]{font-size:14px;color:var(--ink);background:var(--car
 input[type="search"]{width:min(240px,100%)}
 .seg{display:inline-flex;border:2px solid var(--ink);border-radius:6px;overflow:hidden}
 .seg button{font-size:13px;font-weight:600;padding:9px 13px;border:0;background:var(--card);color:var(--ink);cursor:pointer}
+@media (max-width:420px){.seg button{font-size:12px;padding:8px 8px}}
 .seg button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
 .check{display:flex;gap:8px;align-items:center;font-size:13px;padding-bottom:9px;text-transform:none;letter-spacing:0;color:var(--ink)}
 .note{font-size:15.5px;color:var(--soft);max-width:78ch;margin:10px 0 0}
@@ -165,6 +166,26 @@ pre{font:13px/1.55 var(--mono);background:var(--paper);border:1.5px solid var(--
 .defs{display:grid;grid-template-columns:max-content minmax(0,1fr);gap:8px 18px;margin:10px 0 0;font-size:16.5px}
 .defs dt{font:600 13px/1.6 var(--mono)}
 .defs dd{margin:0;color:var(--soft)}
+/* lines-up:start */
+#lines-up{scroll-margin-top:90px}
+.hbars{display:flex;flex-direction:column;gap:9px;margin-top:14px}
+.hb{display:grid;grid-template-columns:104px minmax(0,1fr) 42px;gap:10px;align-items:center;font:500 13px/1.2 var(--mono)}
+.hb .track{position:relative;height:14px;background:var(--grid);border-radius:3px}
+.hb .fill{position:absolute;inset:0 auto 0 0;background:var(--soft);border-radius:3px;opacity:.55}
+.hb.me .fill{background:var(--blue);opacity:1}
+.hb.me2 .fill{background:var(--blue);opacity:.38}
+.hb.me span:first-child{font-weight:600;color:var(--ink)}
+.hb .mk{position:absolute;top:-4px;bottom:-4px;width:3px;margin-left:-1.5px;background:var(--red);border-radius:1px}
+.hb b{text-align:right;font-weight:600}
+.pair{display:flex;flex-direction:column;gap:5px;padding-top:9px;border-top:2px dotted var(--rule)}
+.pair:first-child{border-top:0;padding-top:0}
+.pair .pl{font:600 12px/1 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--soft)}
+.keyline{font:500 12.5px/1.5 var(--mono);color:var(--soft);margin:10px 0 0}
+.keyline i{display:inline-block;width:3px;height:12px;background:var(--red);vertical-align:-1px;margin-right:6px}
+.bignum{font:400 clamp(44px,6vw,60px)/1 var(--display)}
+.duo{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;margin-top:14px}
+@media (max-width:420px){.duo{grid-template-columns:1fr}}
+/* lines-up:end */
 .dl-row{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:16px;align-items:center;padding-block:18px;border-bottom:1px solid var(--rule)}
 @media (max-width:560px){.dl-row{grid-template-columns:1fr}}
 footer{border-top:3px solid var(--ink);padding-block:22px 40px;font:500 12.5px/1.6 var(--mono);color:var(--soft)}
@@ -457,6 +478,7 @@ td.lift.up{color:var(--green)} td.lift.down{color:var(--red)}
       <span class="eyebrow">NBA 1952–present · ABA 1968–76 · regular season and playoffs</span>
       <h1>Every NBA and ABA season, on one scale.</h1>
       <p class="lede">Court Value rates every player-season since 1952 the same way, regular season and playoffs together: the box score, <mark>how the team did in the games he actually played</mark>, the team's defense and the postseason.</p>
+      <p class="prose" style="margin:0;font-size:17px">Season CV is the résumé, playoffs included. For the regular season alone, the part most metrics and awards judge, rank by <a href="#rankings?score=base">Regular season</a>.</p>
       <div class="finder" role="search">
         <label class="lbl" for="q">Find a player or team</label>
         <div class="combo"><input id="q" type="search" role="combobox" aria-expanded="false" aria-controls="q-list" aria-autocomplete="list" placeholder="Jokić, Celtics, 1996 Bulls…" autocomplete="off" spellcheck="false"><ul id="q-list" role="listbox" aria-label="Matches" hidden></ul></div>
@@ -539,8 +561,8 @@ td.lift.up{color:var(--green)} td.lift.down{color:var(--red)}
     <div class="field"><span class="lbl" id="basis-lbl">Score</span>
       <div class="seg" role="group" aria-labelledby="basis-lbl">
         <button type="button" data-basis="full" aria-pressed="true">Season CV</button>
-        <button type="button" data-basis="base" aria-pressed="false">RS</button>
-        <button type="button" data-basis="po" aria-pressed="false">PO</button>
+        <button type="button" data-basis="base" aria-pressed="false">Regular season</button>
+        <button type="button" data-basis="po" aria-pressed="false">Playoffs</button>
         <button type="button" data-basis="career" aria-pressed="false">Career</button>
       </div>
     </div>
@@ -600,8 +622,8 @@ td.lift.up{color:var(--green)} td.lift.down{color:var(--red)}
     <div class="field"><span class="lbl" id="cmpb-lbl">Score</span>
       <div class="seg" role="group" aria-labelledby="cmpb-lbl">
         <button type="button" data-cb="full" aria-pressed="true">Season CV</button>
-        <button type="button" data-cb="base" aria-pressed="false">RS</button>
-        <button type="button" data-cb="po" aria-pressed="false">PO</button>
+        <button type="button" data-cb="base" aria-pressed="false">Regular season</button>
+        <button type="button" data-cb="po" aria-pressed="false">Playoffs</button>
       </div>
     </div>
     <div class="field"><span class="lbl">Quick picks</span>
@@ -754,6 +776,47 @@ td.lift.up{color:var(--green)} td.lift.down{color:var(--red)}
     </div>
   </div>
 
+  <div class="block" id="lines-up">
+    <span class="eyebrow">Checking the work</span>
+    <h2 style="margin:6px 0 12px">How CV lines up</h2>
+    <p class="lede prose">CV never looks at awards or at other metrics, so both are fair checks. They judge only the regular season, so the fair comparison is CV's regular-season score (RS). <mark>RS matches the All-NBA teams better than any modern metric, and agrees with the metrics about as closely as the voters do.</mark> Season CV adds the playoffs, which none of them judge, so it agrees a little less.</p>
+    <div class="grid2 block" style="padding-top:20px">
+      <div class="card prose">
+        <h3 style="margin-bottom:6px">CV and modern metrics</h3>
+        <p style="margin:0;font-size:16.5px">How closely CV puts every qualified NBA season in the same order as each metric (1.00 is identical order).</p>
+        <div class="hbars"><div class="pair"><span class="pl">Win Shares</span><div class="hb me"><span>CV RS</span><span class="track"><span class="fill" style="width:86.0%"></span><span class="mk" style="left:86.7%"></span></span><b>.86</b></div><div class="hb me2"><span>CV season</span><span class="track"><span class="fill" style="width:81.7%"></span></span><b>.82</b></div></div><div class="pair"><span class="pl">LAKER WAR</span><div class="hb me"><span>CV RS</span><span class="track"><span class="fill" style="width:83.3%"></span><span class="mk" style="left:87.6%"></span></span><b>.83</b></div><div class="hb me2"><span>CV season</span><span class="track"><span class="fill" style="width:79.7%"></span></span><b>.80</b></div></div><div class="pair"><span class="pl">VORP</span><div class="hb me"><span>CV RS</span><span class="track"><span class="fill" style="width:79.9%"></span><span class="mk" style="left:90.2%"></span></span><b>.80</b></div><div class="hb me2"><span>CV season</span><span class="track"><span class="fill" style="width:76.1%"></span></span><b>.76</b></div></div><div class="pair"><span class="pl">PER</span><div class="hb me"><span>CV RS</span><span class="track"><span class="fill" style="width:77.8%"></span><span class="mk" style="left:80.0%"></span></span><b>.78</b></div><div class="hb me2"><span>CV season</span><span class="track"><span class="fill" style="width:76.3%"></span></span><b>.76</b></div></div><div class="pair"><span class="pl">BPM</span><div class="hb me"><span>CV RS</span><span class="track"><span class="fill" style="width:73.1%"></span><span class="mk" style="left:87.8%"></span></span><b>.73</b></div><div class="hb me2"><span>CV season</span><span class="track"><span class="fill" style="width:68.6%"></span></span><b>.69</b></div></div></div>
+        <p class="keyline"><i></i>How closely that metric agrees with the other four</p>
+        <p style="margin:12px 0 0;font-size:16.5px">RS agrees with Win Shares about as closely as the metrics agree with each other. The metrics share inputs CV leaves out, like steals, blocks, turnovers and per-minute rates.</p>
+      </div>
+      <div class="card prose">
+        <h3 style="margin-bottom:6px">CV and the voters</h3>
+        <p style="margin:0;font-size:16.5px">Each season's 10 or 15 best players by RS (as many as made All-NBA that year), against the voters' picks.</p>
+        <div class="duo">
+          <div><div class="bignum" style="color:var(--blue)">74%</div><p style="margin:6px 0 0;font-size:16px">of All-NBA picks are in RS's top group</p></div>
+          <div><div class="bignum" style="color:var(--red)">54%</div><p style="margin:6px 0 0;font-size:16px">of MVPs had the season's highest RS</p></div>
+        </div>
+        <p style="margin:14px 0 0;font-size:16.5px">All-NBA since 1952, MVP since 1956. 93% of MVPs were among the season's top three by RS. Season CV: 70% and 53%.</p>
+      </div>
+    </div>
+    <div class="grid2 block" style="padding-top:26px">
+      <div class="card prose">
+        <h3 style="margin-bottom:6px">Against the voters: CV and the metrics</h3>
+        <p style="margin:0;font-size:16.5px">Each measure's top group that made All-NBA, 1977–2025, the years every metric exists.</p>
+        <div class="hbars"><div class="hb me"><span>CV RS</span><span class="track"><span class="fill" style="width:75.6%"></span></span><b>76%</b></div><div class="hb me2"><span>CV season</span><span class="track"><span class="fill" style="width:71.2%"></span></span><b>71%</b></div><div class="hb "><span>VORP</span><span class="track"><span class="fill" style="width:69.8%"></span></span><b>70%</b></div><div class="hb "><span>PER</span><span class="track"><span class="fill" style="width:69.1%"></span></span><b>69%</b></div><div class="hb "><span>Win Shares</span><span class="track"><span class="fill" style="width:66.9%"></span></span><b>67%</b></div><div class="hb "><span>BPM</span><span class="track"><span class="fill" style="width:66.1%"></span></span><b>66%</b></div><div class="hb "><span>LAKER WAR</span><span class="track"><span class="fill" style="width:65.9%"></span></span><b>66%</b></div></div>
+        <h3 style="margin:20px 0 6px;font-size:19px">Season's #1 won MVP</h3>
+        <div class="hbars"><div class="hb "><span>Win Shares</span><span class="track"><span class="fill" style="width:57.1%"></span></span><b>57%</b></div><div class="hb me"><span>CV RS</span><span class="track"><span class="fill" style="width:55.1%"></span></span><b>55%</b></div><div class="hb "><span>LAKER WAR</span><span class="track"><span class="fill" style="width:53.1%"></span></span><b>53%</b></div><div class="hb "><span>PER</span><span class="track"><span class="fill" style="width:53.1%"></span></span><b>53%</b></div><div class="hb "><span>BPM</span><span class="track"><span class="fill" style="width:53.1%"></span></span><b>53%</b></div><div class="hb me2"><span>CV season</span><span class="track"><span class="fill" style="width:51.0%"></span></span><b>51%</b></div><div class="hb "><span>VORP</span><span class="track"><span class="fill" style="width:51.0%"></span></span><b>51%</b></div></div>
+        <p style="margin:12px 0 0;font-size:16.5px">RS matches the All-NBA teams better than any metric. On the MVP itself, Win Shares does slightly better.</p>
+      </div>
+      <div class="card prose">
+        <h3 style="margin-bottom:6px">Against the metrics: CV and the voters</h3>
+        <p style="margin:0;font-size:16.5px">Overlap with each metric's top group, 1977–2025: CV's, and the All-NBA voters'.</p>
+        <div class="hbars"><div class="pair"><span class="pl">Win Shares</span><div class="hb me"><span>CV RS</span><span class="track"><span class="fill" style="width:65.6%"></span></span><b>66%</b></div><div class="hb me2"><span>CV season</span><span class="track"><span class="fill" style="width:62.9%"></span></span><b>63%</b></div><div class="hb "><span>All-NBA</span><span class="track"><span class="fill" style="width:66.9%"></span></span><b>67%</b></div></div><div class="pair"><span class="pl">LAKER WAR</span><div class="hb me"><span>CV RS</span><span class="track"><span class="fill" style="width:64.6%"></span></span><b>65%</b></div><div class="hb me2"><span>CV season</span><span class="track"><span class="fill" style="width:61.7%"></span></span><b>62%</b></div><div class="hb "><span>All-NBA</span><span class="track"><span class="fill" style="width:65.9%"></span></span><b>66%</b></div></div><div class="pair"><span class="pl">PER</span><div class="hb me"><span>CV RS</span><span class="track"><span class="fill" style="width:68.7%"></span></span><b>69%</b></div><div class="hb me2"><span>CV season</span><span class="track"><span class="fill" style="width:64.0%"></span></span><b>64%</b></div><div class="hb "><span>All-NBA</span><span class="track"><span class="fill" style="width:69.1%"></span></span><b>69%</b></div></div><div class="pair"><span class="pl">VORP</span><div class="hb me"><span>CV RS</span><span class="track"><span class="fill" style="width:69.5%"></span></span><b>70%</b></div><div class="hb me2"><span>CV season</span><span class="track"><span class="fill" style="width:65.0%"></span></span><b>65%</b></div><div class="hb "><span>All-NBA</span><span class="track"><span class="fill" style="width:69.8%"></span></span><b>70%</b></div></div><div class="pair"><span class="pl">BPM</span><div class="hb me"><span>CV RS</span><span class="track"><span class="fill" style="width:66.7%"></span></span><b>67%</b></div><div class="hb me2"><span>CV season</span><span class="track"><span class="fill" style="width:62.8%"></span></span><b>63%</b></div><div class="hb "><span>All-NBA</span><span class="track"><span class="fill" style="width:66.1%"></span></span><b>66%</b></div></div></div>
+        <p style="margin:12px 0 0;font-size:16.5px">On average, RS overlaps the metrics 67%, season CV 63%, and the voters 68%. RS matches the voters (76%) more than it matches any one metric.</p>
+      </div>
+    </div>
+    <p class="note">All numbers use NBA seasons with at least 70% of team games, through 2024–25. Rank agreement is Spearman's correlation. BPM and VORP start in 1973–74 and LAKER WAR in 1976–77. PER, Win Shares, BPM, VORP and awards from Basketball-Reference; LAKER WAR from Neil Paine.</p>
+  </div>
+
   <div class="grid2 block">
     <div class="card prose">
       <h3>What's covered</h3>
@@ -880,6 +943,7 @@ td.lift.up{color:var(--green)} td.lift.down{color:var(--red)}
     lastView = view;
     if (id !== "player") document.title = "Court Value";
     if (HANDLERS[id]) HANDLERS[id](r.args, r.params);
+    if (id === "methodology" && r.args[0]){ var tgt = document.getElementById(r.args[0]); if (tgt) setTimeout(function(){ tgt.scrollIntoView(); }, 0); }
   }
   window.addEventListener("hashchange", route);
   // sub-tabs for grouped sections
@@ -970,7 +1034,7 @@ td.lift.up{color:var(--green)} td.lift.down{color:var(--red)}
   function isCR(){ return state.basis === "career"; }
   function SRC(){ return isCR() ? CROWS : isPO() ? PROWS : isFS() ? FROWS : ROWS; }
   function SRCBY(){ return isPO() ? PBYID : isFS() ? FBYID : BYID; }
-  var BASIS_LABEL = {full: "Season CV", base: "RS", po: "PO", career: "Career CV"};
+  var BASIS_LABEL = {full: "Season CV", base: "Regular season", po: "Playoffs", career: "Career CV"};
   var CBYID = {}, scoresP, careersP, DEF = {from: 0, to: 9999};
   careersP = fetch("data/careers.json").then(function(r){ return r.json(); }).then(function(d){
     CROWS = d.rows; CROWS.forEach(function(r){ CBYID[r[0]] = r; });
@@ -1593,9 +1657,9 @@ td.lift.up{color:var(--green)} td.lift.down{color:var(--red)}
   }
   function render(){
     var full = state.basis === "full", po = isPO(), run = state.basis === "run";
-    var notes = {full: "<mark>Season CV</mark> combines the regular season (RS) and the postseason (PO) on one scale. A team that missed the playoffs counts as league average for the playoff part.",
-      base: "<mark>RS:</mark> the regular season by itself.",
-      po: "<mark>PO:</mark> the postseason by itself, every NBA postseason since 1951–52 and ABA since 1967–68. “Qualified only” keeps players who were qualified in the regular season.",
+    var notes = {full: "<mark>Season CV</mark> is the résumé: the regular season (RS) and the postseason (PO) on one scale. A team that missed the playoffs counts as league average for the playoff part. For how he played before the playoffs, switch to Regular season.",
+      base: "<mark>Regular season (RS):</mark> how he played before the playoffs. It's the part most metrics and awards judge, and the closest match to them (<a href='#methodology/lines-up'>how CV lines up</a>).",
+      po: "<mark>Playoffs (PO):</mark> the postseason by itself, every NBA postseason since 1951–52 and ABA since 1967–68. “Qualified only” keeps players who were qualified in the regular season.",
       career: "<mark>Career CV:</mark> a player's five best seasons, playoffs weighted more heavily, plus a little for every other All-Star-level season. The years filter keeps careers that overlap the chosen range.",
       season: "<mark>Full-season CV</mark> is the regular season plus the playoffs: every playoff game counts as one more game on the same ruler, and a champion adds his title credit scaled by the playoffs' share of his games. Same scale as regular-season CV.",
       run: "<mark>Playoff CV Run</mark> is the postseason résumé: each round counts once, plus capped, responsibility-weighted championship credit. Measured on the regular season's ruler; NBA postseasons from 1951–52.",
