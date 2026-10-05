@@ -56,7 +56,7 @@ nav a[aria-current="page"]{color:var(--ink);background:var(--yellow);color:#1513
 }
 main section{padding-block:36px 72px}
 /* hero */
-.hero{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);gap:40px;align-items:start;padding-block:12px 36px}
+.hero{display:grid;grid-template-columns:minmax(0,760px);gap:40px;align-items:start;padding-block:12px 4px}
 @media (max-width:880px){.hero{grid-template-columns:1fr;gap:28px}}
 .hero .stack{display:flex;flex-direction:column;gap:18px}
 .lede{font-size:clamp(19px,2.1vw,22px);line-height:1.5;max-width:58ch}
@@ -322,6 +322,60 @@ tr.sel-row{background:var(--hi)!important}
 td.role{font:600 11px/1 var(--mono);letter-spacing:.06em;text-transform:uppercase}
 td.role.p{color:var(--red)} td.role.a{color:var(--blue)} td.role.o{color:var(--soft)}
 @media (max-width:640px){.hide-sm{display:none}}
+/* the ruler: one scale for every season since 1952 */
+.ruler{position:relative;margin:0 10px}
+.ruler .rz{position:absolute}
+.ruler .rz.mvp{background:var(--hi)}
+.ruler .rz.top{background:color-mix(in srgb,var(--red) 10%,transparent)}
+.ruler .rzl{position:absolute;padding-left:6px;font:600 10px/1 var(--mono);letter-spacing:.08em;color:var(--soft);white-space:nowrap}
+.ruler .rzl.top{color:var(--red)}
+.ruler .rtrack{position:absolute;left:0;right:0;height:3px;background:var(--ink)}
+.ruler .rtick{position:absolute;width:2px;margin-left:-1px;background:var(--ink)}
+.ruler .rlab{position:absolute;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:4px;text-align:center}
+.ruler .rlab b{font:400 18px/1 var(--display);white-space:nowrap}
+.ruler .rlab span{font:600 9.5px/1.25 var(--mono);letter-spacing:.08em;color:var(--soft);white-space:nowrap}
+.ruler .rdot{position:absolute;width:14px;height:14px;margin-left:-7px;border-radius:50%;border:2px solid var(--ink);box-sizing:border-box;background:var(--blue)}
+.ruler a.rdot:hover{transform:scale(1.35)}
+.ruler .rdot.prime{background:var(--red)}
+.ruler .rnote{position:absolute;font:600 12px/1.3 var(--mono);white-space:nowrap}
+.ruler .rptr{position:absolute;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center}
+.ruler .rptr b{background:var(--ink);color:var(--paper);border-radius:6px;padding:5px 9px;font:400 22px/1 var(--display);white-space:nowrap}
+.ruler .rptr i{width:3px;background:var(--ink)}
+.ruler .rsub{position:absolute;display:flex;flex-direction:column;align-items:center;transform:translateX(-50%);gap:2px;font:600 11px/1 var(--mono);white-space:nowrap}
+.ruler .rsub i{width:0;height:0;border-left:7px solid transparent;border-right:7px solid transparent;border-bottom:11px solid currentColor}
+.ruler .rmark{position:absolute;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;text-decoration:none;color:var(--ink)}
+.ruler .rmark span{font:600 11.5px/1.25 var(--mono);text-align:center;white-space:nowrap}
+.ruler .rmark span small{font:inherit;color:var(--soft)}
+.ruler .rmark i{width:2px;background:var(--ink)}
+.ruler .rmark em{width:13px;height:13px;border-radius:50%;border:2px solid var(--ink);box-sizing:border-box;background:var(--blue)}
+.ruler a.rmark:hover span{color:var(--blue)}
+.ruler-card{margin-top:22px}
+.ruler-card .rhead{display:flex;justify-content:space-between;align-items:baseline;gap:6px 16px;flex-wrap:wrap;margin-bottom:4px}
+.ruler-card .rhead h3{font:400 22px/1.1 var(--display)}
+.ruler-card .rhead span{font:500 12px/1.3 var(--mono);color:var(--soft)}
+.rlegend{display:flex;gap:6px 18px;flex-wrap:wrap;font:500 12px/1 var(--mono);color:var(--soft);margin-top:6px}
+.rlegend i{display:inline-block;width:12px;height:12px;border-radius:50%;border:2px solid var(--ink);box-sizing:border-box;margin-right:6px;vertical-align:-2px;background:var(--blue)}
+.rlegend i.p{background:var(--red)}
+.guide .rlab span.desc{font:400 13.5px/1.3 var(--serif);letter-spacing:0;color:var(--ink);white-space:normal;width:104px}
+.guide-list{display:none;margin:12px 0 0;padding:0;list-style:none}
+.guide-list li{display:grid;grid-template-columns:56px minmax(0,1fr);gap:10px;padding:6px 0;border-top:1px dotted var(--rule);font-size:15px}
+.guide-list b{font:400 18px/1.2 var(--display)}
+@media (max-width:640px){
+  .ruler .rlab span{display:none}
+  .ruler .rlab b{font-size:15px}
+  .guide-list{display:block}
+  .ruler .rmark span small{display:none}
+  .ruler .rmark span{font-size:10px}
+  .ruler .rnote,.ruler .rzl{display:none}
+}
+/* wordmark: the name over a small ruler */
+.wm{display:inline-flex;flex-direction:column;gap:5px}
+.wm b{font:400 24px/1 var(--display)}
+.wm .wmr{position:relative;height:9px}
+.wm .wmr::before{content:"";position:absolute;left:0;right:0;top:3px;height:3px;background:var(--ink)}
+.wm .wmr .m{position:absolute;left:55.56%;width:22.22%;top:0;height:9px;background:var(--yellow);border:2px solid var(--ink);box-sizing:border-box}
+.wm .wmr .t{position:absolute;top:-2px;width:3px;height:13px;background:var(--red);left:77.78%}
+.wm .wmr .e{position:absolute;top:0;width:2px;height:9px;background:var(--ink)}
 /* home search */
 .hero h1{font-size:clamp(36px,5.4vw,64px)}
 .finder{display:flex;flex-direction:column;gap:6px;margin-top:4px;max-width:560px}
@@ -381,8 +435,7 @@ td.lift.up{color:var(--green)} td.lift.down{color:var(--red)}
 <header class="site">
   <div class="wrap bar">
     <a class="brand" href="#home" aria-label="Court Value home">
-      <svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="13.5" fill="var(--yellow)" stroke="var(--ink)" stroke-width="3"/><path d="M4 12.5h24" stroke="var(--red)" stroke-width="3.2"/><path d="M3.4 19.5h25.2" stroke="var(--blue)" stroke-width="3.2"/></svg>
-      <b>Court Value</b>
+      <span class="wm"><b>Court Value</b><span class="wmr" aria-hidden="true"><span class="e" style="left:0"></span><span class="e" style="left:22.22%"></span><span class="m"></span><span class="t"></span><span class="e" style="right:0"></span></span></span>
     </a>
     <nav aria-label="Sections">
       <a href="#rankings" data-nav="rankings compare player">Players</a>
@@ -408,14 +461,18 @@ td.lift.up{color:var(--green)} td.lift.down{color:var(--red)}
       <div class="row actions"><a class="btn" href="#rankings">Explore rankings</a><a class="btn secondary" href="#compare">Compare players</a><a class="btn secondary" href="#teams">Match up teams</a></div>
       <a href="#franchises" style="font:600 13px/1 var(--mono);letter-spacing:.04em">Browse franchise histories →</a>
     </div>
-    <div class="card scale" aria-label="How to read a CV score">
-      <h3>Reading the number</h3>
-      <div class="tick"><b>12+</b><span>All-time territory. 27 qualified seasons have reached it.</span></div>
-      <div class="tick"><b>8–12</b><span>Where most MVP seasons land. The middle half runs 8.2 to 11.5.</span></div>
-      <div class="tick"><b>6</b><span>A typical All-NBA season.</span></div>
-      <div class="tick"><b>4</b><span>A typical All-Star season.</span></div>
-      <div class="tick"><b>0</b><span>That season's average player-game.</span></div>
-    </div>
+  </div>
+
+  <div class="card ruler-card guide" aria-label="How to read a CV score">
+    <div class="rhead"><h3>Reading the number</h3><span>One ruler for 1952 and 2026 alike</span></div>
+    <div id="guide-ruler"></div>
+    <ul class="guide-list">
+      <li><b>12+</b><span>All-time territory. <span class="n12">27</span> qualified seasons have reached it.</span></li>
+      <li><b>8–12</b><span>Where most MVP seasons land. The middle half runs 8.2 to 11.5.</span></li>
+      <li><b>6</b><span>A typical All-NBA season.</span></li>
+      <li><b>4</b><span>A typical All-Star season.</span></li>
+      <li><b>0</b><span>That season's average player-game.</span></li>
+    </ul>
   </div>
 
   <div class="block">
@@ -849,6 +906,53 @@ td.lift.up{color:var(--green)} td.lift.down{color:var(--red)}
   function esc(s){ return String(s).replace(/[&<>"]/g, function(c){ return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]; }); }
   function svg(tag, attrs, parent){ var e = document.createElementNS(NS, tag); for (var k in attrs) e.setAttribute(k, attrs[k]); if (parent) parent.appendChild(e); return e; }
 
+
+  // ---- The ruler: the CV scale (-2 to 16) drawn the same way everywhere
+  function RP(v){ v = Math.max(-2, Math.min(16, v)); return ((v + 2) / 18 * 100).toFixed(2) + "%"; }
+  function RX(v){ return (Math.max(-2, Math.min(16, v)) + 2) / 18; }   // 0..1 across the ruler
+  var RNAMES = {0: "AVERAGE", 4: "ALL-STAR", 6: "ALL-NBA", 8: "MVP", 12: "ALL-TIME", 16: ""};
+  function rulerHTML(o){
+    // o: h (height), zt (zone top), track (track top), names (bool), descs ({value: text}), zoneLabels (bool), marks (html)
+    var h = "<div class='ruler' style='height:" + o.h + "px'>";
+    h += "<div class='rz mvp' style='left:" + RP(8) + ";width:22.22%;top:" + o.zt + "px;height:" + (o.track - o.zt) + "px'></div>";
+    h += "<div class='rz top' style='left:" + RP(12) + ";right:0;top:" + o.zt + "px;height:" + (o.track - o.zt) + "px'></div>";
+    if (o.zoneLabels){ h += "<span class='rzl' style='left:" + RP(8) + ";top:" + (o.zt + 5) + "px'>MVP RANGE</span><span class='rzl top' style='left:" + RP(12) + ";top:" + (o.zt + 5) + "px'>ALL-TIME</span>"; }
+    h += "<div class='rtrack' style='top:" + o.track + "px'></div>";
+    for (var v = -2; v <= 16; v++){
+      var major = RNAMES.hasOwnProperty(v);
+      h += "<div class='rtick' style='left:" + RP(v) + ";top:" + (o.track - (major ? 8 : 4)) + "px;height:" + (major ? 19 : 11) + "px'></div>";
+    }
+    var labs = o.descs ? o.descs : null;
+    (labs ? labs : [0, 4, 6, 8, 12, 16].map(function(v){ return {at: v, v: String(v), name: o.names ? RNAMES[v] : ""}; })).forEach(function(l){
+      h += "<div class='rlab' style='left:" + RP(l.at) + ";top:" + (o.labTop || o.track + 16) + "px'><b" + (l.color ? " style='color:" + l.color + "'" : "") + ">" + l.v + "</b>" + (l.name ? "<span>" + l.name + "</span>" : "") + (l.desc ? "<span class='desc'>" + l.desc + "</span>" : "") + "</div>";
+    });
+    return h + (o.marks || "") + "</div>";
+  }
+  // Season markers stacked so nearby values don't overlap
+  function stackDots(items, gap){
+    var placed = [];
+    return items.slice().sort(function(a, b){ return a.v - b.v; }).map(function(it){
+      var lvl = 0;
+      while (placed.some(function(p){ return p.lvl === lvl && Math.abs(p.v - it.v) < gap; })) lvl++;
+      placed.push({v: it.v, lvl: lvl}); it.lvl = lvl; return it;
+    });
+  }
+  function renderGuide(){
+    var host = document.getElementById("guide-ruler"); if (!host) return;
+    var picks = [["russebi01", 1965], ["chambwi01", 1967], ["onealsh01", 2000], ["jokicni01", 2023]], marks = "";
+    picks.forEach(function(pk, i){
+      var r = (BYID[pk[0]] || []).filter(function(x){ return x[2] === pk[1]; })[0]; if (!r) return;
+      var top = [64, 32, 64, 0][i];   // staggered so neighbouring labels clear each other
+      marks += "<a class='rmark' href='" + phref(r[0], r[2]) + "' style='left:" + RP(r[9]) + ";top:" + top + "px'><span>" + esc(r[1].split(" ").slice(-1)[0]) + "<br><small>" + seasonLabel(r[2]) + " · </small>" + r[9].toFixed(2) + "</span><i style='height:" + (132 - top) + "px'></i><em></em></a>";
+    });
+    var n12 = ROWS.length ? ROWS.filter(function(r){ return r[7] && r[9] >= 12; }).length : 27;
+    document.querySelectorAll(".n12").forEach(function(e){ e.textContent = n12; });
+    host.innerHTML = rulerHTML({h: 262, zt: 20, track: 168, marks: marks, descs: [
+      {at: 0, v: "0", desc: "That season's average player-game"}, {at: 4, v: "4", desc: "A typical All-Star season"},
+      {at: 6, v: "6", desc: "A typical All-NBA season", color: "var(--green)"}, {at: 10, v: "8–12", desc: "Where most MVP seasons land", color: "var(--blue)"},
+      {at: 14, v: "12+", desc: "All-time territory: " + n12 + " seasons", color: "var(--red)"}]});
+  }
+
   // Row fields: 0 id, 1 player, 2 season, 3 lg(0 NBA/1 ABA), 4 teams, 5 g, 6 mp, 7 q, 8 cov, 9 cv, 10 base, 11 def, 12 rs, 13 ra, 14 brs, 15 bra, 16 pos
   var CROWS = [], ROWS = [], BYID = {}, PROWS = [], PBYID = {}, FROWS = [], FBYID = {}, NAMEIDX = {}, state = { basis: "full", from: 0, to: 9999, league: "all", pos: "all", team: "all", q: true, text: "", shown: 50, sort: null, dir: -1, champ: false, best: false };
 
@@ -894,6 +998,7 @@ td.lift.up{color:var(--green)} td.lift.down{color:var(--red)}
     Object.keys(BYID).forEach(function(pid){ var n = BYID[pid][0][1]; (NAMES[n] = NAMES[n] || []).push(pid); });
     renderTop10(); renderBest(); render(); renderTopRuns(); renderCompare();
     if (CROWS.length) renderTopCareers();
+    renderGuide();
     CVR.booted = true;
     CVR.apply();
   });
@@ -1263,6 +1368,18 @@ td.lift.up{color:var(--green)} td.lift.down{color:var(--red)}
     } else if (!c){
       h += "<p class='note pl-why'>Career CV counts only qualified seasons, at least 70% of team games. None of his " + rows.length + " seasons reached that.</p>";
     }
+    // the career on the ruler
+    var qs = rows.filter(function(r){ return r[7] && r[9] !== null; });
+    if (qs.length){
+      var bestR = qs.slice().sort(function(a, b){ return b[9] - a[9]; })[0];
+      var dots = stackDots(qs.map(function(r){ return {v: r[9], r: r}; }), 0.55).map(function(d){
+        return "<a class='rdot" + (roleOf(d.r) === "p" ? " prime" : "") + "' href='" + phref(pid, d.r[2]) + "' title='" + seasonLabel(d.r[2]) + ": " + d.r[9].toFixed(2) + "' aria-label='" + seasonLabel(d.r[2]) + ", CV " + d.r[9].toFixed(2) + "' style='left:" + RP(d.v) + ";top:" + (84 - d.lvl * 16) + "px'></a>";
+      }).join("");
+      var bx = RX(bestR[9]), note = "<span class='rnote' style='left:" + RP(bestR[9]) + ";top:22px;" + (bx > 0.6 ? "transform:translateX(-100%);padding-right:12px;text-align:right" : "padding-left:12px") + "'>" + seasonLabel(bestR[2]) + "<br><span style='color:var(--red)'>" + bestR[9].toFixed(2) + " · best</span></span>";
+      h += "<div class='card ruler-card'><div class='rhead'><h3>His career on the ruler</h3><span>Every qualified season, on the scale used for every season since 1952</span></div>" +
+        rulerHTML({h: 150, zt: 8, track: 106, zoneLabels: true, names: true, marks: dots + note}) +
+        "<div class='rlegend'><span><i class='p'></i>Prime season</span><span><i></i>Other qualified season</span><span>Click a dot for that season.</span></div></div>";
+    }
     // career chart
     h += "<div class='block' style='padding-top:30px'><div class='head-row'><div><span class='eyebrow'>Season by season</span><h2 style='font-size:clamp(24px,3vw,32px)'>Every season's CV</h2></div></div>" +
       "<div class='chart card' id='pl-chart' style='padding:18px 18px 10px'></div>" +
@@ -1321,6 +1438,7 @@ td.lift.up{color:var(--green)} td.lift.down{color:var(--red)}
       u: "<b>Not qualified:</b> he played under 70% of his team's games, so this season isn't ranked on leaderboards or counted in Career CV."}[ro];
     return "<div class='card sdetail' id='pl-season'><div class='pp-head'><div><span class='eyebrow'>" + esc(name) + " · " + esc(r[4]) + (r[21] ? " · age " + r[21] : "") + "</span><h3>" + seasonLabel(r[2]) + champ + aba + "</h3></div>" +
       "<a class='pp-close' href='" + phref(r[0]) + "' style='text-decoration:none'>Close</a></div>" +
+      seasonRuler(r) +
       "<div class='sgrid'><div class='sbox'><span class='lbl'>Season CV</span><div class='v'>" + fmt(r[9]) + "</div><div class='r'>" + rankLine(r[12], r[13], "that season") + "</div></div>" +
       "<div class='sbox'><span class='lbl'>Regular season (RS)</span><div class='v'>" + fmt(r[10]) + "</div><div class='r'>" + rankLine(r[14], r[15], "that season") + "</div></div>" +
       "<div class='sbox'><span class='lbl'>Postseason (PO)</span><div class='v'>" + fmt(r[11]) + "</div><div class='r'>" + poLine + "</div></div></div>" +
@@ -1328,6 +1446,20 @@ td.lift.up{color:var(--green)} td.lift.down{color:var(--red)}
       "<li><b>Playoffs:</b> " + po + "</li><li><b>Career:</b> " + career + "</li>" +
       "<li id='pl-teams'><b>Team:</b> " + esc(r[4]) + "</li>" +
       "<li><a href='" + buildHash("rankings", [], {from: r[2], to: r[2], lg: r[3] ? "1" : ""}) + "'>The full " + seasonLabel(r[2]) + " " + (r[3] ? "ABA" : "NBA") + " leaderboard →</a></li></ul></div>";
+  }
+  function seasonRuler(r){
+    if (r[9] === null) return "";
+    var x = RX(r[9]), align = x > 0.85 ? "translateX(-85%)" : x < 0.15 ? "translateX(-15%)" : "translateX(-50%)";
+    var m = "<div class='rptr' style='left:" + RP(r[9]) + ";top:0;transform:" + align + "'><b>CV " + r[9].toFixed(2) + "</b></div>" +
+      "<div class='rtick' style='left:" + RP(r[9]) + ";top:30px;height:72px;width:3px;margin-left:-1.5px'></div>";
+    function sub(v, lab, col, top){
+      var sx = RX(v), t = sx > 0.9 ? "translateX(-80%)" : sx < 0.1 ? "translateX(-20%)" : "translateX(-50%)";
+      return "<div class='rsub' style='left:" + RP(v) + ";top:" + top + "px;color:" + col + ";transform:" + t + "'><i></i>" + lab + " " + v.toFixed(2) + "</div>";
+    }
+    var close = r[10] !== null && r[11] !== null && Math.abs(RX(r[10]) - RX(r[11])) < 0.09;   // too close: drop the second label lower
+    if (r[10] !== null) m += sub(r[10], "RS", "var(--blue)", 104);
+    if (r[11] !== null) m += sub(r[11], "PO", "var(--red)", close ? 128 : 104);
+    return "<div style='margin:16px 0 4px'>" + rulerHTML({h: close ? 194 : 172, zt: 44, track: 98, labTop: close ? 166 : 142, marks: m}) + "</div>";
   }
   function fillTeams(r, name){
     if (!window.CV.loadTeams) return;
