@@ -1369,21 +1369,21 @@ td.lift.up{color:var(--green)} td.lift.down{color:var(--red)}
       h += "<p class='note pl-why'>Career CV counts only qualified seasons, at least 70% of team games. None of his " + rows.length + " seasons reached that.</p>";
     }
     // the career on the ruler
-    var qs = rows.filter(function(r){ return r[7] && r[9] !== null; });
+    var qs = rows.filter(function(r){ return r[7] && r[9] !== null; }), rulerCard = "";
     if (qs.length){
       var bestR = qs.slice().sort(function(a, b){ return b[9] - a[9]; })[0];
       var dots = stackDots(qs.map(function(r){ return {v: r[9], r: r}; }), 0.55).map(function(d){
         return "<a class='rdot" + (roleOf(d.r) === "p" ? " prime" : "") + "' href='" + phref(pid, d.r[2]) + "' title='" + seasonLabel(d.r[2]) + ": " + d.r[9].toFixed(2) + "' aria-label='" + seasonLabel(d.r[2]) + ", CV " + d.r[9].toFixed(2) + "' style='left:" + RP(d.v) + ";top:" + (84 - d.lvl * 16) + "px'></a>";
       }).join("");
       var bx = RX(bestR[9]), note = "<span class='rnote' style='left:" + RP(bestR[9]) + ";top:22px;" + (bx > 0.6 ? "transform:translateX(-100%);padding-right:12px;text-align:right" : "padding-left:12px") + "'>" + seasonLabel(bestR[2]) + "<br><span style='color:var(--red)'>" + bestR[9].toFixed(2) + " · best</span></span>";
-      h += "<div class='card ruler-card'><div class='rhead'><h3>His career on the ruler</h3><span>Every qualified season, on the scale used for every season since 1952</span></div>" +
+      rulerCard = "<div class='card ruler-card'><div class='rhead'><h3>His career on the ruler</h3><span>Every qualified season, on the scale used for every season since 1952</span></div>" +
         rulerHTML({h: 150, zt: 8, track: 106, zoneLabels: true, names: true, marks: dots + note}) +
         "<div class='rlegend'><span><i class='p'></i>Prime season</span><span><i></i>Other qualified season</span><span>Click a dot for that season.</span></div></div>";
     }
     // career chart
     h += "<div class='block' style='padding-top:30px'><div class='head-row'><div><span class='eyebrow'>Season by season</span><h2 style='font-size:clamp(24px,3vw,32px)'>Every season's CV</h2></div></div>" +
       "<div class='chart card' id='pl-chart' style='padding:18px 18px 10px'></div>" +
-      "<div class='legend'><span><i class='p'></i>Prime season</span><span><i class='a'></i>Adds to Career CV</span><span><i class='o'></i>Qualified, adds nothing</span><span><i class='u'></i>Not qualified</span><span>Click a dot or a season for the details.</span></div></div>";
+      "<div class='legend'><span><i class='p'></i>Prime season</span><span><i class='a'></i>Adds to Career CV</span><span><i class='o'></i>Qualified, adds nothing</span><span><i class='u'></i>Not qualified</span><span>Click a dot or a season for the details.</span></div>" + rulerCard + "</div>";
     // season detail
     var sr = season ? rows.filter(function(r){ return r[2] === season; }) : [];
     if (sr.length) h += seasonDetail(sr[0], roleOf(sr[0]), name);
