@@ -2,6 +2,13 @@
 
 Published scores never change silently. Method changes get a new version; corrections and new seasons get a new data revision. Older releases stay available from their archives.
 
+## WNBA and movie teams (2026-10-07)
+
+NBA and ABA scores did not change.
+
+- **WNBA page.** Every WNBA player-season from 1997 to 2025, regular season and playoffs, scored by the 2.1 rules on the WNBA's own list. It is never mixed with NBA/ABA rankings. Built from season totals (Basketball-Reference, via Neil Paine's WNBA stat sheet). The 2026 season will be added once its numbers are final. Downloads: `PUBLIC_wnba_cv_2_1_scores.csv`, `PUBLIC_wnba_cv_2_1_careers.csv`.
+- **Movie teams in the Time Machine,** just for fun: the Monstars, both Tune Squads, the Goon Squad and Uncle Drew. They are fictional rosters of real player-seasons, rated on the roster scale, and they never appear in rankings (`docs/data/exhibition.json`).
+
 ## Website updates (2026-10-02)
 
 The website changed; **the scores did not.** Season scores remain 2.1.0 and Career CV remains 2.1.1.
