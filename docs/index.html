@@ -454,6 +454,14 @@ td.lift.up{color:var(--green)} td.lift.down{color:var(--red)}
 }
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 </style>
+<!-- wnba:css:start -->
+<style>
+#wnba .wcontrols{display:flex;flex-wrap:wrap;gap:12px 16px;align-items:end;padding-block:18px 10px}
+#wnba td.player{min-width:140px}
+#wnba .wsub{font:500 12.5px/1.4 var(--mono);color:var(--soft)}
+@media (max-width:640px){#wnba .wcontrols .field.opt{flex:1 1 40%}#wnba td,#wnba th{padding-inline:6px}#wnba td.cv{font-size:19px}}
+</style>
+<!-- wnba:css:end -->
 </head><body>
 
 <header class="site">
@@ -465,6 +473,7 @@ td.lift.up{color:var(--green)} td.lift.down{color:var(--red)}
       <a href="#rankings" data-nav="rankings compare player">Players</a>
       <a href="#franchises" data-nav="franchises teamrank teams big3">Teams</a>
       <a href="#decades" data-nav="decades">Decades</a>
+      <a href="#wnba" data-nav="wnba">WNBA</a>
       <a href="#methodology" data-nav="methodology downloads contact">About</a>
     </nav>
   </div>
@@ -665,6 +674,14 @@ td.lift.up{color:var(--green)} td.lift.down{color:var(--red)}
     <div class="verdict" id="tm-verdict"></div>
   </div>
   </div>
+  <div class="block" id="exh">
+    <div class="head-row"><div><span class="eyebrow">Exhibition</span><h2>Movie teams</h2></div></div>
+    <div class="tablewrap"><table aria-label="Exhibition teams">
+      <thead><tr><th>Team</th><th>From</th><th class="num">Rating</th><th>Starting five</th><th></th></tr></thead>
+      <tbody id="exh-list"><tr><td colspan="5" class="status">Loading teams…</td></tr></tbody>
+    </table></div>
+    <p class="note">Just for fun: fictional teams built from real player-seasons, rated by the same roster scale as every real team. Each real player uses his or her last qualified season up to the film's year, starting and playing 34 of 48 minutes; the bench and the Looney Tunes play at 0, an average player-game. WNBA players use their WNBA scores, which sit on the WNBA's own scale. These teams have no results, so the roster is the whole rating, and they never appear in the rankings. Pick <b>Exhibition</b> as the season in either slot, or use the buttons.</p>
+  </div>
   <div class="block">
     <div class="head-row"><div><span class="eyebrow">All time</span><h2>The best teams</h2><a href="#rankings/teams" style="font:600 13px/1 var(--mono)">Full team rankings →</a></div>
       <div class="field"><label for="tm-lg">League</label><select id="tm-lg"><option value="all">NBA and ABA</option><option value="0">NBA</option><option value="1">ABA</option></select></div></div>
@@ -709,6 +726,69 @@ td.lift.up{color:var(--green)} td.lift.down{color:var(--red)}
   <div class="block decdetail" id="dec-detail"></div>
 </section>
 
+<!-- wnba:section:start -->
+<section id="wnba" data-page hidden>
+  <span class="eyebrow">WNBA · 1997–2025 · regular season and playoffs</span>
+  <h2 style="margin-top:6px">Every WNBA season, on its own scale</h2>
+  <p class="lede prose" style="margin-top:12px">The same Court Value rules, applied to every WNBA player-season since 1997, regular season and playoffs together. <mark>The WNBA is ranked on its own list.</mark> A score reads the same way inside any season (0 is that season's average player-game), but a WNBA 10 and an NBA 10 describe standing in two different leagues, so the lists are never mixed.</p>
+  <p class="note">Built from season totals for all 29 seasons and every postseason, so one rule covers the whole league history. The 2026 season will be added once its numbers are final.</p>
+
+  <div class="block">
+    <div class="head-row"><div><span class="eyebrow">Leaderboard</span><h2>The ten best WNBA seasons</h2></div><a href="#wnba?score=full" data-wgo="full">All seasons →</a></div>
+    <div class="tablewrap"><table class="mob-a" aria-label="Top ten WNBA seasons by season CV">
+      <thead><tr><th class="num">#</th><th>Player</th><th>Season</th><th>Team</th><th class="num">CV</th><th class="num">RS</th><th class="num">PO</th></tr></thead>
+      <tbody id="w-top"><tr><td colspan="7" class="status">Loading WNBA scores…</td></tr></tbody>
+    </table></div>
+    <p class="note">Qualified seasons only: at least 70% of team games. CV is the season score; RS is the regular season and PO the postseason, both on the same scale.</p>
+  </div>
+
+  <div class="block">
+    <div class="head-row"><div><span class="eyebrow">Playoffs</span><h2>The ten best WNBA postseasons</h2></div><a href="#wnba?score=po" data-wgo="po">All postseasons →</a></div>
+    <div class="tablewrap"><table class="mob-a" aria-label="Top ten WNBA postseasons by PO">
+      <thead><tr><th class="num">#</th><th>Player</th><th>Postseason</th><th>Team</th><th class="num">PO</th><th class="num">Season CV</th><th class="num">RS</th></tr></thead>
+      <tbody id="w-po"><tr><td colspan="7" class="status">Loading WNBA scores…</td></tr></tbody>
+    </table></div>
+  </div>
+
+  <div class="block">
+    <div class="head-row"><div><span class="eyebrow">Careers</span><h2>The ten best WNBA careers</h2></div><a href="#wnba?score=career" data-wgo="career">All careers →</a></div>
+    <div class="tablewrap"><table class="mob-b" aria-label="Top ten WNBA careers by Career CV">
+      <thead><tr><th class="num">#</th><th>Player</th><th>Career</th><th class="num">Career CV</th><th>Best season</th><th class="num">Best CV</th></tr></thead>
+      <tbody id="w-car"><tr><td colspan="6" class="status">Loading WNBA careers…</td></tr></tbody>
+    </table></div>
+    <p class="note">Career CV is built the same way as in the NBA and ABA: a player's five best seasons, plus a little for every other season above All-Star level.</p>
+  </div>
+
+  <div class="block" id="w-all">
+    <span class="eyebrow">WNBA · Rankings</span>
+    <h2 style="margin-top:6px">Every WNBA season, ranked</h2>
+    <div class="wcontrols" role="group" aria-label="Filter WNBA rankings">
+      <div class="field"><span class="lbl" id="w-basis-lbl">Score</span>
+        <div class="seg" role="group" aria-labelledby="w-basis-lbl">
+          <button type="button" data-wb="full" aria-pressed="true">Season CV</button>
+          <button type="button" data-wb="rs" aria-pressed="false">Regular season</button>
+          <button type="button" data-wb="po" aria-pressed="false">Playoffs</button>
+          <button type="button" data-wb="career" aria-pressed="false">Career</button>
+        </div>
+      </div>
+      <div class="field opt"><label for="w-from">From</label><select id="w-from"></select></div>
+      <div class="field opt"><label for="w-to">To</label><select id="w-to"></select></div>
+      <div class="field opt"><label for="w-team">Team</label><select id="w-team"><option value="all">All teams</option></select></div>
+      <div class="field opt"><label for="w-search">Player</label><input type="search" id="w-search" placeholder="Search a name" autocomplete="off"></div>
+      <label class="check" for="w-qual"><input type="checkbox" id="w-qual" checked> Qualified only</label>
+      <label class="check" for="w-champ"><input type="checkbox" id="w-champ"> Champions only</label>
+      <label class="check" for="w-best"><input type="checkbox" id="w-best"> Best season per player</label>
+    </div>
+    <div class="status" id="w-count" aria-live="polite" style="margin-top:12px"></div>
+    <div class="tablewrap"><table aria-label="WNBA rankings">
+      <thead><tr id="w-head"></tr></thead>
+      <tbody id="w-body"><tr><td class="status">Loading WNBA scores…</td></tr></tbody>
+    </table></div>
+    <button type="button" class="btn secondary more" id="w-more" hidden>Show 50 more</button>
+    <p class="note">Click a column heading to sort; click again to reverse. Every filter is kept in the address, so you can share the exact view. Underlying statistics: Basketball-Reference, via Neil Paine's WNBA stat sheet.</p>
+  </div>
+</section>
+<!-- wnba:section:end -->
 <section id="franchises" data-page hidden>
   <div id="fr-intro">
     <span class="eyebrow">Teams · Franchises</span>
@@ -854,6 +934,16 @@ td.lift.up{color:var(--green)} td.lift.down{color:var(--red)}
     <div><h3>Career CV, version 2.1.1</h3><p class="soft" style="margin:4px 0 0">Every player with a qualified season: first and last season, qualified seasons, Career CV and rank, best season. CSV, about 0.2 MB.</p></div>
     <a class="btn" href="data/PUBLIC_cv_2_1_1_careers.csv" download>Download CSV</a>
   </div>
+<!-- wnba:dl:start -->
+  <div class="dl-row">
+    <div><h3>WNBA CV season scores, 1997–2025</h3><p class="soft" style="margin:4px 0 0">Every scored WNBA player-season under the 2.1 rules, on the WNBA's own list: player, season, teams, games, playoff games, qualification, season CV, RS, PO, champion and ranks. CSV.</p></div>
+    <a class="btn" href="data/PUBLIC_wnba_cv_2_1_scores.csv" download>Download CSV</a>
+  </div>
+  <div class="dl-row">
+    <div><h3>WNBA Career CV, 1997–2025</h3><p class="soft" style="margin:4px 0 0">Every WNBA player with a qualified season: first and last season, qualified seasons, Career CV and rank. CSV.</p></div>
+    <a class="btn" href="data/PUBLIC_wnba_cv_2_1_careers.csv" download>Download CSV</a>
+  </div>
+<!-- wnba:dl:end -->
   <p class="note">Earlier versions (1.0, 1.1 and 2.0) remain available from their Zenodo archives linked in the changelog. Their scores are on a different basis; don't mix them with 2.0.</p>
   <div class="grid2 block">
     <div class="card prose">
@@ -1828,18 +1918,20 @@ td.lift.up{color:var(--green)} td.lift.down{color:var(--red)}
 <script>
 (function(){
   // Team rows: 0 season, 1 lg, 2 team, 3 name, 4 W, 5 L, 6 rating, 7 mov, 8 champion, 9 rank, 10 big3, 11 big3_rank, 12 big3 players [[name,pos,cv]], 13 roster [[name,pos,g,min%,rs,cv]]
-  var T = null, BYK = {}, BYSEASON = {}, META = null, DEC = null, FR = null, loading = false;
+  var T = null, BYK = {}, BYSEASON = {}, EXH = [], META = null, DEC = null, FR = null, loading = false;
   var SEL = { tm: ["1996|0|CHI", "1986|0|BOS"], b3: ["2017|0|GSW", "1992|0|CHI"] };
   var LIST = { tm: 25, b3: 25 }, LG = { tm: "all", b3: "all" };
   function $(id){ return document.getElementById(id); }
   function esc(s){ return String(s).replace(/[&<>"]/g, function(c){ return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]; }); }
-  function sl(y){ return (y - 1) + "–" + String(y).slice(-2); }
+  /* exh:patched */
+  function sl(y){ return y === 0 ? "Exhibition" : (y - 1) + "–" + String(y).slice(-2); }
   function key(r){ return r[0] + "|" + r[1] + "|" + r[2]; }
   function sgn(x){ return (x > 0 ? "+" : x < 0 ? "−" : "") + Math.abs(x).toFixed(1); }
   function f2(x){ return x === null || x === undefined ? "—" : x.toFixed(2); }
   function wl(r){ return r[4] === null ? "—" : r[4] + "–" + r[5]; }
-  function tag(r){ return r[2] + " ’" + String(r[0]).slice(-2); }
-  function lgPill(r){ return r[1] ? " <span class='pill aba'>ABA</span>" : ""; }
+  function tag(r){ return r[1] === 9 ? r[3] : r[2] + " ’" + String(r[0]).slice(-2); }
+  function full(r){ return r[1] === 9 ? r[3] : sl(r[0]) + " " + r[3]; }
+  function lgPill(r){ return r[1] === 1 ? " <span class='pill aba'>ABA</span>" : r[1] === 9 ? " <span class='pill base'>Exhibition</span>" : ""; }
   function result(r){ return r[8] ? "<span class='pill champ'>Champion</span>" : ""; }
   // normal CDF (Abramowitz-Stegun 7.1.26)
   function phi(x){ var t = 1 / (1 + 0.3275911 * Math.abs(x) / Math.SQRT2), y = 1 - (((((1.061405429 * t - 1.453152027) * t) + 1.421413741) * t - 0.284496736) * t + 0.254829592) * t * Math.exp(-x * x / 2); return x >= 0 ? (1 + y) / 2 : (1 - y) / 2; }
@@ -1848,13 +1940,14 @@ td.lift.up{color:var(--green)} td.lift.down{color:var(--red)}
   var loadP = null;
   function load(){
     if (loadP) return loadP;
-    loadP = Promise.all([fetch("data/teams.json").then(function(r){ return r.json(); }), fetch("data/decades.json").then(function(r){ return r.json(); }), fetch("data/franchises.json").then(function(r){ return r.json(); }), window.CV.ready]).then(function(d){
+    loadP = Promise.all([fetch("data/teams.json").then(function(r){ return r.json(); }), fetch("data/decades.json").then(function(r){ return r.json(); }), fetch("data/franchises.json").then(function(r){ return r.json(); }), window.CV.ready, fetch("data/exhibition.json").then(function(r){ return r.ok ? r.json() : {rows: []}; }).catch(function(){ return {rows: []}; })]).then(function(d){
       FR = d[2].franchises;
       META = d[0].meta; T = d[0].rows; DEC = d[1].decades;
       T.forEach(function(r){ BYK[key(r)] = r; (BYSEASON[r[0]] = BYSEASON[r[0]] || []).push(r); });
       Object.keys(BYSEASON).forEach(function(s){ BYSEASON[s].sort(function(a, b){ return a[1] - b[1] || a[3].localeCompare(b[3]); }); });
+      EXH = d[4].rows || []; if (EXH.length){ BYSEASON[0] = EXH.slice(); EXH.forEach(function(r){ BYK[key(r)] = r; }); }   // exhibition: pickers only, never in T
       ["tm", "b3"].forEach(function(m){ picker(m, 0); picker(m, 1); });
-      renderTM(); renderB3(); listTM(); listB3(); renderDecades(); renderFranchises();
+      renderTM(); renderB3(); listTM(); listB3(); listEXH(); renderDecades(); renderFranchises();
     }).catch(function(){ ["tm-list", "b3-list"].forEach(function(id){ $(id).innerHTML = "<tr><td class='status'>The team file could not be loaded.</td></tr>"; }); $("dec-grid").innerHTML = "<div class='status'>The decade file could not be loaded.</div>"; });
     return loadP;
   }
@@ -1869,7 +1962,7 @@ td.lift.up{color:var(--green)} td.lift.down{color:var(--red)}
     big3: "<mark>Big 3:</mark> the team's three best qualified seasons by Court Value, added up. Players count where they played at least 30% of the team's games."};
   function trInit(){
     if (TRDEF) return;
-    var ys = Object.keys(BYSEASON).map(Number).sort(function(a, b){ return a - b; });
+    var ys = Object.keys(BYSEASON).map(Number).filter(function(y){ return y > 0; }).sort(function(a, b){ return a - b; });
     TRDEF = {from: ys[0], to: ys[ys.length - 1]}; TR.from = TRDEF.from; TR.to = TRDEF.to;
     var opt = ys.map(function(y){ return "<option value='" + y + "'>" + sl(y) + "</option>"; }).join("");
     $("tr-from").innerHTML = opt; $("tr-to").innerHTML = opt;
@@ -1992,10 +2085,10 @@ td.lift.up{color:var(--green)} td.lift.down{color:var(--red)}
   var SEASONS = [];
   function picker(m, i){
     var host = $(m + "-" + (i ? "b" : "a"));
-    if (!SEASONS.length) SEASONS = Object.keys(BYSEASON).map(Number).sort(function(a, b){ return b - a; });
+    if (!SEASONS.length) SEASONS = Object.keys(BYSEASON).map(Number).sort(function(a, b){ return (b === 0) - (a === 0) || b - a; });
     var r = BYK[SEL[m][i]];
-    var sOpts = SEASONS.map(function(s){ return "<option value='" + s + "'" + (s === r[0] ? " selected" : "") + ">" + sl(s) + "</option>"; }).join("");
-    var tOpts = BYSEASON[r[0]].filter(function(t){ return m === "tm" || t[12]; }).map(function(t){ return "<option value='" + key(t) + "'" + (key(t) === key(r) ? " selected" : "") + ">" + esc(t[3]) + (t[1] ? " (ABA)" : "") + "</option>"; }).join("");
+    var sOpts = SEASONS.filter(function(s){ return m === "tm" || s > 0; }).map(function(s){ return "<option value='" + s + "'" + (s === r[0] ? " selected" : "") + ">" + sl(s) + "</option>"; }).join("");
+    var tOpts = BYSEASON[r[0]].filter(function(t){ return m === "tm" || t[12]; }).map(function(t){ return "<option value='" + key(t) + "'" + (key(t) === key(r) ? " selected" : "") + ">" + esc(t[3]) + (t[1] === 1 ? " (ABA)" : "") + "</option>"; }).join("");
     host.innerHTML = "<div class='sel'><select aria-label='Season' data-s>" + sOpts + "</select><select aria-label='Team' data-t>" + tOpts + "</select></div><div data-body></div>";
     host.querySelector("[data-s]").addEventListener("change", function(){
       var s = +this.value, list = BYSEASON[s].filter(function(t){ return m === "tm" || t[12]; });
@@ -2009,6 +2102,7 @@ td.lift.up{color:var(--green)} td.lift.down{color:var(--red)}
 
   // ---- Time Machine
   function teamBody(r){
+    if (r[1] === 9) return exhBody(r);
     var ro = r[13].map(function(p, i){ return "<tr" + (i >= 5 ? " class='extra'" : "") + "><td class='nm'>" + nl(p[0], r[0], r[0], r[2], true) + "</td><td class='n'>" + esc(p[1] || "") + "</td><td class='n'>" + p[3].toFixed(0) + "%</td><td class='n'>" + f2(p[4]) + "</td><td class='n'>" + f2(p[5]) + "</td></tr>"; }).join("");
     return "<div class='tname'>" + sl(r[0]) + " " + esc(r[3]) + "</div>" +
       "<div class='tsub'><span>W–L <b>" + wl(r) + "</b></span>" + (r[17] !== null ? "<span>Playoffs <b>" + r[17] + "–" + r[18] + "</b></span>" : "") + "<span>#" + r[9] + " all time</span>" + lgPill(r) + result(r) + "</div>" +
@@ -2016,6 +2110,20 @@ td.lift.up{color:var(--green)} td.lift.down{color:var(--red)}
       "<div class='tsub'><span>Roster (CV) <b>" + sgn(r[14]) + "</b></span><span>Regular season <b>" + sgn(r[15]) + "</b></span><span>Playoffs <b>" + (r[17] !== null ? sgn(r[16]) : "—") + "</b></span></div>" +
       "<div class='rosterwrap'><div class='tablewrap' style='border-top:0'><table class='mini'><thead><tr><th>Top minutes</th><th class='n'>Pos</th><th class='n'>Min</th><th class='n'>RS</th><th class='n'>CV</th></tr></thead><tbody>" + ro + "</tbody></table></div>" +
       (r[13].length > 5 ? "<button type='button' class='pp-close rbtn' data-roster aria-expanded='false'>Full roster (" + r[13].length + ")</button>" : "") + "</div>";
+  }
+  function exhBody(r){
+    var ro = r[13].map(function(p){ return "<tr><td class='nm'>" + (p[7] ? nl(p[0], p[6], p[6], p[7], true) : esc(p[0])) + "</td><td class='n'>" + esc(p[1]) + "</td><td class='n'>" + p[3].toFixed(0) + "%</td><td class='n'>" + f2(p[4]) + "</td></tr>"; }).join("");
+    return "<div class='tname'>" + esc(r[3]) + "</div>" +
+      "<div class='tsub'><span>" + esc(r[20]) + "</span>" + lgPill(r) + "</div>" +
+      "<div class='rating'><span class='big'>" + sgn(r[6]) + "</span><span>Team rating: what the roster's Court Value projects, points per game above an average team</span></div>" +
+      "<div class='rosterwrap'><div class='tablewrap' style='border-top:0'><table class='mini'><thead><tr><th>Starting five</th><th class='n'>Season</th><th class='n'>Min</th><th class='n'>RS</th></tr></thead><tbody>" + ro + "</tbody></table></div></div>" +
+      "<p class='caption' style='margin-top:8px'>The bench plays the other " + (100 - r[13].reduce(function(a, p){ return a + p[3]; }, 0)).toFixed(0) + "% of minutes at 0, an average player-game.</p>";
+  }
+  function listEXH(){
+    var host = $("exh-list"); if (!host) return;
+    host.innerHTML = EXH.slice().sort(function(a, b){ return b[6] - a[6]; }).map(function(r){
+      return "<tr><td class='tm'>" + esc(r[3]) + "</td><td>" + esc(r[20]) + "</td><td class='cv'>" + sgn(r[6]) + "</td><td class='b3'>" + r[13].map(function(p){ return esc(p[0]); }).join(" · ") + "</td><td><div class='row' style='gap:6px;flex-wrap:nowrap'><button type='button' class='pp-close' data-side='0' data-k='" + key(r) + "'>Left</button><button type='button' class='pp-close' data-side='1' data-k='" + key(r) + "'>Right</button></div></td></tr>";
+    }).join("") || "<tr><td class='status'>No exhibition teams.</td></tr>";
   }
   function winP(ra, rb, homeA){ var h = META.home * (homeA ? 1 : -1); return phi((ra - rb + h) / META.game_sd); }
   var HOME = [1, 1, 0, 0, 1, 0, 1]; // 2-2-1-1-1 for the higher seed
@@ -2046,7 +2154,7 @@ td.lift.up{color:var(--green)} td.lift.down{color:var(--red)}
     $("tm-bar").innerHTML = "<div class='a' style='flex-basis:" + (pa * 100) + "%'>" + esc(tag(a)) + " " + pct(pa) + "</div><div class='b' style='flex-basis:" + (pb * 100) + "%'>" + pct(pb) + " " + esc(tag(b)) + "</div>";
     $("tm-out").innerHTML = cells.join("");
     var hi = s.aHigh ? a : b;
-    $("tm-cap").textContent = "Home court goes to the higher-rated team (" + sl(hi[0]) + " " + hi[3] + "), in a 2-2-1-1-1 format, worth about " + META.home.toFixed(0) + " points a game as measured in real playoff games. Single-game chances: " + s.p.map(function(x){ return Math.round(x * 100) + "%"; }).join(", ") + " for " + sl(a[0]) + " " + a[3] + " in games 1–7.";
+    $("tm-cap").textContent = "Home court goes to the higher-rated team (" + full(hi) + "), in a 2-2-1-1-1 format, worth about " + META.home.toFixed(0) + " points a game as measured in real playoff games. Single-game chances: " + s.p.map(function(x){ return Math.round(x * 100) + "%"; }).join(", ") + " for " + full(a) + " in games 1–7.";
     $("tm-games").innerHTML = ""; $("tm-verdict").textContent = "";
     CVR.replace("teams", [SEL.tm.map(k2u).join(",")]);
   }
@@ -2057,7 +2165,7 @@ td.lift.up{color:var(--green)} td.lift.down{color:var(--red)}
     ul.innerHTML = ""; $("tm-verdict").textContent = "";
     var reduce = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
     (function next(){
-      if (wa === 4 || wb === 4){ var w = wa === 4 ? a : b; $("tm-verdict").innerHTML = "<span class='" + (wa === 4 ? "edge-a" : "edge-b") + "'>" + esc(sl(w[0]) + " " + w[3]) + "</span> win the series " + Math.max(wa, wb) + "–" + Math.min(wa, wb) + "."; playing = null; return; }
+      if (wa === 4 || wb === 4){ var w = wa === 4 ? a : b; $("tm-verdict").innerHTML = "<span class='" + (wa === 4 ? "edge-a" : "edge-b") + "'>" + esc(full(w)) + "</span> win the series " + Math.max(wa, wb) + "–" + Math.min(wa, wb) + "."; playing = null; return; }
       var h = META.home * ((s.aHigh ? HOME[g] : !HOME[g]) ? 1 : -1), m = a[6] - b[6] + h + META.game_sd * gauss(), ot = Math.abs(m) < 0.5;
       if (ot) m = (Math.random() < s.p[g] ? 1 : -1) * (1 + Math.floor(Math.random() * 5));
       var aw = m > 0, margin = Math.max(1, Math.round(Math.abs(m)));
@@ -2321,6 +2429,7 @@ td.lift.up{color:var(--green)} td.lift.down{color:var(--red)}
   $("b3-more").addEventListener("click", function(){ LIST.b3 += 25; listB3(); });
   $("tm-lg").addEventListener("change", function(){ LG.tm = this.value; LIST.tm = 25; listTM(); });
   $("b3-lg").addEventListener("change", function(){ LG.b3 = this.value; LIST.b3 = 25; listB3(); });
+  if ($("exh-list")) $("exh-list").addEventListener("click", function(e){ var b = e.target.closest("button[data-k]"); if (b) setSide("tm", +b.dataset.side, b.dataset.k); });
   $("tm-list").addEventListener("click", function(e){ var b = e.target.closest("button[data-k]"); if (b) setSide("tm", +b.dataset.side, b.dataset.k); });
   $("b3-list").addEventListener("click", function(e){ var b = e.target.closest("button[data-k]"); if (b) setSide("b3", +b.dataset.side, b.dataset.k); });
   $("dec-grid").addEventListener("click", function(e){ var b = e.target.closest("[data-dec]"); if (!b) return; DSEL = b.dataset.dec; renderDecades(); var el = $("dec-detail"); if (el.scrollIntoView) el.scrollIntoView({behavior: "smooth", block: "start"}); });
@@ -2328,4 +2437,108 @@ td.lift.up{color:var(--green)} td.lift.down{color:var(--red)}
   if (here === "teams" || here === "big3" || here === "decades" || here === "franchises") CVR.apply();
 })();
 </script>
+<!-- wnba:script:start -->
+<script>
+(function(){
+  function $(id){ return document.getElementById(id); }
+  function esc(s){ return String(s).replace(/[&<>"]/g, function(c){ return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]; }); }
+  function f2(x){ return x === null || x === undefined ? "—" : x.toFixed(2); }
+  // season rows: 0 id, 1 player, 2 season, 3 teams, 4 rs_g, 5 po_g, 6 q, 7 cv, 8 rs, 9 po, 10 champ, 11 rank
+  // career rows: 0 id, 1 player, 2 first, 3 last, 4 seasons, 5 career cv, 6 rank, 7 best season, 8 best cv, 9 best team
+  var R = [], CR = [], TBP = {}, P, DEF = {from: 1997, to: 2025};
+  var S = {basis: "full", from: 1997, to: 2025, team: "all", text: "", q: true, champ: false, best: false, sort: null, dir: -1, shown: 50};
+  var KEY = {full: 7, rs: 8, po: 9};
+  var COLS = {
+    season: [["#", null, "num"], ["Player", 1], ["Season", 2], ["Team", 3], ["CV", 7, "num"], ["RS", 8, "num"], ["PO", 9, "num"], ["G", 4, "num"], ["PO G", 5, "num"], ["", null]],
+    career: [["#", null, "num"], ["Player", 1], ["Career", 2], ["Seasons", 4, "num"], ["Career CV", 5, "num"], ["Best season", 7], ["Best CV", 8, "num"]]
+  };
+  function load(){
+    if (!P) P = fetch("data/wnba.json").then(function(r){ if (!r.ok) throw new Error(r.status); return r.json(); }).then(function(d){
+      R = d.rows; CR = d.careers;
+      R.forEach(function(r){ var s = TBP[r[0]] = TBP[r[0]] || {}; String(r[3]).split(/[^A-Z0-9]+/).forEach(function(t){ if (t) s[t] = 1; }); });
+      var ys = {}, tms = {}; R.forEach(function(r){ ys[r[2]] = 1; String(r[3]).split(/[^A-Z0-9]+/).forEach(function(t){ if (t) tms[t] = 1; }); });
+      ys = Object.keys(ys).map(Number).sort(function(a, b){ return a - b; }); DEF.from = ys[0]; DEF.to = ys[ys.length - 1];
+      ys.forEach(function(y){ ["w-from", "w-to"].forEach(function(id){ var o = document.createElement("option"); o.value = y; o.textContent = y; $(id).appendChild(o); }); });
+      Object.keys(tms).sort().forEach(function(t){ var o = document.createElement("option"); o.value = t; o.textContent = t; $("w-team").appendChild(o); });
+      tops();
+    }).catch(function(){ ["w-top", "w-po", "w-car", "w-body"].forEach(function(id){ $(id).innerHTML = "<tr><td colspan='9' class='status'>The WNBA file could not be loaded.</td></tr>"; }); });
+    return P;
+  }
+  function tops(){
+    var q = R.filter(function(r){ return r[6] && r[7] !== null; }).sort(function(a, b){ return b[7] - a[7]; }).slice(0, 10);
+    $("w-top").innerHTML = q.map(function(r, i){ return "<tr><td class='rk'>" + (i + 1) + "</td><td class='player'>" + esc(r[1]) + "</td><td>" + r[2] + "</td><td class='num'>" + esc(r[3]) + "</td><td class='cv'>" + f2(r[7]) + "</td><td class='num'>" + f2(r[8]) + "</td><td class='num'>" + f2(r[9]) + "</td></tr>"; }).join("");
+    var p = R.filter(function(r){ return r[9] !== null; }).sort(function(a, b){ return b[9] - a[9]; }).slice(0, 10);
+    $("w-po").innerHTML = p.map(function(r, i){ return "<tr><td class='rk'>" + (i + 1) + "</td><td class='player'>" + esc(r[1]) + (r[10] ? " <span class='pill champ'>Champion</span>" : "") + "</td><td>" + r[2] + "</td><td class='num'>" + esc(r[3]) + "</td><td class='cv'>" + f2(r[9]) + "</td><td class='num'>" + f2(r[7]) + "</td><td class='num'>" + f2(r[8]) + "</td></tr>"; }).join("");
+    $("w-car").innerHTML = CR.slice(0, 10).map(function(c){ return "<tr><td class='rk'>" + c[6] + "</td><td class='player'>" + esc(c[1]) + "</td><td>" + c[2] + "–" + c[3] + "</td><td class='cv'>" + f2(c[5]) + "</td><td>" + c[7] + " " + esc(c[9]) + "</td><td class='num'>" + f2(c[8]) + "</td></tr>"; }).join("");
+  }
+  function cr(){ return S.basis === "career"; }
+  function rows(){
+    var t = S.text.toLowerCase();
+    if (cr()) return CR.filter(function(c){ return c[3] >= S.from && c[2] <= S.to && (!t || c[1].toLowerCase().indexOf(t) > -1) && (S.team === "all" || (TBP[c[0]] || {})[S.team]); });
+    var k = KEY[S.basis];
+    var out = R.filter(function(r){
+      if (r[k] === null) return false;
+      if (r[2] < S.from || r[2] > S.to) return false;
+      if (S.basis !== "po" && S.q && !r[6]) return false;
+      if (S.champ && !r[10]) return false;
+      if (S.team !== "all" && String(r[3]).split(/[^A-Z0-9]+/).indexOf(S.team) < 0) return false;
+      if (t && r[1].toLowerCase().indexOf(t) < 0) return false;
+      return true;
+    });
+    if (S.best){ var seen = {}; out = out.slice().sort(function(a, b){ return b[k] - a[k]; }).filter(function(r){ if (seen[r[0]]) return false; seen[r[0]] = 1; return true; }); }
+    return out;
+  }
+  function render(){
+    var cols = cr() ? COLS.career : COLS.season, sk = S.sort !== null ? S.sort : (cr() ? 5 : KEY[S.basis]), d = S.dir;
+    var list = rows().slice().sort(function(a, b){
+      var x = a[sk], y = b[sk];
+      if (x === null || x === undefined) return 1; if (y === null || y === undefined) return -1;
+      if (typeof x === "string") return d * (x < y ? -1 : x > y ? 1 : 0);
+      return d * (x - y);
+    });
+    $("w-head").innerHTML = cols.map(function(c){
+      if (c[1] === null) return "<th class='" + (c[2] || "") + "'>" + c[0] + "</th>";
+      var on = c[1] === sk;
+      return "<th class='sort " + (c[2] || "") + "'" + (on ? " aria-sort='" + (d < 0 ? "descending" : "ascending") + "'" : "") + "><button type='button' data-wk='" + c[1] + "'>" + c[0] + "</button></th>";
+    }).join("");
+    var shown = list.slice(0, S.shown);
+    $("w-body").innerHTML = shown.length ? shown.map(function(r, i){
+      if (cr()) return "<tr><td class='rk'>" + (i + 1) + "</td><td class='player'>" + esc(r[1]) + "</td><td>" + r[2] + "–" + r[3] + "</td><td class='num'>" + r[4] + "</td><td class='cv'>" + f2(r[5]) + "</td><td>" + r[7] + " " + esc(r[9]) + "</td><td class='num'>" + f2(r[8]) + "</td></tr>";
+      var hi = KEY[S.basis];
+      return "<tr><td class='rk'>" + (i + 1) + "</td><td class='player'>" + esc(r[1]) + "</td><td>" + r[2] + "</td><td class='num'>" + esc(r[3]) + "</td>" +
+        [7, 8, 9].map(function(j){ return "<td class='" + (j === hi ? "cv" : "num") + "'>" + f2(r[j]) + "</td>"; }).join("") +
+        "<td class='num'>" + r[4] + "</td><td class='num'>" + (r[5] === null ? "—" : r[5]) + "</td><td>" + (r[10] ? "<span class='pill champ'>Champion</span>" : (r[5] === null ? "<span class='wsub'>Missed playoffs</span>" : "")) + "</td></tr>";
+    }).join("") : "<tr><td colspan='10' class='status'>No seasons match these filters.</td></tr>";
+    $("w-count").textContent = list.length.toLocaleString() + (cr() ? " careers" : S.basis === "po" ? " postseasons" : " seasons");
+    $("w-more").hidden = list.length <= S.shown;
+    document.querySelectorAll("[data-wb]").forEach(function(b){ b.setAttribute("aria-pressed", b.dataset.wb === S.basis ? "true" : "false"); });
+    ["w-qual", "w-champ", "w-best"].forEach(function(id){ $(id).parentNode.style.display = cr() ? "none" : ""; });
+    $("w-qual").parentNode.style.display = cr() || S.basis === "po" ? "none" : "";
+    $("w-from").value = S.from; $("w-to").value = S.to; $("w-team").value = S.team; $("w-qual").checked = S.q; $("w-champ").checked = S.champ; $("w-best").checked = S.best;
+    if ($("w-search").value !== S.text) $("w-search").value = S.text;
+    window.CVR.replace("wnba", [], {score: S.basis === "full" ? "" : S.basis, from: S.from !== DEF.from ? S.from : "", to: S.to !== DEF.to ? S.to : "", team: S.team !== "all" ? S.team : "",
+      all: S.q ? "" : "1", champ: S.champ ? "1" : "", best: S.best ? "1" : "", p: S.text, sort: S.sort !== null ? S.sort : "", dir: S.sort !== null && S.dir > 0 ? "asc" : ""});
+  }
+  function fromParams(p){
+    S.basis = ({rs: "rs", po: "po", career: "career"})[p.score] || "full";
+    S.from = +p.from || DEF.from; S.to = +p.to || DEF.to; S.team = p.team || "all"; S.text = p.p || "";
+    S.q = p.all !== "1"; S.champ = p.champ === "1"; S.best = p.best === "1";
+    S.sort = p.sort !== undefined && p.sort !== "" ? +p.sort : null; S.dir = p.dir === "asc" ? 1 : -1; S.shown = 50;
+  }
+  window.CVR.on("wnba", function(args, params){ load().then(function(){ if (!R.length) return; fromParams(params); render(); }); });
+  document.querySelectorAll("[data-wb]").forEach(function(b){ b.addEventListener("click", function(){ S.basis = b.dataset.wb; S.sort = null; S.dir = -1; S.shown = 50; render(); }); });
+  document.querySelectorAll("[data-wgo]").forEach(function(a){ a.addEventListener("click", function(e){ e.preventDefault(); S.basis = a.dataset.wgo; S.sort = null; S.dir = -1; S.shown = 50; render(); var el = $("w-all"); if (el.scrollIntoView) el.scrollIntoView({behavior: "smooth", block: "start"}); }); });
+  $("w-head").addEventListener("click", function(e){ var b = e.target.closest("button[data-wk]"); if (!b) return; var k = +b.dataset.wk, cur = S.sort !== null ? S.sort : (cr() ? 5 : KEY[S.basis]); if (k === cur) S.dir = -S.dir; else { S.sort = k; S.dir = typeof (R[0] || [])[k] === "string" ? 1 : -1; } S.shown = 50; render(); });
+  $("w-from").addEventListener("change", function(){ S.from = +this.value; if (S.to < S.from) S.to = S.from; S.shown = 50; render(); });
+  $("w-to").addEventListener("change", function(){ S.to = +this.value; if (S.from > S.to) S.from = S.to; S.shown = 50; render(); });
+  $("w-team").addEventListener("change", function(){ S.team = this.value; S.shown = 50; render(); });
+  $("w-search").addEventListener("input", function(){ S.text = this.value.trim(); S.shown = 50; render(); });
+  $("w-qual").addEventListener("change", function(){ S.q = this.checked; S.shown = 50; render(); });
+  $("w-champ").addEventListener("change", function(){ S.champ = this.checked; S.shown = 50; render(); });
+  $("w-best").addEventListener("change", function(){ S.best = this.checked; S.shown = 50; render(); });
+  $("w-more").addEventListener("click", function(){ S.shown += 50; render(); });
+  if (window.CVR.parse().page === "wnba") window.CVR.apply();
+})();
+</script>
+<!-- wnba:script:end -->
 </body></html>
