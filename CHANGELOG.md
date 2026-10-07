@@ -8,6 +8,7 @@ NBA and ABA scores did not change.
 
 - **WNBA page.** Every WNBA player-season from 1997 to 2025, regular season and playoffs, scored by the 2.1 rules on the WNBA's own list. It is never mixed with NBA/ABA rankings. Built from season totals (Basketball-Reference, via Neil Paine's WNBA stat sheet). The 2026 season will be added once its numbers are final. Downloads: `PUBLIC_wnba_cv_2_1_scores.csv`, `PUBLIC_wnba_cv_2_1_careers.csv`.
 - **Movie teams in the Time Machine,** just for fun: the Monstars, both Tune Squads, the Goon Squad and Uncle Drew. They are fictional rosters of real player-seasons, rated on the roster scale, and they never appear in rankings (`docs/data/exhibition.json`).
+- **U.S. Olympic teams in the Time Machine:** every U.S. men's Olympic roster from Barcelona 1992 to Paris 2024. Each player uses his last qualified NBA season up to the Olympic year, and the twelve split the minutes evenly. Like the movie teams, they are exhibition only.
 
 ## Website updates (2026-10-02)
 
