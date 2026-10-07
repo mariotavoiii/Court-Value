@@ -675,12 +675,12 @@ td.lift.up{color:var(--green)} td.lift.down{color:var(--red)}
   </div>
   </div>
   <div class="block" id="exh">
-    <div class="head-row"><div><span class="eyebrow">Exhibition</span><h2>Movie teams</h2></div></div>
+    <div class="head-row"><div><span class="eyebrow">Exhibition</span><h2>Olympic and movie teams</h2></div></div>
     <div class="tablewrap"><table aria-label="Exhibition teams">
-      <thead><tr><th>Team</th><th>From</th><th class="num">Rating</th><th>Starting five</th><th></th></tr></thead>
+      <thead><tr><th>Team</th><th>From</th><th class="num">Rating</th><th>Players</th><th></th></tr></thead>
       <tbody id="exh-list"><tr><td colspan="5" class="status">Loading teams…</td></tr></tbody>
     </table></div>
-    <p class="note">Just for fun: fictional teams built from real player-seasons, rated by the same roster scale as every real team. Each real player uses his or her last qualified season up to the film's year, starting and playing 34 of 48 minutes; the bench and the Looney Tunes play at 0, an average player-game. WNBA players use their WNBA scores, which sit on the WNBA's own scale. These teams have no results, so the roster is the whole rating, and they never appear in the rankings. Pick <b>Exhibition</b> as the season in either slot, or use the buttons.</p>
+    <p class="note">Just for fun: teams that never played an NBA season, built from real player-seasons and rated on the same roster scale as every real team. Each player uses his or her last qualified season up to that year: the Olympic year for the U.S. Olympic teams, the film's year for the movie teams. Olympic teams split the minutes evenly across all twelve; a player not yet in the NBA (Laettner, Okafor, Anthony Davis in 2012) counts as an average player-game. Movie teams start five who play 34 of 48 minutes; the bench and the Looney Tunes play at 0, an average player-game. WNBA players use their WNBA scores, on the WNBA's own scale. These teams have no results, so the roster is the whole rating, and they never appear in the rankings. Pick <b>Exhibition</b> as the season in either slot, or use the buttons.</p>
   </div>
   <div class="block">
     <div class="head-row"><div><span class="eyebrow">All time</span><h2>The best teams</h2><a href="#rankings/teams" style="font:600 13px/1 var(--mono)">Full team rankings →</a></div>
@@ -2116,13 +2116,14 @@ td.lift.up{color:var(--green)} td.lift.down{color:var(--red)}
     return "<div class='tname'>" + esc(r[3]) + "</div>" +
       "<div class='tsub'><span>" + esc(r[20]) + "</span>" + lgPill(r) + "</div>" +
       "<div class='rating'><span class='big'>" + sgn(r[6]) + "</span><span>Team rating: what the roster's Court Value projects, points per game above an average team</span></div>" +
-      "<div class='rosterwrap'><div class='tablewrap' style='border-top:0'><table class='mini'><thead><tr><th>Starting five</th><th class='n'>Season</th><th class='n'>Min</th><th class='n'>RS</th></tr></thead><tbody>" + ro + "</tbody></table></div></div>" +
-      "<p class='caption' style='margin-top:8px'>The bench plays the other " + (100 - r[13].reduce(function(a, p){ return a + p[3]; }, 0)).toFixed(0) + "% of minutes at 0, an average player-game.</p>";
+      "<div class='rosterwrap'><div class='tablewrap' style='border-top:0'><table class='mini'><thead><tr><th>" + (r[13].length > 6 ? "Roster" : "Starting five") + "</th><th class='n'>Season</th><th class='n'>Min</th><th class='n'>RS</th></tr></thead><tbody>" + ro + "</tbody></table></div></div>" +
+      (r[21] === "Olympics" ? "<p class='caption' style='margin-top:8px'>All twelve players split the minutes evenly.</p>" : "<p class='caption' style='margin-top:8px'>The bench plays the other " + (100 - r[13].reduce(function(a, p){ return a + p[3]; }, 0)).toFixed(0) + "% of minutes at 0, an average player-game.</p>");
   }
   function listEXH(){
     var host = $("exh-list"); if (!host) return;
-    host.innerHTML = EXH.slice().sort(function(a, b){ return b[6] - a[6]; }).map(function(r){
-      return "<tr><td class='tm'>" + esc(r[3]) + "</td><td>" + esc(r[20]) + "</td><td class='cv'>" + sgn(r[6]) + "</td><td class='b3'>" + r[13].map(function(p){ return esc(p[0]); }).join(" · ") + "</td><td><div class='row' style='gap:6px;flex-wrap:nowrap'><button type='button' class='pp-close' data-side='0' data-k='" + key(r) + "'>Left</button><button type='button' class='pp-close' data-side='1' data-k='" + key(r) + "'>Right</button></div></td></tr>";
+    host.innerHTML = EXH.slice().sort(function(a, b){ return (a[21] === "Movies") - (b[21] === "Movies") || b[6] - a[6]; }).map(function(r, i, all){
+      var hd = i === 0 || all[i - 1][21] !== r[21] ? "<tr><th colspan='5' style='padding-top:18px'>" + (r[21] === "Olympics" ? "U.S. Olympic teams" : "Movie teams") + "</th></tr>" : "";
+      return hd + "<tr><td class='tm'>" + esc(r[3]) + "</td><td>" + esc(r[20]) + "</td><td class='cv'>" + sgn(r[6]) + "</td><td class='b3'>" + r[13].map(function(p){ return esc(p[0]); }).join(" · ") + "</td><td><div class='row' style='gap:6px;flex-wrap:nowrap'><button type='button' class='pp-close' data-side='0' data-k='" + key(r) + "'>Left</button><button type='button' class='pp-close' data-side='1' data-k='" + key(r) + "'>Right</button></div></td></tr>";
     }).join("") || "<tr><td class='status'>No exhibition teams.</td></tr>";
   }
   function winP(ra, rb, homeA){ var h = META.home * (homeA ? 1 : -1); return phi((ra - rb + h) / META.game_sd); }
