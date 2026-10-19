@@ -58,7 +58,7 @@ def write(path, title, desc, body, image="img/og-home.png", alt=None, kind="webs
     depth = path.count("/") if path.endswith("/") else 0
     base = base or ("../" * depth if depth else "./")
     canonical = URL + path if path != "404.html" else URL
-    full_title = title if title.endswith("Court Value") else f"{title} · Court Value"
+    full_title = title if "Court Value" in title else f"{title} · Court Value"
     img = URL + image
     doc = f"""<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <base href="{E(base)}">
