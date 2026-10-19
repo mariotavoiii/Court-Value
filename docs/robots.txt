@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://mariotavoiii.github.io/Court-Value/sitemap.xml

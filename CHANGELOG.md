@@ -2,6 +2,14 @@
 
 Published scores never change silently. Method changes get a new version; corrections and new seasons get a new data revision. Older releases stay available from their archives.
 
+## Real page addresses, link cards and a daily game (2026-10-19)
+
+The website changed; **the scores did not.**
+
+- **Every player, team-season and franchise has its own page,** such as `/players/jordami01/` or `/time-machine/1996-0-CHI/`, with its own title, description and link-preview card, so a link shared on Reddit, X or in a text shows who or what it is. Old `#` links still work and are forwarded to the new addresses. Adds `sitemap.xml` and `robots.txt`.
+- **Court Value 82,** a daily game under Play: spin a team-season, take one player who played at least half its games, fill PG, SG, SF, PF and C, then play 82 games against real team-seasons. The team rating uses the movie-team rule (each starter's regular-season score, 34 minutes each, bench average), and games use the Time Machine's model. Everyone gets the same spins and schedule each day; free play is unlimited.
+- Favicon, a share button, and chart labels that stay clear of the line.
+
 ## WNBA and movie teams (2026-10-07)
 
 NBA and ABA scores did not change.

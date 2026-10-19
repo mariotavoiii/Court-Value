@@ -1,0 +1,545 @@
+<header class="site">
+  <div class="wrap bar">
+    <a class="brand" href="#home" aria-label="Court Value home">
+      <span class="wm"><b>Court Value</b><span class="wmr" aria-hidden="true"><span class="e" style="left:0"></span><span class="e" style="left:22.22%"></span><span class="m"></span><span class="t"></span><span class="e" style="right:0"></span></span></span>
+    </a>
+    <nav aria-label="Sections">
+      <a href="#rankings" data-nav="rankings compare player">Players</a>
+      <a href="#franchises" data-nav="franchises teamrank teams big3">Teams</a>
+      <a href="#decades" data-nav="decades">Decades</a>
+      <a href="#wnba" data-nav="wnba">WNBA</a>
+      <a href="#play" data-nav="play">Play</a>
+      <a href="#methodology" data-nav="methodology downloads contact">About</a>
+    </nav>
+    <button type="button" class="sharebtn" id="share-btn" aria-label="Share this page">Share</button>
+  </div>
+</header>
+
+<main class="wrap">
+
+<section id="home" data-page>
+  <div class="hero">
+    <div class="stack">
+      <span class="eyebrow">NBA 1952–present · ABA 1968–76 · regular season and playoffs</span>
+      <h1>Every NBA and ABA season, on one scale.</h1>
+      <p class="lede">Court Value rates every player-season since 1952 the same way, regular season and playoffs together: the box score, <mark>how the team did in the games he actually played</mark>, the team's defense and the postseason.</p>
+      <p class="prose" style="margin:0;font-size:17px">Season CV is the résumé, playoffs included. For the regular season alone, the part most metrics and awards judge, rank by <a href="#rankings?score=base">Regular season</a>.</p>
+      <div class="finder" role="search">
+        <label class="lbl" for="q">Find a player or team</label>
+        <div class="combo"><input id="q" type="search" role="combobox" aria-expanded="false" aria-controls="q-list" aria-autocomplete="list" placeholder="Jokić, Celtics, 1996 Bulls…" autocomplete="off" spellcheck="false"><ul id="q-list" role="listbox" aria-label="Matches" hidden></ul></div>
+      </div>
+      <div class="row actions"><a class="btn" href="#rankings">Explore rankings</a><a class="btn secondary" href="#compare">Compare players</a><a class="btn secondary" href="#teams">Match up teams</a></div>
+      <a href="#franchises" style="font:600 13px/1 var(--mono);letter-spacing:.04em">Browse franchise histories →</a>
+    </div>
+  </div>
+  <a class="card g-promo" href="#play"><div><span class="eyebrow">New · Today's game <span id="g-promo-no"></span></span><b>Court Value 82</b><span>Spin a team from any season, take one player, fill all five spots, then play 82 games. Can you beat the 73–9 Warriors?</span></div><span class="g-big">Play</span></a>
+
+
+  <div class="block">
+    <div class="head-row"><div><span class="eyebrow">The chart</span><h2>The best season of every year</h2></div></div>
+    <div class="chart card" id="best-chart" style="padding:18px 18px 10px"><div class="status">Loading scores…</div></div>
+    <p class="caption">Highest qualified CV in each NBA season, 1951–52 to 2025–26. The shaded band is where the middle half of MVP seasons fall (8.2 to 11.5); red dots mark years whose best season reached 12 or more. Hover or tap a dot for the player; click to open that season.</p>
+  </div>
+
+  <div class="card ruler-card guide" style="margin-top:44px" aria-label="How to read a CV score">
+    <div class="rhead"><h3>Reading the number</h3><span>One ruler for 1952 and 2026 alike</span></div>
+    <div id="guide-ruler"></div>
+    <ul class="guide-list">
+      <li><b>12+</b><span>All-time territory. <span class="n12">27</span> qualified seasons have reached it.</span></li>
+      <li><b>8–12</b><span>Where most MVP seasons land. The middle half runs 8.2 to 11.5.</span></li>
+      <li><b>6</b><span>A typical All-NBA season.</span></li>
+      <li><b>4</b><span>A typical All-Star season.</span></li>
+      <li><b>0</b><span>That season's average player-game.</span></li>
+    </ul>
+  </div>
+
+  <div class="block">
+    <div class="head-row"><div><span class="eyebrow">Leaderboard</span><h2>The ten best seasons</h2></div><a href="#rankings">All rankings →</a></div>
+    <div class="tablewrap"><table class="mob-a" aria-label="Top ten seasons by full CV">
+      <thead><tr><th class="num">#</th><th>Player</th><th>Season</th><th>Team</th><th class="num">CV</th><th class="num">RS</th><th class="num">PO</th></tr></thead>
+      <tbody id="top10"><tr><td colspan="7" class="status">Loading scores…</td></tr></tbody>
+    </table></div>
+    <p class="note">Qualified seasons only: at least 70% of team games. CV is the season score. RS is the regular season and PO the postseason, both on the same scale.</p>
+  </div>
+
+  <div class="block">
+    <div class="head-row"><div><span class="eyebrow">Playoffs</span><h2>The ten best postseasons</h2></div><span class="row" style="gap:6px 18px"><a href="#rankings?sort=22&amp;dir=desc">Biggest playoff lifts →</a><a href="#rankings?score=po">All postseason rankings →</a></span></div>
+    <div class="tablewrap"><table class="mob-a" aria-label="Top ten postseasons by PO">
+      <thead><tr><th class="num">#</th><th>Player</th><th>Postseason</th><th>Team</th><th class="num">PO</th><th class="num">Season CV</th><th class="num">RS</th></tr></thead>
+      <tbody id="topruns"><tr><td colspan="7" class="status">Loading scores…</td></tr></tbody>
+    </table></div>
+    <p class="note">PO is the postseason on the regular season's scale, so a playoff 10 means a regular-season 10. Every NBA postseason since 1951–52 and every ABA postseason since 1967–68. Each round counts once however long the series, short runs are read cautiously, each game is judged against the players who actually played it, and champions earn title credit by their share of the load.</p>
+  </div>
+
+  <div class="block">
+    <div class="head-row"><div><span class="eyebrow">Careers</span><h2>The ten best careers</h2></div><a href="#rankings?score=career">All career rankings →</a></div>
+    <div class="tablewrap"><table class="mob-b" aria-label="Top ten careers by Career CV">
+      <thead><tr><th class="num">#</th><th>Player</th><th>Career</th><th class="num">Career CV</th><th>Best season</th><th class="num">Best CV</th></tr></thead>
+      <tbody id="topcareers"><tr><td colspan="6" class="status">Loading careers…</td></tr></tbody>
+    </table></div>
+    <p class="note">Career CV is built on a player's five best seasons, with the playoffs weighing more than in a single season. Every other season adds a little, but only for what it gives above All-Star level. The prime decides; long stretches of ordinary years don't. Career CV counts qualified seasons only; the career span shows every season played.</p>
+  </div>
+
+  <div class="grid2 block">
+    <div class="card prose">
+      <h3 style="margin-bottom:8px">What it measures</h3>
+      <p>Value in a real season. How much a player produced while he played, how much of the load he carried, whether his team won on the nights he played, and how well that team defended.</p>
+      <p style="margin:0"><mark>Carrying a team counts.</mark> A player who shoulders a big share of the offense earns credit for that burden, even when his shooting is imperfect.</p>
+    </div>
+    <div class="card prose">
+      <h3 style="margin-bottom:8px">What it doesn't claim</h3>
+      <ul class="list" style="margin:0">
+        <li>It isn't plus-minus or a causal impact estimate.</li>
+        <li>It isn't wins above replacement.</li>
+        <li>It doesn't rate talent, or who would have been best if healthy.</li>
+        <li>It doesn't settle career greatness.</li>
+        <li>Its defense is each team's real defense shared among its players, not a grade for each defender.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="rankings" data-page hidden>
+  <div id="rank-players">
+  <span class="eyebrow">Players · Rankings</span>
+  <h2 style="margin-top:6px">Every season, ranked</h2>
+  <div class="controls" id="rank-controls" role="group" aria-label="Filter rankings">
+    <div class="field"><span class="lbl" id="basis-lbl">Score</span>
+      <div class="seg" role="group" aria-labelledby="basis-lbl">
+        <button type="button" data-basis="full" aria-pressed="true">Season CV</button>
+        <button type="button" data-basis="base" aria-pressed="false">Regular season</button>
+        <button type="button" data-basis="po" aria-pressed="false">Playoffs</button>
+        <button type="button" data-basis="career" aria-pressed="false">Career</button>
+      </div>
+    </div>
+    <div class="field opt"><label for="f-from">From</label><select id="f-from"></select></div>
+    <div class="field opt"><label for="f-to">To</label><select id="f-to"></select></div>
+    <div class="field opt"><label for="f-league">League</label><select id="f-league"><option value="all">NBA and ABA</option><option value="0">NBA</option><option value="1">ABA</option></select></div>
+    <div class="field opt"><label for="f-pos">Position</label><select id="f-pos"><option value="all">All</option><option>PG</option><option>SG</option><option>SF</option><option>PF</option><option>C</option></select></div>
+    <div class="field opt"><label for="f-team">Team</label><select id="f-team"><option value="all">All teams</option></select></div>
+    <div class="field opt"><label for="f-search">Player</label><input type="search" id="f-search" placeholder="Search a name" autocomplete="off"></div>
+    <label class="check" for="f-qual"><input type="checkbox" id="f-qual" checked> Qualified only</label>
+    <label class="check" for="f-champ"><input type="checkbox" id="f-champ"> Champions only</label>
+    <label class="check" for="f-best"><input type="checkbox" id="f-best"> Best season per player</label>
+    <button type="button" class="ftoggle" id="ftoggle" aria-expanded="false" aria-controls="rank-controls">Filters</button>
+  </div>
+  <p class="note" id="basis-note"></p>
+  <div class="status" id="count" aria-live="polite" style="margin-top:12px"></div>
+  <div class="tablewrap"><table aria-label="Rankings">
+    <thead><tr id="rank-head"></tr></thead>
+    <tbody id="rank-body"><tr><td class="status">Loading scores…</td></tr></tbody>
+  </table></div>
+  <button type="button" class="btn secondary more" id="more" hidden>Show 50 more</button>
+  <p class="note">Click a column heading to sort; click again to reverse. Click a player's name to open his page and that season. Every filter is kept in the address, so you can share the exact view. Positions are each season's listed position from Basketball-Reference, shown for filtering.</p>
+  </div>
+  <div id="rank-teams" hidden>
+    <span class="eyebrow">Teams · Rankings</span>
+    <h2 style="margin-top:6px">Every team, ranked</h2>
+    <div class="controls" id="tr-controls" role="group" aria-label="Filter team rankings">
+      <div class="field"><span class="lbl" id="tr-lbl">Score</span>
+        <div class="seg" role="group" aria-labelledby="tr-lbl" id="tr-score">
+          <button type="button" data-ts="rating" aria-pressed="true">Rating</button>
+          <button type="button" data-ts="rs" aria-pressed="false">RS</button>
+          <button type="button" data-ts="po" aria-pressed="false">PO</button>
+          <button type="button" data-ts="roster" aria-pressed="false">Roster</button>
+          <button type="button" data-ts="big3" aria-pressed="false">Big 3</button>
+        </div></div>
+      <div class="field opt"><label for="tr-from">From</label><select id="tr-from"></select></div>
+      <div class="field opt"><label for="tr-to">To</label><select id="tr-to"></select></div>
+      <div class="field opt"><label for="tr-lg">League</label><select id="tr-lg"><option value="all">NBA and ABA</option><option value="0">NBA</option><option value="1">ABA</option></select></div>
+      <div class="field opt"><label for="tr-fr">Franchise</label><select id="tr-fr"><option value="all">All franchises</option></select></div>
+      <label class="check" for="tr-champ"><input type="checkbox" id="tr-champ"> Champions only</label>
+      <label class="check" for="tr-best"><input type="checkbox" id="tr-best"> Best season per franchise</label>
+      <button type="button" class="ftoggle" id="tr-ftoggle" aria-expanded="false" aria-controls="tr-controls">Filters</button>
+    </div>
+    <p class="note" id="tr-note"></p>
+    <div class="status" id="tr-count" aria-live="polite" style="margin-top:12px"></div>
+    <div class="tablewrap"><table aria-label="Team rankings"><thead><tr id="tr-head"></tr></thead><tbody id="tr-body"><tr><td class="status">Loading teams…</td></tr></tbody></table></div>
+    <button type="button" class="btn secondary more" id="tr-more" hidden>Show 50 more</button>
+    <p class="note">Every rating is points per game better than an average team of its own league and season, so eras compare fairly. Click a heading to sort. Click a team to open it in the Time Machine. Every filter is kept in the address.</p>
+  </div>
+</section>
+
+<section id="compare" data-page hidden>
+  <span class="eyebrow">Players · Compare</span>
+  <h2 style="margin-top:6px">Put careers side by side</h2>
+  <p class="lede prose" style="margin-top:12px">Up to five players on one chart, lined up by season, by career year or by age. <mark>The shaded band is where most MVP seasons land.</mark> Add players here, or use the Compare button on any player's page. The address keeps the players and settings, so the view can be shared.</p>
+  <div class="controls" role="group" aria-label="Comparison score">
+    <div class="field"><span class="lbl" id="cmpb-lbl">Score</span>
+      <div class="seg" role="group" aria-labelledby="cmpb-lbl">
+        <button type="button" data-cb="full" aria-pressed="true">Season CV</button>
+        <button type="button" data-cb="base" aria-pressed="false">Regular season</button>
+        <button type="button" data-cb="po" aria-pressed="false">Playoffs</button>
+      </div>
+    </div>
+    <div class="field"><span class="lbl">Quick picks</span>
+      <div class="row" id="cmp-quick" style="gap:8px">
+        <button type="button" class="pp-close" data-q="jordami01,jamesle01,abdulka01">Jordan · LeBron · Kareem</button>
+        <button type="button" class="pp-close" data-q="birdla01,johnsma02">Bird · Magic</button>
+        <button type="button" class="pp-close" data-q="russebi01,chambwi01">Russell · Wilt</button>
+        <button type="button" class="pp-close" data-q="onealsh01,duncati01,olajuha01">Shaq · Duncan · Hakeem</button>
+        <button type="button" class="pp-close" data-q="curryst01,duranke01,antetgi01,jokicni01">Curry · Durant · Giannis · Jokić</button>
+      </div>
+    </div>
+  </div>
+  <div id="player-panel" class="card"><div class="status">Loading scores…</div></div>
+</section>
+
+<section id="player" data-page hidden>
+  <div id="pl-body"><div class="status">Loading scores…</div></div>
+</section>
+
+<section id="teams" data-page hidden>
+  <span class="eyebrow">Teams · Time Machine</span>
+  <h2 style="margin-top:6px">Any two teams, any two eras</h2>
+  <p class="lede prose" style="margin-top:12px">Pick two team-seasons and play them in a best-of-seven. A team's rating blends its players' Court Value with how the team actually performed against its own league, regular season and playoffs weighted 65/35 like the season score. It reads as <mark>points per game better than an average team of its own era</mark>.</p>
+  <div class="tm-stage">
+  <div class="pick2">
+    <div class="card tcard a" id="tm-a"></div>
+    <div class="vs" aria-hidden="true">vs</div>
+    <div class="card tcard b" id="tm-b"></div>
+  </div>
+  <div class="odds card">
+    <div class="row" style="justify-content:space-between">
+      <span class="lbl">Series odds · best of seven</span>
+      <div class="row"><button id="tm-rand" class="btn secondary" type="button">Random matchup</button><button id="tm-play" class="btn" type="button">Play the series</button></div>
+    </div>
+    <div class="oddbar" id="tm-bar"></div>
+    <div class="outcomes" id="tm-out"></div>
+    <p class="caption" id="tm-cap"></p>
+    <ul class="games" id="tm-games" aria-live="polite"></ul>
+    <div class="verdict" id="tm-verdict"></div>
+  </div>
+  </div>
+  <div class="block" id="exh">
+    <div class="head-row"><div><span class="eyebrow">Exhibition</span><h2>Olympic and movie teams</h2></div></div>
+    <div class="tablewrap"><table aria-label="Exhibition teams">
+      <thead><tr><th>Team</th><th>From</th><th class="num">Rating</th><th>Players</th><th></th></tr></thead>
+      <tbody id="exh-list"><tr><td colspan="5" class="status">Loading teams…</td></tr></tbody>
+    </table></div>
+    <p class="note">Just for fun: teams that never played an NBA season, built from real player-seasons and rated on the same roster scale as every real team. Each player uses his or her last qualified season up to that year: the Olympic year for the U.S. Olympic teams, the film's year for the movie teams. Olympic teams split the minutes evenly across all twelve; a player not yet in the NBA (Laettner, Okafor, Anthony Davis in 2012) counts as an average player-game. Movie teams start five who play 34 of 48 minutes; the bench and the Looney Tunes play at 0, an average player-game. WNBA players use their WNBA scores, on the WNBA's own scale. These teams have no results, so the roster is the whole rating, and they never appear in the rankings. Pick <b>Exhibition</b> as the season in either slot, or use the buttons.</p>
+  </div>
+  <div class="block">
+    <div class="head-row"><div><span class="eyebrow">All time</span><h2>The best teams</h2><a href="#rankings/teams" style="font:600 13px/1 var(--mono)">Full team rankings →</a></div>
+      <div class="field"><label for="tm-lg">League</label><select id="tm-lg"><option value="all">NBA and ABA</option><option value="0">NBA</option><option value="1">ABA</option></select></div></div>
+    <div class="tablewrap"><table aria-label="Best team-seasons by team rating">
+      <thead><tr><th class="num">#</th><th>Team</th><th>Season</th><th class="num">W–L</th><th class="num">Rating</th><th class="num">Roster (CV)</th><th class="num">Regular season</th><th class="num">Playoffs</th><th>Result</th><th></th></tr></thead>
+      <tbody id="tm-list"><tr><td colspan="10" class="status">Loading teams…</td></tr></tbody>
+    </table></div>
+    <button type="button" class="btn secondary more" id="tm-more">Show 25 more</button>
+    <p class="note"><b>Roster (CV)</b> is what the players' Court Value alone projects. <b>Regular season</b> blends that with the team's schedule-adjusted margin, and <b>Playoffs</b> is how the team played in the postseason against the teams it actually faced, read cautiously for short runs. The rating is 65% regular season and 35% playoffs. Results are measured against the spread of their own league, so a team from a lopsided era gets no extra credit for it. Tested on every playoff game since 1952, this blend picks series winners better than either the roster or the results alone. Use a row's buttons to send it to either side of the Time Machine.</p>
+  </div>
+</section>
+
+<section id="big3" data-page hidden>
+  <span class="eyebrow">Teams · Big 3</span>
+  <h2 style="margin-top:6px">Every team's Big 3, head to head</h2>
+  <p class="lede prose" style="margin-top:12px">A team's Big 3 is its three best qualified seasons by Court Value, counting players who spent at least 30% of that team's games there. <mark>Add them up and every trio in history is on one scale.</mark></p>
+  <div class="tm-stage">
+  <div class="pick2">
+    <div class="card tcard a" id="b3-a"></div>
+    <div class="vs" aria-hidden="true">vs</div>
+    <div class="card tcard b" id="b3-b"></div>
+  </div>
+  <div class="card odds" id="b3-cmp"></div>
+  </div>
+  <div class="block">
+    <div class="head-row"><div><span class="eyebrow">All time</span><h2>The best Big 3s</h2><a href="#rankings/teams?score=big3" style="font:600 13px/1 var(--mono)">Full Big 3 rankings →</a></div>
+      <div class="field"><label for="b3-lg">League</label><select id="b3-lg"><option value="all">NBA and ABA</option><option value="0">NBA</option><option value="1">ABA</option></select></div></div>
+    <div class="tablewrap"><table aria-label="Best Big 3s by combined season CV">
+      <thead><tr><th class="num">#</th><th>Team</th><th>Season</th><th>The three</th><th class="num">Big 3 CV</th><th>Result</th><th></th></tr></thead>
+      <tbody id="b3-list"><tr><td colspan="7" class="status">Loading teams…</td></tr></tbody>
+    </table></div>
+    <button type="button" class="btn secondary more" id="b3-more">Show 25 more</button>
+    <p class="note">Big 3 CV is the sum of the three season CVs, regular season and playoffs together. A player traded mid-season carries his whole-season score to each team where he played at least 30% of the games.</p>
+  </div>
+</section>
+
+<section id="decades" data-page hidden>
+  <span class="eyebrow">Decades</span>
+  <h2 style="margin-top:6px">The best of every decade</h2>
+  <p class="lede prose" style="margin-top:12px">Each decade's best players, seasons, teams and Big 3s. A decade runs by the season's final year, so 1989–90 opens the 1990s. <mark>Pick a decade for the full lists.</mark></p>
+  <div class="decgrid" id="dec-grid"><div class="status">Loading decades…</div></div>
+  <div class="block decdetail" id="dec-detail"></div>
+</section>
+
+<!-- wnba:section:start -->
+<section id="wnba" data-page hidden>
+  <span class="eyebrow">WNBA · 1997–2025 · regular season and playoffs</span>
+  <h2 style="margin-top:6px">Every WNBA season, on its own scale</h2>
+  <p class="lede prose" style="margin-top:12px">The same Court Value rules, applied to every WNBA player-season since 1997, regular season and playoffs together. <mark>The WNBA is ranked on its own list.</mark> A score reads the same way inside any season (0 is that season's average player-game), but a WNBA 10 and an NBA 10 describe standing in two different leagues, so the lists are never mixed.</p>
+  <p class="note">Built from season totals for all 29 seasons and every postseason, so one rule covers the whole league history. The 2026 season will be added once its numbers are final.</p>
+
+  <div class="block">
+    <div class="head-row"><div><span class="eyebrow">Leaderboard</span><h2>The ten best WNBA seasons</h2></div><a href="#wnba?score=full" data-wgo="full">All seasons →</a></div>
+    <div class="tablewrap"><table class="mob-a" aria-label="Top ten WNBA seasons by season CV">
+      <thead><tr><th class="num">#</th><th>Player</th><th>Season</th><th>Team</th><th class="num">CV</th><th class="num">RS</th><th class="num">PO</th></tr></thead>
+      <tbody id="w-top"><tr><td colspan="7" class="status">Loading WNBA scores…</td></tr></tbody>
+    </table></div>
+    <p class="note">Qualified seasons only: at least 70% of team games. CV is the season score; RS is the regular season and PO the postseason, both on the same scale.</p>
+  </div>
+
+  <div class="block">
+    <div class="head-row"><div><span class="eyebrow">Playoffs</span><h2>The ten best WNBA postseasons</h2></div><a href="#wnba?score=po" data-wgo="po">All postseasons →</a></div>
+    <div class="tablewrap"><table class="mob-a" aria-label="Top ten WNBA postseasons by PO">
+      <thead><tr><th class="num">#</th><th>Player</th><th>Postseason</th><th>Team</th><th class="num">PO</th><th class="num">Season CV</th><th class="num">RS</th></tr></thead>
+      <tbody id="w-po"><tr><td colspan="7" class="status">Loading WNBA scores…</td></tr></tbody>
+    </table></div>
+  </div>
+
+  <div class="block">
+    <div class="head-row"><div><span class="eyebrow">Careers</span><h2>The ten best WNBA careers</h2></div><a href="#wnba?score=career" data-wgo="career">All careers →</a></div>
+    <div class="tablewrap"><table class="mob-b" aria-label="Top ten WNBA careers by Career CV">
+      <thead><tr><th class="num">#</th><th>Player</th><th>Career</th><th class="num">Career CV</th><th>Best season</th><th class="num">Best CV</th></tr></thead>
+      <tbody id="w-car"><tr><td colspan="6" class="status">Loading WNBA careers…</td></tr></tbody>
+    </table></div>
+    <p class="note">Career CV is built the same way as in the NBA and ABA: a player's five best seasons, plus a little for every other season above All-Star level.</p>
+  </div>
+
+  <div class="block" id="w-all">
+    <span class="eyebrow">WNBA · Rankings</span>
+    <h2 style="margin-top:6px">Every WNBA season, ranked</h2>
+    <div class="wcontrols" role="group" aria-label="Filter WNBA rankings">
+      <div class="field"><span class="lbl" id="w-basis-lbl">Score</span>
+        <div class="seg" role="group" aria-labelledby="w-basis-lbl">
+          <button type="button" data-wb="full" aria-pressed="true">Season CV</button>
+          <button type="button" data-wb="rs" aria-pressed="false">Regular season</button>
+          <button type="button" data-wb="po" aria-pressed="false">Playoffs</button>
+          <button type="button" data-wb="career" aria-pressed="false">Career</button>
+        </div>
+      </div>
+      <div class="field opt"><label for="w-from">From</label><select id="w-from"></select></div>
+      <div class="field opt"><label for="w-to">To</label><select id="w-to"></select></div>
+      <div class="field opt"><label for="w-team">Team</label><select id="w-team"><option value="all">All teams</option></select></div>
+      <div class="field opt"><label for="w-search">Player</label><input type="search" id="w-search" placeholder="Search a name" autocomplete="off"></div>
+      <label class="check" for="w-qual"><input type="checkbox" id="w-qual" checked> Qualified only</label>
+      <label class="check" for="w-champ"><input type="checkbox" id="w-champ"> Champions only</label>
+      <label class="check" for="w-best"><input type="checkbox" id="w-best"> Best season per player</label>
+    </div>
+    <div class="status" id="w-count" aria-live="polite" style="margin-top:12px"></div>
+    <div class="tablewrap"><table aria-label="WNBA rankings">
+      <thead><tr id="w-head"></tr></thead>
+      <tbody id="w-body"><tr><td class="status">Loading WNBA scores…</td></tr></tbody>
+    </table></div>
+    <button type="button" class="btn secondary more" id="w-more" hidden>Show 50 more</button>
+    <p class="note">Click a column heading to sort; click again to reverse. Every filter is kept in the address, so you can share the exact view. Underlying statistics: Basketball-Reference, via Neil Paine's WNBA stat sheet.</p>
+  </div>
+</section>
+<!-- wnba:section:end -->
+<section id="franchises" data-page hidden>
+  <div id="fr-intro">
+    <span class="eyebrow">Teams · Franchises</span>
+    <h2 style="margin-top:6px">Every franchise's history</h2>
+    <p class="lede prose" style="margin-top:12px">Pick a franchise for its season-by-season record, best players, seasons, teams and Big 3s, and its All-Franchise teams. A franchise keeps its history through moves and renames, and the Nuggets, Pacers, Spurs and Nets keep their ABA years. <mark>Records start in 1951–52.</mark></p>
+  </div>
+  <div id="fr-hub">
+    <div class="tools2">
+      <a class="card toolcard" href="#teams"><span class="eyebrow">Time Machine</span><b>Any two teams, any two eras</b><span>Play a best-of-seven between any two team-seasons, and see the best teams of all time.</span></a>
+      <a class="card toolcard" href="#big3"><span class="eyebrow">Big 3</span><b>Every team's three best, head to head</b><span>Stack any two trios on one scale, and see the best Big 3s ever.</span></a>
+    </div>
+    <h3 class="hubh">Current franchises</h3>
+    <div class="fgrid" id="fr-grid"><div class="status">Loading franchises…</div></div>
+    <details class="former"><summary>Former franchises (10)</summary><div class="fgrid" id="fr-former"></div></details>
+  </div>
+  <div id="fr-page" hidden>
+    <div class="fr-nav" id="fr-nav"></div>
+    <div class="controls" style="padding-top:10px"><div class="field"><label for="fr-sel">Jump to</label><select id="fr-sel"></select></div></div>
+    <div class="block decdetail" id="fr-detail" style="padding-top:10px"></div>
+  </div>
+</section>
+
+<section id="play" data-page hidden>
+  <span class="eyebrow">Play · <span id="g-label">Today's game</span></span>
+  <h2 style="margin:6px 0 12px">Court Value 82</h2>
+  <p class="lede prose">Spin a team from any season since 1952 and take one player off its roster. Fill all five spots, then play an 82-game season against real teams from every era. The scores stay hidden until the season starts. <mark>Can you beat the 73–9 Warriors?</mark></p>
+  <div class="g-modes" role="group" aria-label="Game">
+    <button type="button" class="g-mode" data-mode="daily" aria-pressed="true">Today's game</button>
+    <button type="button" class="g-mode" data-mode="free" aria-pressed="false">Free play</button>
+  </div>
+  <div class="g-five" id="g-five" aria-label="Your five"></div>
+  <div class="card g-desk" id="g-desk" aria-live="polite"><p class="status">Loading teams…</p></div>
+  <div id="g-result"></div>
+  <details class="g-rules">
+    <summary>How it works</summary>
+    <div class="prose">
+      <p><b>The draft.</b> Each spin lands on a real team-season. Take one player who played at least half its games, and put him at his listed position or the one next to it (PG, SG, SF, PF, C). You get one skip a game. Each player can only be picked once, from any season.</p>
+      <p><b>The rating.</b> Your five play 34 minutes a night each and the bench is average. That's the same rule as the movie and Olympic teams in the <a href="#teams">Time Machine</a>: each player's regular-season score (RS) from that season, measured against the average team of his own era. It reads as points per game better than an average team.</p>
+      <p><b>The season.</b> 82 games against real team-seasons from 1952 to today, half at home, using the Time Machine's game model (home court is worth about 4 points; a game's margin varies by about 12). Today's game gives everyone the same spins and the same schedule.</p>
+      <p><b>The colors.</b> Each pick's square shows his RS: <span class="g-chip t5">12+</span> all-time, <span class="g-chip t4">8–12</span> MVP range, <span class="g-chip t3">6–8</span> All-NBA, <span class="g-chip t2">4–6</span> All-Star, <span class="g-chip t1">under 4</span>.</p>
+    </div>
+  </details>
+</section>
+
+<section id="methodology" data-page hidden>
+  <span class="eyebrow">How it works · version <span class="ver">2.1.1</span></span>
+  <h2 style="margin:6px 0 12px">How a season becomes a number</h2>
+  <p class="lede prose">Every step uses information recorded since 1952, and every season is measured against the other players in that same season. <mark>No era bonuses and no awards or reputation go into the score.</mark> ABA seasons carry one measured league-strength adjustment, estimated from players who moved between the leagues.</p>
+  <div class="strip">
+    <div class="frame"><span class="n">1</span><h3>Count the production</h3><p>Points, assists and rebounds, the box-score numbers recorded every season since 1952. Efficient scoring counts for more than empty volume.</p></div>
+    <div class="frame"><span class="n">2</span><h3>Weigh the load</h3><p>Players who carry more of their team's offense earn more of the credit for how the team did. Load measures responsibility, not skill.</p></div>
+    <div class="frame"><span class="n">3</span><h3>Check the scoreboard</h3><p>How the team did in the games he actually played, and how the team did with him and without him, judged against what the players on the floor were expected to produce.</p></div>
+    <div class="frame"><span class="n">4</span><h3>Share the defense</h3><p>Each team's real defense, rated the same way in every season since 1952, is shared among its players by their role on the team.</p></div>
+    <div class="frame"><span class="n">5</span><h3>Then the playoffs</h3><p>Every playoff game is judged against the players who actually played it. Each postseason's team defense is measured on one common scale, each round counts once however long the series, short runs are read cautiously, and champions earn title credit by their share of the load.</p></div>
+    <div class="frame"><span class="n">6</span><h3>One season score</h3><p>The regular season (RS) and the postseason (PO) combine into one CV. Missing the playoffs counts as league average for the playoff part, so a great season on a bad team still ranks.</p></div>
+  </div>
+
+  <div class="grid2 block">
+    <div class="card prose">
+      <h3 style="margin-bottom:8px">Two leagues, one scale</h3>
+      <p style="margin:0">The early ABA was a weaker league than the NBA, and it caught up. CV measures the gap from the players who moved between the leagues and adjusts each ABA season by its own year's gap. By 1975–76 the leagues were even.</p>
+    </div>
+    <div class="card prose">
+      <h3 style="margin-bottom:8px">From seasons to careers</h3>
+      <p style="margin:0">Career CV is built on a player's five best seasons, with the playoffs counting more than they do in a single season. Every other season adds a little, but only for what it gives above All-Star level. A great prime decides it; long stretches of ordinary years don't. <mark>Decade CV and Franchise CV</mark> apply the same rule to a player's seasons inside one decade or with one franchise.</p>
+    </div>
+  </div>
+
+  <div class="block">
+    <span class="eyebrow">Teams, Big 3s, decades and franchises</span>
+    <h2 style="margin:6px 0 4px">From players to teams</h2>
+    <div class="strip">
+      <div class="frame"><span class="n">1</span><h3>Team rating</h3><p>Two views of each team are blended: its players' Court Value, weighted by minutes, and how the team actually did against its schedule. Results are measured against the spread of their own league, so a lopsided era gives no extra credit. The regular season counts 65% and the playoffs 35%, as in the season score.</p></div>
+      <div class="frame"><span class="n">2</span><h3>Tested on the playoffs</h3><p>Every version was tested on all 4,819 playoff games and 933 series since 1952, each decade predicted from the others. Blending the roster with results picked series winners better than either alone, and its odds are well calibrated: 70–80% favorites won 77% of the time.</p></div>
+      <div class="frame"><span class="n">3</span><h3>The Time Machine</h3><p>Series odds come from the two ratings, game by game, in a 2-2-1-1-1 format. Home court goes to the higher-rated team and is worth about four points, the edge measured in real playoff games. Single games carry the spread real playoff results show.</p></div>
+      <div class="frame"><span class="n">4</span><h3>Big 3s</h3><p>A team's three best qualified seasons by Court Value, among players who spent at least 30% of that team's games there, added up. Regular season and playoffs count together.</p></div>
+      <div class="frame"><span class="n">5</span><h3>All-Decade and All-Franchise teams</h3><p>Two guards, two forwards and a center per team, picked in order by Decade CV or Franchise CV. A player's position is the one he was listed at most in that decade or with that franchise.</p></div>
+      <div class="frame"><span class="n">6</span><h3>Franchise histories</h3><p>Franchises keep their history through moves and renames, so the Lakers include Minneapolis and the Thunder include Seattle. The Nuggets, Pacers, Spurs and Nets keep their ABA years. A season counts for a franchise when the player was qualified and played at least 30% of its games.</p></div>
+    </div>
+  </div>
+
+  <div class="magic">
+    <div class="big" aria-hidden="true">3</div>
+    <div class="prose">
+      <h3 style="font:400 28px/1.1 var(--display);margin-bottom:8px">Three is the magic number</h3>
+      <p>Three points equal one standard deviation within the season. A regular season of 9 sits about three standard deviations above that season's average player-game. In most years that's among the league's two or three best, whether the year is 1965 or 2015.</p>
+    </div>
+  </div>
+
+  <div class="block" id="lines-up">
+    <span class="eyebrow">Checking the work</span>
+    <h2 style="margin:6px 0 12px">How CV lines up</h2>
+    <p class="lede prose">CV never looks at awards or at other metrics, so both are fair checks. They judge only the regular season, so the fair comparison is CV's regular-season score (RS). <mark>RS matches the All-NBA teams better than any modern metric, and agrees with the metrics about as closely as the voters do.</mark> Season CV adds the playoffs, which none of them judge, so it agrees a little less.</p>
+    <div class="grid2 block" style="padding-top:20px">
+      <div class="card prose">
+        <h3 style="margin-bottom:6px">CV and modern metrics</h3>
+        <p style="margin:0;font-size:16.5px">How closely CV puts every qualified NBA season in the same order as each metric (1.00 is identical order).</p>
+        <div class="hbars"><div class="pair"><span class="pl">Win Shares</span><div class="hb me"><span>CV RS</span><span class="track"><span class="fill" style="width:86.0%"></span><span class="mk" style="left:86.7%"></span></span><b>.86</b></div><div class="hb me2"><span>CV season</span><span class="track"><span class="fill" style="width:81.7%"></span></span><b>.82</b></div></div><div class="pair"><span class="pl">LAKER WAR</span><div class="hb me"><span>CV RS</span><span class="track"><span class="fill" style="width:83.3%"></span><span class="mk" style="left:87.6%"></span></span><b>.83</b></div><div class="hb me2"><span>CV season</span><span class="track"><span class="fill" style="width:79.7%"></span></span><b>.80</b></div></div><div class="pair"><span class="pl">VORP</span><div class="hb me"><span>CV RS</span><span class="track"><span class="fill" style="width:79.9%"></span><span class="mk" style="left:90.2%"></span></span><b>.80</b></div><div class="hb me2"><span>CV season</span><span class="track"><span class="fill" style="width:76.1%"></span></span><b>.76</b></div></div><div class="pair"><span class="pl">PER</span><div class="hb me"><span>CV RS</span><span class="track"><span class="fill" style="width:77.8%"></span><span class="mk" style="left:80.0%"></span></span><b>.78</b></div><div class="hb me2"><span>CV season</span><span class="track"><span class="fill" style="width:76.3%"></span></span><b>.76</b></div></div><div class="pair"><span class="pl">BPM</span><div class="hb me"><span>CV RS</span><span class="track"><span class="fill" style="width:73.1%"></span><span class="mk" style="left:87.8%"></span></span><b>.73</b></div><div class="hb me2"><span>CV season</span><span class="track"><span class="fill" style="width:68.6%"></span></span><b>.69</b></div></div></div>
+        <p class="keyline"><i></i>How closely that metric agrees with the other four</p>
+        <p style="margin:12px 0 0;font-size:16.5px">RS agrees with Win Shares about as closely as the metrics agree with each other. The metrics share inputs CV leaves out, like steals, blocks, turnovers and per-minute rates.</p>
+      </div>
+      <div class="card prose">
+        <h3 style="margin-bottom:6px">CV and the voters</h3>
+        <p style="margin:0;font-size:16.5px">Each season's 10 or 15 best players by RS (as many as made All-NBA that year), against the voters' picks.</p>
+        <div class="duo">
+          <div><div class="bignum" style="color:var(--blue)">74%</div><p style="margin:6px 0 0;font-size:16px">of All-NBA picks are in RS's top group</p></div>
+          <div><div class="bignum" style="color:var(--red)">54%</div><p style="margin:6px 0 0;font-size:16px">of MVPs had the season's highest RS</p></div>
+        </div>
+        <p style="margin:14px 0 0;font-size:16.5px">All-NBA since 1952, MVP since 1956. 93% of MVPs were among the season's top three by RS. Season CV: 70% and 53%.</p>
+      </div>
+    </div>
+    <div class="grid2 block" style="padding-top:26px">
+      <div class="card prose">
+        <h3 style="margin-bottom:6px">Against the voters: CV and the metrics</h3>
+        <p style="margin:0;font-size:16.5px">Each measure's top group that made All-NBA, 1977–2025, the years every metric exists.</p>
+        <div class="hbars"><div class="hb me"><span>CV RS</span><span class="track"><span class="fill" style="width:75.6%"></span></span><b>76%</b></div><div class="hb me2"><span>CV season</span><span class="track"><span class="fill" style="width:71.2%"></span></span><b>71%</b></div><div class="hb "><span>VORP</span><span class="track"><span class="fill" style="width:69.8%"></span></span><b>70%</b></div><div class="hb "><span>PER</span><span class="track"><span class="fill" style="width:69.1%"></span></span><b>69%</b></div><div class="hb "><span>Win Shares</span><span class="track"><span class="fill" style="width:66.9%"></span></span><b>67%</b></div><div class="hb "><span>BPM</span><span class="track"><span class="fill" style="width:66.1%"></span></span><b>66%</b></div><div class="hb "><span>LAKER WAR</span><span class="track"><span class="fill" style="width:65.9%"></span></span><b>66%</b></div></div>
+        <h3 style="margin:20px 0 6px;font-size:19px">Season's #1 won MVP</h3>
+        <div class="hbars"><div class="hb "><span>Win Shares</span><span class="track"><span class="fill" style="width:57.1%"></span></span><b>57%</b></div><div class="hb me"><span>CV RS</span><span class="track"><span class="fill" style="width:55.1%"></span></span><b>55%</b></div><div class="hb "><span>LAKER WAR</span><span class="track"><span class="fill" style="width:53.1%"></span></span><b>53%</b></div><div class="hb "><span>PER</span><span class="track"><span class="fill" style="width:53.1%"></span></span><b>53%</b></div><div class="hb "><span>BPM</span><span class="track"><span class="fill" style="width:53.1%"></span></span><b>53%</b></div><div class="hb me2"><span>CV season</span><span class="track"><span class="fill" style="width:51.0%"></span></span><b>51%</b></div><div class="hb "><span>VORP</span><span class="track"><span class="fill" style="width:51.0%"></span></span><b>51%</b></div></div>
+        <p style="margin:12px 0 0;font-size:16.5px">RS matches the All-NBA teams better than any metric. On the MVP itself, Win Shares does slightly better.</p>
+      </div>
+      <div class="card prose">
+        <h3 style="margin-bottom:6px">Against the metrics: CV and the voters</h3>
+        <p style="margin:0;font-size:16.5px">Overlap with each metric's top group, 1977–2025: CV's, and the All-NBA voters'.</p>
+        <div class="hbars"><div class="pair"><span class="pl">Win Shares</span><div class="hb me"><span>CV RS</span><span class="track"><span class="fill" style="width:65.6%"></span></span><b>66%</b></div><div class="hb me2"><span>CV season</span><span class="track"><span class="fill" style="width:62.9%"></span></span><b>63%</b></div><div class="hb "><span>All-NBA</span><span class="track"><span class="fill" style="width:66.9%"></span></span><b>67%</b></div></div><div class="pair"><span class="pl">LAKER WAR</span><div class="hb me"><span>CV RS</span><span class="track"><span class="fill" style="width:64.6%"></span></span><b>65%</b></div><div class="hb me2"><span>CV season</span><span class="track"><span class="fill" style="width:61.7%"></span></span><b>62%</b></div><div class="hb "><span>All-NBA</span><span class="track"><span class="fill" style="width:65.9%"></span></span><b>66%</b></div></div><div class="pair"><span class="pl">PER</span><div class="hb me"><span>CV RS</span><span class="track"><span class="fill" style="width:68.7%"></span></span><b>69%</b></div><div class="hb me2"><span>CV season</span><span class="track"><span class="fill" style="width:64.0%"></span></span><b>64%</b></div><div class="hb "><span>All-NBA</span><span class="track"><span class="fill" style="width:69.1%"></span></span><b>69%</b></div></div><div class="pair"><span class="pl">VORP</span><div class="hb me"><span>CV RS</span><span class="track"><span class="fill" style="width:69.5%"></span></span><b>70%</b></div><div class="hb me2"><span>CV season</span><span class="track"><span class="fill" style="width:65.0%"></span></span><b>65%</b></div><div class="hb "><span>All-NBA</span><span class="track"><span class="fill" style="width:69.8%"></span></span><b>70%</b></div></div><div class="pair"><span class="pl">BPM</span><div class="hb me"><span>CV RS</span><span class="track"><span class="fill" style="width:66.7%"></span></span><b>67%</b></div><div class="hb me2"><span>CV season</span><span class="track"><span class="fill" style="width:62.8%"></span></span><b>63%</b></div><div class="hb "><span>All-NBA</span><span class="track"><span class="fill" style="width:66.1%"></span></span><b>66%</b></div></div></div>
+        <p style="margin:12px 0 0;font-size:16.5px">On average, RS overlaps the metrics 67%, season CV 63%, and the voters 68%. RS matches the voters (76%) more than it matches any one metric.</p>
+      </div>
+    </div>
+    <p class="note">All numbers use NBA seasons with at least 70% of team games, through 2024–25. Rank agreement is Spearman's correlation. BPM and VORP start in 1973–74 and LAKER WAR in 1976–77. PER, Win Shares, BPM, VORP and awards from Basketball-Reference; LAKER WAR from Neil Paine.</p>
+  </div>
+
+  <div class="grid2 block">
+    <div class="card prose">
+      <h3>What's covered</h3>
+      <dl class="defs">
+        <dt>Seasons</dt><dd>NBA 1951–52 to 2025–26; ABA 1967–68 to 1975–76</dd>
+        <dt>Postseasons</dt><dd>Every NBA and ABA postseason in those years</dd>
+        <dt>Rows</dt><dd>26,204 player-seasons; 2,934 careers; 1,759 team-seasons; 40 franchises</dd>
+        <dt>Leaderboards</dt><dd>At least 70% of team games</dd>
+      </dl>
+    </div>
+    <div class="card prose">
+      <h3>Known limits</h3>
+      <ul class="list" style="margin:8px 0 0">
+        <li>Box scores before 1973–74 have no steals, blocks or turnovers, so CV uses none in any era.</li>
+        <li>Defense is each team's real defense shared among players by role; it is not a grade for each defender.</li>
+        <li>Standing within a season doesn't prove equal strength across eras or leagues.</li>
+        <li>Some early playoff box scores (NBA before 1965, ABA before 1972) are missing assists; those games are estimated and marked "Partial playoff box".</li>
+        <li>Players who almost never missed a game give the with-and-without comparison little to work with.</li>
+        <li>A player traded mid-season carries his whole-season score to each team in Big 3s, decades and franchise lists.</li>
+        <li>Records and titles start in 1951–52, so earlier titles (the Minneapolis Lakers' 1949 and 1950) are not counted. A few teams with gaps in their game records show no win–loss line.</li>
+      </ul>
+    </div>
+  </div>
+  <p class="note">Court Value's formula is proprietary. The scores are free to use under CC BY 4.0.</p>
+</section>
+
+<section id="downloads" data-page hidden>
+  <span class="eyebrow">Data and changelog</span>
+  <h2 style="margin:6px 0 16px">Take the numbers with you</h2>
+  <div class="dl-row">
+    <div><h3>CV season scores, version 2.1</h3><p class="soft" style="margin:4px 0 0">Every scored player-season, NBA and ABA: player, season, league, teams, games, playoff games, qualification, season CV, RS, PO, playoff status, champion and ranks. CSV, about 3 MB.</p></div>
+    <a class="btn" href="data/PUBLIC_cv_2_1_scores.csv" download>Download CSV</a>
+  </div>
+  <div class="dl-row">
+    <div><h3>Career CV, version 2.1.1</h3><p class="soft" style="margin:4px 0 0">Every player with a qualified season: first and last season, qualified seasons, Career CV and rank, best season. CSV, about 0.2 MB.</p></div>
+    <a class="btn" href="data/PUBLIC_cv_2_1_1_careers.csv" download>Download CSV</a>
+  </div>
+<!-- wnba:dl:start -->
+  <div class="dl-row">
+    <div><h3>WNBA CV season scores, 1997–2025</h3><p class="soft" style="margin:4px 0 0">Every scored WNBA player-season under the 2.1 rules, on the WNBA's own list: player, season, teams, games, playoff games, qualification, season CV, RS, PO, champion and ranks. CSV.</p></div>
+    <a class="btn" href="data/PUBLIC_wnba_cv_2_1_scores.csv" download>Download CSV</a>
+  </div>
+  <div class="dl-row">
+    <div><h3>WNBA Career CV, 1997–2025</h3><p class="soft" style="margin:4px 0 0">Every WNBA player with a qualified season: first and last season, qualified seasons, Career CV and rank. CSV.</p></div>
+    <a class="btn" href="data/PUBLIC_wnba_cv_2_1_careers.csv" download>Download CSV</a>
+  </div>
+<!-- wnba:dl:end -->
+  <p class="note">Earlier versions (1.0, 1.1 and 2.0) remain available from their Zenodo archives linked in the changelog. Their scores are on a different basis; don't mix them with 2.0.</p>
+  <div class="grid2 block">
+    <div class="card prose">
+      <h3>Cite Court Value</h3>
+      <pre id="citation" style="white-space:pre-wrap">Tavolieri, Mario, III. Court Value (CV): a historically portable NBA/ABA player-season value metric. Version 2.1.1. Zenodo, 2026. https://doi.org/10.5281/zenodo.23071104</pre>
+      <button type="button" class="btn secondary" id="copy-cite" style="margin-top:12px">Copy citation</button>
+      <p class="note">Scores: CC BY 4.0. The formula is proprietary. Underlying statistics come from Basketball-Reference, via the Kaggle dataset "NBA Stats (1947–present)" by Sumitro Datta. Raw statistics are not redistributed.</p>
+    </div>
+    <div class="card prose">
+      <h3>Changelog</h3>
+      <dl class="defs">
+        <dt>2.1.1</dt><dd>Career CV now centers on the prime: the five best seasons, with the playoffs weighing more than in a single season, and other seasons adding a little only above All-Star level. Season scores are unchanged. <a href="https://doi.org/10.5281/zenodo.23071104">DOI 10.5281/zenodo.23071104</a></dd>
+        <dt>2.1</dt><dd>Defense is shared by role only, removing a tilt toward big men. ABA seasons are adjusted for league strength, measured from players who moved between the leagues. Each postseason's team defense is measured on one common scale, so thin early playoff records no longer swing scores. Adds Career CV. Scores are not comparable with 2.0.</dd>
+        <dt>2.0</dt><dd>One season score combining the regular season (RS) and postseason (PO). Adds every ABA postseason. New treatment of defense, of team results with and without each player, and of playoff games judged against the players who played them. Scores are not comparable with 1.x. The formula is proprietary from this version on. <a href="https://doi.org/10.5281/zenodo.23066109">DOI 10.5281/zenodo.23066109</a></dd>
+        <dt>1.1</dt><dd>Regular-season only. One defensive rule for every season, covering NBA 1951–52 to 2025–26 and the ABA. <a href="https://doi.org/10.5281/zenodo.23045497">DOI 10.5281/zenodo.23045497</a></dd>
+        <dt>1.0</dt><dd>First public release (<a href="https://doi.org/10.5281/zenodo.23040991">DOI 10.5281/zenodo.23040991</a>). Team context uses the margin in games actually played; season scores are weighted by games played.</dd>
+        <dt>Pre-1.0</dt><dd>Research versions CELTIC (2025) and ARC (2026). Never published as releases.</dd>
+      </dl>
+      <p class="note">Published scores never change silently. Corrections and new seasons get a new version or data revision, and older files stay available.</p>
+    </div>
+  </div>
+</section>
+
+<section id="contact" data-page hidden>
+  <span class="eyebrow">Contact</span>
+  <h2 style="margin:6px 0 12px">Questions, corrections, arguments</h2>
+  <div class="prose">
+    <p>Found a season that looks wrong, or a data error? Good. When CV and another measure keep disagreeing, that gap is exactly what the audit sets out to explain.</p>
+    <p id="contact-issues">Open an issue on the project's GitHub page with the player, the season and what you expected.</p>
+    <p class="soft">Court Value is built and maintained by Mario Tavolieri III.</p>
+  </div>
+</section>
+
+</main>
+
+<footer><div class="wrap">
+  <span>Court Value <span class="ver">2.1.1</span> · data revision <span id="rev">2026-09-30</span></span>
+  <span class="social" id="social" hidden></span>
+  <span id="doi-line"><a href="https://doi.org/10.5281/zenodo.23071104">DOI 10.5281/zenodo.23071104</a> · Scores CC BY 4.0 · Statistics from Basketball-Reference</span>
+</div></footer>

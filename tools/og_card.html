@@ -1,0 +1,66 @@
+<!doctype html><html><head><meta charset="utf-8"><!-- Template for link-preview cards (1200x630). Rendered by tools/build_cards.py. --><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;1,6..72,400&family=IBM+Plex+Mono:wght@400;500;600&display=block"><style>
+:root{--paper:#fbfbf8;--ink:#15130f;--soft:#57534a;--rule:#dedbd2;--red:#d63a2f;--blue:#2458c7;--yellow:#ffd83d;--hi:#fff09a;--green:#2f8f5b}
+html,body{margin:0}
+body{width:1200px;height:630px;background:var(--paper);color:var(--ink);overflow:hidden}
+.c{position:absolute;inset:0;padding:54px 64px 0 64px;box-sizing:border-box;border-bottom:14px solid var(--ink)}
+.eb{font:600 21px/1 "IBM Plex Mono";letter-spacing:.14em;text-transform:uppercase;color:var(--red)}
+h1{margin:34px 0 0;font:400 96px/.98 "Alfa Slab One";letter-spacing:-.01em;max-width:1070px}
+h1.m{font-size:78px} h1.s{font-size:64px}
+.sub{margin-top:18px;font:400 34px/1.3 Newsreader;max-width:980px;color:var(--ink)}
+.sub mark{background:linear-gradient(transparent 12%,var(--hi) 12%,var(--hi) 88%,transparent 88%);color:inherit;padding:0 .1em}
+.stats{display:flex;gap:22px;margin-top:30px}
+.st{border:4px solid var(--ink);border-radius:12px;box-shadow:7px 7px 0 var(--ink);background:#fff;padding:14px 22px 16px;min-width:200px}
+.st small{display:block;font:600 16px/1 "IBM Plex Mono";letter-spacing:.12em;text-transform:uppercase;color:var(--soft)}
+.st b{display:block;font:400 56px/1.05 "Alfa Slab One";margin-top:8px}
+.st span{display:block;font:500 17px/1.2 "IBM Plex Mono";color:var(--soft);margin-top:4px}
+.st.red b{color:var(--red)} .st.blue b{color:var(--blue)}
+.rul{position:absolute;left:64px;right:64px;bottom:62px;height:120px}
+.rul .z{position:absolute;top:8px;height:62px}
+.rul .z.m{background:var(--hi);left:55.56%;width:22.22%}
+.rul .z.t{background:#fbe3e0;left:77.78%;right:0}
+.rul .tr{position:absolute;left:0;right:0;top:70px;height:4px;background:var(--ink)}
+.rul .tk{position:absolute;top:62px;width:3px;height:20px;background:var(--ink)}
+.rul .tk.n{top:66px;height:12px;width:2px}
+.rul .lb{position:absolute;top:88px;transform:translateX(-50%);font:600 19px/1 "IBM Plex Mono";color:var(--soft)}
+.rul .d{position:absolute;width:20px;height:20px;border-radius:50%;transform:translate(-50%,0);border:3px solid var(--ink);box-sizing:border-box;background:var(--blue)}
+.rul .d.p{background:var(--red)}
+.rul .dl{position:absolute;transform:translateX(-50%);font:600 17px/1.15 "IBM Plex Mono";text-align:center;white-space:nowrap;color:var(--ink)}
+.rul .dl small{display:block;font-weight:500;color:var(--soft);font-size:15px}
+.rul .zl{position:absolute;top:14px;font:600 14px/1 "IBM Plex Mono";letter-spacing:.1em;color:var(--soft);padding-left:8px}
+.wm{position:absolute;right:64px;top:54px;display:flex;flex-direction:column;gap:7px;align-items:stretch}
+.wm b{font:400 30px/1 "Alfa Slab One"}
+.wm .r{position:relative;height:12px}
+.wm .r:before{content:"";position:absolute;left:0;right:0;top:4px;height:4px;background:var(--ink)}
+.wm .r .m{position:absolute;left:55.56%;width:22.22%;top:0;height:12px;background:var(--yellow);border:3px solid var(--ink);box-sizing:border-box}
+.wm .r .t{position:absolute;top:-3px;width:4px;height:18px;background:var(--red);left:77.78%}
+.wm .r .e{position:absolute;top:0;width:3px;height:12px;background:var(--ink)}
+.vs{display:flex;align-items:stretch;gap:26px;margin-top:34px}
+.vs .st{flex:1}
+.vs .x{align-self:center;font:400 44px/1 "Alfa Slab One";color:var(--red)}
+</style></head><body><div class="c" id="c"></div>
+<script>
+function RP(v){ v=Math.max(-2,Math.min(16,v)); return ((v+2)/18*100).toFixed(2)+"%"; }
+function esc(s){ return String(s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];}); }
+function ruler(dots){
+  var h="<div class='rul'><div class='z m'></div><div class='z t'></div><span class='zl' style='left:55.56%'>MVP RANGE</span><span class='zl' style='left:77.78%;color:var(--red)'>ALL-TIME</span><div class='tr'></div>";
+  for(var v=-2;v<=16;v++){ var maj=[0,4,6,8,12,16].indexOf(v)>-1; h+="<div class='tk"+(maj?"":" n")+"' style='left:"+RP(v)+"'></div>"; }
+  [0,4,6,8,12,16].forEach(function(v){ h+="<div class='lb' style='left:"+RP(v)+"'>"+v+"</div>"; });
+  // stack dots
+  var placed=[]; (dots||[]).slice().sort(function(a,b){return a.v-b.v;}).forEach(function(d){
+    var l=0; while(placed.some(function(p){return p.l===l&&Math.abs(p.v-d.v)<0.32;})) l++; placed.push({v:d.v,l:l});
+    if(l<4) h+="<div class='d"+(d.p?" p":"")+"' style='left:"+RP(d.v)+";top:"+(48-l*16)+"px'></div>";
+    if(d.lab) h+="<div class='dl' style='left:"+RP(d.v)+";top:"+(d.lt||-40)+"px'>"+esc(d.lab)+(d.sl?"<small>"+esc(d.sl)+"</small>":"")+"</div>"; });
+  return h+"</div>";
+}
+var WM="<div class='wm'><b>Court Value</b><div class='r'><span class='e' style='left:0'></span><span class='e' style='left:22.22%'></span><span class='m'></span><span class='t'></span><span class='e' style='right:0'></span></div></div>";
+function stat(s){ return "<div class='st "+(s.cls||"")+"'><small>"+esc(s.k)+"</small><b>"+esc(s.v)+"</b>"+(s.n?"<span>"+esc(s.n)+"</span>":"")+"</div>"; }
+window.draw=function(d){
+  var t=d.title||"", cls=t.length>22?"s":t.length>15?"m":"";
+  var h=WM+"<div class='eb'>"+esc(d.eyebrow||"")+"</div><h1 class='"+cls+"'>"+esc(t)+"</h1>";
+  if(d.sub) h+="<div class='sub'>"+d.sub+"</div>";
+  if(d.vs) h+="<div class='vs'>"+stat(d.vs[0])+"<div class='x'>VS</div>"+stat(d.vs[1])+"</div>";
+  if(d.stats) h+="<div class='stats'>"+d.stats.map(stat).join("")+"</div>";
+  if(d.ruler) h+=ruler(d.dots);
+  document.getElementById("c").innerHTML=h;
+};
+</script></body></html>

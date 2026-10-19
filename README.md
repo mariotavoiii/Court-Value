@@ -46,8 +46,11 @@ The [website](https://mariotavoiii.github.io/Court-Value/) is built only from th
 - **Player pages** with Career CV, the five prime seasons and the seasons that add to them, every season's score and ranks, and the five most similar careers.
 - **Compare** up to five careers by season, career year or age.
 - **Teams:** franchise histories, the Time Machine for any two team-seasons, Big 3s, and the best of every decade.
+- **Play:** Court Value 82, a daily game. Spin a team-season, take one player, fill all five spots, then play an 82-game season with the Time Machine's game model.
 
-Every view has its own address, so any ranking, comparison or matchup can be shared as a link. The site's data files in `docs/data/` are derived from the published scores and carry the same CC BY 4.0 licence.
+Every view has its own address, so any ranking, comparison or matchup can be shared as a link, and every player, team-season and franchise has its own page with a link-preview card. The site's data files in `docs/data/` are derived from the published scores and carry the same CC BY 4.0 licence.
+
+How the site is put together: the app lives in `docs/assets/` (`app.js`, `app.css`, `shell.html`). `tools/build_pages.py` writes one small page per address (title, description, preview card), plus `sitemap.xml`, `robots.txt` and `404.html`; `tools/build_cards.py` renders the preview images in `docs/img/og/`. To move the site to its own domain, run `python3 tools/build_pages.py --url https://yourdomain/`, commit, and set the same domain under Settings → Pages.
 
 ## Method
 
