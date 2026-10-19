@@ -5,7 +5,9 @@ has a real URL with its own title, description and link-preview card.
     python3 tools/build_pages.py                 # uses tools/site.json
     python3 tools/build_pages.py --url https://courtvalue.com/
 
-The app itself lives in docs/assets/ (app.js, app.css, shell.html). Each page only carries the
+The app itself lives in docs/assets/ (app.js, app.css, shell.html). Pages link to those files
+without a version stamp, so changing the app touches only those three files; GitHub Pages caches
+them for about ten minutes, after which visitors get the new version. Each page only carries the
 <head> (title, description, preview card), a plain-text summary for search engines and link
 previews, and the two asset tags. Reads only the published files in docs/data/.
 
@@ -72,10 +74,10 @@ def write(path, title, desc, body, image="img/og-home.png", alt=None, kind="webs
 <meta property="og:image" content="{E(img)}"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="{E(alt or title)}">
 <meta name="twitter:card" content="summary_large_image">
 {FONTS}
-<link rel="stylesheet" href="assets/app.css?v={V}">
-<link rel="preload" href="assets/shell.html?v={V}" as="fetch" crossorigin>
+<link rel="stylesheet" href="assets/app.css">
+<link rel="preload" href="assets/shell.html" as="fetch" crossorigin>
 <script>document.documentElement.className="js";setTimeout(function(){{document.documentElement.classList.add("ready")}},5000)</script>
-<script src="assets/app.js?v={V}" defer></script>
+<script src="assets/app.js" defer></script>
 </head><body>
 <main id="app" class="wrap seo">
 <p><a href="./">Court Value</a></p>
