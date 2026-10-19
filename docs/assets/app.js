@@ -1693,12 +1693,12 @@
   var G = null, rolling = null;
   function fresh(mode){
     var day = today(), seed = mode === "daily" ? "daily|" + day : "free|" + Date.now() + "|" + Math.random();
-    return {mode: mode, day: day, no: dayNo(day), seed: seed, spin: 0, skips: 1, picks: [null, null, null, null, null], cur: null, pending: null, used: [], result: null};
+    return {mode: mode, day: day, no: dayNo(day), seed: seed, spin: 0, rr: {year: 1, team: 1}, picks: [null, null, null, null, null], cur: null, pending: null, used: [], result: null};
   }
-  function save(){ if (G && G.mode === "daily") store("cv82:" + G.day, {spin: G.spin, skips: G.skips, picks: G.picks, cur: G.cur, used: G.used, result: G.result}); }
+  function save(){ if (G && G.mode === "daily") store("cv82:" + G.day, {spin: G.spin, rr: G.rr, picks: G.picks, cur: G.cur, used: G.used, result: G.result}); }
   function start(mode){
     G = fresh(mode);
-    if (mode === "daily"){ var s = store("cv82:" + G.day); if (s){ G.spin = s.spin; G.skips = s.skips; G.picks = s.picks; G.cur = s.cur; G.used = s.used || []; G.result = s.result; } }
+    if (mode === "daily"){ var s = store("cv82:" + G.day); if (s){ G.spin = s.spin; G.rr = s.rr || {year: 1, team: 1}; G.picks = s.picks; G.cur = s.cur; G.used = s.used || []; G.result = s.result; } }
     document.querySelectorAll(".g-mode").forEach(function(b){ b.setAttribute("aria-pressed", b.dataset.mode === mode ? "true" : "false"); });
     $("g-label").textContent = mode === "daily" ? "Today's game · #" + G.no : "Free play";
     $("g-result").innerHTML = "";
@@ -1715,20 +1715,40 @@
     if (G.cur !== null) return;
     var n = G.spin, e = spinAt(n), guard = 0;
     while ((!pickable(e) || G.used.indexOf(e.t[0] + "|" + e.t[1] + "|" + e.t[2]) > -1) && guard++ < 400){ n++; e = spinAt(n); }
-    G.spin = n + 1; G.cur = POOL.indexOf(e); G.used.push(e.t[0] + "|" + e.t[1] + "|" + e.t[2]); G.pending = null; save();
+    G.spin = n + 1; land(e, POOL);
+  }
+  function keyOf(t){ return t[0] + "|" + t[1] + "|" + t[2]; }
+  // show the new team, after a quick slot-machine roll through the teams it could have been
+  function land(e, from){
+    G.cur = POOL.indexOf(e); G.used.push(keyOf(e.t)); G.pending = null; save();
     var reduce = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (reduce){ draw(); return; }
+    if (reduce || from.length < 2){ draw(); return; }
     var t0 = Date.now(), box;
     rolling = true; draw(); box = $("g-team");
     (function tick(){
       var el = Date.now() - t0;
       if (el > 750){ rolling = null; draw(); return; }
-      var x = POOL[Math.floor(Math.random() * POOL.length)].t;
+      var x = from[Math.floor(Math.random() * from.length)].t;
       box.innerHTML = "<b>" + esc(sl(x[0]) + " " + x[3]) + "</b><small>&nbsp;</small>";
       setTimeout(tick, 45 + el / 12);
     })();
   }
-  function skip(){ if (G.cur === null || G.skips < 1) return; G.skips--; G.cur = null; G.pending = null; save(); spin(); }
+  // once a game each: another season of the same franchise, or another team from the same season
+  function rerollOptions(kind){
+    if (G.cur === null) return [];
+    var t = POOL[G.cur].t, fi = META.fields.indexOf("franchise");
+    return POOL.filter(function(x){
+      var u = x.t;
+      if (G.used.indexOf(keyOf(u)) > -1 || !pickable(x)) return false;
+      return kind === "year" ? u[fi] === t[fi] && u[0] !== t[0] : u[0] === t[0] && keyOf(u) !== keyOf(t);
+    });
+  }
+  function reroll(kind){
+    var opts = rerollOptions(kind); if (!opts.length || !(G.rr[kind] > 0)) return;
+    var r = rng(G.seed + "|" + kind + "|" + G.spin + "|" + keyOf(POOL[G.cur].t));
+    G.rr[kind]--;
+    land(opts[Math.floor(r() * opts.length)], opts);
+  }
   function choose(i){
     var e = POOL[G.cur], p = e.el[i]; if (!p || taken(p[0])) return;
     var f = fits(p[1]); if (!f.length) return;
@@ -1846,13 +1866,16 @@
     }
     var t = e.t, rec = t[4] !== null ? t[4] + "–" + t[5] + (t[8] ? " · champions" : "") : (t[8] ? "champions" : "");
     desk.innerHTML = "<div class='spinrow'><div class='g-team" + (rolling ? " rolling" : "") + "' id='g-team'><b>" + esc(sl(t[0]) + " " + t[3]) + "</b><small>" + (t[1] === 1 ? "ABA · " : "") + esc(rec) + "</small></div>" +
-      (rolling ? "" : (G.skips > 0 ? "<button type='button' class='g-link' id='g-skip'>Skip this team (" + G.skips + " left)</button>" : "<span class='g-hint' style='margin:0'>No skips left</span>")) + "</div>" +
+      (rolling ? "" : "<div class='g-rr'>" + [["year", "Change year", "Same franchise, another season"], ["team", "Change team", "Same season, another team"]].map(function(k){
+        var n = G.rr[k[0]] || 0, ok = n > 0 && rerollOptions(k[0]).length;
+        return "<button type='button' class='g-reroll' data-rr='" + k[0] + "'" + (ok ? "" : " disabled") + " title='" + k[2] + "'><b>↻ " + k[1] + "</b><small>" + (n > 0 ? (ok ? k[2] : "none left to pick from") : "used") + "</small></button>";
+      }).join("") + "</div>") + "</div>" +
       (rolling ? "" : "<ul class='g-roster'>" + e.el.map(function(p, i){
         var can = !taken(p[0]) && fits(p[1]).length;
         return "<li><button type='button' data-i='" + i + "'" + (can ? "" : " disabled") + (G.pending === i ? " aria-pressed='true'" : "") + ">" + esc(p[0]) + "<small>" + p[1] + " · " + p[2] + " G</small></button></li>";
       }).join("") + "</ul><p class='g-hint'>" + (pend ? "Now pick a highlighted spot for " + esc(pend[0]) + "." : "Take one player. He can play his position or the one next to it.") + "</p>");
     if (!rolling){
-      if ($("g-skip")) $("g-skip").addEventListener("click", skip);
+      desk.querySelector(".g-rr").addEventListener("click", function(ev){ var b = ev.target.closest("button[data-rr]"); if (b && !b.disabled) reroll(b.dataset.rr); });
       desk.querySelector(".g-roster").addEventListener("click", function(ev){ var b = ev.target.closest("button[data-i]"); if (b && !b.disabled) choose(+b.dataset.i); });
     }
   }

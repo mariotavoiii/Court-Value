@@ -492,6 +492,13 @@ td.lift.up{color:var(--green)} td.lift.down{color:var(--red)}
 .g-roster button[aria-pressed="true"] small{color:#15130f}
 .g-roster button:disabled{opacity:.38;cursor:default;border-style:dashed}
 .g-hint{font:500 13px/1.4 var(--mono);color:var(--soft);margin:12px 0 0}
+.g-rr{display:flex;flex-wrap:wrap;gap:8px}
+.g-reroll{display:flex;flex-direction:column;align-items:flex-start;gap:3px;padding:8px 12px;border:2px solid var(--ink);border-radius:8px;background:var(--card);color:var(--ink);cursor:pointer;box-shadow:3px 3px 0 var(--blue);text-align:left}
+.g-reroll b{font:600 13px/1 var(--mono);letter-spacing:.03em}
+.g-reroll small{font:500 11px/1.2 var(--mono);color:var(--soft)}
+.g-reroll:hover:not(:disabled){background:var(--hi)}
+.g-reroll:disabled{opacity:.45;cursor:default;box-shadow:none;border-style:dashed}
+@media (max-width:640px){.g-rr{width:100%}.g-reroll{flex:1 1 0}}
 .g-link{font:600 13px/1 var(--mono);background:none;border:0;padding:0;color:var(--blue);text-decoration:underline;text-underline-offset:3px;cursor:pointer}
 .g-res{margin-top:26px;scroll-margin-top:96px}
 .g-done{margin-top:14px !important}
