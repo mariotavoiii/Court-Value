@@ -2,6 +2,14 @@
 
 Published scores never change silently. Method changes get a new version; corrections and new seasons get a new data revision. Older releases stay available from their archives.
 
+## Championship counts follow title rosters (2026-11-12)
+
+The website changed; **the scores did not.**
+
+- **Career title counts now include every title,** not only those won in a qualified season. Stephen Curry's 2017–18 title (51 games, under the 70% line) was being dropped, along with titles for 151 other players, among them Bill Russell, Scottie Pippen, Klay Thompson and Draymond Green.
+- **A player on a championship roster who played no playoff games now gets the title, marked with an asterisk:** "Champion*" on the season and "Titles 3*" on the player, with a note naming the season (for example Kevon Looney in 2016–17, OG Anunoby in 2018–19). Players waived or traded before the playoffs do not get one. 75 player-seasons, checked one by one against Basketball-Reference's championship lists; every player checked now matches it from 1952 on. In `docs/data/scores.json` the champion field is now 2 for these seasons; `docs/data/careers.json` field 18 counts them.
+- The downloadable `PUBLIC_cv_2_1_scores.csv` is unchanged: its `champion` column still means played in the champion's playoffs.
+
 ## Real page addresses, link cards and a daily game (2026-10-19)
 
 The website changed; **the scores did not.**

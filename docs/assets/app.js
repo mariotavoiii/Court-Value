@@ -608,9 +608,9 @@
     if (det){ det[2].forEach(function(x){ role[x[0] + "|" + x[1]] = "p"; }); det[3].forEach(function(x){ role[x[0] + "|" + x[1]] = "a"; }); }
     function roleOf(r){ return !r[7] ? "u" : (role[r[2] + "|" + r[3]] || "o"); }
     var ROLE = {p: "Prime", a: "Adds", o: "—", u: "Not qualified"};
-    var pos = {}, teams = [], lgs = {}, titles = 0, qn = 0;
+    var pos = {}, teams = [], lgs = {}, titles = 0, qn = 0, nopo = [];
     rows.forEach(function(r){
-      if (r[16]) pos[r[16]] = (pos[r[16]] || 0) + 1; lgs[r[3]] = 1; if (r[17]) titles++; if (r[7]) qn++;
+      if (r[16]) pos[r[16]] = (pos[r[16]] || 0) + 1; lgs[r[3]] = 1; if (r[17]) titles++; if (r[17] === 2) nopo.push(r[2]); if (r[7]) qn++;
       String(r[4]).split(",").forEach(function(t){ if (t && teams.indexOf(t) === -1) teams.push(t); });
     });
     var mainPos = Object.keys(pos).sort(function(a,b){ return pos[b]-pos[a]; })[0] || "";
@@ -619,7 +619,8 @@
     var best = q.slice().sort(function(a,b){ return b[9]-a[9]; })[0];
     var cmpList = CMP.indexOf(pid) > -1 ? CMP.slice() : CMP.concat([pid]).slice(-MAXCMP);
     var h = "<div class='pl-top'><div><span class='eyebrow'>Player · " + esc(mainPos) + (mainPos ? " · " : "") + lgTxt + "</span><h2>" + esc(name) + "</h2>" +
-      "<div class='pl-sub'><span>Seasons <b>" + spanLong(sp) + "</b></span><span>" + (teams.length > 1 ? "Teams" : "Team") + " <b>" + teams.map(esc).join(", ") + "</b></span>" + (titles ? "<span>Titles <b>" + titles + "</b></span>" : "") + "</div></div>" +
+      "<div class='pl-sub'><span>Seasons <b>" + spanLong(sp) + "</b></span><span>" + (teams.length > 1 ? "Teams" : "Team") + " <b>" + teams.map(esc).join(", ") + "</b></span>" + (titles ? "<span>Titles <b>" + titles + (nopo.length ? "*" : "") + "</b></span>" : "") + "</div>" +
+      (nopo.length ? "<p class='caption' style='margin:8px 0 0'>* Includes " + nopo.map(seasonLabel).join(", ") + ": on the championship roster but played no playoff games.</p>" : "") + "</div>" +
       "<div class='pl-find'><div class='field'><label for='pl-find'>Another player</label><input type='search' id='pl-find' list='cmp-names' placeholder='Type a name' autocomplete='off'></div>" +
       "<a class='btn secondary' href='" + buildHash("compare", [cmpList.join(",")]) + "'>Compare</a></div></div>";
     // headline numbers
@@ -663,7 +664,7 @@
     h += "<div class='block' style='padding-top:30px'><div class='tablewrap'><table aria-label='Seasons for " + esc(name) + "'><thead><tr><th>Season</th><th class='num hide-sm'>Age</th><th>Team</th><th class='num'>G</th><th class='num hide-sm'>PO G</th><th class='num'>CV</th><th class='num'>RS</th><th class='num'>PO</th><th class='num'>Rank</th><th class='num hide-sm'>All time</th><th>Career</th><th class='hide-sm'>Status</th></tr></thead><tbody>" +
       rows.map(function(r){
         var ro = roleOf(r), st = [];
-        if (r[17]) st.push("<span class='pill champ'>Champion</span>");
+        if (r[17]) st.push(champPill(r));
         if (r[3]) st.push("<span class='pill aba'>ABA</span>");
         if (r[8] === "N") st.push("<span class='pill'>Missed playoffs</span>");
         if (r[8] === "B") st.push("<span class='pill base'>RS only</span>");
@@ -690,8 +691,9 @@
       if (samePlayer && card && card.scrollIntoView) card.scrollIntoView({behavior: "smooth", block: "nearest"});   // new arrivals start at the top
     }
   }
+  function champPill(r){ return r[17] === 2 ? "<span class='pill champ' title='On the championship roster but played no playoff games'>Champion*</span>" : "<span class='pill champ'>Champion</span>"; }
   function seasonDetail(r, ro, name){
-    var champ = r[17] ? " <span class='pill champ'>Champion</span>" : "", aba = r[3] ? " <span class='pill aba'>ABA</span>" : "";
+    var champ = r[17] ? " " + champPill(r) : "", aba = r[3] ? " <span class='pill aba'>ABA</span>" : "";
     var rankLine = function(rs, ra, what){
       if (!r[7]) return "Not ranked: under 70% of team games";
       return (rs !== null ? "<b>" + ordinalRank(rs) + "</b> " + what : "") + (ra !== null ? " · <b>" + ordinalRank(ra) + "</b> all time" : "");
@@ -898,20 +900,20 @@
       if (cr){
         var lgp = r[3] === 2 ? "<span class='pill aba'>NBA/ABA</span>" : "<span class='pill" + (r[3] ? " aba" : "") + "'>" + (r[3] ? "ABA" : "NBA") + "</span>";
         var sp = fullSpan(r[0]);
-        return "<tr><td class='rk'>" + r[13] + "</td><td class='player'>" + plink(r) + "</td><td>" + (sp ? spanLabel(sp) : esc(r[4])) + "</td><td>" + lgp + "</td><td class='mono' style='font-size:13px'>" + (r[16] || "—") + "</td><td class='num'>" + r[5] + "</td><td class='cv'>" + fmt(r[9]) + "</td><td>" + (r[6] ? "<a class='tlink' href='" + phref(r[0], r[6]) + "'>" + seasonLabel(r[6]) + "</a>" : "—") + "</td><td class='num'>" + fmt(r[10]) + "</td><td class='num'>" + (r[17] || "—") + "</td></tr>";
+        return "<tr><td class='rk'>" + r[13] + "</td><td class='player'>" + plink(r) + "</td><td>" + (sp ? spanLabel(sp) : esc(r[4])) + "</td><td>" + lgp + "</td><td class='mono' style='font-size:13px'>" + (r[16] || "—") + "</td><td class='num'>" + r[5] + "</td><td class='cv'>" + fmt(r[9]) + "</td><td>" + (r[6] ? "<a class='tlink' href='" + phref(r[0], r[6]) + "'>" + seasonLabel(r[6]) + "</a>" : "—") + "</td><td class='num'>" + fmt(r[10]) + "</td><td class='num'>" + (r[17] ? r[17] + (r[18] ? "<span title='Includes " + r[18] + " title" + (r[18] > 1 ? "s" : "") + " on the roster without playing a playoff game'>*</span>" : "") : "—") + "</td></tr>";
       }
       var rank = r[ri] !== null && (state.basis === "po" || r[7]) ? r[ri] : "—";
       if (fs){
-        var fst = (r[7] ? "" : "<span class='pill'>Not qualified</span> ") + (r[17] ? "<span class='pill champ'>Champion</span> " : "") + (r[8] === "U" ? "<span class='pill'>Playoffs unscored</span>" : "");
+        var fst = (r[7] ? "" : "<span class='pill'>Not qualified</span> ") + (r[17] ? champPill(r) + " " : "") + (r[8] === "U" ? "<span class='pill'>Playoffs unscored</span>" : "");
         return "<tr><td class='rk'>" + rank + "</td><td class='player'>" + plink(r) + "</td><td>" + seasonLabel(r[2]) + "</td><td><span class='pill" + (r[3] ? " aba" : "") + "'>" + (r[3] ? "ABA" : "NBA") + "</span></td><td class='mono' style='font-size:13px'>" + (r[16] || "—") + "</td><td class='mono' style='font-size:13px'>" + esc(r[4]) + "</td><td class='num'>" + r[5] + "</td><td class='num'>" + (r[6] || "—") + "</td><td class='cv'>" + fmt(r[9]) + "</td><td class='num'>" + fmt(r[10]) + "</td><td class='num'>" + fmt(r[14]) + "</td><td class='num'>" + (r[11] ? fmt(r[11]) : "—") + "</td><td>" + fst + "</td></tr>";
       }
       if (po){
-        var st = (r[17] ? "<span class='pill champ'>Champion</span> " : "") + (r[8] === "P" ? "<span class='pill'>Partial box</span> " : "") + (!run && !r[7] ? "<span class='pill'>Under 70%</span>" : "");
+        var st = (r[17] ? champPill(r) + " " : "") + (r[8] === "P" ? "<span class='pill'>Partial box</span> " : "") + (!run && !r[7] ? "<span class='pill'>Under 70%</span>" : "");
         return "<tr><td class='rk'>" + rank + "</td><td class='player'>" + plink(r) + "</td><td>" + seasonLabel(r[2]) + "</td><td class='mono' style='font-size:13px'>" + (r[16] || "—") + "</td><td class='mono' style='font-size:13px'>" + esc(r[4]) + "</td><td class='num'>" + r[5] + "</td><td class='num'>" + r[6] + "</td><td class='num'>" + r[18] + "</td><td class='cv'>" + fmt(run ? r[9] : r[10]) + "</td><td class='num'>" + fmt(run ? r[11] : r[9]) + "</td><td>" + st + "</td></tr>";
       }
       var status = r[7] ? "" : "<span class='pill'>Not qualified</span>";
       var add = function(s){ status += (status ? " " : "") + s; };
-      if (r[17]) add("<span class='pill champ'>Champion</span>");
+      if (r[17]) add(champPill(r));
       if (r[8] === "N") add("<span class='pill'>Missed playoffs</span>");
       if (r[8] === "B") add("<span class='pill base'>RS only · no playoff box score</span>");
       if (r[18] === "P") add("<span class='pill'>Partial box</span>");
