@@ -27,8 +27,11 @@ license: CC-BY-4.0
 date-released: "2026-11-17"
 url: "https://mariotavoiii.github.io/Court-Value/"
 repository-code: "https://github.com/mariotavoiii/Court-Value"
-doi: "10.5281/zenodo.23040990"
+doi: "10.5281/zenodo.24328945"
 identifiers:
+  - type: doi
+    value: "10.5281/zenodo.24328945"
+    description: "Zenodo archive of release 2.2.0"
   - type: doi
     value: "10.5281/zenodo.23040990"
     description: "Zenodo archive, all versions"

@@ -4,6 +4,8 @@ Published scores never change silently. Method changes get a new version; correc
 
 ## 2.2.0 (2026-11-17)
 
+Zenodo: [10.5281/zenodo.24328945](https://doi.org/10.5281/zenodo.24328945)
+
 **New version; scores changed.**
 
 - **Each season is scored from its own games.** The with-and-without step (a regression of game margins on who appeared, with a Court Value prior) used the season before and after. It now uses only that season, so a published score never depends on later seasons, and the newest season won't move when the next one is played. How much of each estimate carries into the score was re-measured on the new estimates.

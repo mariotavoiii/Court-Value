@@ -1,6 +1,6 @@
 # Court Value (CV)
 
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23040990.svg)](https://doi.org/10.5281/zenodo.23040990)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.24328945.svg)](https://doi.org/10.5281/zenodo.24328945)
 
 **One number for a player's season, measured the same way since 1952.**
 
@@ -68,7 +68,7 @@ Everything used has been recorded in every season since 1952. **From version 2.0
 
 ## Versions
 
-- **2.2.0 (2026-11-17):**
+- **2.2.0 (2026-11-17)** ([Zenodo](https://doi.org/10.5281/zenodo.24328945)):
   - Each season is scored from its own games. The with-and-without step no longer borrows the following season, so a published score never depends on later seasons, and the latest season will not move when the next one is played.
   - Adds regular-season Career CV beside Career CV.
   - In a test predicting next-season team margins from each player's regular-season score (same minutes for every measure, each season held out), the with-and-without step cuts the error from 3.10 to 3.03 points per game; BPM scores 2.85.
@@ -94,7 +94,7 @@ Earlier releases remain available from their archives under their original licen
 
 Please cite as described in [`CITATION.cff`](CITATION.cff).
 
-> Tavolieri, Mario, III. *Court Value (CV): a historically portable NBA/ABA player-season value metric.* Version 2.2.0. Zenodo, 2026. https://doi.org/10.5281/zenodo.23040990
+> Tavolieri, Mario, III. *Court Value (CV): a historically portable NBA/ABA player-season value metric.* Version 2.2.0. Zenodo, 2026. https://doi.org/10.5281/zenodo.24328945
 
 - **Scores and documentation:** [CC BY 4.0](LICENSE-DATA).
 - **Underlying statistics:** Basketball-Reference, via the Kaggle dataset *NBA Stats (1947–present)* by Sumitro Datta, plus ABA game logs. Raw statistics are not redistributed.
