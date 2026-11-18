@@ -1,14 +1,14 @@
 # Court Value (CV)
 
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23071104.svg)](https://doi.org/10.5281/zenodo.23071104)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23040990.svg)](https://doi.org/10.5281/zenodo.23040990)
 
 **One number for a player's season, measured the same way since 1952.**
 
-Court Value rates every NBA season since 1951–52 and every ABA season (1967–68 to 1975–76) on one historically portable scale, regular season and playoffs together. Every season is measured against the other players in that same league-season. There are no era bonuses, and no awards or reputation go into the score. ABA seasons carry one measured league-strength adjustment, estimated from players who moved between the leagues.
+Court Value rates every NBA season since 1951–52 and every ABA season (1967–68 to 1975–76) on one historically portable scale, regular season and playoffs together. Every season is measured against the other players in that same league-season and scored from its own games. There are no era bonuses, and no awards or reputation go into the score. ABA seasons carry one measured league-strength adjustment, estimated from players who moved between the leagues.
 
 - **Website:** https://mariotavoiii.github.io/Court-Value/
-- **Season scores:** [`data/PUBLIC_cv_2_1_scores.csv`](data/PUBLIC_cv_2_1_scores.csv), 26,204 player-seasons.
-- **Career scores:** [`data/PUBLIC_cv_2_1_1_careers.csv`](data/PUBLIC_cv_2_1_1_careers.csv), 2,934 players with a qualified season.
+- **Season scores:** [`data/PUBLIC_cv_2_2_scores.csv`](data/PUBLIC_cv_2_2_scores.csv), 26,204 player-seasons.
+- **Career scores:** [`data/PUBLIC_cv_2_2_careers.csv`](data/PUBLIC_cv_2_2_careers.csv), 2,934 players with a qualified season: Career CV and regular-season Career CV.
 
 ## The three numbers
 
@@ -24,8 +24,8 @@ A team that missed the playoffs counts as league average for the playoff part of
 
 | CV | Typical meaning |
 |---:|---|
-| 12+ | All-time season (27 qualified seasons) |
-| 8–12 | Where most MVP seasons land (middle half 8.2–11.5) |
+| 12+ | All-time season (28 qualified seasons) |
+| 8–12 | Where most MVP seasons land (middle half 8.1–11.5) |
 | ~6 | Median All-NBA season |
 | ~4 | Median All-Star season |
 | 0 | The season's average player-game |
@@ -38,12 +38,14 @@ CV measures realized value and responsibility in a real season. It is not a caus
 
 Career CV is built on a player's five best qualified seasons, with the playoffs weighing more than they do in a single season. Every other qualified season adds a little, but only for what it gives above All-Star level. A great prime decides it; long stretches of ordinary years don't.
 
+**Regular-season Career CV** (`rs_career_cv`) applies the same rule to the regular season alone, with no playoffs and no title credit. It is the individual view of a career; Career CV is the résumé.
+
 ## The website
 
 The [website](https://mariotavoiii.github.io/Court-Value/) is built only from the published scores:
 
 - **Rankings** of every season, postseason and career, with views for each player's best season, championship seasons and the biggest playoff lifts (PO minus RS).
-- **Player pages** with Career CV, the five prime seasons and the seasons that add to them, every season's score and ranks, and the five most similar careers.
+- **Player pages** with Career CV and regular-season Career CV, the five prime seasons and the seasons that add to them, every season's score and ranks, and the five most similar careers.
 - **Compare** up to five careers by season, career year or age.
 - **Teams:** franchise histories, the Time Machine for any two team-seasons, Big 3s, and the best of every decade.
 - **Play:** Court Value 82, a daily game. Spin a team-season, take one player, fill all five spots, then play an 82-game season with the Time Machine's game model.
@@ -57,7 +59,7 @@ How the site is put together: the app lives in `docs/assets/` (`app.js`, `app.cs
 Court Value draws on:
 - box-score production and efficiency;
 - each player's share of his team's load;
-- how the team did in the games he played, and with and without him;
+- how the team did in the games he played, and with and without him, from that season's games only;
 - each team's actual defense, shared among its players by role;
 - postseason games judged against the players who actually played them;
 - for the ABA, the league's measured strength against the NBA in that year.
@@ -66,6 +68,11 @@ Everything used has been recorded in every season since 1952. **From version 2.0
 
 ## Versions
 
+- **2.2.0 (2026-11-17):**
+  - Each season is scored from its own games. The with-and-without step no longer borrows the following season, so a published score never depends on later seasons, and the latest season will not move when the next one is played.
+  - Adds regular-season Career CV beside Career CV.
+  - In a test predicting next-season team margins from each player's regular-season score (same minutes for every measure, each season held out), the with-and-without step cuts the error from 3.10 to 3.03 points per game; BPM scores 2.85.
+  - Season ranks move little (rank agreement with 2.1: 0.994), but scores are **not comparable** with 2.1.
 - **2.1.1 (2026-09-30)** ([Zenodo](https://doi.org/10.5281/zenodo.23071104)): Career CV now centers on the prime (five best seasons, playoffs weighted more, other seasons count only above All-Star level). Season scores are unchanged from 2.1.0.
 - **2.1.0 (2026-09-30):**
   - Defense is shared by role only, removing a tilt toward big men.
@@ -87,7 +94,7 @@ Earlier releases remain available from their archives under their original licen
 
 Please cite as described in [`CITATION.cff`](CITATION.cff).
 
-> Tavolieri, Mario, III. *Court Value (CV): a historically portable NBA/ABA player-season value metric.* Version 2.1.1. Zenodo, 2026. https://doi.org/10.5281/zenodo.23071104
+> Tavolieri, Mario, III. *Court Value (CV): a historically portable NBA/ABA player-season value metric.* Version 2.2.0. Zenodo, 2026. https://doi.org/10.5281/zenodo.23040990
 
 - **Scores and documentation:** [CC BY 4.0](LICENSE-DATA).
 - **Underlying statistics:** Basketball-Reference, via the Kaggle dataset *NBA Stats (1947–present)* by Sumitro Datta, plus ABA game logs. Raw statistics are not redistributed.

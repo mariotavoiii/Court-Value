@@ -5,7 +5,7 @@
   var V = (document.currentScript && document.currentScript.src.split("?v=")[1]) || "";
   function boot(){
 (function(){
-  var CONFIG = { repo: "https://github.com/mariotavoiii/Court-Value", version: "2.1.1",
+  var CONFIG = { repo: "https://github.com/mariotavoiii/Court-Value", version: "2.2.0",
     // fill in any of these and a link appears in the footer
     social: { Reddit: "", X: "", Bluesky: "", Instagram: "", Substack: "" } };
   (function(){
@@ -156,7 +156,7 @@
   });
 
   // Middle half (25th-75th percentile) of qualified MVP-winning seasons, NBA and ABA, CV 2.1.
-  var MVP_BAND = {lo: 8.24, hi: 11.46, label: "MVP RANGE · MIDDLE HALF OF MVP SEASONS"};
+  var MVP_BAND = {lo: 8.14, hi: 11.48, label: "MVP RANGE · MIDDLE HALF OF MVP SEASONS"};
   function seasonLabel(y){ return (y - 1) + "–" + String(y).slice(-2); }
   function fmt(x){ return x === null ? "—" : x.toFixed(2); }
   function esc(s){ return String(s).replace(/[&<>"]/g, function(c){ return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]; }); }
@@ -201,7 +201,7 @@
       var top = [64, 32, 64, 0][i];   // staggered so neighbouring labels clear each other
       marks += "<a class='rmark' href='" + phref(r[0], r[2]) + "' style='left:" + RP(r[9]) + ";top:" + top + "px'><span>" + esc(r[1].split(" ").slice(-1)[0]) + "<br><small>" + seasonLabel(r[2]) + " · </small>" + r[9].toFixed(2) + "</span><i style='height:" + (132 - top) + "px'></i><em></em></a>";
     });
-    var n12 = ROWS.length ? ROWS.filter(function(r){ return r[7] && r[9] >= 12; }).length : 27;
+    var n12 = ROWS.length ? ROWS.filter(function(r){ return r[7] && r[9] >= 12; }).length : 28;
     document.querySelectorAll(".n12").forEach(function(e){ e.textContent = n12; });
     host.innerHTML = rulerHTML({h: 262, zt: 20, track: 168, marks: marks, descs: [
       {at: 0, v: "0", desc: "That season's average player-game"}, {at: 4, v: "4", desc: "A typical All-Star season"},
@@ -460,7 +460,7 @@
       "<span class='status'>" + (CMP.length >= MAXCMP ? "Five players is the limit; remove one to add another." : "Click any player's name on the site, or type one here. Up to five.") + "</span></div>" +
       "<div class='chart' id='pp-chart'></div>" +
       "<p class='caption'>" + (po ? (state.basis === "run" ? "Playoff CV Run: the postseason résumé, including championship credit. Hollow dots rest partly on estimated early box scores." : "Playoff CV Rate: quality while active. Hollow dots played under 70% of the team's playoff games.") + " Playoff and regular-season scores are separate scales."
-          : "Shaded band: the middle half of MVP seasons (8.2 to 11.5). Filled dots are qualified seasons; hollow dots played under 70% of team games. " + (full ? "Season CV combines the regular season and the postseason." : cmpBasis === "po" ? "PO is the postseason alone." : "RS is the regular season alone.")) + "</p>" +
+          : "Shaded band: the middle half of MVP seasons (8.1 to 11.5). Filled dots are qualified seasons; hollow dots played under 70% of team games. " + (full ? "Season CV combines the regular season and the postseason." : cmpBasis === "po" ? "PO is the postseason alone." : "RS is the regular season alone.")) + "</p>" +
       (po ? "<div class='tablewrap'><table class='cmp-table'><thead><tr><th>Player</th><th class='num'>Postseasons</th><th class='num'>Finals</th><th class='num'>Titles</th><th class='num'>Led the postseason</th><th class='num'>Average " + (state.basis === "run" ? "Run" : "Rate") + "</th><th>Best " + (state.basis === "run" ? "Run" : "Rate") + "</th></tr></thead><tbody>" +
         series.map(function(sr){
           var best = sr.pts.slice().sort(function(a,b){ return b.y-a.y; })[0], titles = sr.pts.filter(function(p){ return p.r[17]; }).length;
@@ -627,6 +627,7 @@
     h += "<div class='pl-stats'>";
     if (c){
       h += "<div class='stat lead'><span class='lbl'>Career CV</span><span class='big'>" + c[9].toFixed(1) + "</span><small>" + ordinalRank(c[13]) + " of " + CROWS.length.toLocaleString() + " careers</small></div>";
+      if (c[21] != null) h += "<div class='stat'><span class='lbl'>RS career</span><span class='big'>" + c[21].toFixed(1) + "</span><small>" + ordinalRank(c[22]) + " · regular season only</small></div>";
       if (det){
         h += "<div class='stat'><span class='lbl'>Prime</span><span class='big'>" + det[0].toFixed(1) + "</span><small>His five best seasons</small></div>" +
           "<div class='stat'><span class='lbl'>Other seasons</span><span class='big'>+" + det[1].toFixed(1) + "</span><small>" + det[3].length + " more above All-Star level</small></div>";
@@ -866,7 +867,7 @@
     var notes = {full: "<mark>Season CV</mark> is the résumé: the regular season (RS) and the postseason (PO) on one scale. A team that missed the playoffs counts as league average for the playoff part. For how he played before the playoffs, switch to Regular season.",
       base: "<mark>Regular season (RS):</mark> how he played before the playoffs. It's the part most metrics and awards judge, and the closest match to them (<a href='#methodology/lines-up'>how CV lines up</a>).",
       po: "<mark>Playoffs (PO):</mark> the postseason by itself, every NBA postseason since 1951–52 and ABA since 1967–68. “Qualified only” keeps players who were qualified in the regular season.",
-      career: "<mark>Career CV:</mark> a player's five best seasons, playoffs weighted more heavily, plus a little for every other All-Star-level season. The years filter keeps careers that overlap the chosen range.",
+      career: "<mark>Career CV:</mark> a player's five best seasons, playoffs weighted more heavily, plus a little for every other All-Star-level season. <mark>RS Career</mark> is the same rule on the regular season alone: no playoffs, no titles. Sort by it for the individual view. The years filter keeps careers that overlap the chosen range.",
       season: "<mark>Full-season CV</mark> is the regular season plus the playoffs: every playoff game counts as one more game on the same ruler, and a champion adds his title credit scaled by the playoffs' share of his games. Same scale as regular-season CV.",
       run: "<mark>Playoff CV Run</mark> is the postseason résumé: each round counts once, plus capped, responsibility-weighted championship credit. Measured on the regular season's ruler; NBA postseasons from 1951–52.",
       rate: "<mark>Playoff CV Rate</mark> is quality while active. “Qualified only” keeps players who appeared in at least 70% of their team's playoff games."};
@@ -875,8 +876,8 @@
     var fs = isFS();
     var cr = isCR();
     var cols = cr
-      ? [["Rank", null, "num"], ["Player", 1, ""], ["Career", 19, ""], ["Lg", 3, ""], ["Pos", 16, ""], ["Qualified seasons", 5, "num"], ["Career CV", 9, "num"],
-         ["Best season", 6, ""], ["Best CV", 10, "num"], ["Titles", 17, "num"]]
+      ? [["Rank", null, "num"], ["Player", 1, ""], ["Career", 19, ""], ["Lg", 3, ""], ["Pos", 16, ""], ["Seasons", 5, "num"], ["Career CV", 9, "num"], ["RS Career", 21, "num"],
+         ["Best season", 10, ""], ["Titles", 17, "num"]]
       : fs
       ? [["Rank", null, "num"], ["Player", 1, ""], ["Season", 2, ""], ["Lg", 3, ""], ["Pos", 16, ""], ["Team", 4, ""], ["RS G", 5, "num"], ["PO G", 6, "num"],
          ["Full season", 9, "num"], ["Reg. season", 10, "num"], ["PO Rate", 14, "num"], ["Title", 11, "num"], ["Status", null, ""]]
@@ -900,7 +901,7 @@
       if (cr){
         var lgp = r[3] === 2 ? "<span class='pill aba'>NBA/ABA</span>" : "<span class='pill" + (r[3] ? " aba" : "") + "'>" + (r[3] ? "ABA" : "NBA") + "</span>";
         var sp = fullSpan(r[0]);
-        return "<tr><td class='rk'>" + r[13] + "</td><td class='player'>" + plink(r) + "</td><td>" + (sp ? spanLabel(sp) : esc(r[4])) + "</td><td>" + lgp + "</td><td class='mono' style='font-size:13px'>" + (r[16] || "—") + "</td><td class='num'>" + r[5] + "</td><td class='cv'>" + fmt(r[9]) + "</td><td>" + (r[6] ? "<a class='tlink' href='" + phref(r[0], r[6]) + "'>" + seasonLabel(r[6]) + "</a>" : "—") + "</td><td class='num'>" + fmt(r[10]) + "</td><td class='num'>" + (r[17] ? r[17] + (r[18] ? "<span title='Includes " + r[18] + " title" + (r[18] > 1 ? "s" : "") + " on the roster without playing a playoff game'>*</span>" : "") : "—") + "</td></tr>";
+        return "<tr><td class='rk'>" + (state.sort === 21 ? r[22] : r[13]) + "</td><td class='player'>" + plink(r) + "</td><td>" + (sp ? spanLabel(sp) : esc(r[4])) + "</td><td>" + lgp + "</td><td class='mono' style='font-size:13px'>" + (r[16] || "—") + "</td><td class='num'>" + r[5] + "</td><td class='cv'>" + fmt(r[9]) + "</td><td class='num'>" + fmt(r[21]) + "</td><td>" + (r[6] ? "<span class='mono'>" + fmt(r[10]) + "</span> <a class='tlink' href='" + phref(r[0], r[6]) + "'>" + seasonLabel(r[6]) + "</a>" : "—") + "</td><td class='num'>" + (r[17] ? r[17] + (r[18] ? "<span title='Includes " + r[18] + " title" + (r[18] > 1 ? "s" : "") + " on the roster without playing a playoff game'>*</span>" : "") : "—") + "</td></tr>";
       }
       var rank = r[ri] !== null && (state.basis === "po" || r[7]) ? r[ri] : "—";
       if (fs){
@@ -1662,7 +1663,7 @@
   function sl(y){ return (y - 1) + "–" + String(y).slice(-2); }
   function sgn(x){ return (x >= 0 ? "+" : "−") + Math.abs(x).toFixed(1); }
   function phi(z){ var t = 1 / (1 + 0.2316419 * Math.abs(z)), d = 0.3989423 * Math.exp(-z * z / 2), p = d * t * (0.3193815 + t * (-0.3565638 + t * (1.781478 + t * (-1.821256 + t * 1.330274)))); return z > 0 ? 1 - p : p; }
-  var POS = ["PG", "SG", "SF", "PF", "C"], SLOPE = 3.465, SHARE = 34 / 240, LAUNCH = Date.UTC(2026, 9, 19), GAMES = 82;
+  var POS = ["PG", "SG", "SF", "PF", "C"], SLOPE = 3.592, SHARE = 34 / 240, LAUNCH = Date.UTC(2026, 9, 19), GAMES = 82;
   var TEAMS = null, POOL = [], CENTER = {}, META = null, RATINGS = [], loadP = null, RI = 13;
 
   // seeded random numbers, so today's game is the same for everyone

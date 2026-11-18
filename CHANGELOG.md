@@ -2,6 +2,16 @@
 
 Published scores never change silently. Method changes get a new version; corrections and new seasons get a new data revision. Older releases stay available from their archives.
 
+## 2.2.0 (2026-11-17)
+
+**New version; scores changed.**
+
+- **Each season is scored from its own games.** The with-and-without step (a regression of game margins on who appeared, with a Court Value prior) used the season before and after. It now uses only that season, so a published score never depends on later seasons, and the newest season won't move when the next one is played. How much of each estimate carries into the score was re-measured on the new estimates.
+- **Why:** in a test that predicts each team's next-season scoring margin from its players' regular-season scores (the same minutes for every measure, each season held out), the with-and-without step cuts the error from 3.10 to 3.03 points per game, and about half of that gain comes from how it splits credit between teammates. Using only the season itself predicts as well as using earlier seasons too. The 2.1 window had looked as good as BPM (2.85) only because it included the season being predicted.
+- **Adds regular-season Career CV** (`rs_career_cv`, `rs_career_rank`): the Career CV rule on the regular season alone, with no playoffs or titles.
+- **How much moved:** season-score rank agreement with 2.1 is 0.994. The season's top Season CV changes in 1961 and 1963 (Elgin Baylor over Bill Russell). The regular-season leader changes in 12 seasons, among them Shaquille O'Neal over Michael Jordan in 1997–98 and Kobe Bryant over LeBron James in 2007–08. Among teammates, Kevin Durant now edges Stephen Curry in the 2016–17 regular season (Curry still leads once the playoffs count). Career CV's top eleven are unchanged.
+- Team ratings, Big 3s, decades, franchises, similar careers, movie and Olympic teams and the methods page were rebuilt on the new scores. Downloads: `PUBLIC_cv_2_2_scores.csv`, `PUBLIC_cv_2_2_careers.csv`. The WNBA list is unchanged.
+
 ## Championship counts follow title rosters (2026-11-12)
 
 The website changed; **the scores did not.**

@@ -38,15 +38,15 @@
   <div class="block">
     <div class="head-row"><div><span class="eyebrow">The chart</span><h2>The best season of every year</h2></div></div>
     <div class="chart card" id="best-chart" style="padding:18px 18px 10px"><div class="status">Loading scores…</div></div>
-    <p class="caption">Highest qualified CV in each NBA season, 1951–52 to 2025–26. The shaded band is where the middle half of MVP seasons fall (8.2 to 11.5); red dots mark years whose best season reached 12 or more. Hover or tap a dot for the player; click to open that season.</p>
+    <p class="caption">Highest qualified CV in each NBA season, 1951–52 to 2025–26. The shaded band is where the middle half of MVP seasons fall (8.1 to 11.5); red dots mark years whose best season reached 12 or more. Hover or tap a dot for the player; click to open that season.</p>
   </div>
 
   <div class="card ruler-card guide" style="margin-top:44px" aria-label="How to read a CV score">
     <div class="rhead"><h3>Reading the number</h3><span>One ruler for 1952 and 2026 alike</span></div>
     <div id="guide-ruler"></div>
     <ul class="guide-list">
-      <li><b>12+</b><span>All-time territory. <span class="n12">27</span> qualified seasons have reached it.</span></li>
-      <li><b>8–12</b><span>Where most MVP seasons land. The middle half runs 8.2 to 11.5.</span></li>
+      <li><b>12+</b><span>All-time territory. <span class="n12">28</span> qualified seasons have reached it.</span></li>
+      <li><b>8–12</b><span>Where most MVP seasons land. The middle half runs 8.1 to 11.5.</span></li>
       <li><b>6</b><span>A typical All-NBA season.</span></li>
       <li><b>4</b><span>A typical All-Star season.</span></li>
       <li><b>0</b><span>That season's average player-game.</span></li>
@@ -371,13 +371,13 @@
 </section>
 
 <section id="methodology" data-page hidden>
-  <span class="eyebrow">How it works · version <span class="ver">2.1.1</span></span>
+  <span class="eyebrow">How it works · version <span class="ver">2.2.0</span></span>
   <h2 style="margin:6px 0 12px">How a season becomes a number</h2>
-  <p class="lede prose">Every step uses information recorded since 1952, and every season is measured against the other players in that same season. <mark>No era bonuses and no awards or reputation go into the score.</mark> ABA seasons carry one measured league-strength adjustment, estimated from players who moved between the leagues.</p>
+  <p class="lede prose">Every step uses information recorded since 1952, and every season is measured against the other players in that same season. <mark>Each season is scored from its own games, and no era bonuses, awards or reputation go into the score.</mark> ABA seasons carry one measured league-strength adjustment, estimated from players who moved between the leagues.</p>
   <div class="strip">
     <div class="frame"><span class="n">1</span><h3>Count the production</h3><p>Points, assists and rebounds, the box-score numbers recorded every season since 1952. Efficient scoring counts for more than empty volume.</p></div>
     <div class="frame"><span class="n">2</span><h3>Weigh the load</h3><p>Players who carry more of their team's offense earn more of the credit for how the team did. Load measures responsibility, not skill.</p></div>
-    <div class="frame"><span class="n">3</span><h3>Check the scoreboard</h3><p>How the team did in the games he actually played, and how the team did with him and without him, judged against what the players on the floor were expected to produce.</p></div>
+    <div class="frame"><span class="n">3</span><h3>Check the scoreboard</h3><p>How the team did in the games he actually played, and how the team did with him and without him, judged against what the players who appeared in each game were expected to produce. Only that season's games count.</p></div>
     <div class="frame"><span class="n">4</span><h3>Share the defense</h3><p>Each team's real defense, rated the same way in every season since 1952, is shared among its players by their role on the team.</p></div>
     <div class="frame"><span class="n">5</span><h3>Then the playoffs</h3><p>Every playoff game is judged against the players who actually played it. Each postseason's team defense is measured on one common scale, each round counts once however long the series, short runs are read cautiously, and champions earn title credit by their share of the load.</p></div>
     <div class="frame"><span class="n">6</span><h3>One season score</h3><p>The regular season (RS) and the postseason (PO) combine into one CV. Missing the playoffs counts as league average for the playoff part, so a great season on a bad team still ranks.</p></div>
@@ -390,7 +390,7 @@
     </div>
     <div class="card prose">
       <h3 style="margin-bottom:8px">From seasons to careers</h3>
-      <p style="margin:0">Career CV is built on a player's five best seasons, with the playoffs counting more than they do in a single season. Every other season adds a little, but only for what it gives above All-Star level. A great prime decides it; long stretches of ordinary years don't. <mark>Decade CV and Franchise CV</mark> apply the same rule to a player's seasons inside one decade or with one franchise.</p>
+      <p style="margin:0">Career CV is built on a player's five best seasons, with the playoffs counting more than they do in a single season. Every other season adds a little, but only for what it gives above All-Star level. A great prime decides it; long stretches of ordinary years don't. <mark>Regular-season Career CV</mark> applies the same rule to the regular season alone, with no playoffs or titles: the individual view. <mark>Decade CV and Franchise CV</mark> apply the same rule to a player's seasons inside one decade or with one franchise.</p>
     </div>
   </div>
 
@@ -399,7 +399,7 @@
     <h2 style="margin:6px 0 4px">From players to teams</h2>
     <div class="strip">
       <div class="frame"><span class="n">1</span><h3>Team rating</h3><p>Two views of each team are blended: its players' Court Value, weighted by minutes, and how the team actually did against its schedule. Results are measured against the spread of their own league, so a lopsided era gives no extra credit. The regular season counts 65% and the playoffs 35%, as in the season score.</p></div>
-      <div class="frame"><span class="n">2</span><h3>Tested on the playoffs</h3><p>Every version was tested on all 4,819 playoff games and 933 series since 1952, each decade predicted from the others. Blending the roster with results picked series winners better than either alone, and its odds are well calibrated: 70–80% favorites won 77% of the time.</p></div>
+      <div class="frame"><span class="n">2</span><h3>Tested on the playoffs</h3><p>Every version was tested on all 4,819 playoff games and 933 series since 1952, each decade predicted from the others. The roster alone picks the most series winners (74%); blending it with results gives the best-calibrated odds: 70–80% favorites won 78% of the time.</p></div>
       <div class="frame"><span class="n">3</span><h3>The Time Machine</h3><p>Series odds come from the two ratings, game by game, in a 2-2-1-1-1 format. Home court goes to the higher-rated team and is worth about four points, the edge measured in real playoff games. Single games carry the spread real playoff results show.</p></div>
       <div class="frame"><span class="n">4</span><h3>Big 3s</h3><p>A team's three best qualified seasons by Court Value, among players who spent at least 30% of that team's games there, added up. Regular season and playoffs count together.</p></div>
       <div class="frame"><span class="n">5</span><h3>All-Decade and All-Franchise teams</h3><p>Two guards, two forwards and a center per team, picked in order by Decade CV or Franchise CV. A player's position is the one he was listed at most in that decade or with that franchise.</p></div>
@@ -423,7 +423,7 @@
       <div class="card prose">
         <h3 style="margin-bottom:6px">CV and modern metrics</h3>
         <p style="margin:0;font-size:16.5px">How closely CV puts every qualified NBA season in the same order as each metric (1.00 is identical order).</p>
-        <div class="hbars"><div class="pair"><span class="pl">Win Shares</span><div class="hb me"><span>CV RS</span><span class="track"><span class="fill" style="width:86.0%"></span><span class="mk" style="left:86.7%"></span></span><b>.86</b></div><div class="hb me2"><span>CV season</span><span class="track"><span class="fill" style="width:81.7%"></span></span><b>.82</b></div></div><div class="pair"><span class="pl">LAKER WAR</span><div class="hb me"><span>CV RS</span><span class="track"><span class="fill" style="width:83.3%"></span><span class="mk" style="left:87.6%"></span></span><b>.83</b></div><div class="hb me2"><span>CV season</span><span class="track"><span class="fill" style="width:79.7%"></span></span><b>.80</b></div></div><div class="pair"><span class="pl">VORP</span><div class="hb me"><span>CV RS</span><span class="track"><span class="fill" style="width:79.9%"></span><span class="mk" style="left:90.2%"></span></span><b>.80</b></div><div class="hb me2"><span>CV season</span><span class="track"><span class="fill" style="width:76.1%"></span></span><b>.76</b></div></div><div class="pair"><span class="pl">PER</span><div class="hb me"><span>CV RS</span><span class="track"><span class="fill" style="width:77.8%"></span><span class="mk" style="left:80.0%"></span></span><b>.78</b></div><div class="hb me2"><span>CV season</span><span class="track"><span class="fill" style="width:76.3%"></span></span><b>.76</b></div></div><div class="pair"><span class="pl">BPM</span><div class="hb me"><span>CV RS</span><span class="track"><span class="fill" style="width:73.1%"></span><span class="mk" style="left:87.8%"></span></span><b>.73</b></div><div class="hb me2"><span>CV season</span><span class="track"><span class="fill" style="width:68.6%"></span></span><b>.69</b></div></div></div>
+        <div class="hbars"><div class="pair"><span class="pl">Win Shares</span><div class="hb me"><span>CV RS</span><span class="track"><span class="fill" style="width:85.9%"></span><span class="mk" style="left:86.7%"></span></span><b>.86</b></div><div class="hb me2"><span>CV season</span><span class="track"><span class="fill" style="width:81.4%"></span></span><b>.81</b></div></div><div class="pair"><span class="pl">LAKER WAR</span><div class="hb me"><span>CV RS</span><span class="track"><span class="fill" style="width:83.1%"></span><span class="mk" style="left:87.6%"></span></span><b>.83</b></div><div class="hb me2"><span>CV season</span><span class="track"><span class="fill" style="width:79.3%"></span></span><b>.79</b></div></div><div class="pair"><span class="pl">VORP</span><div class="hb me"><span>CV RS</span><span class="track"><span class="fill" style="width:79.6%"></span><span class="mk" style="left:90.2%"></span></span><b>.80</b></div><div class="hb me2"><span>CV season</span><span class="track"><span class="fill" style="width:75.7%"></span></span><b>.76</b></div></div><div class="pair"><span class="pl">PER</span><div class="hb me"><span>CV RS</span><span class="track"><span class="fill" style="width:78.7%"></span><span class="mk" style="left:80.0%"></span></span><b>.79</b></div><div class="hb me2"><span>CV season</span><span class="track"><span class="fill" style="width:76.8%"></span></span><b>.77</b></div></div><div class="pair"><span class="pl">BPM</span><div class="hb me"><span>CV RS</span><span class="track"><span class="fill" style="width:72.8%"></span><span class="mk" style="left:87.8%"></span></span><b>.73</b></div><div class="hb me2"><span>CV season</span><span class="track"><span class="fill" style="width:68.2%"></span></span><b>.68</b></div></div></div>
         <p class="keyline"><i></i>How closely that metric agrees with the other four</p>
         <p style="margin:12px 0 0;font-size:16.5px">RS agrees with Win Shares about as closely as the metrics agree with each other. The metrics share inputs CV leaves out, like steals, blocks, turnovers and per-minute rates.</p>
       </div>
@@ -432,16 +432,16 @@
         <p style="margin:0;font-size:16.5px">Each season's 10 or 15 best players by RS (as many as made All-NBA that year), against the voters' picks.</p>
         <div class="duo">
           <div><div class="bignum" style="color:var(--blue)">74%</div><p style="margin:6px 0 0;font-size:16px">of All-NBA picks are in RS's top group</p></div>
-          <div><div class="bignum" style="color:var(--red)">54%</div><p style="margin:6px 0 0;font-size:16px">of MVPs had the season's highest RS</p></div>
+          <div><div class="bignum" style="color:var(--red)">56%</div><p style="margin:6px 0 0;font-size:16px">of MVPs had the season's highest RS</p></div>
         </div>
-        <p style="margin:14px 0 0;font-size:16.5px">All-NBA since 1952, MVP since 1956. 93% of MVPs were among the season's top three by RS. Season CV: 70% and 53%.</p>
+        <p style="margin:14px 0 0;font-size:16.5px">All-NBA since 1952, MVP since 1956. 91% of MVPs were among the season's top three by RS. Season CV: 70% and 50%.</p>
       </div>
     </div>
     <div class="grid2 block" style="padding-top:26px">
       <div class="card prose">
         <h3 style="margin-bottom:6px">Against the voters: CV and the metrics</h3>
         <p style="margin:0;font-size:16.5px">Each measure's top group that made All-NBA, 1977–2025, the years every metric exists.</p>
-        <div class="hbars"><div class="hb me"><span>CV RS</span><span class="track"><span class="fill" style="width:75.6%"></span></span><b>76%</b></div><div class="hb me2"><span>CV season</span><span class="track"><span class="fill" style="width:71.2%"></span></span><b>71%</b></div><div class="hb "><span>VORP</span><span class="track"><span class="fill" style="width:69.8%"></span></span><b>70%</b></div><div class="hb "><span>PER</span><span class="track"><span class="fill" style="width:69.1%"></span></span><b>69%</b></div><div class="hb "><span>Win Shares</span><span class="track"><span class="fill" style="width:66.9%"></span></span><b>67%</b></div><div class="hb "><span>BPM</span><span class="track"><span class="fill" style="width:66.1%"></span></span><b>66%</b></div><div class="hb "><span>LAKER WAR</span><span class="track"><span class="fill" style="width:65.9%"></span></span><b>66%</b></div></div>
+        <div class="hbars"><div class="hb me"><span>CV RS</span><span class="track"><span class="fill" style="width:74.8%"></span></span><b>75%</b></div><div class="hb me2"><span>CV season</span><span class="track"><span class="fill" style="width:71.0%"></span></span><b>71%</b></div><div class="hb "><span>VORP</span><span class="track"><span class="fill" style="width:69.8%"></span></span><b>70%</b></div><div class="hb "><span>PER</span><span class="track"><span class="fill" style="width:69.1%"></span></span><b>69%</b></div><div class="hb "><span>Win Shares</span><span class="track"><span class="fill" style="width:66.9%"></span></span><b>67%</b></div><div class="hb "><span>BPM</span><span class="track"><span class="fill" style="width:66.1%"></span></span><b>66%</b></div><div class="hb "><span>LAKER WAR</span><span class="track"><span class="fill" style="width:65.9%"></span></span><b>66%</b></div></div>
         <h3 style="margin:20px 0 6px;font-size:19px">Season's #1 won MVP</h3>
         <div class="hbars"><div class="hb "><span>Win Shares</span><span class="track"><span class="fill" style="width:57.1%"></span></span><b>57%</b></div><div class="hb me"><span>CV RS</span><span class="track"><span class="fill" style="width:55.1%"></span></span><b>55%</b></div><div class="hb "><span>LAKER WAR</span><span class="track"><span class="fill" style="width:53.1%"></span></span><b>53%</b></div><div class="hb "><span>PER</span><span class="track"><span class="fill" style="width:53.1%"></span></span><b>53%</b></div><div class="hb "><span>BPM</span><span class="track"><span class="fill" style="width:53.1%"></span></span><b>53%</b></div><div class="hb me2"><span>CV season</span><span class="track"><span class="fill" style="width:51.0%"></span></span><b>51%</b></div><div class="hb "><span>VORP</span><span class="track"><span class="fill" style="width:51.0%"></span></span><b>51%</b></div></div>
         <p style="margin:12px 0 0;font-size:16.5px">RS matches the All-NBA teams better than any metric. On the MVP itself, Win Shares does slightly better.</p>
@@ -449,11 +449,26 @@
       <div class="card prose">
         <h3 style="margin-bottom:6px">Against the metrics: CV and the voters</h3>
         <p style="margin:0;font-size:16.5px">Overlap with each metric's top group, 1977–2025: CV's, and the All-NBA voters'.</p>
-        <div class="hbars"><div class="pair"><span class="pl">Win Shares</span><div class="hb me"><span>CV RS</span><span class="track"><span class="fill" style="width:65.6%"></span></span><b>66%</b></div><div class="hb me2"><span>CV season</span><span class="track"><span class="fill" style="width:62.9%"></span></span><b>63%</b></div><div class="hb "><span>All-NBA</span><span class="track"><span class="fill" style="width:66.9%"></span></span><b>67%</b></div></div><div class="pair"><span class="pl">LAKER WAR</span><div class="hb me"><span>CV RS</span><span class="track"><span class="fill" style="width:64.6%"></span></span><b>65%</b></div><div class="hb me2"><span>CV season</span><span class="track"><span class="fill" style="width:61.7%"></span></span><b>62%</b></div><div class="hb "><span>All-NBA</span><span class="track"><span class="fill" style="width:65.9%"></span></span><b>66%</b></div></div><div class="pair"><span class="pl">PER</span><div class="hb me"><span>CV RS</span><span class="track"><span class="fill" style="width:68.7%"></span></span><b>69%</b></div><div class="hb me2"><span>CV season</span><span class="track"><span class="fill" style="width:64.0%"></span></span><b>64%</b></div><div class="hb "><span>All-NBA</span><span class="track"><span class="fill" style="width:69.1%"></span></span><b>69%</b></div></div><div class="pair"><span class="pl">VORP</span><div class="hb me"><span>CV RS</span><span class="track"><span class="fill" style="width:69.5%"></span></span><b>70%</b></div><div class="hb me2"><span>CV season</span><span class="track"><span class="fill" style="width:65.0%"></span></span><b>65%</b></div><div class="hb "><span>All-NBA</span><span class="track"><span class="fill" style="width:69.8%"></span></span><b>70%</b></div></div><div class="pair"><span class="pl">BPM</span><div class="hb me"><span>CV RS</span><span class="track"><span class="fill" style="width:66.7%"></span></span><b>67%</b></div><div class="hb me2"><span>CV season</span><span class="track"><span class="fill" style="width:62.8%"></span></span><b>63%</b></div><div class="hb "><span>All-NBA</span><span class="track"><span class="fill" style="width:66.1%"></span></span><b>66%</b></div></div></div>
-        <p style="margin:12px 0 0;font-size:16.5px">On average, RS overlaps the metrics 67%, season CV 63%, and the voters 68%. RS matches the voters (76%) more than it matches any one metric.</p>
+        <div class="hbars"><div class="pair"><span class="pl">Win Shares</span><div class="hb me"><span>CV RS</span><span class="track"><span class="fill" style="width:66.7%"></span></span><b>67%</b></div><div class="hb me2"><span>CV season</span><span class="track"><span class="fill" style="width:62.8%"></span></span><b>63%</b></div><div class="hb "><span>All-NBA</span><span class="track"><span class="fill" style="width:66.9%"></span></span><b>67%</b></div></div><div class="pair"><span class="pl">LAKER WAR</span><div class="hb me"><span>CV RS</span><span class="track"><span class="fill" style="width:63.5%"></span></span><b>64%</b></div><div class="hb me2"><span>CV season</span><span class="track"><span class="fill" style="width:61.8%"></span></span><b>62%</b></div><div class="hb "><span>All-NBA</span><span class="track"><span class="fill" style="width:65.9%"></span></span><b>66%</b></div></div><div class="pair"><span class="pl">PER</span><div class="hb me"><span>CV RS</span><span class="track"><span class="fill" style="width:69.7%"></span></span><b>70%</b></div><div class="hb me2"><span>CV season</span><span class="track"><span class="fill" style="width:63.7%"></span></span><b>64%</b></div><div class="hb "><span>All-NBA</span><span class="track"><span class="fill" style="width:69.1%"></span></span><b>69%</b></div></div><div class="pair"><span class="pl">VORP</span><div class="hb me"><span>CV RS</span><span class="track"><span class="fill" style="width:68.9%"></span></span><b>69%</b></div><div class="hb me2"><span>CV season</span><span class="track"><span class="fill" style="width:64.7%"></span></span><b>65%</b></div><div class="hb "><span>All-NBA</span><span class="track"><span class="fill" style="width:69.8%"></span></span><b>70%</b></div></div><div class="pair"><span class="pl">BPM</span><div class="hb me"><span>CV RS</span><span class="track"><span class="fill" style="width:66.2%"></span></span><b>66%</b></div><div class="hb me2"><span>CV season</span><span class="track"><span class="fill" style="width:62.9%"></span></span><b>63%</b></div><div class="hb "><span>All-NBA</span><span class="track"><span class="fill" style="width:66.1%"></span></span><b>66%</b></div></div></div>
+        <p style="margin:12px 0 0;font-size:16.5px">On average, RS overlaps the metrics 67%, season CV 63%, and the voters 68%. RS matches the voters (75%) more than it matches any one metric.</p>
       </div>
     </div>
     <p class="note">All numbers use NBA seasons with at least 70% of team games, through 2024–25. Rank agreement is Spearman's correlation. BPM and VORP start in 1973–74 and LAKER WAR in 1976–77. PER, Win Shares, BPM, VORP and awards from Basketball-Reference; LAKER WAR from Neil Paine.</p>
+  </div>
+
+  <div class="block" id="predicts">
+    <span class="eyebrow">A harder check</span>
+    <h2 style="margin:6px 0 12px">Does it predict next season?</h2>
+    <p class="lede prose">Take every player's regular-season CV, give each one the minutes he actually played the next season, and predict each team's next-season scoring margin. Every measure gets the same minutes and is fitted with each season held out. Lower error is better.</p>
+    <div class="card prose" style="margin-top:20px">
+      <div class="hbars">
+        <div class="hb "><span>Last season</span><span class="track"><span class="fill" style="width:70.5%"></span></span><b>3.53</b></div>
+        <div class="hb me2"><span>CV, no w/wo</span><span class="track"><span class="fill" style="width:62.1%"></span></span><b>3.10</b></div>
+        <div class="hb me"><span>CV RS</span><span class="track"><span class="fill" style="width:60.5%"></span></span><b>3.03</b></div>
+        <div class="hb "><span>BPM</span><span class="track"><span class="fill" style="width:57.0%"></span></span><b>2.85</b></div>
+      </div>
+      <p style="margin:12px 0 0;font-size:16.5px">“Last season” is the team's own margin the year before; “CV, no w/wo” is CV without its with-and-without step. Average error in points per game, 1,398 NBA team-seasons, 1975–2026 (team margins vary by 4.6). The with-and-without step cuts CV's error by 0.08, and about half of that gain comes from how it splits credit between teammates, not just from knowing how good the team was. BPM, which uses the steals, blocks and turnovers that CV leaves out so it can rate every season back to 1952, is still about 6% better. The same test from 1956, without BPM, gives the same picture.</p>
+    </div>
   </div>
 
   <div class="grid2 block">
@@ -486,12 +501,12 @@
   <span class="eyebrow">Data and changelog</span>
   <h2 style="margin:6px 0 16px">Take the numbers with you</h2>
   <div class="dl-row">
-    <div><h3>CV season scores, version 2.1</h3><p class="soft" style="margin:4px 0 0">Every scored player-season, NBA and ABA: player, season, league, teams, games, playoff games, qualification, season CV, RS, PO, playoff status, champion and ranks. CSV, about 3 MB.</p></div>
-    <a class="btn" href="data/PUBLIC_cv_2_1_scores.csv" download>Download CSV</a>
+    <div><h3>CV season scores, version 2.2</h3><p class="soft" style="margin:4px 0 0">Every scored player-season, NBA and ABA: player, season, league, teams, games, playoff games, qualification, season CV, RS, PO, playoff status, champion and ranks. CSV, about 3 MB.</p></div>
+    <a class="btn" href="data/PUBLIC_cv_2_2_scores.csv" download>Download CSV</a>
   </div>
   <div class="dl-row">
-    <div><h3>Career CV, version 2.1.1</h3><p class="soft" style="margin:4px 0 0">Every player with a qualified season: first and last season, qualified seasons, Career CV and rank, best season. CSV, about 0.2 MB.</p></div>
-    <a class="btn" href="data/PUBLIC_cv_2_1_1_careers.csv" download>Download CSV</a>
+    <div><h3>Career CV, version 2.2</h3><p class="soft" style="margin:4px 0 0">Every player with a qualified season: first and last season, qualified seasons, Career CV and rank, regular-season Career CV and rank, best season. CSV, about 0.25 MB.</p></div>
+    <a class="btn" href="data/PUBLIC_cv_2_2_careers.csv" download>Download CSV</a>
   </div>
 <!-- wnba:dl:start -->
   <div class="dl-row">
@@ -503,17 +518,18 @@
     <a class="btn" href="data/PUBLIC_wnba_cv_2_1_careers.csv" download>Download CSV</a>
   </div>
 <!-- wnba:dl:end -->
-  <p class="note">Earlier versions (1.0, 1.1 and 2.0) remain available from their Zenodo archives linked in the changelog. Their scores are on a different basis; don't mix them with 2.0.</p>
+  <p class="note">Earlier versions (1.0, 1.1, 2.0 and 2.1) remain available from their Zenodo archives linked in the changelog. Their scores are on a different basis; don't mix them with 2.2.</p>
   <div class="grid2 block">
     <div class="card prose">
       <h3>Cite Court Value</h3>
-      <pre id="citation" style="white-space:pre-wrap">Tavolieri, Mario, III. Court Value (CV): a historically portable NBA/ABA player-season value metric. Version 2.1.1. Zenodo, 2026. https://doi.org/10.5281/zenodo.23071104</pre>
+      <pre id="citation" style="white-space:pre-wrap">Tavolieri, Mario, III. Court Value (CV): a historically portable NBA/ABA player-season value metric. Version 2.2.0. Zenodo, 2026. https://doi.org/10.5281/zenodo.23040990</pre>
       <button type="button" class="btn secondary" id="copy-cite" style="margin-top:12px">Copy citation</button>
       <p class="note">Scores: CC BY 4.0. The formula is proprietary. Underlying statistics come from Basketball-Reference, via the Kaggle dataset "NBA Stats (1947–present)" by Sumitro Datta. Raw statistics are not redistributed.</p>
     </div>
     <div class="card prose">
       <h3>Changelog</h3>
       <dl class="defs">
+        <dt>2.2</dt><dd>Each season is now scored from its own games: the with-and-without step no longer borrows the next season, so a published score never depends on later seasons. Adds regular-season Career CV beside Career CV. Season ranks move little (rank agreement with 2.1: 0.994); scores are not comparable with 2.1.</dd>
         <dt>2.1.1</dt><dd>Career CV now centers on the prime: the five best seasons, with the playoffs weighing more than in a single season, and other seasons adding a little only above All-Star level. Season scores are unchanged. <a href="https://doi.org/10.5281/zenodo.23071104">DOI 10.5281/zenodo.23071104</a></dd>
         <dt>2.1</dt><dd>Defense is shared by role only, removing a tilt toward big men. ABA seasons are adjusted for league strength, measured from players who moved between the leagues. Each postseason's team defense is measured on one common scale, so thin early playoff records no longer swing scores. Adds Career CV. Scores are not comparable with 2.0.</dd>
         <dt>2.0</dt><dd>One season score combining the regular season (RS) and postseason (PO). Adds every ABA postseason. New treatment of defense, of team results with and without each player, and of playoff games judged against the players who played them. Scores are not comparable with 1.x. The formula is proprietary from this version on. <a href="https://doi.org/10.5281/zenodo.23066109">DOI 10.5281/zenodo.23066109</a></dd>
@@ -539,7 +555,7 @@
 </main>
 
 <footer><div class="wrap">
-  <span>Court Value <span class="ver">2.1.1</span> · data revision <span id="rev">2026-09-30</span></span>
+  <span>Court Value <span class="ver">2.2.0</span> · data revision <span id="rev">2026-11-17</span></span>
   <span class="social" id="social" hidden></span>
-  <span id="doi-line"><a href="https://doi.org/10.5281/zenodo.23071104">DOI 10.5281/zenodo.23071104</a> · Scores CC BY 4.0 · Statistics from Basketball-Reference</span>
+  <span id="doi-line"><a href="https://doi.org/10.5281/zenodo.23040990">DOI 10.5281/zenodo.23040990</a> · Scores CC BY 4.0 · Statistics from Basketball-Reference</span>
 </div></footer>

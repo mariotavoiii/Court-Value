@@ -33,9 +33,9 @@ def jobs(sections_only=False):
     top = sorted([r for r in S if r[13] and r[13] <= 10], key=lambda r: r[13])
     out.append(("img/og-home.png", {"eyebrow": "NBA · ABA · WNBA · since 1952", "title": "Every season, on one scale.",
         "sub": "One number for every player-season, measured <mark>the same way in 1952 and 2026.</mark>", "ruler": True,
-        "dots": [{"v": 10.06, "lab": "Russell", "sl": "’65", "lt": -36}, {"v": 13.52, "p": 1, "lab": "Wilt", "sl": "’67", "lt": -36},
-                 {"v": 14.98, "p": 1, "lab": "Shaq", "sl": "’00", "lt": -36}, {"v": 12.02, "p": 1, "lab": "Jokić", "sl": "’23", "lt": -36},
-                 {"v": 14.29, "p": 1, "lab": "Jordan", "sl": "’96", "lt": -90}]}))
+        "dots": [{"v": 10.04, "lab": "Russell", "sl": "’65", "lt": -36}, {"v": 13.6, "p": 1, "lab": "Wilt", "sl": "’67", "lt": -36},
+                 {"v": 15.44, "p": 1, "lab": "Shaq", "sl": "’00", "lt": -36}, {"v": 11.88, "lab": "Jokić", "sl": "’23", "lt": -36},
+                 {"v": 14.67, "p": 1, "lab": "Jordan", "sl": "’96", "lt": -90}]}))
     out.append(("img/og/players.png", {"eyebrow": "Players · rankings", "title": "Every season, ranked.",
         "sub": "15,301 qualified NBA and ABA seasons since 1952, <mark>one scale for every era.</mark>", "ruler": True,
         "dots": [{"v": r[9], "p": 1} for r in top] + [{"v": r[9]} for r in sorted(S, key=lambda r: -(r[9] or -9))[10:40] if r[7]]}))
@@ -87,7 +87,7 @@ async def render(todo):
     from playwright.async_api import async_playwright
     from PIL import Image
     async with async_playwright() as p:
-        b = await p.chromium.launch()
+        b = await p.chromium.launch(executable_path=os.environ.get("CV_CHROME") or None)
         ctx = await b.new_context(viewport={"width": 1200, "height": 630})
         if FONTS_DIR:
             css = open(os.path.join(FONTS_DIR, "fonts.css")).read()
